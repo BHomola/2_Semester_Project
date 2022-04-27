@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>318</x>
+      <y>294</y>
+      <w>84</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Material
+--
+id
+name
+description
+type: Type
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>540</x>
+      <y>300</y>
+      <w>42</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Type
+--
+id
+name
+description
+picture</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>138</x>
+      <y>378</y>
+      <w>126</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>Stone
+--
+id
+shape: List&lt;Point&gt; - coordinates
+totalSize
+birth: Date
+subUnits: List&lt;StoneUnit&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>144</x>
+      <y>162</y>
+      <w>102</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>StoneContainer
+--
+instance: StoneContainer
+stones: List&lt;Stone&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>192</x>
+      <y>198</y>
+      <w>24</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>42</x>
+      <y>414</y>
+      <w>60</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>Leftover
+--
+pieces</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>162</x>
+      <y>246</y>
+      <w>72</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+/StoneUnit/
+--
+material: Material
+origin
+suplier
+width
+weight
+description</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>60</x>
+      <y>312</y>
+      <w>114</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;10.0;10.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>168</x>
+      <y>330</y>
+      <w>18</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>330</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=0..*
+m2=0..1</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>228</x>
+      <y>306</y>
+      <w>102</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>m1=*
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;20.0;150.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>396</x>
+      <y>318</y>
+      <w>156</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>m1=1..* (Because of 'Others')
+m2=1..*</panel_attributes>
+    <additional_attributes>10.0;10.0;240.0;10.0</additional_attributes>
+  </element>
+</diagram>
