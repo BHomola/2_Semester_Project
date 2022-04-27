@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>576</x>
+      <y>84</y>
+      <w>84</w>
+      <h>444</h>
+    </coordinates>
+    <panel_attributes>Quartz
+--
+White Ama
+Arena
+Ice cement
+Black Ama
+Moka
+Ceniza
+Brown Ama
+Botticino
+Smoke gray
+Cool Gray
+Gray Zement
+Nocturno
+Warm Gray
+Snow
+Volcano Black
+Antico River
+Moon
+Azabache
+Crystal Beach
+Luna
+Ice Black Genesis
+Carrara
+Absolut Blanc
+Unique Calacatta
+
+Work
+Parma
+Lumiere
+Daphne Crack
+Chakra Beige
+Kashmera White
+Babylon
+Granada
+Iceberg
+Montana
+Aizano
+The Moon
+Spa Black
+Intestellar
+Kristella White
+Gala Black
+Calacatta Venatino
+Sahara Beige
+Other
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>576</x>
+      <y>534</y>
+      <w>84</w>
+      <h>264</h>
+    </coordinates>
+    <panel_attributes>Marble
+--
+Dark emperor
+Carrara
+Nova Cream
+Emperador Gold
+Sivic
+Olympys Beige
+Eramosa Brown
+Lilac
+Ivory Cream
+Eramosa Silver
+Kyknos
+Ivory
+Bidasar Gold
+Mugla White
+Rosalia
+Levanto red
+Thassos
+Diano Reale
+Nero Marquina
+Misty White
+Arabescato
+Black Fossil
+Classic Botticino
+Guatemalan Green
+Other</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>576</x>
+      <y>1170</y>
+      <w>84</w>
+      <h>174</h>
+    </coordinates>
+    <panel_attributes>Bio Marble
+--
+Valencia Cream
+White Faraya
+Pearly
+Sunset
+Bering
+Caramel
+Nubia Fog
+Afion
+Beige Faraya
+The Pearl
+White Lhasa
+Albufera
+Aura White
+Jura
+Anthracite
+Other
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>576</x>
+      <y>810</y>
+      <w>84</w>
+      <h>348</h>
+    </coordinates>
+    <panel_attributes>Granite
+--
+Montblanc
+Brazil Gold
+Ukrainian Autumn
+Splendor White
+Sicily Yellow
+Black Fusion
+Grey Ukraine
+Beige Cardinal
+Tan Brown
+Nice Gold
+Venetian Yellow
+Paradise
+Cosmic Black
+Gialo California
+Absolute Black
+Matrix
+Shivakashi
+Blue Pearl
+Verde Marinace
+Imperial Red
+Baltic Brown
+Verde Butterfly
+Kashmir Gold
+Black Galaxy
+Metallicus
+Red Porrino
+Magma
+Our Lady
+Star of Ukraine
+Maple Red
+Volga Blue Extra
+Olive green
+Santiago red
+Other</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>678</x>
+      <y>90</y>
+      <w>60</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>Other
+--
+Other</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>750</x>
+      <y>84</y>
+      <w>162</w>
+      <h>1260</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Type
+--
+_Quartz of the Spanish company Compac_
+White Ama
+Arena
+Ice cement
+Black Ama
+Moka
+Ceniza
+Brown Ama
+Botticino
+Smoke gray
+Cool Gray
+Gray Zement
+Nocturno
+Warm Gray
+Snow
+Volcano Black
+Antico River
+Moon
+Azabache
+Crystal Beach
+Luna
+Ice Black Genesis
+Carrara
+Absolut Blanc
+Unique Calacatta
+_Turkish company Belenco quartz_
+Work
+Parma
+Lumiere
+Daphne Crack
+Chakra Beige
+Kashmera White
+Babylon
+Granada
+Iceberg
+Montana
+Aizano
+The Moon
+Spa Black
+Intestellar
+Kristella White
+Gala Black
+Calacatta Venatino
+Sahara Beige
+
+Dark emperor
+Carrara
+Nova Cream
+Emperador Gold
+Sivic
+Olympys Beige
+Eramosa Brown
+Lilac
+Ivory Cream
+Eramosa Silver
+Kyknos
+Ivory
+Bidasar Gold
+Mugla White
+Rosalia
+Levanto red
+Thassos
+Diano Reale
+Nero Marquina
+Misty White
+Arabescato
+Black Fossil
+Classic Botticino
+Guatemalan Green
+
+Valencia Cream
+White Faraya
+Pearly
+Sunset
+Bering
+Caramel
+Nubia Fog
+Afion
+Beige Faraya
+The Pearl
+White Lhasa
+Albufera
+Aura White
+Jura
+Anthracite
+
+Montblanc
+Brazil Gold
+Ukrainian Autumn
+Splendor White
+Sicily Yellow
+Black Fusion
+Grey Ukraine
+Beige Cardinal
+Tan Brown
+Nice Gold
+Venetian Yellow
+Paradise
+Cosmic Black
+Gialo California
+Absolute Black
+Matrix
+Shivakashi
+Blue Pearl
+Verde Marinace
+Imperial Red
+Baltic Brown
+Verde Butterfly
+Kashmir Gold
+Black Galaxy
+Metallicus
+Red Porrino
+Magma
+Our Lady
+Star of Ukraine
+Maple Red
+Volga Blue Extra
+Olive green
+Santiago red
+
+Other</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>264</x>
+      <y>762</y>
+      <w>126</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>Stone
+--
+id
+shape: List&lt;int[][]&gt; - coordinates (stack?)
+birth: Date
+subUnits: List&lt;StoneUnit&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>276</x>
+      <y>534</y>
+      <w>90</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>StoneContainer
+--
+stones: List&lt;Stone&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>318</x>
+      <y>558</y>
+      <w>18</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>654</x>
+      <y>324</y>
+      <w>108</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>654</x>
+      <y>648</y>
+      <w>108</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>654</x>
+      <y>948</y>
+      <w>108</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>654</x>
+      <y>1200</y>
+      <w>108</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>696</x>
+      <y>120</y>
+      <w>66</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;50.0;90.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>168</x>
+      <y>762</y>
+      <w>60</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>Leftover
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>288</x>
+      <y>594</y>
+      <w>72</w>
+      <h>138</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+/StoneUnit/
+--
+material
+type: Type
+description
+typeDescription
+origin
+suplier
+totalSize
+width
+weight
+picture</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>186</x>
+      <y>654</y>
+      <w>114</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>294</x>
+      <y>726</y>
+      <w>18</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>726</y>
+      <w>18</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>354</x>
+      <y>318</y>
+      <w>234</w>
+      <h>348</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>370.0;10.0;120.0;10.0;120.0;560.0;10.0;560.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>354</x>
+      <y>702</y>
+      <w>234</w>
+      <h>558</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;100.0;10.0;100.0;910.0;370.0;910.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>354</x>
+      <y>684</y>
+      <w>234</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;120.0;10.0;120.0;500.0;370.0;500.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>354</x>
+      <y>660</y>
+      <w>234</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;370.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>354</x>
+      <y>48</y>
+      <w>366</w>
+      <h>600</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>590.0;70.0;590.0;20.0;100.0;20.0;100.0;980.0;10.0;980.0</additional_attributes>
+  </element>
+</diagram>
