@@ -15,12 +15,6 @@ public class Material {
 		this.type = type;
 	}
 
-	public Material(int id, String name, Type type) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.type = type;
-	}
 
 	public int getId() {
 		return id;
