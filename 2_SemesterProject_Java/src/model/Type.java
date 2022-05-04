@@ -5,14 +5,14 @@ public class Type {
 	private int id;
 	private String name;
 	private String description;
-	private String picture;
+	private String picturePath;
 
-	public Type(int id, String name, String description, String picture) {
+	public Type(int id, String name, String description, String picturePath) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.picture = picture;
+		this.picturePath = picturePath;
 	}
 
 	public int getId() {
@@ -39,12 +39,12 @@ public class Type {
 		this.description = description;
 	}
 
-	public String getPicture() {
-		return picture;
+	public String getpicturePath() {
+		return picturePath;
 	}
 
-	public void setPicture(String picture) {
-		this.picture = picture;
+	public void setpicturePath(String picturePath) {
+		this.picturePath = picturePath;
 	}
 
 }
