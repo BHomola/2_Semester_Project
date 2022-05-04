@@ -3,10 +3,10 @@ package model;
 public class City {
 	private int id;
 	private String cityName;
-	private int zipCode;
+	private String zipCode;
 	private String country;
 
-	public City(int id, String cityName, int zipCode, String country) {
+	public City(int id, String cityName, String zipCode, String country) {
 		super();
 		this.id = id;
 		this.cityName = cityName;
@@ -30,11 +30,11 @@ public class City {
 		this.cityName = cityName;
 	}
 
-	public int getZipCode() {
+	public String getZipCode() {
 		return zipCode;
 	}
 
-	public void setZipCode(int zipCode) {
+	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 
