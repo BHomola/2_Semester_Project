@@ -247,9 +247,9 @@ getWeight(): double
 --
 +addType(type: Type): boolean
 +getAllTypes(): Collection&lt;Type&gt;
-+getTypeByID(id: int)
-+updateType(type: Type)
-+deleteType(type: Type)
++getTypeByID(id: int): Type
++updateType(type: Type): void
++deleteType(type: Type): void
 +getters()
 +setters()</panel_attributes>
     <additional_attributes/>
@@ -627,9 +627,9 @@ uses v</panel_attributes>
 //
 +addPoint(point: Point): boolean
 +getAllPoints(): Collection&lt;Point&gt;
-+getPointByPosition(position: int)
-+updatePoint(point: Point, position: int)
-+deletePoint(position: int)
++getPointByPosition(position: int): Point
++updatePoint(point: Point, position: int): boolean
++deletePoint(position: int): boolean
 </panel_attributes>
     <additional_attributes/>
   </element>
