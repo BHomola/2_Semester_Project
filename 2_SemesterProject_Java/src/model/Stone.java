@@ -1,18 +1,18 @@
 package model;
 
 public class Stone {
-	private StoneType stoneType;
+	private Type Type;
 
-	public Stone(StoneType stoneType) {
+	public Stone(Type Type) {
 		super();
-		this.setStoneType(stoneType);
+		this.setStoneType(Type);
 	}
 
-	public StoneType getStoneType() {
-		return stoneType;
+	public Type getStoneType() {
+		return Type;
 	}
 
-	public void setStoneType(StoneType stoneType) {
-		this.stoneType = stoneType;
+	public void setStoneType(Type Type) {
+		this.Type = Type;
 	}
 }
