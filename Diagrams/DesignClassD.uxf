@@ -267,7 +267,7 @@ getWeight(): double
 -id: int
 -name: String
 -description: String
--picture: byte
+-picturePath: String
 --
 +getters()
 +setters()</panel_attributes>
