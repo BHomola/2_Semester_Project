@@ -9,9 +9,9 @@ public class Stone extends StoneUnit {
 	private Date birth;
 	private ArrayList<IStoneUnit> subUnits = new ArrayList<>();
 
-	public Stone(int id, Material material, String origin, String supllier, double width, double weight,
+	public Stone(int id, Material material, String origin, String supplier, double width, double weight,
 			String description, Location location, Status status, Shape shape, double totalSize, Date birth) {
-		super(id, material, origin, supllier, width, weight, description, location, status);
+		super(id, material, origin, supplier, width, weight, description, location, status);
 		this.shape = shape;
 		this.totalSize = totalSize;
 		this.birth = birth;

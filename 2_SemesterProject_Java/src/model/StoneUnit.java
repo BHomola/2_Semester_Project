@@ -9,20 +9,20 @@ public abstract class StoneUnit implements IStoneUnit {
 	private int id;
 	private Material material;
 	private String origin;
-	private String supllier;
+	private String supplier;
 	private double width;
 	private double weight;
 	private String description;
 	private Location location;
 	private Status status;
 
-	public StoneUnit(int id, Material material, String origin, String supllier, double width, double weight, String description,
+	public StoneUnit(int id, Material material, String origin, String supplier, double width, double weight, String description,
 			Location location, Status status) {
 		super();
 		this.id = id;
 		this.material = material;
 		this.origin = origin;
-		this.supllier = supllier;
+		this.supplier = supplier;
 		this.width = width;
 		this.weight = weight;
 		this.description = description;
@@ -55,11 +55,11 @@ public abstract class StoneUnit implements IStoneUnit {
 	}
 
 	public String getSupllier() {
-		return supllier;
+		return supplier;
 	}
 
 	public void setSupllier(String supllier) {
-		this.supllier = supllier;
+		this.supplier = supllier;
 	}
 
 	public double getWidth() {
