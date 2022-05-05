@@ -1,9 +1,9 @@
 package dataaccess;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Material;
 import model.Type;
+
 
 public class MaterialTypeFactory {
 
