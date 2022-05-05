@@ -4,48 +4,47 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Stone extends StoneUnit {
-	private int id;
 	private Shape shape;
 	private double totalSize;
 	private Date birth;
 	private ArrayList<IStoneUnit> subUnits = new ArrayList<>();
 
-	public Stone(Material material, String origin, String supllier, double width, double weight, String description,
-			Location location, Status status, int id, Shape shape, double totalSize, Date birth) {
-		super(material, origin, supllier, width, weight, description, location, status);
-		this.id = id;
+	public Stone(int id, Material material, String origin, String supllier, double width, double weight,
+			String description, Location location, Status status, Shape shape, double totalSize, Date birth) {
+		super(id, material, origin, supllier, width, weight, description, location, status);
 		this.shape = shape;
 		this.totalSize = totalSize;
 		this.birth = birth;
 	}
 
-	public boolean addUnit(IStoneUnit unit) {
+	public boolean addStoneUnit(IStoneUnit unit) {
 		return subUnits.add(unit);
 	}
-	
-	///?
+
+	/// ?
 	@SuppressWarnings("unchecked")
-	public ArrayList<IStoneUnit> getAllUnits() {
+	public ArrayList<IStoneUnit> getAllStoneUnits() {
 		return (ArrayList<IStoneUnit>) subUnits.clone();
 	}
-	
-	public IStoneUnit getStoneByID(int id) {
-		for(IStoneUnit su:getAllUnits()) 
-			if(su instanceof Stone && ((Stone) su).getId() == id)
+
+	public IStoneUnit getStoneUnitByID(int id) {
+		for (IStoneUnit su : getAllStoneUnits())
+			if (su instanceof Stone && ((Stone) su).getId() == id)
 				return su;
 		return null;
 	}
-	
-	public boolean updateStone (Type type) {
-		return getStoneByID(ty)
-	}
-	
-	public int getId() {
-		return id;
+
+	public boolean updateStoneUnit(IStoneUnit stoneUnit) {
+		IStoneUnit temp = getStoneUnitByID(((StoneUnit) stoneUnit).getId());
+		if (temp == null)
+			return false;
+		temp = stoneUnit;
+		return true;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	// wont be that easy probably
+	public boolean deleteStoneUnit(IStoneUnit stoneUnit) {
+		return subUnits.remove(stoneUnit);
 	}
 
 	public Shape getShape() {
@@ -82,7 +81,11 @@ public class Stone extends StoneUnit {
 
 	@Override
 	public int getPieces() {
-		return 1;
+		int sum = 0;
+		for (IStoneUnit su: getAllStoneUnits())
+			if(su instanceof Remains)
+				sum += su.getPieces();
+		return sum;
 	}
 
 }

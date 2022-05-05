@@ -226,8 +226,8 @@ getWeight(): double
 +addStoneUnit(stone: IStoneUnit): boolean
 +getAllStoneUnits(): Colleciton&lt;IStoneUnit&gt;
 +getStoneUnitByID(id: int): IStoneUnit
-+removeStoneUnit(stone: IStoneUnit): boolean
-+updateStoneUnit(stone: IStoneUnit): boolean</panel_attributes>
++removeStoneUnit(stoneUnit: IStoneUnit): boolean
++updateStoneUnit(stoneUnit: IStoneUnit): boolean</panel_attributes>
     <additional_attributes/>
   </element>
   <element>

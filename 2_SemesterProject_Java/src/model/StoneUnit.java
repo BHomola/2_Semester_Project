@@ -6,6 +6,7 @@ You can edit it if it is not correct
 Or just add the fields that are missing */
 
 public abstract class StoneUnit implements IStoneUnit {
+	private int id;
 	private Material material;
 	private String origin;
 	private String supllier;
@@ -15,9 +16,10 @@ public abstract class StoneUnit implements IStoneUnit {
 	private Location location;
 	private Status status;
 
-	public StoneUnit(Material material, String origin, String supllier, double width, double weight, String description,
+	public StoneUnit(int id, Material material, String origin, String supllier, double width, double weight, String description,
 			Location location, Status status) {
 		super();
+		this.id = id;
 		this.material = material;
 		this.origin = origin;
 		this.supllier = supllier;
@@ -28,6 +30,14 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.status = status;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public Material getMaterial() {
 		return material;
 	}
@@ -91,5 +101,4 @@ public abstract class StoneUnit implements IStoneUnit {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
 }
