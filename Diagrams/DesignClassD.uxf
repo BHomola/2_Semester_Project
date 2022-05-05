@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="14.3.0">
+<diagram program="umlet" version="15.0.0">
   <help_text>// Uncomment the following line to change the fontsize and font:
 fontsize=10
 // fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
@@ -29,7 +29,7 @@ fontsize=10
     <id>UMLClass</id>
     <coordinates>
       <x>1880</x>
-      <y>744</y>
+      <y>728</y>
       <w>160</w>
       <h>64</h>
     </coordinates>
@@ -43,7 +43,7 @@ _+getConnection(): Connection_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1656</x>
-      <y>760</y>
+      <y>744</y>
       <w>240</w>
       <h>32</h>
     </coordinates>
@@ -55,7 +55,7 @@ uses &gt;</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1536</x>
-      <y>744</y>
+      <y>728</y>
       <w>128</w>
       <h>56</h>
     </coordinates>
@@ -68,7 +68,7 @@ uses &gt;</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1456</x>
-      <y>480</y>
+      <y>464</y>
       <w>296</w>
       <h>152</h>
     </coordinates>
@@ -89,7 +89,7 @@ dataaccess::IStoneDAO
     <id>Relation</id>
     <coordinates>
       <x>1584</x>
-      <y>624</y>
+      <y>608</y>
       <w>24</w>
       <h>136</h>
     </coordinates>
@@ -100,7 +100,7 @@ dataaccess::IStoneDAO
     <id>UMLClass</id>
     <coordinates>
       <x>1176</x>
-      <y>728</y>
+      <y>712</y>
       <w>224</w>
       <h>88</h>
     </coordinates>
@@ -116,7 +116,7 @@ _+getStoneUnit(resultSet: ResultSet): IStoneUnit_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1392</x>
-      <y>760</y>
+      <y>744</y>
       <w>160</w>
       <h>32</h>
     </coordinates>
@@ -128,7 +128,7 @@ _+getStoneUnit(resultSet: ResultSet): IStoneUnit_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1280</x>
-      <y>672</y>
+      <y>656</y>
       <w>56</w>
       <h>72</h>
     </coordinates>
@@ -140,7 +140,7 @@ creates ^</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>776</x>
-      <y>344</y>
+      <y>328</y>
       <w>616</w>
       <h>336</h>
     </coordinates>
@@ -151,7 +151,7 @@ creates ^</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1256</x>
-      <y>472</y>
+      <y>456</y>
       <w>112</w>
       <h>72</h>
     </coordinates>
@@ -168,13 +168,14 @@ getWeight(): double
     <id>UMLClass</id>
     <coordinates>
       <x>1112</x>
-      <y>416</y>
+      <y>400</y>
       <w>112</w>
       <h>168</h>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 /model::StoneUnit/
 --
+-id: int
 -material: Material
 -origin: String
 -suplier: String
@@ -193,7 +194,7 @@ getWeight(): double
     <id>UMLClass</id>
     <coordinates>
       <x>848</x>
-      <y>360</y>
+      <y>344</y>
       <w>168</w>
       <h>72</h>
     </coordinates>
@@ -209,13 +210,12 @@ getWeight(): double
     <id>UMLClass</id>
     <coordinates>
       <x>792</x>
-      <y>480</y>
+      <y>464</y>
       <w>288</w>
       <h>184</h>
     </coordinates>
     <panel_attributes>model::Stone
 --
--id: int
 -shape: Shape
 -totalSize: double
 -birth: Date
@@ -234,7 +234,7 @@ getWeight(): double
     <id>UMLClass</id>
     <coordinates>
       <x>856</x>
-      <y>712</y>
+      <y>696</y>
       <w>144</w>
       <h>136</h>
     </coordinates>
@@ -258,7 +258,7 @@ getWeight(): double
     <id>UMLClass</id>
     <coordinates>
       <x>712</x>
-      <y>736</y>
+      <y>720</y>
       <w>112</w>
       <h>112</h>
     </coordinates>
@@ -277,7 +277,7 @@ getWeight(): double
     <id>UMLClass</id>
     <coordinates>
       <x>880</x>
-      <y>880</y>
+      <y>864</y>
       <w>120</w>
       <h>112</h>
     </coordinates>
@@ -298,7 +298,7 @@ getWeight(): double
     <id>UMLClass</id>
     <coordinates>
       <x>728</x>
-      <y>880</y>
+      <y>864</y>
       <w>96</w>
       <h>112</h>
     </coordinates>
@@ -317,7 +317,7 @@ country: String
     <id>Relation</id>
     <coordinates>
       <x>1080</x>
-      <y>504</y>
+      <y>488</y>
       <w>48</w>
       <h>24</h>
     </coordinates>
@@ -328,7 +328,7 @@ country: String
     <id>Relation</id>
     <coordinates>
       <x>1008</x>
-      <y>392</y>
+      <y>376</y>
       <w>96</w>
       <h>256</h>
     </coordinates>
@@ -339,7 +339,7 @@ country: String
     <id>Relation</id>
     <coordinates>
       <x>1072</x>
-      <y>576</y>
+      <y>560</y>
       <w>64</w>
       <h>88</h>
     </coordinates>
@@ -350,7 +350,7 @@ country: String
     <id>Relation</id>
     <coordinates>
       <x>1216</x>
-      <y>504</y>
+      <y>488</y>
       <w>56</w>
       <h>24</h>
     </coordinates>
@@ -361,7 +361,7 @@ country: String
     <id>Relation</id>
     <coordinates>
       <x>960</x>
-      <y>576</y>
+      <y>560</y>
       <w>192</w>
       <h>152</h>
     </coordinates>
@@ -372,7 +372,7 @@ country: String
     <id>Relation</id>
     <coordinates>
       <x>816</x>
-      <y>776</y>
+      <y>760</y>
       <w>56</w>
       <h>24</h>
     </coordinates>
@@ -383,7 +383,7 @@ country: String
     <id>Relation</id>
     <coordinates>
       <x>992</x>
-      <y>576</y>
+      <y>560</y>
       <w>184</w>
       <h>376</h>
     </coordinates>
@@ -394,7 +394,7 @@ country: String
     <id>Relation</id>
     <coordinates>
       <x>816</x>
-      <y>928</y>
+      <y>912</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
@@ -405,7 +405,7 @@ country: String
     <id>UMLClass</id>
     <coordinates>
       <x>1456</x>
-      <y>888</y>
+      <y>872</y>
       <w>112</w>
       <h>48</h>
     </coordinates>
@@ -418,7 +418,7 @@ country: String
     <id>Relation</id>
     <coordinates>
       <x>1384</x>
-      <y>808</y>
+      <y>792</y>
       <w>144</w>
       <h>88</h>
     </coordinates>
@@ -430,7 +430,7 @@ country: String
     <id>UMLClass</id>
     <coordinates>
       <x>1184</x>
-      <y>960</y>
+      <y>944</y>
       <w>184</w>
       <h>80</h>
     </coordinates>
@@ -447,7 +447,7 @@ _+getCity(resultSet: ResultSet): City_
     <id>UMLClass</id>
     <coordinates>
       <x>1176</x>
-      <y>848</y>
+      <y>832</y>
       <w>192</w>
       <h>80</h>
     </coordinates>
@@ -463,7 +463,7 @@ _+getType(resultSet: ResultSet): Type_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1368</x>
-      <y>936</y>
+      <y>920</y>
       <w>160</w>
       <h>104</h>
     </coordinates>
@@ -475,7 +475,7 @@ _+getType(resultSet: ResultSet): Type_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>920</x>
-      <y>984</y>
+      <y>968</y>
       <w>280</w>
       <h>32</h>
     </coordinates>
@@ -487,7 +487,7 @@ _+getType(resultSet: ResultSet): Type_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>760</x>
-      <y>984</y>
+      <y>968</y>
       <w>184</w>
       <h>32</h>
     </coordinates>
@@ -498,7 +498,7 @@ _+getType(resultSet: ResultSet): Type_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1360</x>
-      <y>896</y>
+      <y>880</y>
       <w>104</w>
       <h>32</h>
     </coordinates>
@@ -510,7 +510,7 @@ _+getType(resultSet: ResultSet): Type_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1280</x>
-      <y>808</y>
+      <y>792</y>
       <w>48</w>
       <h>56</h>
     </coordinates>
@@ -522,7 +522,7 @@ uses v</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1128</x>
-      <y>768</y>
+      <y>752</y>
       <w>80</w>
       <h>208</h>
     </coordinates>
@@ -534,7 +534,7 @@ uses v</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>944</x>
-      <y>840</y>
+      <y>824</y>
       <w>248</w>
       <h>48</h>
     </coordinates>
@@ -546,7 +546,7 @@ uses v</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>760</x>
-      <y>840</y>
+      <y>824</y>
       <w>216</w>
       <h>48</h>
     </coordinates>
@@ -557,7 +557,7 @@ uses v</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>232</x>
-      <y>416</y>
+      <y>400</y>
       <w>208</w>
       <h>72</h>
     </coordinates>
@@ -574,7 +574,7 @@ uses v</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>8</x>
-      <y>544</y>
+      <y>528</y>
       <w>200</w>
       <h>112</h>
     </coordinates>
@@ -593,7 +593,7 @@ uses v</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>240</x>
-      <y>552</y>
+      <y>536</y>
       <w>192</w>
       <h>64</h>
     </coordinates>
@@ -609,7 +609,7 @@ uses v</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>456</x>
-      <y>536</y>
+      <y>520</y>
       <w>264</w>
       <h>120</h>
     </coordinates>
@@ -641,7 +641,7 @@ TO BE UPDATED
     <id>Relation</id>
     <coordinates>
       <x>432</x>
-      <y>480</y>
+      <y>464</y>
       <w>160</w>
       <h>72</h>
     </coordinates>
@@ -652,7 +652,7 @@ TO BE UPDATED
     <id>Relation</id>
     <coordinates>
       <x>96</x>
-      <y>480</y>
+      <y>464</y>
       <w>152</w>
       <h>80</h>
     </coordinates>
@@ -663,7 +663,7 @@ TO BE UPDATED
     <id>Relation</id>
     <coordinates>
       <x>328</x>
-      <y>480</y>
+      <y>464</y>
       <w>24</w>
       <h>88</h>
     </coordinates>
@@ -674,7 +674,7 @@ TO BE UPDATED
     <id>Relation</id>
     <coordinates>
       <x>432</x>
-      <y>480</y>
+      <y>464</y>
       <w>376</w>
       <h>24</h>
     </coordinates>
@@ -685,7 +685,7 @@ TO BE UPDATED
     <id>UMLClass</id>
     <coordinates>
       <x>1184</x>
-      <y>1064</y>
+      <y>1048</y>
       <w>208</w>
       <h>56</h>
     </coordinates>
@@ -700,7 +700,7 @@ _+getShape(resultSet: ResultSet): Shape_
     <id>Relation</id>
     <coordinates>
       <x>1384</x>
-      <y>936</y>
+      <y>920</y>
       <w>184</w>
       <h>176</h>
     </coordinates>
@@ -712,7 +712,7 @@ _+getShape(resultSet: ResultSet): Shape_
     <id>Relation</id>
     <coordinates>
       <x>688</x>
-      <y>680</y>
+      <y>664</y>
       <w>512</w>
       <h>432</h>
     </coordinates>
@@ -724,7 +724,7 @@ _+getShape(resultSet: ResultSet): Shape_
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>256</y>
+      <y>240</y>
       <w>728</w>
       <h>432</h>
     </coordinates>
@@ -735,7 +735,7 @@ _+getShape(resultSet: ResultSet): Shape_
     <id>UMLClass</id>
     <coordinates>
       <x>1432</x>
-      <y>344</y>
+      <y>328</y>
       <w>128</w>
       <h>96</h>
     </coordinates>
@@ -753,7 +753,7 @@ getDescription(): String</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1152</x>
-      <y>384</y>
+      <y>368</y>
       <w>288</w>
       <h>48</h>
     </coordinates>
@@ -764,7 +764,7 @@ getDescription(): String</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>448</x>
-      <y>280</y>
+      <y>264</y>
       <w>264</w>
       <h>120</h>
     </coordinates>
@@ -796,7 +796,7 @@ TO BE UPDATED
     <id>Relation</id>
     <coordinates>
       <x>584</x>
-      <y>392</y>
+      <y>376</y>
       <w>72</w>
       <h>160</h>
     </coordinates>
