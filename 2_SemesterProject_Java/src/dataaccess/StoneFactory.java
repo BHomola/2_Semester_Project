@@ -2,6 +2,7 @@ package dataaccess;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import model.IStoneUnit;
@@ -44,5 +45,13 @@ public class StoneFactory {
 			return new Stone(id, material, origin, supplier, width, weight, description, location, status, shape,
 					totalSize, birth);
 		}
+	}
+	
+	public static ArrayList<IStoneUnit> getMultipleStones(ResultSet resultSet) throws SQLException{
+		ArrayList<IStoneUnit> stones = new ArrayList<IStoneUnit>();
+		while (resultSet.next()) {
+			stones.add(getStone(resultSet));
+		}
+		return stones;
 	}
 }
