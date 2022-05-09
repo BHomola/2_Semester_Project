@@ -1,20 +1,61 @@
 package model;
 
+import java.util.List;
+
 public class Material {
 
 	private int id;
 	private String name;
 	private String description;
-	private Type type;
+	private List<Type> typeL;
 
-	public Material(int id, String name, String description, Type type) {
+	public Material(int id, String name, String description, List<Type> typeL) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.type = type;
+		this.typeL = typeL;
 	}
 
+	public boolean addType(Type type) {
+		return typeL.add(type);
+	}
+
+	public List<Type> getAllTypes() {
+		 for  (int i = 0; i < typeL.size(); i++) {
+			typeL.get(i);
+		}
+		 return typeL;
+	}
+	
+	public int getNoAllTypes() {
+		int nr=0; 
+		for  (int i = 0; i < typeL.size(); i++) {
+		 nr++;
+		 }
+		 return nr;
+	}
+	
+	public Type getTypeByID(int i) {
+		for (Type type : typeL) {
+			if(type.getId()==i) {
+				return type;
+			}
+		}
+		return null;
+	}
+	
+	public boolean updateType(Type type) {
+		Type temp = getTypeByID(((Type) type).getId());
+		if (temp == null)
+			return false;
+		temp = type;
+		return true;
+	}
+	
+	public void deleteType(Type type) {
+		this.typeL.remove(type);
+	}
 
 	public int getId() {
 		return id;
@@ -38,14 +79,6 @@ public class Material {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
 	}
 
 }
