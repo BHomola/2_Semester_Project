@@ -1,55 +1,54 @@
 package model;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class OtherShape {
-	private DLLNodeShape head;
-	private DLLNodeShape tail;
-	private int size;
+	private ArrayList<ShapePoint> points;
 	
 	
+	
+	public ArrayList<ShapePoint> getPoints() {
+		return points;
+	}
+
+	public void setPoints(ArrayList<ShapePoint> points) {
+		this.points = points;
+	}
+
 	public OtherShape() {
-		this.head = new DLLNodeShape(null, null, null);
-		this.tail = new DLLNodeShape(null, head, null);
-		head.setNext(tail);
+		points = new ArrayList<>();
 	}
 	
-	public boolean isEmpty() {
-		return size == 0;
+	
+	public void addBetween() {
+		//TO DO LATER
 	}
 	
-	public void addFirst(Point p) {
-		addBetween(p, head, head.getNext());
+	public void addPoint(Point p) {
+		ShapePoint ap = new ShapePoint(p);
+		points.add(ap);
+		ap.setPrevious(points.get(points.size()-2));
+		points.get(points.size()-2).setNext(ap);
+		
 	}
 	
-	public void addLast(Point p) {
-		addBetween(p, tail.getPrevious(), tail);
+	public void addStartingPoint(Point p) {
+	
+		ShapePoint ap = new ShapePoint(p);
+		points.add(ap);
 	}
 	
-	public void addBetween(Point p, DLLNodeShape pre, DLLNodeShape nPre) {
-		DLLNodeShape newest = new DLLNodeShape(p, pre, nPre);
-		pre.setNext(newest);
-		nPre.setPrevious(newest);
-		size++;
+	public void lastPoint(Point p) {
+		ShapePoint ap = new ShapePoint(p);
+		points.add(ap);
+		points.get(0).setPrevious(ap);
+		ap.setNext(points.get(0));
 	}
 	
-	public DLLNodeShape getHead() {
-		return head;
-	}
-	public void setHead(DLLNodeShape head) {
-		this.head = head;
-	}
-	public DLLNodeShape getTail() {
-		return tail;
-	}
-	public void setTail(DLLNodeShape tail) {
-		this.tail = tail;
-	}
-	public int getSize() {
-		return size;
-	}
-	public void setSize(int size) {
-		this.size = size;
-	}
+	public ShapePoint getArrayListPoint(int index) {
+		return points.get(index);
+	} 
 	
 }
+
