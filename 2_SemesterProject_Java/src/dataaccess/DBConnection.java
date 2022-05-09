@@ -1,13 +1,12 @@
 package dataaccess;
 
 import java.sql.Connection;
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
+import com.microsoft.sqlserver.jdbc.*;
 
-public class DataAccess {
+public class DBConnection {
 	public static Connection getConnection() throws SQLServerException {
 		SQLServerDataSource ssds = new SQLServerDataSource();
-		ssds.setUser("CSC-CSD-S212_10414384"); // CHANGE IT TO YOUR USER
+		ssds.setUser("CSC-CSD-S212_10407562");
 		/*
 		 * Marek - "CSC-CSD-S212_10407562" 
 		 * Daniel - "CSC-CSD-S212_10414383" 
@@ -16,7 +15,7 @@ public class DataAccess {
 		 */
 		ssds.setPassword("Password1!");
 		ssds.setServerName("hildur.ucn.dk");
-		ssds.setDatabaseName("CSC-CSD-S212_10414384"); // CHANGE IT INTO YOUR DATABASE NAME!
+		ssds.setDatabaseName("CSC-CSD-S212_10407562");
 		ssds.setEncrypt(false);
 		return ssds.getConnection();
 	}

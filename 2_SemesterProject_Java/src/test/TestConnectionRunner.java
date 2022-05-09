@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import dataaccess.DataAccess;
+import dataaccess.DBConnection;
 
 class TestConnectionRunner {
 	
@@ -12,12 +12,12 @@ class TestConnectionRunner {
 	
 	void test() throws SQLException {
 		try {
-			DataAccess.getConnection().isValid(0);
+			DBConnection.getConnection().isValid(0);
 		} catch (SQLServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals(true, DataAccess.getConnection().isValid(0));
+		assertEquals(true, DBConnection.getConnection().isValid(0));
 	}
 
 }
