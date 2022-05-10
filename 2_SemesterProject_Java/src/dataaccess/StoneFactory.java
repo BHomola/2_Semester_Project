@@ -12,13 +12,14 @@ import model.Remains;
 import model.Shape;
 import model.Status;
 import model.Stone;
+import model.StoneUnit;
 
 public class StoneFactory {
 	private StoneFactory() {
 	}
-//INCOMPLETED
+//UNCHEKCED
 	public static IStoneUnit getStone(ResultSet resultSet) throws SQLException {
-		int id = resultSet.getInt("RemainsID");
+		String stoneType = resultSet.getString("StoneType");
 		Material material = MaterialTypeFactory.getMaterial(resultSet);
 		String origin = resultSet.getString("Origin");
 		String supplier = resultSet.getString("Supplier");
@@ -35,22 +36,48 @@ public class StoneFactory {
 		case "unavailable":
 			status = Status.UNAVAILABLE;
 		}
-		try {
+
+		if (stoneType.equals("Remains")) {
+			int id = resultSet.getInt("RemainsID");
 			int pieces = resultSet.getInt("Pieces");
 			return new Remains(id, material, origin, supplier, width, weight, description, location, status, pieces);
-		} catch (Exception e) {
+		}
+
+		if (stoneType.equals("Stone")) {
+			int id = resultSet.getInt("StoneID");
 			Shape shape = ShapeFactory.getShape(resultSet);
 			double totalSize = resultSet.getDouble("TotalSize");
 			Date birth = resultSet.getDate("Birth");
 			return new Stone(id, material, origin, supplier, width, weight, description, location, status, shape,
 					totalSize, birth);
 		}
+		return null;
 	}
-	
-	public static ArrayList<IStoneUnit> getMultipleStones(ResultSet resultSet) throws SQLException{
+
+	public static ArrayList<IStoneUnit> getMultipleStones(ResultSet resultSet, IStoneUnit obj) throws SQLException {
 		ArrayList<IStoneUnit> stones = new ArrayList<IStoneUnit>();
-		while (resultSet.next()) {
+		if (stones.size() == 0) {
 			stones.add(getStone(resultSet));
+			getMultipleStones(resultSet, obj);
+		}
+		if (obj != null) {
+			for (IStoneUnit ui : ((Stone) obj).getSubUnits())
+				if (((StoneUnit) ui).getId() == resultSet.getInt("StoneID")) {
+					((Stone) ui).getSubUnits().add(getStone(resultSet));
+					break;
+				} else {
+					getMultipleStones(resultSet, ui);
+				}
+		}
+		while (resultSet.next()) {
+			for (int i = 0; i < stones.size(); i++) {
+				if (((StoneUnit) stones.get(i)).getId() == resultSet.getInt("StoneID")) {
+					((Stone) stones.get(i)).getSubUnits().add(getStone(resultSet));
+				} else {
+					getMultipleStones(resultSet, stones.get(i));
+				}
+				stones.add(getStone(resultSet));
+			}
 		}
 		return stones;
 	}

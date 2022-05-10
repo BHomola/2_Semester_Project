@@ -87,5 +87,4 @@ public class Stone extends StoneUnit {
 				sum += su.getPieces();
 		return sum;
 	}
-
 }
