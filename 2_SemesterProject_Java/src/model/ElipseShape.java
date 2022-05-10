@@ -5,8 +5,8 @@ public class ElipseShape extends Shape{
 	private double diameterX;
 	private double diameterY;
 	
-	public ElipseShape(double diameterX, double diameterY) {
-		super();
+	public ElipseShape(double diameterX, double diameterY, String name, int id) {
+		super(name, id);
 		this.diameterX = diameterX;
 		this.diameterY = diameterY;
 	}

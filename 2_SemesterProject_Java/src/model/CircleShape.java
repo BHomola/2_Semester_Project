@@ -4,8 +4,8 @@ public class CircleShape extends Shape{
 
 	private double diameter;
 
-	public CircleShape(double diameter) {
-		super();
+	public CircleShape(double diameter, String name, int id) {
+		super(name, id);
 		this.diameter = diameter;
 	}
 

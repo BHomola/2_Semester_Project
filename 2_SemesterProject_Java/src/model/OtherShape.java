@@ -7,6 +7,13 @@ public class OtherShape extends Shape{
 	
 	private ArrayList<ShapePoint> points;
 	
+	
+	
+	public OtherShape(String name, int id) {
+		super(name, id);
+		points = new ArrayList<ShapePoint>();
+	}
+
 	public ArrayList<ShapePoint> getPoints() {
 		return points;
 	}
@@ -14,11 +21,6 @@ public class OtherShape extends Shape{
 	public void setPoints(ArrayList<ShapePoint> points) {
 		this.points = points;
 	}
-
-	public OtherShape() {
-		points = new ArrayList<>();
-	}
-	
 	
 	public void addBetween() {
 		//TO DO LATER
