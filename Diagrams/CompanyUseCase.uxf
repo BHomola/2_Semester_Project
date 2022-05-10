@@ -33,7 +33,7 @@ bg=blue</panel_attributes>
       <x>450</x>
       <y>230</y>
       <w>330</w>
-      <h>760</h>
+      <h>770</h>
     </coordinates>
     <panel_attributes>System
 halign=left</panel_attributes>
@@ -309,7 +309,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>530</x>
-      <y>800</y>
+      <y>740</y>
       <w>170</w>
       <h>40</h>
     </coordinates>
@@ -320,7 +320,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>530</x>
-      <y>740</y>
+      <y>680</y>
       <w>170</w>
       <h>40</h>
     </coordinates>
@@ -331,7 +331,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>530</x>
-      <y>870</y>
+      <y>800</y>
       <w>170</w>
       <h>40</h>
     </coordinates>
@@ -344,20 +344,20 @@ bg=yellow</panel_attributes>
       <x>280</x>
       <y>370</y>
       <w>270</w>
-      <h>470</h>
+      <h>410</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>10.0;10.0;250.0;450.0</additional_attributes>
+    <additional_attributes>10.0;10.0;250.0;390.0</additional_attributes>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
       <x>530</x>
-      <y>680</y>
+      <y>860</y>
       <w>170</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>Create Leftover Material</panel_attributes>
+    <panel_attributes>CRUD Stone</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -366,10 +366,10 @@ bg=yellow</panel_attributes>
       <x>280</x>
       <y>370</y>
       <w>270</w>
-      <h>350</h>
+      <h>530</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>10.0;10.0;250.0;330.0</additional_attributes>
+    <additional_attributes>10.0;10.0;250.0;510.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -390,25 +390,12 @@ bg=blue</panel_attributes>
       <x>280</x>
       <y>550</y>
       <w>270</w>
-      <h>170</h>
+      <h>350</h>
     </coordinates>
     <panel_attributes>
 fg=blue
 bg=blue</panel_attributes>
-    <additional_attributes>250.0;150.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>280</x>
-      <y>740</y>
-      <w>270</w>
-      <h>170</h>
-    </coordinates>
-    <panel_attributes>
-fg=yellow
-bg=yellow</panel_attributes>
-    <additional_attributes>250.0;150.0;10.0;10.0</additional_attributes>
+    <additional_attributes>250.0;330.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -453,14 +440,14 @@ bg=yellow</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>280</x>
-      <y>550</y>
+      <y>740</y>
       <w>270</w>
-      <h>230</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>
-fg=blue
-bg=blue</panel_attributes>
-    <additional_attributes>250.0;210.0;10.0;10.0</additional_attributes>
+fg=yellow
+bg=yellow</panel_attributes>
+    <additional_attributes>250.0;140.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -468,12 +455,12 @@ bg=blue</panel_attributes>
       <x>280</x>
       <y>550</y>
       <w>270</w>
-      <h>360</h>
+      <h>170</h>
     </coordinates>
     <panel_attributes>
 fg=blue
 bg=blue</panel_attributes>
-    <additional_attributes>10.0;10.0;250.0;340.0</additional_attributes>
+    <additional_attributes>250.0;150.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -483,7 +470,8 @@ bg=blue</panel_attributes>
       <w>270</w>
       <h>290</h>
     </coordinates>
-    <panel_attributes>fg=blue
+    <panel_attributes>
+fg=blue
 bg=blue</panel_attributes>
     <additional_attributes>10.0;10.0;250.0;270.0</additional_attributes>
   </element>
@@ -491,11 +479,71 @@ bg=blue</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>280</x>
+      <y>550</y>
+      <w>270</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>fg=blue
+bg=blue</panel_attributes>
+    <additional_attributes>10.0;10.0;250.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
       <y>370</y>
+      <w>270</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;250.0;330.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>530</x>
+      <y>920</y>
+      <w>170</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>CRUD Remain</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>370</y>
+      <w>270</w>
+      <h>590</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;250.0;570.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>550</y>
       <w>270</w>
       <h>410</h>
     </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;10.0;250.0;390.0</additional_attributes>
+    <panel_attributes>
+fg=blue
+bg=blue</panel_attributes>
+    <additional_attributes>250.0;390.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>740</y>
+      <w>270</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>
+fg=yellow
+bg=yellow</panel_attributes>
+    <additional_attributes>250.0;200.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
