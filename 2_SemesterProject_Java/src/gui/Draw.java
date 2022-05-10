@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class Draw extends JFrame implements MouseListener{
 
-	private OtherShape outline = new OtherShape();
+	private OtherShape outline = new OtherShape("test", 1);
 	
 	public Draw() {
 		setSize(1920, 1080);
@@ -70,22 +70,27 @@ public class Draw extends JFrame implements MouseListener{
 	public void drawShape(ArrayList<ShapePoint> points) {
 		Graphics2D g = (Graphics2D)getGraphics();
 		g.setStroke(new BasicStroke(5));
+		
+		
 		for(int i = 0; i < points.size(); i++) {
 			if(points.get(i).getNext() != null) {
 				ShapePoint pFirst = points.get(i);
 				ShapePoint pNext = points.get(i+1);
 				g.fillRect((int)pFirst.getData().getX()-5, (int)pFirst.getData().getY()-5, 10, 10);
 				g.drawLine((int)pFirst.getData().getX(), (int)pFirst.getData().getY(), (int)pNext.getData().getX(), (int)pNext.getData().getY());
-				ShapePoint pLast = points.get(points.size()-1);
-				ShapePoint pFirstActual = points.get(0);
-				if(pLast.getData().distance(pFirstActual.getData()) < 25) {
-					pLast.setData(pFirstActual.getData());
-					g.drawLine((int)pLast.getData().getX(), (int)pLast.getData().getY(), (int)pFirstActual.getData().getX(), (int)pFirstActual.getData().getY());
-				}
+				closeShape(points);
 			}
 		}
-		
-		points.toString();
 	}
 
+	public void closeShape(ArrayList<ShapePoint> points) {
+		Graphics g = getGraphics();
+		ShapePoint pLast = points.get(points.size()-1);
+		ShapePoint pFirstActual = points.get(0);
+		int closingParameter = 25;
+		if(pLast.getData().distance(pFirstActual.getData()) < closingParameter) {
+			pLast.setData(pFirstActual.getData());
+			g.drawLine((int)pLast.getData().getX(), (int)pLast.getData().getY(), (int)pFirstActual.getData().getX(), (int)pFirstActual.getData().getY());
+		}
+	}
 }
