@@ -3,10 +3,9 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class OtherShape {
+public class OtherShape extends Shape{
+	
 	private ArrayList<ShapePoint> points;
-	
-	
 	
 	public ArrayList<ShapePoint> getPoints() {
 		return points;

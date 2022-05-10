@@ -1,6 +1,6 @@
 package model;
 
-public class CircleShape {
+public class CircleShape extends Shape{
 
 	private double diameter;
 

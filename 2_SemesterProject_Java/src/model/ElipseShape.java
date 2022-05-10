@@ -1,6 +1,6 @@
 package model;
 
-public class ElipseShape {
+public class ElipseShape extends Shape{
 
 	private double diameterX;
 	private double diameterY;
