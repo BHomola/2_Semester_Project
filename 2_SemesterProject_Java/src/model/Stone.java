@@ -6,7 +6,7 @@ import java.util.Date;
 public class Stone extends StoneUnit {
 	private Shape shape;
 	private double totalSize;
-	private Date birth;
+	private Date birthDate;
 	private ArrayList<IStoneUnit> subUnits = new ArrayList<>();
 
 	public Stone(int id, Material material, String origin, String supplier, double width, double weight,
@@ -14,14 +14,13 @@ public class Stone extends StoneUnit {
 		super(id, material, origin, supplier, width, weight, description, location, status);
 		this.shape = shape;
 		this.totalSize = totalSize;
-		this.birth = birth;
+		this.birthDate = birth;
 	}
-
+	//setters - make another object and put it into list
 	public boolean addStoneUnit(IStoneUnit unit) {
 		return subUnits.add(unit);
 	}
 
-	/// ?
 	@SuppressWarnings("unchecked")
 	public ArrayList<IStoneUnit> getAllStoneUnits() {
 		return (ArrayList<IStoneUnit>) subUnits.clone();
@@ -42,7 +41,6 @@ public class Stone extends StoneUnit {
 		return true;
 	}
 
-	// wont be that easy probably
 	public boolean deleteStoneUnit(IStoneUnit stoneUnit) {
 		return subUnits.remove(stoneUnit);
 	}
@@ -63,12 +61,12 @@ public class Stone extends StoneUnit {
 		this.totalSize = totalSize;
 	}
 
-	public Date getBirth() {
-		return birth;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
-	public void setBirth(Date birth) {
-		this.birth = birth;
+	public void setBirthDate(Date birth) {
+		this.birthDate = birth;
 	}
 
 	public ArrayList<IStoneUnit> getSubUnits() {

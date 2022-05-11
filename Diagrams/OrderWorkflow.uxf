@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="14.3.0">
+<diagram program="umlet" version="15.0.0">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>650</x>
-      <y>190</y>
+      <x>790</x>
+      <y>290</y>
       <w>120</w>
       <h>60</h>
     </coordinates>
@@ -16,8 +16,8 @@ on the phone</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>700</x>
-      <y>0</y>
+      <x>840</x>
+      <y>100</y>
       <w>20</w>
       <h>20</h>
     </coordinates>
@@ -27,8 +27,8 @@ on the phone</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>700</x>
-      <y>70</y>
+      <x>840</x>
+      <y>170</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -38,8 +38,8 @@ on the phone</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>690</x>
-      <y>120</y>
+      <x>830</x>
+      <y>220</y>
       <w>40</w>
       <h>40</h>
     </coordinates>
@@ -49,8 +49,8 @@ on the phone</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>130</y>
+      <x>670</x>
+      <y>230</y>
       <w>180</w>
       <h>80</h>
     </coordinates>
@@ -60,8 +60,8 @@ on the phone</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>700</x>
-      <y>150</y>
+      <x>840</x>
+      <y>250</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -71,8 +71,8 @@ on the phone</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>720</x>
-      <y>130</y>
+      <x>860</x>
+      <y>230</y>
       <w>160</w>
       <h>80</h>
     </coordinates>
@@ -82,8 +82,8 @@ on the phone</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>660</x>
-      <y>50</y>
+      <x>800</x>
+      <y>150</y>
       <w>100</w>
       <h>40</h>
     </coordinates>
@@ -94,8 +94,8 @@ the contact</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>700</x>
-      <y>10</y>
+      <x>840</x>
+      <y>110</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -105,8 +105,8 @@ the contact</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>480</x>
-      <y>190</y>
+      <x>620</x>
+      <y>290</y>
       <w>130</w>
       <h>60</h>
     </coordinates>
@@ -117,8 +117,8 @@ to the office</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>790</x>
-      <y>190</y>
+      <x>930</x>
+      <y>290</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
@@ -130,8 +130,8 @@ or SM platforms </panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>620</x>
-      <y>290</y>
+      <x>760</x>
+      <y>390</y>
       <w>190</w>
       <h>70</h>
     </coordinates>
@@ -142,8 +142,8 @@ finds out every detail</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>700</x>
-      <y>240</y>
+      <x>840</x>
+      <y>340</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -153,8 +153,8 @@ finds out every detail</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>800</x>
-      <y>240</y>
+      <x>940</x>
+      <y>340</y>
       <w>80</w>
       <h>110</h>
     </coordinates>
@@ -164,8 +164,8 @@ finds out every detail</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>240</y>
+      <x>670</x>
+      <y>340</y>
       <w>110</w>
       <h>110</h>
     </coordinates>
@@ -175,8 +175,8 @@ finds out every detail</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>350</y>
+      <x>850</x>
+      <y>450</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -186,8 +186,8 @@ finds out every detail</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>600</x>
-      <y>390</y>
+      <x>740</x>
+      <y>490</y>
       <w>240</w>
       <h>60</h>
     </coordinates>
@@ -199,8 +199,8 @@ the measures of the order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>440</y>
+      <x>850</x>
+      <y>540</y>
       <w>30</w>
       <h>80</h>
     </coordinates>
@@ -210,8 +210,8 @@ the measures of the order</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>590</x>
-      <y>500</y>
+      <x>730</x>
+      <y>600</y>
       <w>250</w>
       <h>40</h>
     </coordinates>
@@ -222,8 +222,8 @@ for calculating the price for the order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>530</y>
+      <x>850</x>
+      <y>630</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -233,8 +233,8 @@ for calculating the price for the order</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>590</x>
-      <y>570</y>
+      <x>730</x>
+      <y>670</y>
       <w>250</w>
       <h>60</h>
     </coordinates>
@@ -246,8 +246,8 @@ and the contract is signed</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>620</y>
+      <x>850</x>
+      <y>720</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -257,8 +257,8 @@ and the contract is signed</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>670</x>
-      <y>660</y>
+      <x>810</x>
+      <y>760</y>
       <w>100</w>
       <h>40</h>
     </coordinates>
@@ -269,8 +269,8 @@ the factory</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>690</y>
+      <x>850</x>
+      <y>790</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -280,8 +280,8 @@ the factory</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>630</x>
-      <y>730</y>
+      <x>770</x>
+      <y>830</y>
       <w>170</w>
       <h>40</h>
     </coordinates>
@@ -292,8 +292,8 @@ according to the order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>760</y>
+      <x>850</x>
+      <y>860</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -303,8 +303,8 @@ according to the order</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>650</x>
-      <y>800</y>
+      <x>790</x>
+      <y>900</y>
       <w>130</w>
       <h>40</h>
     </coordinates>
@@ -315,8 +315,8 @@ on site</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>830</y>
+      <x>850</x>
+      <y>930</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -326,8 +326,8 @@ on site</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>630</x>
-      <y>870</y>
+      <x>770</x>
+      <y>970</y>
       <w>180</w>
       <h>40</h>
     </coordinates>
@@ -337,8 +337,8 @@ on site</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>900</y>
+      <x>850</x>
+      <y>1000</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -348,8 +348,8 @@ on site</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>710</x>
-      <y>950</y>
+      <x>850</x>
+      <y>1050</y>
       <w>20</w>
       <h>20</h>
     </coordinates>
