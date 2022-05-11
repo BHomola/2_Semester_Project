@@ -386,9 +386,9 @@ selectionOfProducts</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>567</x>
-      <y>306</y>
+      <y>288</y>
       <w>90</w>
-      <h>99</h>
+      <h>117</h>
     </coordinates>
     <panel_attributes>Employee
 --
@@ -396,6 +396,7 @@ position
 occupation
 salary
 startDate
+location
 login</panel_attributes>
     <additional_attributes/>
   </element>
@@ -498,7 +499,7 @@ totalSpends</panel_attributes>
       <x>837</x>
       <y>432</y>
       <w>108</w>
-      <h>207</h>
+      <h>216</h>
     </coordinates>
     <panel_attributes>Order
 --
@@ -506,6 +507,7 @@ person
 stoneUnits
 price
 employee
+office
 invoice
 deliveryStatus
 deliveryDate
@@ -582,12 +584,12 @@ password</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>837</x>
-      <y>630</y>
+      <y>639</y>
       <w>72</w>
-      <h>90</h>
+      <h>81</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>60.0;10.0;60.0;80.0;10.0;80.0</additional_attributes>
+    <additional_attributes>60.0;10.0;60.0;70.0;10.0;70.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
