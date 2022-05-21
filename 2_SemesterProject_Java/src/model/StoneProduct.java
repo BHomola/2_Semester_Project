@@ -1,41 +1,35 @@
 package model;
 
-public class StoneProduct extends StoneUnit {
-	private Shape shape;
-	private double totalSize;
-	
+import java.util.Date;
+
+public class StoneProduct extends Stone {
+	private double price;
+
 	public StoneProduct(int id, Material material, String origin, String supplier, double width, double weight,
 			String description, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
-			double totalSize) {
-		super(id, material, origin, supplier, width, weight, description, location, employee, status);
-		this.shape = shape;
-		this.totalSize = totalSize;
+			double totalSize, Date birth, int orderID, double price) {
+		super(id, material, origin, supplier, width, weight, description, location, employee, status, shape, totalSize,
+				birth, orderID);
+		this.price = price;
 	}
 
-	public Shape getShape() {
-		return shape;
+	public double getPrice() {
+		return price;
 	}
 
-	public void setShape(Shape shape) {
-		this.shape = shape;
+	public void setPrice(double price) {
+		this.price = price;
 	}
-
-	public double getTotalSize() {
-		return totalSize;
-	}
-
-	public void setTotalSize(double totalSize) {
-		this.totalSize = totalSize;
-	}
-
-	@Override
-	public String toString() {
-		return "StoneProduct [shape=" + shape + ", totalSize=" + totalSize + "]";
-	}
-
+	
 	@Override
 	public int getPieces() {
 		return 1;
 	}
+
+	@Override
+	public String toString() {
+		return "StoneProduct [price=" + price + "]";
+	}
+
 	
 }

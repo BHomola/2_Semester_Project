@@ -2,12 +2,10 @@ package model;
 
 public class OrderLine {
 	private StoneProduct stoneProduct;
-	private double price;
 
-	public OrderLine(StoneProduct stoneProduct, double price) {
+	public OrderLine(StoneProduct stoneProduct) {
 		super();
 		this.stoneProduct = stoneProduct;
-		this.price = price;
 	}
 
 	public StoneProduct getStoneProduct() {
@@ -18,17 +16,9 @@ public class OrderLine {
 		this.stoneProduct = stoneProduct;
 	}
 
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
 	@Override
 	public String toString() {
-		return "OrderLine [stoneProduct=" + stoneProduct + ", price=" + price + "]";
+		return "OrderLine [stoneProduct=" + stoneProduct + "]";
 	}
 
 }
