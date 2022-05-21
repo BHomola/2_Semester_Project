@@ -14,10 +14,11 @@ public abstract class StoneUnit implements IStoneUnit {
 	private double weight;
 	private String description;
 	private Location location;
-	private Status status;
+	private Employee employee;
+	private StoneUnitStatuses status;
 
-	public StoneUnit(int id, Material material, String origin, String supplier, double width, double weight, String description,
-			Location location, Status status) {
+	public StoneUnit(int id, Material material, String origin, String supplier, double width, double weight,
+			String description, Location location, Employee employee, StoneUnitStatuses status) {
 		super();
 		this.id = id;
 		this.material = material;
@@ -27,6 +28,7 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.weight = weight;
 		this.description = description;
 		this.location = location;
+		this.employee = employee;
 		this.status = status;
 	}
 
@@ -37,7 +39,7 @@ public abstract class StoneUnit implements IStoneUnit {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public Material getMaterial() {
 		return material;
 	}
@@ -54,12 +56,12 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.origin = origin;
 	}
 
-	public String getSupllier() {
+	public String getSupplier() {
 		return supplier;
 	}
 
-	public void setSupllier(String supllier) {
-		this.supplier = supllier;
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
 	}
 
 	public double getWidth() {
@@ -94,11 +96,27 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.location = location;
 	}
 
-	public Status getStatus() {
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public StoneUnitStatuses getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(StoneUnitStatuses status) {
 		this.status = status;
 	}
+
+	@Override
+	public String toString() {
+		return "StoneUnit [id=" + id + ", material=" + material + ", origin=" + origin + ", supplier=" + supplier
+				+ ", width=" + width + ", weight=" + weight + ", description=" + description + ", location=" + location
+				+ ", employee=" + employee + ", status=" + status + "]";
+	}
+
 }

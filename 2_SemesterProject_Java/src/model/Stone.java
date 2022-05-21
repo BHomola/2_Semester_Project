@@ -7,16 +7,20 @@ public class Stone extends StoneUnit {
 	private Shape shape;
 	private double totalSize;
 	private Date birthDate;
+	private int orderID;
 	private ArrayList<IStoneUnit> subUnits = new ArrayList<>();
 
 	public Stone(int id, Material material, String origin, String supplier, double width, double weight,
-			String description, Location location, Status status, Shape shape, double totalSize, Date birth) {
-		super(id, material, origin, supplier, width, weight, description, location, status);
+			String description, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
+			double totalSize, Date birth, int orderID) {
+		super(id, material, origin, supplier, width, weight, description, location, employee, status);
 		this.shape = shape;
 		this.totalSize = totalSize;
 		this.birthDate = birth;
+		this.setOrderID(orderID);
 	}
-	//setters - make another object and put it into list
+
+	// setters - make another object and put it into list
 	public boolean addStoneUnit(IStoneUnit unit) {
 		return subUnits.add(unit);
 	}
@@ -69,6 +73,14 @@ public class Stone extends StoneUnit {
 		this.birthDate = birth;
 	}
 
+	public int getOrderID() {
+		return orderID;
+	}
+
+	public void setOrderID(int orderID) {
+		this.orderID = orderID;
+	}
+
 	public ArrayList<IStoneUnit> getSubUnits() {
 		return subUnits;
 	}
@@ -85,4 +97,12 @@ public class Stone extends StoneUnit {
 				sum += su.getPieces();
 		return sum;
 	}
+
+	@Override
+	public String toString() {
+		return "Stone [shape=" + shape + ", totalSize=" + totalSize + ", birthDate=" + birthDate + ", orderID="
+				+ orderID + ", subUnits=" + subUnits + "]";
+	}
+	
+	
 }

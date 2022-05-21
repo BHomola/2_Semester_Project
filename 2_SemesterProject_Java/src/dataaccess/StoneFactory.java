@@ -5,12 +5,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.Employee;
 import model.IStoneUnit;
 import model.Location;
 import model.Material;
 import model.Remains;
 import model.Shape;
-import model.Status;
+import model.StoneUnitStatuses;
 import model.Stone;
 import model.StoneUnit;
 
@@ -27,20 +28,21 @@ public class StoneFactory {
 		Double weight = resultSet.getDouble("Weight");
 		String description = resultSet.getString("Description");
 		Location location = LocationCityFactory.getLocation(resultSet);
-		Status status = null;
+		Employee employee = PersonDAO.buildPerson(resultSet);
+		StoneUnitStatuses status = null;
 		switch (resultSet.getString("Status")) {
 		case "WIP":
-			status = Status.WIP;
+			status = StoneUnitStatuses.WIP;
 		case "available":
-			status = Status.AVAILABLE;
+			status = StoneUnitStatuses.AVAILABLE;
 		case "unavailable":
-			status = Status.UNAVAILABLE;
+			status = StoneUnitStatuses.UNAVAILABLE;
 		}
 
 		if (stoneType.equals("Remains")) {
 			int id = resultSet.getInt("RemainsID");
 			int pieces = resultSet.getInt("Pieces");
-			return new Remains(id, material, origin, supplier, width, weight, description, location, status, pieces);
+			return new Remains(id, material, origin, supplier, width, weight, description, location, employee, status, pieces);
 		}
 
 		if (stoneType.equals("Stone")) {
@@ -48,8 +50,9 @@ public class StoneFactory {
 			Shape shape = ShapeFactory.getShape(resultSet);
 			double totalSize = resultSet.getDouble("TotalSize");
 			Date birth = resultSet.getDate("Birth");
-			return new Stone(id, material, origin, supplier, width, weight, description, location, status, shape,
-					totalSize, birth);
+			int orderID = resultSet.getInt("orderID");
+			return new Stone(id, material, origin, supplier, width, weight, description, location, employee, status, shape,
+					totalSize, birth, orderID);
 		}
 		return null;
 	}

@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import model.Status;
+import model.StoneUnitStatuses;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +31,7 @@ public class TestStone {
 	SimpleDateFormat formatter;
 	List<Type> list = new ArrayList<Type>();
 	ArrayList<IStoneUnit> subUnits = new ArrayList<>() ;
-	Status status;
+	StoneUnitStatuses status;
 
 	@BeforeEach
 	void setUp() {
@@ -52,7 +52,7 @@ public class TestStone {
 			city = new City(111,"Chisinau", "MD-2000", "Moldova");
 			location = new Location(222, "Deposit Fauresti", "Str. Nu stiu care", city);
 			cshape = new CircleShape (15, "Cerc", 12);
-			status = Status.AVAILABLE;
+			status = StoneUnitStatuses.AVAILABLE;
 			formatter = new SimpleDateFormat("dd-MM-yyyy");
 			date = formatter.parse("10-05-2022");
 			stone = new Stone(1,material,"Italy", "CMD", 1.5, 50.0, 
