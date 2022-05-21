@@ -42,28 +42,29 @@ _+getConnection(): Connection_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2290</x>
+      <x>2310</x>
       <y>1360</y>
-      <w>110</w>
+      <w>90</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 uses &gt;</panel_attributes>
-    <additional_attributes>90.0;50.0;90.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>70.0;50.0;70.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>2000</x>
       <y>1340</y>
-      <w>300</w>
+      <w>320</w>
       <h>100</h>
     </coordinates>
     <panel_attributes>dataaccess::StoneDAO
 --
 --
 _+buildStone(resultSet: ResultSet): IStoneUnit_
-_+buildMultipleStones(resultSet: ResultSet): ArrayList&lt;IStoneUnit&gt;_
+_+buildStonesLifeCycle(resultSet: ResultSet): ArrayList&lt;IStoneUnit&gt;_
+_+buildStoneProducts(resultSet: ResultSet): ArrayList&lt;StoneProduct&gt;_
 _+buildLocation(resultSet: ResultSet): Location_
 _+buildCity(resultSet: ResultSet): City_
 </panel_attributes>
@@ -1151,7 +1152,7 @@ dataaccess::ITypeMaterialDAO
       <w>240</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>dataaccess::ITypeMaterialDAO
+    <panel_attributes>dataaccess::TypeMaterialDAO
 --
 --
 _+buildMaterial(resultSet: ResultSet): StoneMaterial_

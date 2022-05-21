@@ -1,9 +1,7 @@
-package dataaccess;
+package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import model.Shape;
 
 
 public class ShapeFactory {
