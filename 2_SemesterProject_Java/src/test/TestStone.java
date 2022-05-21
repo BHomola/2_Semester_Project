@@ -4,6 +4,7 @@ import model.Stone;
 import model.Type;
 import model.CircleShape;
 import model.City;
+import model.Employee;
 import model.IStoneUnit;
 import model.Location;
 import model.Material;
@@ -28,6 +29,7 @@ public class TestStone {
 	CircleShape cshape;
 	Location location;
 	Date date;
+	Employee employee;
 	SimpleDateFormat formatter;
 	List<Type> list = new ArrayList<Type>();
 	ArrayList<IStoneUnit> subUnits = new ArrayList<>() ;
@@ -55,10 +57,11 @@ public class TestStone {
 			status = StoneUnitStatuses.AVAILABLE;
 			formatter = new SimpleDateFormat("dd-MM-yyyy");
 			date = formatter.parse("10-05-2022");
+			employee = null;
 			stone = new Stone(1,material,"Italy", "CMD", 1.5, 50.0, 
-			"No description", location, status , cshape, 250.0, 
-			date);
-			remains = new Remains(3, material, "Italy", "CMD", 1.0, 40.0, "Left over", location, status, 2);
+			"No description", location, employee, status, cshape, 250.0, 
+			date, 0);
+			remains = new Remains(3, material, "Italy", "CMD", 1.0, 40.0, "Left over", location, employee, status, 2);
 			subUnits.add(remains);
 		} catch (Exception e) {
 			e.printStackTrace();
