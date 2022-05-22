@@ -1,9 +1,6 @@
 package model;
 
-/*This is just an example i coded 
-It is not mandatory to be like this
-You can edit it if it is not correct 
-Or just add the fields that are missing */
+import java.time.LocalDate;
 
 public abstract class StoneUnit implements IStoneUnit {
 	private int id;
@@ -16,6 +13,7 @@ public abstract class StoneUnit implements IStoneUnit {
 	private Location location;
 	private Employee employee;
 	private StoneUnitStatuses status;
+	private String updates;
 
 	public StoneUnit(int id, Material material, String origin, String supplier, double width, double weight,
 			String description, Location location, Employee employee, StoneUnitStatuses status) {
@@ -112,11 +110,23 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.status = status;
 	}
 
+	public String getUpdates() {
+		return updates;
+	}
+
+	public void setUpdates(String updates) {
+		this.updates = updates;
+	}
+
+	public void addUpdate(String note) {
+		this.updates += LocalDate.now() + ": " + note + "\n";
+	}
+
 	@Override
 	public String toString() {
 		return "StoneUnit [id=" + id + ", material=" + material + ", origin=" + origin + ", supplier=" + supplier
 				+ ", width=" + width + ", weight=" + weight + ", description=" + description + ", location=" + location
-				+ ", employee=" + employee + ", status=" + status + "]";
+				+ ", employee=" + employee + ", status=" + status + ", updates=" + updates + "]";
 	}
 
 }

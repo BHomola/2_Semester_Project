@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -18,14 +19,14 @@ public class Order {
 	private double deposit;
 	private boolean isPaid;
 	private String customerNote;
+	private String updates;
 
-	public Order(int id, Customer customer, List<OrderLine> orderLines, double orderPrice, Employee employee,
-			Location office, Invoice invoice, DeliveryStatuses deliveryStatus, Date deliveryDate, String address,
-			City city, double deposit, boolean isPaid, String customerNote) {
+	public Order(int id, Customer customer, double orderPrice, Employee employee, Location office, Invoice invoice,
+			DeliveryStatuses deliveryStatus, Date deliveryDate, String address, City city, double deposit,
+			boolean isPaid, String customerNote) {
 		super();
 		this.id = id;
 		this.customer = customer;
-		this.orderLines = orderLines;
 		this.orderPrice = orderPrice;
 		this.employee = employee;
 		this.office = office;
@@ -151,13 +152,24 @@ public class Order {
 		this.customerNote = customerNote;
 	}
 
+	public String getUpdates() {
+		return updates;
+	}
+
+	public void setUpdates(String updates) {
+		this.updates = updates;
+	}
+	
+	public void addUpdate(String note) {
+		this.updates += LocalDate.now() + ": " + note + "\n";
+	}
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", customer=" + customer + ", orderLines=" + orderLines + ", orderPrice="
 				+ orderPrice + ", employee=" + employee + ", office=" + office + ", invoice=" + invoice
 				+ ", deliveryStatus=" + deliveryStatus + ", deliveryDate=" + deliveryDate + ", address=" + address
 				+ ", city=" + city + ", deposit=" + deposit + ", isPaid=" + isPaid + ", customerNote=" + customerNote
-				+ "]";
+				+ ", updates=" + updates + "]";
 	}
-
 }

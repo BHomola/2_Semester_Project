@@ -3,14 +3,15 @@ package model;
 import java.util.Date;
 
 public class Invoice {
+	//id out? same as the OrderID
 	private int id;
 	private Date paymentDate;
 	private double VATratio;
 	private double finalPrice;
 
-	public Invoice(int id, Date paymentDate, double vATratio, double finalPrice) {
+	public Invoice(Date paymentDate, double vATratio, double finalPrice) {
 		super();
-		this.id = id;
+		//this.id = id;
 		this.paymentDate = paymentDate;
 		VATratio = vATratio;
 		this.finalPrice = finalPrice;
