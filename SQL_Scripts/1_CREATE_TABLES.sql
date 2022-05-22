@@ -13,8 +13,8 @@ CREATE TABLE StoneType
 (
   TypeID INT NOT NULL,
   Name VARCHAR(50) NOT NULL,
-  Description VARCHAR(200) NOT NULL,
-  Picture VARCHAR(100) NOT NULL,
+  Description VARCHAR(200),
+  Picture VARCHAR(100),
   MaterialID INT NOT NULL,
   PRIMARY KEY (TypeID),
   FOREIGN KEY (MaterialID) REFERENCES Material(MaterialID)
@@ -36,10 +36,10 @@ CREATE TABLE Person
   Address VARCHAR(100) NOT NULL,
   PhoneNumber VARCHAR(20) NOT NULL,
   Email VARCHAR(100) NOT NULL,
-  DateOfBirth DATE NOT NULL,
-  Age INT NOT NULL,
-  Description VARCHAR(200) NOT NULL,
-  Note VARCHAR(200) NOT NULL,
+  DateOfBirth DATE,
+  Age INT,
+  Description VARCHAR(200),
+  Note VARCHAR(200),
   PersonType VARCHAR(50) NOT NULL,
   CityID INT NOT NULL,
   PRIMARY KEY (PersonID),
@@ -53,7 +53,7 @@ CREATE TABLE Customer
   IsCompany bit NOT NULL,
   totalSpends INT NOT NULL,
   OrdersCount INT NOT NULL,
-  LastOrderID INT NOT NULL,
+  LastOrderID INT,
   PersonID INT NOT NULL,
   PRIMARY KEY (PersonID),
   FOREIGN KEY (PersonID) REFERENCES Person(PersonID)
@@ -73,6 +73,14 @@ CREATE TABLE Invoice
   VATratio INT NOT NULL,
   FinalPrice INT NOT NULL,
   PRIMARY KEY (InvoiceID)
+);
+
+CREATE TABLE Point
+(
+  X INT NOT NULL,
+  Y INT NOT NULL,
+  PointID INT NOT NULL,
+  PRIMARY KEY (PointID)
 );
 
 CREATE TABLE Location
@@ -99,8 +107,8 @@ CREATE TABLE Employee
 
 CREATE TABLE Login
 (
-  Username INT NOT NULL,
-  Password INT NOT NULL,
+  Username VARCHAR(50) NOT NULL,
+  Password VARCHAR(200) NOT NULL,
   EmployeeID INT NOT NULL,
   PRIMARY KEY (EmployeeID),
   FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
@@ -111,12 +119,12 @@ CREATE TABLE OrderInfo
   OrderID INT NOT NULL,
   Office VARCHAR(50) NOT NULL,
   DelivaryStatus INT NOT NULL,
-  DelivaryDate DATE NOT NULL,
+  DelivaryDate DATE,
   Address VARCHAR(100) NOT NULL,
   deposit INT NOT NULL,
-  IsPaid bit NOT NULL,
-  Note VARCHAR(200) NOT NULL,
-  Updates VARCHAR(200) NOT NULL,
+  IsPaid BIT NOT NULL,
+  Note VARCHAR(200),
+  Updates VARCHAR(200),
   status INT NOT NULL,
   PersonID INT NOT NULL,
   InvoiceID INT NOT NULL,
@@ -141,11 +149,11 @@ CREATE TABLE StoneUnit
   StoneUnitID INT NOT NULL,
   Width INT NOT NULL,
   Weight INT NOT NULL,
-  Description VARCHAR(200) NOT NULL,
+  Description VARCHAR(200),
   Status INT NOT NULL,
   StoneType VARCHAR(50) NOT NULL,
   Origin VARCHAR(50) NOT NULL,
-  Note VARCHAR(200) NOT NULL,
+  Note VARCHAR(200),
   MaterialID INT NOT NULL,
   LocationID INT NOT NULL,
   PRIMARY KEY (StoneUnitID),
@@ -201,12 +209,12 @@ CREATE TABLE OtherShape
 
 CREATE TABLE ShapePoints
 (
-  X INT NOT NULL,
-  Y INT NOT NULL,
   OrderIndex INT NOT NULL,
   StoneID INT NOT NULL,
-  PRIMARY KEY (OrderIndex, StoneID),
-  FOREIGN KEY (StoneID) REFERENCES OtherShape(StoneID)
+  PointID INT NOT NULL,
+  PRIMARY KEY (OrderIndex, PointID),
+  FOREIGN KEY (StoneID) REFERENCES OtherShape(StoneID),
+  FOREIGN KEY (PointID) REFERENCES Point(PointID)
 );
 
 CREATE TABLE StoneProduct

@@ -24,5 +24,6 @@ DROP TABLE [dbo].[Location]
 DROP TABLE [dbo].[City]
 DROP TABLE [dbo].[StoneType]
 DROP TABLE [dbo].[Material]
+DROP TABLE [dbo].[Point]
 GO
 
