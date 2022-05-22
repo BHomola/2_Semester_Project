@@ -14,6 +14,7 @@ import model.Remains;
 import model.Shape;
 import model.ShapeFactory;
 import model.Stone;
+import model.StoneCuttable;
 import model.StoneProduct;
 import model.StoneUnit;
 import model.StoneUnitStatuses;
@@ -73,8 +74,10 @@ public class StoneDAO implements IStoneDAO{
 		Double width = resultSet.getDouble("Width");
 		Double weight = resultSet.getDouble("Weight");
 		String description = resultSet.getString("Description");
+		int orderID = resultSet.getInt("orderID");
 		Location location = getLocation(resultSet);
 		Employee employee = PersonDAO.buildPerson(resultSet);
+		Date birthDate = resultSet.getDate("birthDate");
 		StoneUnitStatuses status = null;
 		switch (resultSet.getString("Status")) {
 		case "WIP":
@@ -92,22 +95,21 @@ public class StoneDAO implements IStoneDAO{
 					pieces);
 		}
 
-		if (stoneType.equals("Stone")) {
+		if (stoneType.equals("StoneCuttable")) {
 			int id = resultSet.getInt("StoneID");
 			Shape shape = ShapeFactory.getShape(resultSet);
 			double totalSize = resultSet.getDouble("TotalSize");
-			Date birth = resultSet.getDate("Birth");
-			int orderID = resultSet.getInt("orderID");
-			return new Stone(id, material, origin, supplier, width, weight, description, location, employee, status,
-					shape, totalSize, birth, orderID);
+			return new StoneCuttable(id, material, origin, supplier, width, weight, description, location, employee, status,
+					shape, totalSize, birthDate, orderID);
 		}
 
 		if (stoneType.equals("StoneProduct")) {
 			int id = resultSet.getInt("StoneProductID");
 			Shape shape = ShapeFactory.getShape(resultSet);
 			double totalSize = resultSet.getDouble("TotalSize");
+			double price = resultSet.getDouble("price");
 			return new StoneProduct(id, material, origin, supplier, width, weight, description, location, employee,
-					status, shape, totalSize);
+					status, shape, totalSize, birthDate, orderID, price);
 		}
 		return null;
 	}
@@ -119,9 +121,9 @@ public class StoneDAO implements IStoneDAO{
 			buildStonesLifeCycle(resultSet, obj);
 		}
 		if (obj != null) {
-			for (IStoneUnit ui : ((Stone) obj).getSubUnits())
+			for (IStoneUnit ui : ((StoneCuttable) obj).getSubUnits())
 				if (((StoneUnit) ui).getId() == resultSet.getInt("StoneID")) {
-					((Stone) ui).getSubUnits().add(buildStone(resultSet));
+					((StoneCuttable) ui).getSubUnits().add(buildStone(resultSet));
 					break;
 				} else {
 					buildStonesLifeCycle(resultSet, ui);
@@ -130,7 +132,7 @@ public class StoneDAO implements IStoneDAO{
 		while (resultSet.next()) {
 			for (int i = 0; i < stones.size(); i++) {
 				if (((StoneUnit) stones.get(i)).getId() == resultSet.getInt("StoneID")) {
-					((Stone) stones.get(i)).getSubUnits().add(buildStone(resultSet));
+					((StoneCuttable) stones.get(i)).getSubUnits().add(buildStone(resultSet));
 				} else {
 					buildStonesLifeCycle(resultSet, stones.get(i));
 				}

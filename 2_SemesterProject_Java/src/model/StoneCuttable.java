@@ -8,10 +8,9 @@ public class StoneCuttable extends Stone {
 	
 	public StoneCuttable(int id, Material material, String origin, String supplier, double width, double weight,
 			String description, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
-			double totalSize, Date birth, int orderID, ArrayList<IStoneUnit> subUnits) {
+			double totalSize, Date birth, int orderID) {
 		super(id, material, origin, supplier, width, weight, description, location, employee, status, shape, totalSize,
 				birth, orderID);
-		this.subUnits = subUnits;
 	}
 
 	// setters - make another object and put it into list
