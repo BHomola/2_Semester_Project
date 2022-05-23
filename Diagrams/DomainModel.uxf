@@ -109,7 +109,7 @@ description
 location
 employee
 status
-note</panel_attributes>
+updates</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -449,7 +449,7 @@ m2=0..*</panel_attributes>
     <panel_attributes>Order
 --
 id
-customer
+person
 orderPrice
 employee
 office
