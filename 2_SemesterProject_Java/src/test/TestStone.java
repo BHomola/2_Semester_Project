@@ -7,7 +7,7 @@ import model.City;
 import model.Employee;
 import model.IStoneUnit;
 import model.Location;
-import model.Material;
+import model.StoneMaterial;
 import model.Remains;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class TestStone {
 	StoneCuttable stone;
 	Remains remains;
-	Material material;
+	StoneMaterial stoneMaterial;
 	StoneType type;
 	City city;
 	CircleShape cshape;
@@ -42,7 +42,7 @@ public class TestStone {
 		try {
 			
 			stone = null;
-			material = null;
+			stoneMaterial = null;
 			type = null;
 			city = null;
 			location = null;
@@ -52,11 +52,11 @@ public class TestStone {
 			date=null;
 			remains = null;
 			supplier = null;
-			material = new Material(1, "Granite", "Hard Rock", list);
+			stoneMaterial = new StoneMaterial(1, "Granite", "Hard Rock", list);
 			type = new StoneType(2, "Jaguar", "Orange-black");
 			city = new City(111,"Chisinau", "MD-2000", "Moldova");
 			location = new Location(222, "Deposit Fauresti", "Str. Nu stiu care", city);
-			cshape = new CircleShape  ("Cerc", 1, 2.0, 12.0);
+			cshape = new CircleShape  ("Cerc", 1, 12.0);
 			status = StoneUnitStatuses.AVAILABLE;
 			formatter = new SimpleDateFormat("dd-MM-yyyy");
 			date = formatter.parse("10-05-2022");

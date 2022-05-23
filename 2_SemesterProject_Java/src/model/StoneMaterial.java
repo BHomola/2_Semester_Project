@@ -2,14 +2,14 @@ package model;
 
 import java.util.List;
 
-public class Material {
+public class StoneMaterial {
 
 	private int id;
 	private String name;
 	private String description;
 	private List<StoneType> stoneType;
-
-	public Material(int id, String name, String description, List<StoneType> stoneType) {
+	
+	public StoneMaterial(int id, String name, String description, List<StoneType> stoneType) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -17,8 +17,19 @@ public class Material {
 		this.stoneType = stoneType;
 	}
 
+	public StoneMaterial(int id, String name, String description ) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+	}
+
 	public boolean addType(StoneType type) {
 		return stoneType.add(type);
+	}
+
+	public void setStoneType(List<StoneType> stoneType) {
+		this.stoneType = stoneType;
 	}
 
 	public List<StoneType> getAllTypes() {

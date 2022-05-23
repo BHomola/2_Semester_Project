@@ -1,4 +1,4 @@
-import model.Material;
+import model.StoneMaterial;
 import model.Stone;
 
 public class main {

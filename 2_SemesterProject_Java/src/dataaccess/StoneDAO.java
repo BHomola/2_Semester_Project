@@ -12,7 +12,7 @@ import model.City;
 import model.Employee;
 import model.IStoneUnit;
 import model.Location;
-import model.Material;
+import model.StoneMaterial;
 import model.Remains;
 import model.Shape;
 import model.StoneCuttable;
@@ -46,7 +46,7 @@ public class StoneDAO implements IStoneDAO{
 	}
 
 	@Override
-	public ArrayList<IStoneUnit> getByMaterial(Material material) throws SQLException {
+	public ArrayList<IStoneUnit> getByMaterial(StoneMaterial stoneMaterial) throws SQLException {
 		String query = "";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		ResultSet rs = statement.executeQuery();

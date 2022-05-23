@@ -7,6 +7,7 @@ public class StoneType {
 	private String description;
 	private String picturePath;
 
+	
 	public StoneType(int id, String name, String description, String picturePath) {
 		super();
 		this.id = id;
@@ -14,7 +15,7 @@ public class StoneType {
 		this.description = description;
 		this.picturePath = picturePath;
 	}
-	
+
 	public StoneType(int id, String name, String description) {
 		super();
 		this.id = id;
