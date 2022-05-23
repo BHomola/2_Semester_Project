@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public abstract class StoneUnit implements IStoneUnit {
 	private int id;
@@ -10,13 +11,14 @@ public abstract class StoneUnit implements IStoneUnit {
 	private double width;
 	private double weight;
 	private String description;
+	private Date createdDate;
 	private Location location;
 	private Employee employee;
 	private StoneUnitStatuses status;
 	private String updates;
 
 	public StoneUnit(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
-			String description, Location location, Employee employee, StoneUnitStatuses status) {
+			String description,Date createdDate, Location location, Employee employee, StoneUnitStatuses status) {
 		super();
 		this.id = id;
 		this.stoneType = stoneType;
@@ -25,6 +27,7 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.width = width;
 		this.weight = weight;
 		this.description = description;
+		this.createdDate = createdDate;
 		this.location = location;
 		this.employee = employee;
 		this.status = status;
@@ -108,6 +111,18 @@ public abstract class StoneUnit implements IStoneUnit {
 
 	public void setStatus(StoneUnitStatuses status) {
 		this.status = status;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public void setStoneType(StoneType stoneType) {
+		this.stoneType = stoneType;
 	}
 
 	public String getUpdates() {

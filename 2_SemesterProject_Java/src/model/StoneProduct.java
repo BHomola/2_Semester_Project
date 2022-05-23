@@ -7,10 +7,9 @@ public class StoneProduct extends Stone {
 	private int orderID;
 
 	public StoneProduct(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
-			String description, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
-			double totalSize, Date birth, float price, int orderID) {
-		super(id, stoneType, origin, supplier, width, weight, description, location, employee, status, shape, totalSize,
-				birth);
+			String description, Date createdDate, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
+			double totalSize, float price, int orderID) {
+		super(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, shape, totalSize);
 		this.price = price;
 		this.orderID = orderID;
 	}
