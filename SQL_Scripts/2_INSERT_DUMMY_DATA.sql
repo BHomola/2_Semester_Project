@@ -156,8 +156,8 @@ VALUES
   (141,0,0,0,0,10);
   INSERT INTO [Employee] (Position,Salary,StartDate,EmployeeID,LocationID)
 VALUES
-   ('Manager',13329,'2020-12-24',19,0),
-  ('Worker',14975,'2017-01-08',20,0),
+   ('Manager',13329,'2020-12-24',19,5),
+  ('Worker',14975,'2017-01-08',20,5),
   ('Manager',14810,'2018-02-23',11,1),
   ('Worker',10748,'2016-03-25',12,1),
   ('Worker',11581,'2020-08-24',13,2),
@@ -299,3 +299,45 @@ INSERT INTO [StoneType] ([Name], [Description], [SupplierID], [Picture], [StoneM
 INSERT INTO [StoneType] ([Name], [Description], [SupplierID], [Picture], [StoneMaterialID]) VALUES ( 'Unique Calacatta', ' ', 21, '\Images\Quartz-Compac\Unique-Calacatta.jpg',5)
 INSERT INTO [StoneType] ([Name], [Description], [SupplierID], [Picture], [StoneMaterialID]) VALUES ( 'Volcano Black', ' ', 21, '\Images\Quartz-Compac\Volcano-Black.jpg', 5)
 INSERT INTO [StoneType] ([Name], [Description], [SupplierID], [Picture], [StoneMaterialID]) VALUES ( 'Warm Gray', ' ', 21, '\Images\Quartz-Compac\Warm-Gray.jpg', 5)
+GO
+INSERT INTO StoneUnit(Width,Weight,Description,Status,StoneType,CreatedDate,Origin,StoneTypeID,LocationID,SupplierID,EmployeeID) VALUES(50,100,'Test Stone1',0,'CuttableStone','2022-05-23','Italy',1,1,21,11);
+INSERT INTO StoneUnit(Width,Weight,Description,Status,StoneType,CreatedDate,Origin,StoneTypeID,LocationID,SupplierID,EmployeeID) VALUES(50,100,'Test Stone2',0,'CuttableStone','2022-05-23','Italy',1,1,21,11);
+INSERT INTO StoneUnit(Width,Weight,Description,Status,StoneType,CreatedDate,Origin,StoneTypeID,LocationID,SupplierID,EmployeeID) VALUES(50,100,'Test Stone3',0,'CuttableStone','2022-05-23','Italy',1,1,21,11);
+INSERT INTO StoneUnit(Width,Weight,Description,Status,StoneType,CreatedDate,Origin,StoneTypeID,LocationID,SupplierID,EmployeeID) VALUES(50,100,'Test Stone4',0,'CuttableStone','2022-05-23','Italy',1,1,21,11);
+INSERT INTO StoneUnit(Width,Weight,Description,Status,StoneType,CreatedDate,Origin,StoneTypeID,LocationID,SupplierID,EmployeeID) VALUES(50,100,'Test Stone5',0,'StoneProduct','2022-05-23','Italy',1,1,21,11);
+INSERT INTO StoneUnit(Width,Weight,Description,Status,StoneType,CreatedDate,Origin,StoneTypeID,LocationID,SupplierID,EmployeeID) VALUES(50,100,'Test Stone6',0,'StoneProduct','2022-05-23','Italy',1,1,21,11);
+INSERT INTO StoneUnit(Width,Weight,Description,Status,StoneType,CreatedDate,Origin,StoneTypeID,LocationID,SupplierID,EmployeeID) VALUES(50,100,'Test Stone7',0,'StoneProduct','2022-05-23','Italy',1,1,21,11);
+INSERT INTO StoneUnit(Width,Weight,Description,Status,StoneType,CreatedDate,Origin,StoneTypeID,LocationID,SupplierID,EmployeeID) VALUES(50,100,'Test Stone8',0,'Remains','2022-05-23','Italy',1,1,21,11);
+INSERT INTO StoneUnit(Width,Weight,Description,Status,StoneType,CreatedDate,Origin,StoneTypeID,LocationID,SupplierID,EmployeeID) VALUES(50,100,'Test Stone9',0,'Remains','2022-05-23','Italy',1,1,21,11);
+INSERT INTO StoneUnit(Width,Weight,Description,Status,StoneType,CreatedDate,Origin,StoneTypeID,LocationID,SupplierID,EmployeeID) VALUES(50,100,'Test Stone10',0,'Remains','2022-05-23','Italy',1,1,21,11);
+
+INSERT INTO Stone(StoneID,TotalSize) VALUES(1, 40);
+INSERT INTO Stone(StoneID,TotalSize) VALUES(2, 40);
+INSERT INTO Stone(StoneID,TotalSize) VALUES(3, 40);
+INSERT INTO Stone(StoneID,TotalSize) VALUES(4, 40);
+INSERT INTO Stone(StoneID,TotalSize) VALUES(5, 40);
+INSERT INTO Stone(StoneID,TotalSize) VALUES(6, 40);
+INSERT INTO Stone(StoneID,TotalSize) VALUES(7, 40);
+
+
+INSERT INTO OrderInfo(DeliveryStatus, DeliveryDate, Address, CityID, Deposit, IsPaid, CustomerNote, LocationID, CustomerID, OrderPrice, EmployeeID, Updates) VALUES(0, '2022-5-29', 'Random Address 5', 10, 110, 1, ' ', 1, 1, 220, 11, ' ');
+GO
+INSERT INTO StoneProduct(StoneID,Price, OrderID) VALUES(5, 40,1);
+INSERT INTO StoneProduct(StoneID,Price, OrderID) VALUES(6, 60,1);
+INSERT INTO StoneProduct(StoneID,Price, OrderID) VALUES(7, 120,1);
+
+
+INSERT INTO CuttableStone(StoneID,StoneUnitID) VALUES(1, 5);
+INSERT INTO CuttableStone(StoneID,StoneUnitID) VALUES(1, 8);
+INSERT INTO CuttableStone(StoneID,StoneUnitID) VALUES(1, 2);
+
+INSERT INTO CuttableStone(StoneID,StoneUnitID) VALUES(2, 9);
+INSERT INTO CuttableStone(StoneID,StoneUnitID) VALUES(2, 7);
+
+INSERT INTO CuttableStone(StoneID,StoneUnitID) VALUES(3, 6);
+INSERT INTO CuttableStone(StoneID,StoneUnitID) VALUES(4, 10);
+
+INSERT INTO Remains(RemainsID,Pieces) VALUES(8, 10);
+INSERT INTO Remains(RemainsID,Pieces) VALUES(9, 10);
+INSERT INTO Remains(RemainsID,Pieces) VALUES(10, 10);
+GO

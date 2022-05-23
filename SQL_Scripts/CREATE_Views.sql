@@ -10,8 +10,17 @@ GO
 --...
 --...
 
-SELECT * FROM StoneUnit;
 
+DROP VIEW IF EXISTS SelectAllStoneUnits;
+GO
+
+
+CREATE VIEW SelectAllStoneUnits AS
+SELECT * FROM StoneUnit;
+GO
+
+SELECT * FROM SelectAllStoneUnits;
+GO
 
 --CREATE VIEW [VIEW_STONES]
 
