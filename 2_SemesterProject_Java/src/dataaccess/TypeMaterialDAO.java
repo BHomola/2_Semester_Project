@@ -47,7 +47,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		return sTypeList;
 	}
 	
-	public static List<StoneType> buildTypeListOfSameMaterial (StoneMaterial stoneMaterial) throws SQLException{
+	public List<StoneType> getTypeListOfSameMaterial (StoneMaterial stoneMaterial) throws SQLException{
 		Connection con = DBConnection.getConnection();
 		String sqlStatement = " SELECT *  FROM StoneType "
 				+ "WHERE StoneMaterialID = ?";
