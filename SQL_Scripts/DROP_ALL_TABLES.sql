@@ -21,7 +21,7 @@ DROP TABLE [dbo].[Supplier]
 DROP TABLE [dbo].[Customer]
 DROP TABLE [dbo].[Person]
 DROP TABLE [dbo].[City]
-DROP TABLE [dbo].[Material]
+DROP TABLE [dbo].[StoneMaterial]
 
 GO
 

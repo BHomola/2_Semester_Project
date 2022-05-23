@@ -1,16 +1,16 @@
-USE [CSC-CSD-S212_10414384]
+USE [CSC-CSD-S212_10407557]
 GO
 
-CREATE TABLE Material
+CREATE TABLE StoneMaterial
 (
-  MaterialID INT NOT NULL IDENTITY(0,1),
+  StoneMaterialID INT NOT NULL IDENTITY(1,1),
   Name VARCHAR(50) NOT NULL,
   Description VARCHAR(200) NOT NULL,
-  PRIMARY KEY (MaterialID)
+  PRIMARY KEY (StoneMaterialID)
 );
 CREATE TABLE City
 (
-  CityID INT NOT NULL IDENTITY(0,1),
+  CityID INT NOT NULL IDENTITY(1,1),
   Zipcode VARCHAR(20) NOT NULL,
   CityName VARCHAR(50) NOT NULL,
   Country VARCHAR(50) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE City
 
 CREATE TABLE Person
 (
-  PersonID INT NOT NULL IDENTITY(0,1),
+  PersonID INT NOT NULL IDENTITY(1,1),
   Name VARCHAR(100) NOT NULL,
   Address VARCHAR(100) NOT NULL,
   PhoneNumber VARCHAR(20) NOT NULL,
@@ -59,14 +59,14 @@ CREATE TABLE Supplier
 
 CREATE TABLE StoneType
 (
-  StoneTypeID INT NOT NULL,
+  StoneTypeID INT NOT NULL IDENTITY(1,1),
   Name VARCHAR(50) NOT NULL,
   Description VARCHAR(200),
   Picture VARCHAR(100),
-  MaterialID INT NOT NULL,
+  StoneMaterialID INT NOT NULL,
   SupplierID INT NOT NULL,
   PRIMARY KEY (StoneTypeID),
-  FOREIGN KEY (MaterialID) REFERENCES Material(MaterialID),
+  FOREIGN KEY (StoneMaterialID) REFERENCES StoneMaterial(StoneMaterialID),
   FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID)
 );
 
@@ -136,7 +136,7 @@ CREATE TABLE Invoice
 
 CREATE TABLE StoneUnit
 (
-  StoneUnitID INT NOT NULL IDENTITY(0,1),
+  StoneUnitID INT NOT NULL IDENTITY(1,1),
   Width INT NOT NULL,
   Weight INT NOT NULL,
   Description VARCHAR(200),
