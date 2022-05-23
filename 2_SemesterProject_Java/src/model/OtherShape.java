@@ -9,8 +9,12 @@ public class OtherShape extends Shape{
 	private ArrayList<ShapePoint> points;
 	
 	
-	public OtherShape(String name, int id) {
-		super(name, id);
+	public OtherShape(String name, int id, double height) {
+		super(name, id, height);
+		points = new ArrayList<ShapePoint>();
+	}
+	
+	public OtherShape() {
 		points = new ArrayList<ShapePoint>();
 	}
 
@@ -26,32 +30,29 @@ public class OtherShape extends Shape{
 		//TO DO LATER
 	}
 	
-	public void addPoint(Point p) {
-		ShapePoint ap = new ShapePoint(p);
+	public void addPoint(Point point) {
+		ShapePoint ap = new ShapePoint(point);
 		points.add(ap);
 		ap.setPrevious(points.get(points.size()-2));
 		points.get(points.size()-2).setNext(ap);
 		
 	}
 	
-	public void addStartingPoint(Point p) {
+	public void addStartingPoint(Point point) {
 	
-		ShapePoint ap = new ShapePoint(p);
+		ShapePoint ap = new ShapePoint(point);
 		points.add(ap);
 	}
 	
-	public void lastPoint(Point p) {
-		ShapePoint ap = new ShapePoint(p);
+	public void addLastPoint(Point point) {
+		ShapePoint ap = new ShapePoint(point);
 		points.add(ap);
 		points.get(0).setPrevious(ap);
 		ap.setNext(points.get(0));
 	}
 	
-	public ShapePoint getArrayListPoint(int index) {
-		return points.get(index);
-	} 
-	
-	public double calculateArea() {
+	@Override
+	public void calculateArea() {
 		double area = 0;
 		int arraySize = getPoints().size();
 		double[] coordinateX = new double[arraySize];
@@ -66,7 +67,7 @@ public class OtherShape extends Shape{
 	        area += (coordinateX[i] * coordinateY[i+1]) - (coordinateX[i+1] * coordinateY[i]);
 		}
 		System.out.println(getPoints());
-		return area += (Math.abs(area + (coordinateX[0] * coordinateY[arraySize-2]) - (coordinateX[arraySize-2] * coordinateY[0]))) /2 ;
+		super.setArea(area += (Math.abs(area + (coordinateX[0] * coordinateY[arraySize-2]) - (coordinateX[arraySize-2] * coordinateY[0]))) /2);
 	}
 }
 

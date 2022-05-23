@@ -41,7 +41,6 @@ public class ShapePoint {
 		return "ArrayListPoint [data=" + data + "]";
 	}
 	
-	
 }
 
 
