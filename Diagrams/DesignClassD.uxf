@@ -434,15 +434,17 @@ country: String
     <id>UMLClass</id>
     <coordinates>
       <x>319</x>
-      <y>1100</y>
+      <y>1056</y>
       <w>286</w>
-      <h>99</h>
+      <h>143</h>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 model::Shape
 -
 -id: int
 -name: String
+-area: double
+-height: double
 -
 +getName(): String
 +setName(name: String): void</panel_attributes>
