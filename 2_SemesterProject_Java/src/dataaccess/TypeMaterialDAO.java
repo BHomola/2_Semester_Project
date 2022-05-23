@@ -7,10 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import model.StoneMaterial;
 import model.StoneType;
-import model.Supplier;
 
 public class TypeMaterialDAO implements ITypeMaterialDAO {
 	
@@ -19,7 +17,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		String name = resultSet.getString("Name");
 		String description = resultSet.getString("Description");
 		StoneMaterial stoneMaterial = new StoneMaterial(id, name, description);
-		List<StoneType> stoneType = buildTypeListOfSameMaterial(stoneMaterial);
+		List<StoneType> stoneType = new TypeMaterialDAO().getTypeListOfSameMaterial(stoneMaterial);
 		stoneMaterial.setStoneType(stoneType);
 		return stoneMaterial;
 	}
@@ -47,7 +45,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		return sTypeList;
 	}
 	
-	public List<StoneType> getTypeListOfSameMaterial (StoneMaterial stoneMaterial) throws SQLException{
+	public  List<StoneType> getTypeListOfSameMaterial (StoneMaterial stoneMaterial) throws SQLException{
 		Connection con = DBConnection.getConnection();
 		String sqlStatement = " SELECT *  FROM StoneType "
 				+ "WHERE StoneMaterialID = ?";
@@ -55,9 +53,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		pStatement.setInt(1, stoneMaterial.getId());
 		ArrayList<StoneType> sTypeList = new ArrayList<>();
 		ResultSet resultSet = pStatement.executeQuery();
-		while (resultSet.next()) {
 			sTypeList.add(buildType(resultSet));
-		}
 		return sTypeList;
 	}
 
