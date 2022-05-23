@@ -6,6 +6,8 @@ public class StoneType {
 	private String name;
 	private String description;
 	private String picturePath;
+	private Supplier supplier;
+	private StoneMaterial sMaterial;
 
 	
 	public StoneType(int id, String name, String description, String picturePath) {
@@ -54,5 +56,23 @@ public class StoneType {
 	public void setpicturePath(String picturePath) {
 		this.picturePath = picturePath;
 	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public StoneMaterial getsMaterial() {
+		return sMaterial;
+	}
+
+	public void setsMaterial(StoneMaterial sMaterial) {
+		this.sMaterial = sMaterial;
+	}
+	
+	
 
 }
