@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="15.0.0">
+<diagram program="umlet" version="14.3.0">
   <help_text>// Uncomment the following line to change the fontsize and font:
 fontsize=10
 // fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
@@ -153,14 +153,16 @@ m2=0..*</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1134</x>
-      <y>1288</y>
+      <y>1260</y>
       <w>154</w>
-      <h>84</h>
+      <h>112</h>
     </coordinates>
     <panel_attributes>/Shape/
 --
 id
-name</panel_attributes>
+name
+area
+height</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -318,7 +320,7 @@ diamaterY</panel_attributes>
     </coordinates>
     <panel_attributes>OtherShape
 --
-coordinates: HashMap&lt;Point,Point&gt;
+coordinates: ArrayList&lt;ShapePoint&gt;
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -684,5 +686,33 @@ subUnits</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1036</x>
+      <y>1722</y>
+      <w>336</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>ShapePoint
+--
+data
+next
+previous
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1190</x>
+      <y>1610</y>
+      <w>70</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>m1=1
+m2=0...*</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
 </diagram>
