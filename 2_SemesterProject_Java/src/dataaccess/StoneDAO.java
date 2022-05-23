@@ -81,7 +81,7 @@ public class StoneDAO implements IStoneDAO{
 	
 	
 	
-	//Helper Factory Methods
+	//Helper Methods
 
 	public static IStoneUnit getStoneUnit(ResultSet resultSet)  throws Exception {
 		int id = resultSet.getInt("StoneUnitID");
@@ -133,7 +133,6 @@ public class StoneDAO implements IStoneDAO{
 		while(resultSet.next()) {
 			stoneUnits.add(getStoneUnit(resultSet));
 		}
-		
 		return stoneUnits;
 	}
 	
