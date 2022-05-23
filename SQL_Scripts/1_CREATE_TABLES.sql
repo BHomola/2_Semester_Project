@@ -8,18 +8,6 @@ CREATE TABLE Material
   Description VARCHAR(200) NOT NULL,
   PRIMARY KEY (MaterialID)
 );
-
-CREATE TABLE StoneType
-(
-  TypeID INT NOT NULL,
-  Name VARCHAR(50) NOT NULL,
-  Description VARCHAR(200),
-  Picture VARCHAR(100),
-  MaterialID INT NOT NULL,
-  PRIMARY KEY (TypeID),
-  FOREIGN KEY (MaterialID) REFERENCES Material(MaterialID)
-);
-
 CREATE TABLE City
 (
   CityID INT NOT NULL,
@@ -28,6 +16,7 @@ CREATE TABLE City
   Country VARCHAR(50) NOT NULL,
   PRIMARY KEY (CityID)
 );
+
 
 CREATE TABLE Person
 (
@@ -54,26 +43,19 @@ CREATE TABLE Customer
   totalSpends INT NOT NULL,
   OrdersCount INT NOT NULL,
   LastOrderID INT,
-  PersonID INT NOT NULL,
-  PRIMARY KEY (PersonID),
-  FOREIGN KEY (PersonID) REFERENCES Person(PersonID)
+  CustomerID INT NOT NULL,
+  PRIMARY KEY (CustomerID),
+  FOREIGN KEY (CustomerID) REFERENCES Person(PersonID)
 );
+
 
 CREATE TABLE Supplier
 (
-  PersonID INT NOT NULL,
-  PRIMARY KEY (PersonID),
-  FOREIGN KEY (PersonID) REFERENCES Person(PersonID)
+  SupplierID INT NOT NULL,
+  PRIMARY KEY (SupplierID),
+  FOREIGN KEY (SupplierID) REFERENCES Person(PersonID)
 );
 
-CREATE TABLE Invoice
-(
-  InvoiceID INT NOT NULL,
-  PaymentDate DATE NOT NULL,
-  VATratio INT NOT NULL,
-  FinalPrice INT NOT NULL,
-  PRIMARY KEY (InvoiceID)
-);
 
 CREATE TABLE Point
 (
@@ -83,7 +65,21 @@ CREATE TABLE Point
   PRIMARY KEY (PointID)
 );
 
-CREATE TABLE Location
+CREATE TABLE StoneType
+(
+  TypeID INT NOT NULL,
+  Name VARCHAR(50) NOT NULL,
+  Description VARCHAR(200),
+  Picture VARCHAR(100),
+  MaterialID INT NOT NULL,
+  SupplierID INT NOT NULL,
+  PRIMARY KEY (TypeID),
+  FOREIGN KEY (MaterialID) REFERENCES Material(MaterialID),
+  FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID)
+);
+
+
+CREATE TABLE StoreLocation
 (
   LocationID INT NOT NULL,
   LocationName VARCHAR(50) NOT NULL,
@@ -102,7 +98,7 @@ CREATE TABLE Employee
   LocationID INT NOT NULL,
   PRIMARY KEY (EmployeeID),
   FOREIGN KEY (EmployeeID) REFERENCES Person(PersonID),
-  FOREIGN KEY (LocationID) REFERENCES Location(LocationID)
+  FOREIGN KEY (LocationID) REFERENCES StoreLocation(LocationID)
 );
 
 CREATE TABLE Login
@@ -117,31 +113,29 @@ CREATE TABLE Login
 CREATE TABLE OrderInfo
 (
   OrderID INT NOT NULL,
-  Office VARCHAR(50) NOT NULL,
+  LocationID INT NOT NULL,
   DelivaryStatus INT NOT NULL,
   DelivaryDate DATE,
   Address VARCHAR(100) NOT NULL,
   deposit INT NOT NULL,
   IsPaid BIT NOT NULL,
-  Note VARCHAR(200),
-  Updates VARCHAR(200),
-  status INT NOT NULL,
-  PersonID INT NOT NULL,
-  InvoiceID INT NOT NULL,
+  CustomerNote VARCHAR(200),
+  CustomerID INT NOT NULL,
   CityID INT NOT NULL,
   PRIMARY KEY (OrderID),
-  FOREIGN KEY (PersonID) REFERENCES Person(PersonID),
-  FOREIGN KEY (InvoiceID) REFERENCES Invoice(InvoiceID),
-  FOREIGN KEY (CityID) REFERENCES City(CityID)
+  FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
+  FOREIGN KEY (CityID) REFERENCES City(CityID),
+  FOREIGN KEY (LocationID) REFERENCES StoreLocation(LocationID)
 );
 
-CREATE TABLE PlacedOrders
+CREATE TABLE Invoice
 (
   OrderID INT NOT NULL,
-  PersonID INT NOT NULL,
-  PRIMARY KEY (OrderID, PersonID),
-  FOREIGN KEY (OrderID) REFERENCES OrderInfo(OrderID),
-  FOREIGN KEY (PersonID) REFERENCES Customer(PersonID)
+  PaymentDate DATE NOT NULL,
+  VATratio INT NOT NULL,
+  FinalPrice INT NOT NULL,
+  PRIMARY KEY (OrderID),
+  FOREIGN KEY (OrderID) REFERENCES OrderInfo(OrderID)
 );
 
 CREATE TABLE StoneUnit
@@ -154,11 +148,14 @@ CREATE TABLE StoneUnit
   StoneType VARCHAR(50) NOT NULL,
   Origin VARCHAR(50) NOT NULL,
   Note VARCHAR(200),
+  Updates VARCHAR(200),
   MaterialID INT NOT NULL,
   LocationID INT NOT NULL,
+  SupplierID INT NOT NULL,
   PRIMARY KEY (StoneUnitID),
   FOREIGN KEY (MaterialID) REFERENCES Material(MaterialID),
-  FOREIGN KEY (LocationID) REFERENCES Location(LocationID)
+  FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID),
+  FOREIGN KEY (LocationID) REFERENCES StoreLocation(LocationID)
 );
 
 CREATE TABLE Stone
