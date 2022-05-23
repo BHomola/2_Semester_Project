@@ -17,6 +17,7 @@ import model.StoneCuttable;
 import model.StoneProduct;
 import model.StoneUnit;
 import model.StoneUnitStatuses;
+import model.Supplier;
 import model.Type;
 
 public class StoneDAO implements IStoneDAO{
@@ -64,18 +65,21 @@ public class StoneDAO implements IStoneDAO{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	
+	
+	//Helper Factory Methods
 
-	public static IStoneUnit buildStone(ResultSet resultSet) throws SQLException {
+	public static IStoneUnit getStoneUnit(ResultSet resultSet) throws SQLException {
 		String stoneType = resultSet.getString("StoneType");
 		Material material = MaterialTypeFactory.getMaterial(resultSet);
 		String origin = resultSet.getString("Origin");
-		String supplier = resultSet.getString("Supplier");
+		Supplier supplier = (Supplier)PersonDAO.buildPerson(resultSet);
 		Double width = resultSet.getDouble("Width");
 		Double weight = resultSet.getDouble("Weight");
 		String description = resultSet.getString("Description");
-		int orderID = resultSet.getInt("orderID");
 		Location location = getLocation(resultSet);
-		Employee employee = PersonDAO.buildPerson(resultSet);
+		Employee employee = (Employee)PersonDAO.buildPerson(resultSet);
 		Date birthDate = resultSet.getDate("birthDate");
 		String updates = resultSet.getString("Updates");
 		StoneUnitStatuses status = null;
@@ -118,42 +122,17 @@ public class StoneDAO implements IStoneDAO{
 		}
 		return null;
 	}
-
-	public static ArrayList<IStoneUnit> buildStonesLifeCycle(ResultSet resultSet, IStoneUnit obj) throws SQLException {
-		ArrayList<IStoneUnit> stones = new ArrayList<IStoneUnit>();
-		if (stones.size() == 0) {
-			stones.add(buildStone(resultSet));
-			buildStonesLifeCycle(resultSet, obj);
+	
+	
+	public ArrayList<IStoneUnit> getStoneUnits(ResultSet resultSet) throws SQLException{
+		ArrayList<IStoneUnit> stoneUnits = new ArrayList<IStoneUnit>();
+		while(resultSet.next()) {
+			stoneUnits.add(getStoneUnit(resultSet));
 		}
-		if (obj != null) {
-			for (IStoneUnit ui : ((StoneCuttable) obj).getSubUnits())
-				if (((StoneUnit) ui).getId() == resultSet.getInt("StoneID")) {
-					((StoneCuttable) ui).getSubUnits().add(buildStone(resultSet));
-					break;
-				} else {
-					buildStonesLifeCycle(resultSet, ui);
-				}
-		}
-		while (resultSet.next()) {
-			for (int i = 0; i < stones.size(); i++) {
-				if (((StoneUnit) stones.get(i)).getId() == resultSet.getInt("StoneID")) {
-					((StoneCuttable) stones.get(i)).getSubUnits().add(buildStone(resultSet));
-				} else {
-					buildStonesLifeCycle(resultSet, stones.get(i));
-				}
-				stones.add(buildStone(resultSet));
-			}
-		}
-		return stones;
+		
+		return stoneUnits;
 	}
-
-	public static ArrayList<StoneProduct> buildStoneProducts(ResultSet resultSet) throws SQLException {
-		ArrayList<StoneProduct> myList = new ArrayList<>();
-		while (resultSet.next()) {
-			myList.add((StoneProduct) buildStone(resultSet));
-		}
-		return myList;
-	}
+	
 	
 	public static Location getLocation(ResultSet resultSet) throws SQLException {
 		return new Location(resultSet.getInt("LocationID"), resultSet.getString("LocationName"),
@@ -163,12 +142,6 @@ public class StoneDAO implements IStoneDAO{
 	public static City getCity(ResultSet resultSet) throws SQLException {
 		return new City(resultSet.getInt("CityID"), resultSet.getString("CityName"), resultSet.getString("Zipcode"),
 				resultSet.getString("Country"));
-	}
-
-	@Override
-	public IStoneUnit getByID() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 }

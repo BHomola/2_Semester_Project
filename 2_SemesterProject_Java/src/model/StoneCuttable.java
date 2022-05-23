@@ -6,7 +6,7 @@ import java.util.Date;
 public class StoneCuttable extends Stone {
 	private ArrayList<IStoneUnit> subUnits = new ArrayList<>();
 	
-	public StoneCuttable(int id, Material material, String origin, String supplier, double width, double weight,
+	public StoneCuttable(int id, Material material, String origin, Supplier supplier, double width, double weight,
 			String description, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
 			double totalSize, Date birth, int orderID) {
 		super(id, material, origin, supplier, width, weight, description, location, employee, status, shape, totalSize,

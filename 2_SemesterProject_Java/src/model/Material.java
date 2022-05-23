@@ -7,54 +7,54 @@ public class Material {
 	private int id;
 	private String name;
 	private String description;
-	private List<Type> typeL;
+	private List<StoneType> stoneType;
 
-	public Material(int id, String name, String description, List<Type> typeL) {
+	public Material(int id, String name, String description, List<StoneType> stoneType) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.typeL = typeL;
+		this.stoneType = stoneType;
 	}
 
-	public boolean addType(Type type) {
-		return typeL.add(type);
+	public boolean addType(StoneType type) {
+		return stoneType.add(type);
 	}
 
-	public List<Type> getAllTypes() {
-		 for  (int i = 0; i < typeL.size(); i++) {
-			typeL.get(i);
+	public List<StoneType> getAllTypes() {
+		 for  (int i = 0; i < stoneType.size(); i++) {
+			stoneType.get(i);
 		}
-		 return typeL;
+		 return stoneType;
 	}
 	
 	public int getNoAllTypes() {
 		int nr=0; 
-		for  (int i = 0; i < typeL.size(); i++) {
+		for  (int i = 0; i < stoneType.size(); i++) {
 		 nr++;
 		 }
 		 return nr;
 	}
 	
-	public Type getTypeByID(int i) {
-		for (Type type : typeL) {
-			if(type.getId()==i) {
-				return type;
+	public StoneType getStoneTypeByID(int i) {
+		for (StoneType stoneType : stoneType) {
+			if(stoneType.getId()==i) {
+				return stoneType;
 			}
 		}
 		return null;
 	}
 	
-	public boolean updateType(Type type) {
-		Type temp = getTypeByID(((Type) type).getId());
+	public boolean updateType(StoneType type) {
+		StoneType temp = getStoneTypeByID(((StoneType) type).getId());
 		if (temp == null)
 			return false;
 		temp = type;
 		return true;
 	}
 	
-	public void deleteType(Type type) {
-		this.typeL.remove(type);
+	public void deleteType(StoneType type) {
+		this.stoneType.remove(type);
 	}
 
 	public int getId() {

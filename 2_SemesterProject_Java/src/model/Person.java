@@ -14,10 +14,10 @@ public abstract class Person {
 	private Date dateOfBirth;
 	private int age;
 	private String description;
-	private ArrayList<Note> notes;
+	private String note;
 	
 	public Person(int id, String name, String address, City city, String phoneNumber, String email, Date dateOfBirth,
-			int age, String description) {
+			int age, String description, String note) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -28,7 +28,10 @@ public abstract class Person {
 		this.dateOfBirth = dateOfBirth;
 		this.age = age;
 		this.description = description;
-		notes = new ArrayList<Note>();
+		this.note = note;
+	}
+	public Person(int id) {
+		this.id = id;
 	}
 	
 	public int getId() {
@@ -103,12 +106,12 @@ public abstract class Person {
 		this.description = description;
 	}
 
-	public ArrayList<Note> getNotes() {
-		return notes;
+	public String getNote() {
+		return note;
 	}
 
-	public void setNotes(ArrayList<Note> notes) {
-		this.notes = notes;
+	public void setNote(String note) {
+		this.note = note;
 	}
 	
 	

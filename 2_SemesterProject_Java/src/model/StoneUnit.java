@@ -6,7 +6,7 @@ public abstract class StoneUnit implements IStoneUnit {
 	private int id;
 	private Material material;
 	private String origin;
-	private String supplier;
+	private Supplier supplier;
 	private double width;
 	private double weight;
 	private String description;
@@ -15,7 +15,7 @@ public abstract class StoneUnit implements IStoneUnit {
 	private StoneUnitStatuses status;
 	private String updates;
 
-	public StoneUnit(int id, Material material, String origin, String supplier, double width, double weight,
+	public StoneUnit(int id, Material material, String origin, Supplier supplier, double width, double weight,
 			String description, Location location, Employee employee, StoneUnitStatuses status) {
 		super();
 		this.id = id;
@@ -54,11 +54,11 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.origin = origin;
 	}
 
-	public String getSupplier() {
+	public Supplier getSupplier() {
 		return supplier;
 	}
 
-	public void setSupplier(String supplier) {
+	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
 

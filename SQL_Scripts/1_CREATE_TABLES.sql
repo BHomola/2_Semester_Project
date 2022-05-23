@@ -67,13 +67,13 @@ CREATE TABLE Point
 
 CREATE TABLE StoneType
 (
-  TypeID INT NOT NULL,
+  StoneTypeID INT NOT NULL,
   Name VARCHAR(50) NOT NULL,
   Description VARCHAR(200),
   Picture VARCHAR(100),
   MaterialID INT NOT NULL,
   SupplierID INT NOT NULL,
-  PRIMARY KEY (TypeID),
+  PRIMARY KEY (StoneTypeID),
   FOREIGN KEY (MaterialID) REFERENCES Material(MaterialID),
   FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID)
 );
@@ -120,6 +120,7 @@ CREATE TABLE OrderInfo
   deposit INT NOT NULL,
   IsPaid BIT NOT NULL,
   CustomerNote VARCHAR(200),
+  Updates VARCHAR(200),
   CustomerID INT NOT NULL,
   CityID INT NOT NULL,
   OrderPrice INT NOT NULL,
@@ -150,13 +151,12 @@ CREATE TABLE StoneUnit
   Status INT NOT NULL,
   StoneType VARCHAR(50) NOT NULL,
   Origin VARCHAR(50) NOT NULL,
-  Note VARCHAR(200),
   Updates VARCHAR(200),
-  MaterialID INT NOT NULL,
+  StoneTypeID INT NOT NULL,
   LocationID INT NOT NULL,
   SupplierID INT NOT NULL,
   PRIMARY KEY (StoneUnitID),
-  FOREIGN KEY (MaterialID) REFERENCES Material(MaterialID),
+  FOREIGN KEY (StoneTypeID) REFERENCES StoneType(StoneTypeID),
   FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID),
   FOREIGN KEY (LocationID) REFERENCES StoreLocation(LocationID)
 );

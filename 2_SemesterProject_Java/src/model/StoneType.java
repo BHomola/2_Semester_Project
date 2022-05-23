@@ -1,13 +1,13 @@
 package model;
 
-public class Type {
+public class StoneType {
 
 	private int id;
 	private String name;
 	private String description;
 	private String picturePath;
 
-	public Type(int id, String name, String description, String picturePath) {
+	public StoneType(int id, String name, String description, String picturePath) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -15,7 +15,7 @@ public class Type {
 		this.picturePath = picturePath;
 	}
 	
-	public Type(int id, String name, String description) {
+	public StoneType(int id, String name, String description) {
 		super();
 		this.id = id;
 		this.name = name;

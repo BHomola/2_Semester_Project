@@ -12,10 +12,10 @@ public class Employee extends Person{
 	private Login login;
 	
 	public Employee(int id, String name, String address, City city, String phoneNumber, String email, Date dateOfBirth,
-			int age, String description, String position, String occupation, double salary, Date startDate,
+			int age, String description, String note, String position, String occupation, double salary, Date startDate,
 			Location location, Login login) {
 		
-		super(id, name, address, city, phoneNumber, email, dateOfBirth, age, description);
+		super(id, name, address, city, phoneNumber, email, dateOfBirth, age, description, note);
 		this.position = position;
 		this.occupation = occupation;
 		this.salary = salary;
