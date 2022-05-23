@@ -1,20 +1,20 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
+import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import model.Material;
-import model.Type;
+import model.StoneType;
+
 
 class TestMaterial {
 	Material material;
-	Type type;
-	List<Type> list = new ArrayList<Type>();
+	StoneType type;
+	List<StoneType> list = new ArrayList<StoneType>();
 	@BeforeEach
 
 	void setUp() {
@@ -22,7 +22,7 @@ class TestMaterial {
 			material = null;
 			type = null;
 			material = new Material(1, "Granite", "Hard Rock", list);
-			type = new Type(2, "Jaguar", "Orange-black");
+			type = new StoneType(2, "Jaguar", "Orange-black");
  		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -41,7 +41,7 @@ class TestMaterial {
 	@Test
 	void testGetAllTypes() {
 		//Arrange
-		Type type2 = new Type(3, "Space", "Dark blue");
+		StoneType type2 = new StoneType(3, "Space", "Dark blue");
 		//Act
 		material.addType(type2);
 		//Assert
@@ -54,7 +54,7 @@ class TestMaterial {
 		material.addType(type);
 		String expectedName="Jaguar";
 		//Act
-		material.getTypeByID(0);
+		material.getStoneTypeByID(0);
 		//Assert
 		assertEquals(expectedName, type.getName());
 	}

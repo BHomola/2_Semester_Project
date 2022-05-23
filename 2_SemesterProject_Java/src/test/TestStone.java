@@ -1,7 +1,7 @@
 package test;
 
 import model.StoneCuttable;
-import model.Type;
+import model.StoneType;
 import model.CircleShape;
 import model.City;
 import model.Employee;
@@ -9,7 +9,6 @@ import model.IStoneUnit;
 import model.Location;
 import model.Material;
 import model.Remains;
-
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import java.text.SimpleDateFormat;
@@ -17,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.StoneUnitStatuses;
+import model.Supplier;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,14 +25,15 @@ public class TestStone {
 	StoneCuttable stone;
 	Remains remains;
 	Material material;
-	Type type;
+	StoneType type;
 	City city;
 	CircleShape cshape;
 	Location location;
 	Date date;
 	Employee employee;
+	Supplier supplier;
 	SimpleDateFormat formatter;
-	List<Type> list = new ArrayList<Type>();
+	List<StoneType> list = new ArrayList<StoneType>();
 	ArrayList<IStoneUnit> subUnits = new ArrayList<>() ;
 	StoneUnitStatuses status;
 
@@ -49,19 +51,20 @@ public class TestStone {
 			formatter = null;
 			date=null;
 			remains = null;
+			supplier = null;
 			material = new Material(1, "Granite", "Hard Rock", list);
-			type = new Type(2, "Jaguar", "Orange-black");
+			type = new StoneType(2, "Jaguar", "Orange-black");
 			city = new City(111,"Chisinau", "MD-2000", "Moldova");
 			location = new Location(222, "Deposit Fauresti", "Str. Nu stiu care", city);
-			cshape = new CircleShape (15, "Cerc", 12);
+			cshape = new CircleShape  ("Cerc", 1, 2.0, 12.0);
 			status = StoneUnitStatuses.AVAILABLE;
 			formatter = new SimpleDateFormat("dd-MM-yyyy");
 			date = formatter.parse("10-05-2022");
+			supplier = new Supplier(13, "CMD", "Vesterbro 41", city, "9143283", "test@test.com", date, 30, "None", "Note");
 			employee = null;
-			stone = new StoneCuttable(1,material,"Italy", "CMD", 1.5, 50.0, 
-			"No description", location, employee, status, cshape, 250.0, 
-			date, 0);
-			remains = new Remains(3, material, "Italy", "CMD", 1.0, 40.0, "Left over", location, employee, status, 2);
+			stone = new StoneCuttable(1,type,"Italy", supplier, 1.5, 50.0, 
+			"No description", date, location, employee, status, cshape, 250.0);
+			remains = new Remains(3, type, "Italy", supplier, 40.0, 1.0, "Left over", date, location, employee, status, 2);
 			subUnits.add(remains);
 		} catch (Exception e) {
 			e.printStackTrace();
