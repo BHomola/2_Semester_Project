@@ -9,8 +9,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import model.City;
 import model.Customer;
 import model.DeliveryStatuses;
