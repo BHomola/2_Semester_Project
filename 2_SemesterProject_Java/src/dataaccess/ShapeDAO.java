@@ -1,5 +1,7 @@
 package dataaccess;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,22 +19,23 @@ import model.StoneUnit;
 public class ShapeDAO implements IShapeDAO{
 
 	public Shape buildShape(ResultSet resultSet) throws SQLException {
-		String name = resultSet.getString("");
-		int id = resultSet.getInt("");
-		StoneCuttable stoneCuttable = (StoneCuttable) StoneDAO.getStoneUnit(resultSet);
+		String name = resultSet.getString("Name");
+		int id = resultSet.getInt("ShapeID");
+		String shapeType = resultSet.getString("ShapeType");
 		
-		if(stoneCuttable.getShape() instanceof CircleShape) {
-			double diameter = resultSet.getDouble("");
+		if(shapeType.equals("CircleShape")) {
+			double diameter = resultSet.getDouble("Diameter");
 			return new CircleShape(name, id, diameter);
 		}
 		
-		if(stoneCuttable.getShape() instanceof OtherShape) {
-			return new OtherShape(name, id);
+		if(shapeType.equals("OtherShape")) {
+			OtherShape otherShape = new OtherShape(name, id);
+			return otherShape;
 		}
 
-		if(stoneCuttable.getShape() instanceof ElipseShape) {
-			double diameterX = resultSet.getDouble("");
-			double diameterY = resultSet.getDouble("");
+		if(shapeType.equals("ElipseShape")) {
+			double diameterX = resultSet.getDouble("DiameterX");
+			double diameterY = resultSet.getDouble("DiameterY");
 			return new ElipseShape(name, id, diameterX, diameterY);
 		}
 		
@@ -51,20 +54,33 @@ public class ShapeDAO implements IShapeDAO{
 	
 	@Override
 	public ArrayList<Shape> getAllShapes() throws SQLException{
-		// TODO Auto-generated method stub
+		
+		
 		return null;
 	}
 
 	@Override
-	public Shape getById() throws SQLException{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public Shape getByOrderId() throws SQLException{
-		// TODO Auto-generated method stub
-		return null;
+	public Shape getById(int id) throws SQLException{
+		
+		Shape shape = null;
+		String name = null;
+		String shapeType = null;
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String query = "SELECT *\r\n"
+				+ "FROM ((((Shape \r\n"
+				+ "FULL OUTER JOIN CircleShape ON Shape.ShapeID = CircleShape.ShapeID)\r\n"
+				+ "FULL OUTER JOIN ElipseShape ON Shape.ShapeID = ElipseShape.ShapeID)\r\n"
+				+ "FULL OUTER JOIN OtherShape ON Shape.ShapeID = OtherShape.ShapeID)\r\n"
+				+ "FULL OUTER JOIN ShapePoint ON OtherShape.ShapeID = ShapePoint.ShapeID)\r\n"
+				+ "WHERE Shape.ShapeID = ?;";
+		
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1, id);
+		ResultSet resultSet = statement.executeQuery();
+		if(resultSet.next() == false) return null;		
+		return buildShape(resultSet);
 	}
 
 	@Override
