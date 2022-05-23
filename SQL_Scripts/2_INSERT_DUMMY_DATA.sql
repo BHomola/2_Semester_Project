@@ -156,7 +156,7 @@ VALUES
 
 
 
-  INSERT INTO [Customer] (discount,IsPremium,IsCompany,totalSpends,OrdersCount,CustomerID)
+  INSERT INTO [Customer] (Discount,IsPremium,IsCompany,TotalSpends,OrdersCount,CustomerID)
 VALUES
   (141,0,0,0,0,0),
   (2855,1,0,0,0,1),

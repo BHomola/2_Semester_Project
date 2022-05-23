@@ -37,10 +37,10 @@ CREATE TABLE Person
 
 CREATE TABLE Customer
 (
-  discount INT NOT NULL,
+  Discount INT NOT NULL,
   IsPremium bit NOT NULL,
   IsCompany bit NOT NULL,
-  totalSpends INT NOT NULL,
+  TotalSpends INT NOT NULL,
   OrdersCount INT NOT NULL,
   LastOrderID INT,
   CustomerID INT NOT NULL,
@@ -106,10 +106,10 @@ CREATE TABLE OrderInfo
 (
   OrderID INT NOT NULL IDENTITY(0,1),
   LocationID INT NOT NULL,
-  DelivaryStatus INT NOT NULL,
-  DelivaryDate DATE,
+  DeliveryStatus INT NOT NULL,
+  DeliveryDate DATE,
   Address VARCHAR(100) NOT NULL,
-  deposit INT NOT NULL,
+  Deposit INT NOT NULL,
   IsPaid BIT NOT NULL,
   CustomerNote VARCHAR(200),
   Updates VARCHAR(200),
@@ -158,7 +158,6 @@ CREATE TABLE StoneUnit
 
 CREATE TABLE Stone
 (
-  ShapeType VARCHAR(50) NOT NULL,
   TotalSize INT NOT NULL,
   OrderID INT NOT NULL,
   StoneID INT NOT NULL,
@@ -172,43 +171,6 @@ CREATE TABLE Remains
   RemainsID INT NOT NULL,
   PRIMARY KEY (RemainsID),
   FOREIGN KEY (RemainsID) REFERENCES StoneUnit(StoneUnitID) ON DELETE CASCADE
-);
-
-CREATE TABLE CircleShape
-(
-  Diamater INT NOT NULL,
-  Name VARCHAR(50) NOT NULL,
-  ShapeID INT NOT NULL,
-  PRIMARY KEY (ShapeID),
-  FOREIGN KEY (ShapeID) REFERENCES Stone(StoneID) ON DELETE CASCADE
-);
-
-CREATE TABLE ElipseShape
-(
-  DiamaterX INT NOT NULL,
-  DiamaterY INT NOT NULL,
-  Name VARCHAR(50) NOT NULL,
-  ShapeID INT NOT NULL,
-  PRIMARY KEY (ShapeID),
-  FOREIGN KEY (ShapeID) REFERENCES Stone(StoneID) ON DELETE CASCADE
-);
-
-CREATE TABLE OtherShape
-(
-  Name VARCHAR(50) NOT NULL,
-  ShapeID INT NOT NULL,
-  PRIMARY KEY (ShapeID),
-  FOREIGN KEY (ShapeID) REFERENCES Stone(StoneID) ON DELETE CASCADE
-);
-
-CREATE TABLE ShapePoint
-(
-  OrderIndex INT NOT NULL,
-  X INT NOT NULL,
-  Y INT NOT NULL,
-  ShapeID INT NOT NULL,
-  PRIMARY KEY (X, Y, ShapeID),
-  FOREIGN KEY (ShapeID) REFERENCES OtherShape(ShapeID) ON DELETE CASCADE
 );
 
 CREATE TABLE StoneProduct
@@ -228,4 +190,47 @@ CREATE TABLE CuttableStone
   PRIMARY KEY (StoneID, StoneUnitID),
   FOREIGN KEY (StoneID) REFERENCES Stone(StoneID) ON DELETE CASCADE,
   FOREIGN KEY (StoneUnitID) REFERENCES StoneUnit(StoneUnitID)
+);
+
+CREATE TABLE Shape
+(
+  Name VARCHAR(50) NOT NULL,
+  ShapeType VARCHAR(50) NOT NULL,
+  ShapeID INT NOT NULL,
+  PRIMARY KEY (ShapeID),
+  FOREIGN KEY (ShapeID) REFERENCES Stone(StoneID) ON DELETE CASCADE
+);
+
+CREATE TABLE CircleShape
+(
+  Diamater INT NOT NULL,
+  ShapeID INT NOT NULL,
+  PRIMARY KEY (ShapeID),
+  FOREIGN KEY (ShapeID) REFERENCES Shape(ShapeID) ON DELETE CASCADE
+);
+
+CREATE TABLE ElipseShape
+(
+  DiamaterX INT NOT NULL,
+  DiamaterY INT NOT NULL,
+  ShapeID INT NOT NULL,
+  PRIMARY KEY (ShapeID),
+  FOREIGN KEY (ShapeID) REFERENCES Shape(ShapeID) ON DELETE CASCADE
+);
+
+CREATE TABLE OtherShape
+(
+  ShapeID INT NOT NULL,
+  PRIMARY KEY (ShapeID),
+  FOREIGN KEY (ShapeID) REFERENCES Shape(ShapeID) ON DELETE CASCADE
+);
+
+CREATE TABLE ShapePoint
+(
+  OrderIndex INT NOT NULL,
+  X INT NOT NULL,
+  Y INT NOT NULL,
+  ShapeID INT NOT NULL,
+  PRIMARY KEY (X, Y, ShapeID),
+  FOREIGN KEY (ShapeID) REFERENCES OtherShape(ShapeID) ON DELETE CASCADE
 );

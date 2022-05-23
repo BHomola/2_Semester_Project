@@ -1,12 +1,13 @@
 USE [CSC-CSD-S212_10407557]
 GO
 
-DROP TABLE [dbo].[CuttableStone]
 DROP TABLE [dbo].[StoneProduct]
 DROP TABLE [dbo].[ShapePoint]
 DROP TABLE [dbo].[OtherShape]
 DROP TABLE [dbo].[ElipseShape]
 DROP TABLE [dbo].[CircleShape]
+DROP TABLE [dbo].[Shape]
+DROP TABLE [dbo].[CuttableStone]
 DROP TABLE [dbo].[Remains]
 DROP TABLE [dbo].[Stone]
 DROP TABLE [dbo].[StoneUnit]
