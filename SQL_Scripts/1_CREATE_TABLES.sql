@@ -122,8 +122,11 @@ CREATE TABLE OrderInfo
   CustomerNote VARCHAR(200),
   CustomerID INT NOT NULL,
   CityID INT NOT NULL,
+  OrderPrice INT NOT NULL,
+  EmployeeID INT NOT NULL,
   PRIMARY KEY (OrderID),
   FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
+  FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID),
   FOREIGN KEY (CityID) REFERENCES City(CityID),
   FOREIGN KEY (LocationID) REFERENCES StoreLocation(LocationID)
 );
