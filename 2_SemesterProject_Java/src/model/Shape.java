@@ -4,16 +4,12 @@ public abstract class Shape {
 	
 	private String name;
 	private int id;
-	private double area;
-	private double height;
 	
 
-	public Shape(String name, int id, double height) {
+	public Shape(String name, int id) {
 		super();
 		this.name = name;
 		this.id = id;
-		this.height = height;
-		area = 0;
 	}
 	
 	public Shape() {
@@ -36,22 +32,6 @@ public abstract class Shape {
 		this.id = id;
 	}
 	
-	public double getArea() {
-		return area;
-	}
-	
-	public void setArea(double area) {
-		this.area = area;
-	}
-	
-	public double getHeight() {
-		return height;
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
-	}
-	
-	public abstract void calculateArea();
+	public abstract double calculateArea();
 	
 }

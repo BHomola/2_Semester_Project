@@ -4,8 +4,8 @@ public class CircleShape extends Shape{
 
 	private double diameter;
 
-	public CircleShape(String name, int id, double height, double diameter) {
-		super(name, id, height);
+	public CircleShape(String name, int id, double diameter) {
+		super(name, id);
 		this.diameter = diameter;
 	}
 	
@@ -22,8 +22,9 @@ public class CircleShape extends Shape{
 	}
 	
 	@Override
-	public void calculateArea() {
-		super.setArea(Math.PI * Math.pow(diameter/2, 2));
+	public double calculateArea() {
+		double area = Math.PI * Math.pow(diameter/2, 2);
+		return area;
 	}
 	
 }

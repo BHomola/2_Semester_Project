@@ -9,8 +9,8 @@ public class OtherShape extends Shape{
 	private ArrayList<ShapePoint> points;
 	
 	
-	public OtherShape(String name, int id, double height) {
-		super(name, id, height);
+	public OtherShape(String name, int id) {
+		super(name, id);
 		points = new ArrayList<ShapePoint>();
 	}
 	
@@ -52,7 +52,7 @@ public class OtherShape extends Shape{
 	}
 	
 	@Override
-	public void calculateArea() {
+	public double calculateArea() {
 		double area = 0;
 		int arraySize = getPoints().size();
 		double[] coordinateX = new double[arraySize];
@@ -67,7 +67,8 @@ public class OtherShape extends Shape{
 	        area += (coordinateX[i] * coordinateY[i+1]) - (coordinateX[i+1] * coordinateY[i]);
 		}
 		System.out.println(getPoints());
-		super.setArea(area += (Math.abs(area + (coordinateX[0] * coordinateY[arraySize-2]) - (coordinateX[arraySize-2] * coordinateY[0]))) /2);
+		area += (Math.abs(area + (coordinateX[0] * coordinateY[arraySize-2]) - (coordinateX[arraySize-2] * coordinateY[0]))) /2;
+		return area;
 	}
 }
 
