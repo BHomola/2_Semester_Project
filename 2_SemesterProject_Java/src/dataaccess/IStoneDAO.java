@@ -12,7 +12,8 @@ public interface IStoneDAO {
 	public abstract IStoneUnit getStoneUnitByID(int id) throws SQLException;
 	public abstract Collection<IStoneUnit> getStoneUnitsByStoneMaterial(StoneMaterial stoneMaterial) throws SQLException;
 	public abstract Collection<IStoneUnit> getStoneUnitsByStoneType(StoneType type) throws SQLException;
-	public abstract boolean createStone(IStoneUnit stone) throws SQLException;
+	public abstract boolean createStone(IStoneUnit stone, IStoneUnit parentStone) throws SQLException;
 	public abstract boolean updateStone(IStoneUnit stone) throws SQLException;
 	public abstract boolean deleteStone(IStoneUnit stone) throws SQLException;
+	public abstract boolean deleteStone(int stoneID) throws SQLException;
 }

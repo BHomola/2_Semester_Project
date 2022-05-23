@@ -82,7 +82,7 @@ public class StoneDAO implements IStoneDAO{
 	}
 
 	@Override
-	public boolean createStone(IStoneUnit stone) throws SQLException {
+	public boolean createStone(IStoneUnit stone, IStoneUnit parentStone) throws SQLException {
 		boolean success = false;
 		Connection dbConnection = DBConnection.getConnection();
 		try {
@@ -114,26 +114,40 @@ public class StoneDAO implements IStoneDAO{
 			if (rs.next()) 
 				generatedID = rs.getInt("generatedID");
 			
-
+			statement = dbConnection.prepareStatement(query);
 			if (stone instanceof StoneProduct) {
-				query = "INSERT INTO Stone (StoneID, TotalSize) VALUES (?,?);"
+				query = "INSERT INTO Stone (StoneID, TotalSize) VALUES (?,?);\r\n"
 						+ "INSERT INTO StoneProduct (StoneID, Price, OrderID) VALUES (?,?,?);";
 
 				statement.setInt(1, generatedID);
 				statement.setInt(2, (int) ((Stone)stone).getTotalSize());
+				statement.setInt(3, generatedID);
+				statement.setInt(4, (int) ((StoneProduct)stone).getPrice());
+				statement.setInt(5, ((StoneProduct)stone).getOrderID());
 
 			}
 			if (stone instanceof CuttableStone) {
-				query = "INSERT INTO Equipment (productID, type, description) VALUES (?, ?,?); ";
+				query = "INSERT INTO Stone (StoneID, TotalSize) VALUES (?,?);\r\n";
+				
+				statement.setInt(1, generatedID);
+				statement.setInt(2, (int) ((Stone)stone).getTotalSize());
 
 			}
 			if (stone instanceof Remains) {
-				query = "INSERT INTO GunReplica (productID, calibre, material) VALUES (?, ?,?); ";
-
+				query = "INSERT INTO Remains (RemainsID, Pieces, material) VALUES (?, ?); ";
+				statement.setInt(1, generatedID);
+				statement.setInt(2, ((Remains)stone).getPieces());
 			}
-
-			
 			statement.executeUpdate();
+			
+			if(parentStone != null) {
+				statement = dbConnection.prepareStatement(query);
+				query = "INSERT INTO CuttableStone (StoneID, StoneUnitID) VALUES (?, ?); ";
+				statement.setInt(1, ((StoneUnit)parentStone).getId());
+				statement.setInt(2, generatedID);
+				statement.executeUpdate();
+			}
+			
 
 			dbConnection.commit();
 			success = true;
@@ -149,14 +163,92 @@ public class StoneDAO implements IStoneDAO{
 
 	@Override
 	public boolean updateStone(IStoneUnit stone) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success = false;
+		Connection dbConnection = DBConnection.getConnection();
+		try {
+			dbConnection.setAutoCommit(false);
+			
+			String query = "UPDATE StoneUnit SET Width =?, Weight =?, Description =?,Status=?,StoneType=?,CreatedDate=?, Origin=?, Updates=?, StoneTypeID=?, LocationID=?, SupplierID=?, EmployeeID=? WHERE StoneUnitID=?";
+			PreparedStatement statement = dbConnection.prepareStatement(query);
+			
+			StoneUnit stoneUnit = (StoneUnit)stone;
+			statement.setInt(1, (int)stoneUnit.getWidth());
+			statement.setInt(2, (int)stoneUnit.getWeight());
+			statement.setString(3, stoneUnit.getDescription());
+			statement.setInt(4, stoneUnit.getStatus().getID());
+			statement.setString(5, stoneUnit.getStoneKind());
+			statement.setDate(6, (java.sql.Date) stoneUnit.getCreatedDate());
+			statement.setString(7, stoneUnit.getOrigin());
+			statement.setString(8, stoneUnit.getUpdates());
+			statement.setInt(9, stoneUnit.getStoneType().getId());
+			statement.setInt(10, stoneUnit.getLocation().getId());
+			statement.setInt(11, stoneUnit.getSupplier().getId());
+			statement.setInt(12, stoneUnit.getEmployee().getId());
+			statement.setInt(13, stoneUnit.getId());
+
+			ResultSet rs = statement.executeQuery();
+
+			
+			statement = dbConnection.prepareStatement(query);
+			if (stone instanceof StoneProduct) {
+				query = "UPDATE Stone SET TotalSize=? WHERE StoneID=?; UPDATE StoneProduct SET Price=?, OrderID=? WHERE StoneID=?";
+
+
+				statement.setInt(1, (int) ((Stone)stone).getTotalSize());
+				statement.setInt(2, (int) ((Stone)stone).getId());
+				statement.setInt(3, (int) ((StoneProduct)stone).getPrice());
+				statement.setInt(4, ((StoneProduct)stone).getOrderID());
+				statement.setInt(2, (int) ((StoneProduct)stone).getId());
+
+			}
+			if (stone instanceof CuttableStone) {
+				query = "UPDATE Stone SET TotalSize=? WHERE StoneID=?";
+				
+				statement.setInt(1, (int) ((Stone)stone).getTotalSize());
+				statement.setInt(1, (int) ((Stone)stone).getId());
+
+			}
+			if (stone instanceof Remains) {
+				query = "UPDATE Remains SET Pieces=? WHERE RemainsID=?; ";
+
+				statement.setInt(1, ((Remains)stone).getPieces());
+				statement.setInt(2, ((Remains)stone).getId());
+			}
+			statement.executeUpdate();
+			
+
+			dbConnection.commit();
+			success = true;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			 dbConnection.rollback();
+		} finally {
+			dbConnection.setAutoCommit(true);
+		}
+
+		return success;
 	}
 
 	@Override
 	public boolean deleteStone(IStoneUnit stone) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		return deleteStone(((StoneUnit)stone).getId());
+	}
+	
+	@Override
+	public boolean deleteStone(int stoneID) throws SQLException {
+		boolean success = false;
+		try {
+			String query = "DELETE FROM StoneUnit WHERE StoneUnitID=?";
+			PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
+			statement.setInt(1, stoneID);
+			statement.executeUpdate();
+			success = true;
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	
+		return success;
 	}
 	
 	
