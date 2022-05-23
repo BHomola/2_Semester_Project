@@ -136,11 +136,13 @@ public abstract class StoneUnit implements IStoneUnit {
 	public void addUpdate(String note) {
 		this.updates += LocalDate.now() + ": " + note + "\n";
 	}
+	
+	public abstract String getStoneKind();
 
 	@Override
 	public String toString() {
 		return "StoneUnit [id=" + id + ", material=" + stoneType + ", origin=" + origin + ", supplier=" + supplier
-				+ ", width=" + width + ", weight=" + weight + ", description=" + description + ", location=" + location
+				+ ", width=" + width + ", weight=" + weight + ", createdDate="+ createdDate +", description=" + description + ", location=" + location
 				+ ", employee=" + employee + ", status=" + status + ", updates=" + updates + "]";
 	}
 

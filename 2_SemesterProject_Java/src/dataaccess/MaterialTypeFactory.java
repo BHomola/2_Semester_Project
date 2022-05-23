@@ -13,7 +13,7 @@ public class MaterialTypeFactory {
 	}
 
 	public static StoneMaterial getMaterial(ResultSet resultSet) throws SQLException {
-		return new StoneMaterial (resultSet.getInt("MaterialID"), resultSet.getString("Name"),
+		return new StoneMaterial (resultSet.getInt("StoneMaterialID"), resultSet.getString("Name"),
 				resultSet.getString("Description"), getStoneTypes(resultSet));
 	}
 
@@ -26,7 +26,7 @@ public class MaterialTypeFactory {
 	}
 	
 	public static StoneType getStoneType(ResultSet resultSet) throws SQLException {
-		return new StoneType(resultSet.getInt("TypeID"), resultSet.getString("Name"), resultSet.getString("Description"),
+		return new StoneType(resultSet.getInt("StoneTypeID"), resultSet.getString("Name"), resultSet.getString("Description"),
 				resultSet.getString("Picture"));
 	}
 }

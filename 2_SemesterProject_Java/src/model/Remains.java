@@ -19,4 +19,18 @@ public class Remains extends StoneUnit {
 	public void setPieces(int ammount) {
 		this.pieces = ammount;
 	}
+
+	@Override
+	public String toString() {
+		return "Remains [pieces=" + pieces + "] " + super.toString();
+	}
+
+	@Override
+	public String getStoneKind() {
+		return "Remains";
+	}
+	
+	
+	
+	
 }

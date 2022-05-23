@@ -45,4 +45,11 @@ public class Location {
 	public void setCity(City city) {
 		this.city = city;
 	}
+
+	@Override
+	public String toString() {
+		return "Location [id=" + id + ", locationName=" + locationName + ", address=" + address + ", city=" + city + "]";
+	}
+	
+	
 }

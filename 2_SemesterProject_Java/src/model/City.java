@@ -46,4 +46,11 @@ public class City {
 		this.country = country;
 	}
 
+	@Override
+	public String toString() {
+		return "City [id=" + id + ", cityName=" + cityName + ", zipCode=" + zipCode + ", country=" + country + "]";
+	}
+	
+	
+
 }

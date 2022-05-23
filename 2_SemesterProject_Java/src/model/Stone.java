@@ -34,7 +34,7 @@ public abstract class Stone extends StoneUnit {
 
 	@Override
 	public String toString() {
-		return "Stone [shape=" + shape + ", totalSize=" + totalSize +"]";
+		return "Stone [shape=" + shape + ", totalSize=" + totalSize +"] " + super.toString();
 	}
 	
 	

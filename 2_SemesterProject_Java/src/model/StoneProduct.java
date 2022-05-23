@@ -30,6 +30,8 @@ public class StoneProduct extends Stone {
 	public void setOrderID(int orderID) {
 		this.orderID = orderID;
 	}
+	
+	
 
 	@Override
 	public int getPieces() {
@@ -38,8 +40,14 @@ public class StoneProduct extends Stone {
 
 	@Override
 	public String toString() {
-		return "StoneProduct [price=" + price + "]";
+		return "StoneProduct [price=" + price + "] " + super.toString();
 	}
 
+	@Override
+	public String getStoneKind() {
+		return "StoneProduct";
+	}
+
+	
 	
 }
