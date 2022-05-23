@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import model.City;
 import model.Customer;
 import model.DeliveryStatuses;
@@ -17,7 +19,6 @@ import model.IStoneUnit;
 import model.Invoice;
 import model.Location;
 import model.Order;
-import model.OrderLine;
 import model.Person;
 import model.StoneProduct;
 
@@ -48,9 +49,28 @@ public class OrderDAO implements IOrderDAO {
 	}
 
 	@Override
-	public int createOrder(Order order) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int createOrder(Order order) throws SQLException {
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = "INSERT INTO OrderInfo(DeliveryStatus, DeliveryDate, Address, CityID,"
+				+ " Deposit, IsPaid, CustomerNote, LocationID, PersonID, OrderPrice, EmployeeID, Updates)"
+				+ " VALUES(?,?,?,?,?,?,?,?,?,?)";
+		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setInt(0, order.getDeliveryStatus().getID());
+		pStatement.setDate(1, (java.sql.Date) order.getDeliveryDate());
+		pStatement.setString(2, order.getAddress());
+		pStatement.setInt(3, order.getCity().getId());
+		pStatement.setDouble(4, order.getDeposit());
+		pStatement.setBoolean(5, order.isPaid());
+		pStatement.setString(6, order.getCustomerNote());
+		pStatement.setInt(7, order.getOffice().getId());
+		pStatement.setInt(8, order.getEmployee().getId());
+		pStatement.setString(9, order.getUpdates());
+		ResultSet resultSet = pStatement.executeQuery();
+
+		int generatedID = 0;
+		if (resultSet.next())
+			generatedID = resultSet.getInt("generatedID");
+		return generatedID;
 	}
 
 	@Override
