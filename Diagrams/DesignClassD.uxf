@@ -187,8 +187,9 @@ getWeight(): double
 -weight: double
 -description: String
 -location: Location
--status: StoneUnitStatuses
 -employee: Employee
+-status: StoneUnitStatuses
+-note: String
 --
 +getters()
 +setters()
@@ -680,7 +681,7 @@ consists of ^</panel_attributes>
       <h>99</h>
     </coordinates>
     <panel_attributes>&lt;&lt;intefarce&gt;&gt;
-dataaccess::PersonDAO
+dataaccess::IPersonDAO
 --
 --
 +getAll(): Collection&lt;Person&gt;
@@ -723,25 +724,26 @@ _-buildPersons(resultSet: ResultSet): List&lt;Person&gt;_</panel_attributes>
     <coordinates>
       <x>1395</x>
       <y>378</y>
-      <w>135</w>
+      <w>144</w>
       <h>234</h>
     </coordinates>
     <panel_attributes>model::Order
 --
 -id: int
--person: Person
+-customer: Customer
 -orderLines: List&lt;OrderLine&gt;
 -orderPrice: double
 -employee: Employee
 -office: Location
 -invoice: Invoice
--deliveryStatus: Status
+-deliveryStatus: DeliveryStatuses
 -deliveryDate: Date
 -address: String
 -city: City
 -deposit: double
 -isPaid: boolean
 -customerNote: String
+-updates: String
 --
 +getters()
 +setters()
@@ -897,11 +899,11 @@ text: String
       <x>1143</x>
       <y>369</y>
       <w>90</w>
-      <h>99</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>model::Invoice
 --
--id: int
+//-id: int
 -paymentDate: Date
 -VATratio: double
 -finalPrice: double
@@ -924,13 +926,13 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1521</x>
+      <x>1530</x>
       <y>531</y>
-      <w>162</w>
+      <w>153</w>
       <h>27</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>160.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>150.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -1035,7 +1037,7 @@ text: String
       <h>99</h>
     </coordinates>
     <panel_attributes>&lt;&lt;intefarce&gt;&gt;
-dataaccess::OrderDAO
+dataaccess::IOrderDAO
 --
 --
 +getAll(): Collection&lt;Order&gt;
@@ -1097,14 +1099,14 @@ _-buildOrders(resultSet: ResultSet): List&lt;Order&gt;_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1521</x>
+      <x>1530</x>
       <y>396</y>
-      <w>162</w>
+      <w>153</w>
       <h>36</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt; creates </panel_attributes>
-    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;150.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
