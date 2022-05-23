@@ -6,16 +6,14 @@ public abstract class Stone extends StoneUnit {
 	private Shape shape;
 	private double totalSize;
 	private Date birthDate;
-	private int orderID;
 
-	public Stone(int id, Material material, String origin, Supplier supplier, double width, double weight,
+	public Stone(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
 			String description, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
-			double totalSize, Date birth, int orderID) {
-		super(id, material, origin, supplier, width, weight, description, location, employee, status);
+			double totalSize, Date birth) {
+		super(id, stoneType, origin, supplier, width, weight, description, location, employee, status);
 		this.shape = shape;
 		this.totalSize = totalSize;
 		this.birthDate = birth;
-		this.setOrderID(orderID);
 	}
 	
 	public Shape getShape() {
@@ -42,18 +40,9 @@ public abstract class Stone extends StoneUnit {
 		this.birthDate = birth;
 	}
 
-	public int getOrderID() {
-		return orderID;
-	}
-
-	public void setOrderID(int orderID) {
-		this.orderID = orderID;
-	}
-
 	@Override
 	public String toString() {
-		return "Stone [shape=" + shape + ", totalSize=" + totalSize + ", birthDate=" + birthDate + ", orderID="
-				+ orderID + "]";
+		return "Stone [shape=" + shape + ", totalSize=" + totalSize + ", birthDate=" + birthDate +"]";
 	}
 	
 	

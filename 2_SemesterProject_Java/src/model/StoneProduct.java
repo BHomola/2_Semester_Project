@@ -3,24 +3,35 @@ package model;
 import java.util.Date;
 
 public class StoneProduct extends Stone {
-	private double price;
+	private float price;
+	private int orderID;
 
-	public StoneProduct(int id, Material material, String origin, Supplier supplier, double width, double weight,
+	public StoneProduct(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
 			String description, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
-			double totalSize, Date birth, int orderID, double price) {
-		super(id, material, origin, supplier, width, weight, description, location, employee, status, shape, totalSize,
-				birth, orderID);
+			double totalSize, Date birth, float price, int orderID) {
+		super(id, stoneType, origin, supplier, width, weight, description, location, employee, status, shape, totalSize,
+				birth);
 		this.price = price;
+		this.orderID = orderID;
 	}
 
 	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(float price) {
 		this.price = price;
 	}
 	
+	
+	public int getOrderID() {
+		return orderID;
+	}
+
+	public void setOrderID(int orderID) {
+		this.orderID = orderID;
+	}
+
 	@Override
 	public int getPieces() {
 		return 1;

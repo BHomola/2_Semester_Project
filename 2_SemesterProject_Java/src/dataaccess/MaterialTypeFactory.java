@@ -25,7 +25,7 @@ public class MaterialTypeFactory {
 		return stoneTypes;
 	}
 	
-	private static StoneType getStoneType(ResultSet resultSet) throws SQLException {
+	public static StoneType getStoneType(ResultSet resultSet) throws SQLException {
 		return new StoneType(resultSet.getInt("TypeID"), resultSet.getString("Name"), resultSet.getString("Description"),
 				resultSet.getString("Picture"));
 	}

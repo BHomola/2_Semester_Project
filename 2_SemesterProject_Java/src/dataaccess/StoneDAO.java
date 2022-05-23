@@ -12,13 +12,12 @@ import model.Location;
 import model.Material;
 import model.Remains;
 import model.Shape;
-import model.ShapeFactory;
 import model.StoneCuttable;
 import model.StoneProduct;
+import model.StoneType;
 import model.StoneUnit;
 import model.StoneUnitStatuses;
 import model.Supplier;
-import model.Type;
 
 public class StoneDAO implements IStoneDAO{
 
@@ -43,7 +42,7 @@ public class StoneDAO implements IStoneDAO{
 	}
 
 	@Override
-	public ArrayList<IStoneUnit> getByType(Type type) {
+	public ArrayList<IStoneUnit> getByType(StoneType type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -71,52 +70,43 @@ public class StoneDAO implements IStoneDAO{
 	//Helper Factory Methods
 
 	public static IStoneUnit getStoneUnit(ResultSet resultSet) throws SQLException {
-		String stoneType = resultSet.getString("StoneType");
-		Material material = MaterialTypeFactory.getMaterial(resultSet);
+		int id = resultSet.getInt("StoneUnitID");
+		String stoneKind = resultSet.getString("StoneType");
 		String origin = resultSet.getString("Origin");
-		Supplier supplier = (Supplier)PersonDAO.buildPerson(resultSet);
 		Double width = resultSet.getDouble("Width");
 		Double weight = resultSet.getDouble("Weight");
 		String description = resultSet.getString("Description");
-		Location location = getLocation(resultSet);
-		Employee employee = (Employee)PersonDAO.buildPerson(resultSet);
-		Date birthDate = resultSet.getDate("birthDate");
+		Date birthDate = resultSet.getDate("CreatedDate");
 		String updates = resultSet.getString("Updates");
-		StoneUnitStatuses status = null;
-		switch (resultSet.getString("Status")) {
-		case "WIP":
-			status = StoneUnitStatuses.WIP;
-		case "available":
-			status = StoneUnitStatuses.AVAILABLE;
-		case "unavailable":
-			status = StoneUnitStatuses.UNAVAILABLE;
-		default:
-			status = StoneUnitStatuses.OTHER;
-		}
+		StoneUnitStatuses status = StoneUnitStatuses.GetStatusByID(resultSet.getInt("Status"));
+		//other DAOs access
+		Location location = getLocation(resultSet);
+		StoneType stoneType = MaterialTypeFactory.getStoneType(resultSet);
+		Supplier supplier = (Supplier)PersonDAO.buildPerson(resultSet);
+		Employee employee = (Employee)PersonDAO.buildPerson(resultSet);
+		
 
-		if (stoneType.equals("Remains")) {
-			int id = resultSet.getInt("RemainsID");
+		if (stoneKind.equals("Remains")) {
 			int pieces = resultSet.getInt("Pieces");
-			return new Remains(id, material, origin, supplier, width, weight, description, location, employee, status,
+			return new Remains(id, stoneType, origin, supplier, width, weight, description, location, employee, status,
 					pieces);
 		}
 
-		if (stoneType.equals("StoneCuttable")) {
-			int id = resultSet.getInt("StoneID");
-			Shape shape = ShapeFactory.getShape(resultSet);
-			double totalSize = resultSet.getDouble("TotalSize");
-			StoneCuttable stoneCuttable = new StoneCuttable(id, material, origin, supplier, width, weight, description, location, employee, status,
-					shape, totalSize, birthDate, orderID);
+		if (stoneKind.equals("StoneCuttable")) {
+			Shape shape = getShape(resultSet);
+			double totalSize = resultSet.getInt("TotalSize");
+			StoneCuttable stoneCuttable = new StoneCuttable(id, stoneType, origin, supplier, width, weight, description, location, employee, status,
+					shape, totalSize, birthDate);
 				stoneCuttable.setUpdates(updates);
 		}
 
-		if (stoneType.equals("StoneProduct")) {
-			int id = resultSet.getInt("StoneProductID");
-			Shape shape = ShapeFactory.getShape(resultSet);
-			double totalSize = resultSet.getDouble("TotalSize");
-			double price = resultSet.getDouble("price");
-			StoneProduct stoneProduct = new StoneProduct(id, material, origin, supplier, width, weight, description, location, employee,
-					status, shape, totalSize, birthDate, orderID, price);
+		if (stoneKind.equals("StoneProduct")) {
+			Shape shape = getShape(resultSet);
+			double totalSize = resultSet.getInt("TotalSize");
+			float price = resultSet.getInt("price");
+			int orderID = resultSet.getInt("OrderID");
+			StoneProduct stoneProduct = new StoneProduct(id, stoneType, origin, supplier, width, weight, description, location, employee,
+					status, shape, totalSize, birthDate, price, orderID);
 			stoneProduct.setUpdates(updates);
 			return stoneProduct;
 		}
@@ -142,6 +132,11 @@ public class StoneDAO implements IStoneDAO{
 	public static City getCity(ResultSet resultSet) throws SQLException {
 		return new City(resultSet.getInt("CityID"), resultSet.getString("CityName"), resultSet.getString("Zipcode"),
 				resultSet.getString("Country"));
+	}
+	
+	public static Shape getShape(ResultSet resultSet) {
+		
+		return null;
 	}
 	
 }

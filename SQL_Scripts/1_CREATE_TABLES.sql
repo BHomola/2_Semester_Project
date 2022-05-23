@@ -150,13 +150,16 @@ CREATE TABLE StoneUnit
   Description VARCHAR(200),
   Status INT NOT NULL,
   StoneType VARCHAR(50) NOT NULL,
+  CreatedDate DATE NOT NULL,
   Origin VARCHAR(50) NOT NULL,
   Updates VARCHAR(200),
   StoneTypeID INT NOT NULL,
   LocationID INT NOT NULL,
   SupplierID INT NOT NULL,
+  EmployeeID INT NOT NULL,
   PRIMARY KEY (StoneUnitID),
   FOREIGN KEY (StoneTypeID) REFERENCES StoneType(StoneTypeID),
+  FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID),
   FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID),
   FOREIGN KEY (LocationID) REFERENCES StoreLocation(LocationID)
 );
@@ -165,7 +168,6 @@ CREATE TABLE Stone
 (
   ShapeType VARCHAR(50) NOT NULL,
   TotalSize INT NOT NULL,
-  CreatedDate DATE NOT NULL,
   OrderID INT NOT NULL,
   StoneID INT NOT NULL,
   PRIMARY KEY (StoneID),
@@ -221,24 +223,17 @@ CREATE TABLE StoneProduct
 (
   Price INT NOT NULL,
   StoneID INT NOT NULL,
+  OrderID INT NOT NULL,
   PRIMARY KEY (StoneID),
-  FOREIGN KEY (StoneID) REFERENCES Stone(StoneID)
+  FOREIGN KEY (StoneID) REFERENCES Stone(StoneID),
+  FOREIGN KEY (OrderID) REFERENCES OrderInfo(OrderID)
 );
 
-CREATE TABLE CuttableStoneSubunits
+CREATE TABLE CuttableStone
 (
   StoneID INT NOT NULL,
   StoneUnitID INT NOT NULL,
   PRIMARY KEY (StoneID, StoneUnitID),
   FOREIGN KEY (StoneID) REFERENCES Stone(StoneID),
   FOREIGN KEY (StoneUnitID) REFERENCES StoneUnit(StoneUnitID)
-);
-
-CREATE TABLE OrderLine
-(
-  OrderID INT NOT NULL,
-  StoneID INT NOT NULL,
-  PRIMARY KEY (OrderID, StoneID),
-  FOREIGN KEY (OrderID) REFERENCES OrderInfo(OrderID),
-  FOREIGN KEY (StoneID) REFERENCES StoneProduct(StoneID)
 );

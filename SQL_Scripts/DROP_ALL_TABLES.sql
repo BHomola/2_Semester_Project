@@ -1,8 +1,7 @@
 USE [CSC-CSD-S212_10407557]
 GO
 
-DROP TABLE [dbo].[OrderLine]
-DROP TABLE [dbo].[CuttableStoneSubunits]
+DROP TABLE [dbo].[CuttableStone]
 DROP TABLE [dbo].[StoneProduct]
 DROP TABLE [dbo].[ShapePoints]
 DROP TABLE [dbo].[OtherShape]

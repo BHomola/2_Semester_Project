@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public abstract class StoneUnit implements IStoneUnit {
 	private int id;
-	private Material material;
+	private StoneType stoneType;
 	private String origin;
 	private Supplier supplier;
 	private double width;
@@ -15,11 +15,11 @@ public abstract class StoneUnit implements IStoneUnit {
 	private StoneUnitStatuses status;
 	private String updates;
 
-	public StoneUnit(int id, Material material, String origin, Supplier supplier, double width, double weight,
+	public StoneUnit(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
 			String description, Location location, Employee employee, StoneUnitStatuses status) {
 		super();
 		this.id = id;
-		this.material = material;
+		this.stoneType = stoneType;
 		this.origin = origin;
 		this.supplier = supplier;
 		this.width = width;
@@ -38,12 +38,12 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.id = id;
 	}
 
-	public Material getMaterial() {
-		return material;
+	public StoneType getStoneType() {
+		return stoneType;
 	}
 
-	public void setMaterial(Material material) {
-		this.material = material;
+	public void setMaterial(StoneType stoneType) {
+		this.stoneType = stoneType;
 	}
 
 	public String getOrigin() {
@@ -124,7 +124,7 @@ public abstract class StoneUnit implements IStoneUnit {
 
 	@Override
 	public String toString() {
-		return "StoneUnit [id=" + id + ", material=" + material + ", origin=" + origin + ", supplier=" + supplier
+		return "StoneUnit [id=" + id + ", material=" + stoneType + ", origin=" + origin + ", supplier=" + supplier
 				+ ", width=" + width + ", weight=" + weight + ", description=" + description + ", location=" + location
 				+ ", employee=" + employee + ", status=" + status + ", updates=" + updates + "]";
 	}
