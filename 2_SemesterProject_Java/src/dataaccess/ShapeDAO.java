@@ -8,12 +8,9 @@ import java.util.ArrayList;
 
 import model.CircleShape;
 import model.ElipseShape;
-import model.IStoneUnit;
 import model.OtherShape;
-import model.Remains;
 import model.Shape;
-import model.Stone;
-import model.StoneUnit;
+
 
 public class ShapeDAO implements IShapeDAO{
 
