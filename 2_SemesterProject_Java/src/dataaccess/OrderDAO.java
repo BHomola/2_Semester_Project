@@ -53,33 +53,49 @@ public class OrderDAO implements IOrderDAO {
 				+ " Deposit, IsPaid, CustomerNote, LocationID, PersonID, OrderPrice, EmployeeID, Updates)"
 				+ " VALUES(?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setInt(0, order.getDeliveryStatus().getID());
-		pStatement.setDate(1, (java.sql.Date) order.getDeliveryDate());
-		pStatement.setString(2, order.getAddress());
-		pStatement.setInt(3, order.getCity().getId());
-		pStatement.setDouble(4, order.getDeposit());
-		pStatement.setBoolean(5, order.isPaid());
-		pStatement.setString(6, order.getCustomerNote());
-		pStatement.setInt(7, order.getOffice().getId());
-		pStatement.setInt(8, order.getEmployee().getId());
-		pStatement.setString(9, order.getUpdates());
+		pStatement.setInt(1, order.getDeliveryStatus().getID());
+		pStatement.setDate(2, (java.sql.Date) order.getDeliveryDate());
+		pStatement.setString(3, order.getAddress());
+		pStatement.setInt(4, order.getCity().getId());
+		pStatement.setDouble(5, order.getDeposit());
+		pStatement.setBoolean(6, order.isPaid());
+		pStatement.setString(7, order.getCustomerNote());
+		pStatement.setInt(8, order.getOffice().getId());
+		pStatement.setInt(9, order.getEmployee().getId());
+		pStatement.setString(10, order.getUpdates());
 		ResultSet resultSet = pStatement.executeQuery();
 
 		int generatedID = 0;
 		if (resultSet.next())
 			generatedID = resultSet.getInt("generatedID");
+		
+		sqlStatement = "INSERT INTO Invoice(OrderID, PaymentDate, VATratio, FinalPrice)"
+				+ " VALUES(?,?,?,?)";
+		pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setInt(0, generatedID);
+		pStatement.setDate(1, (java.sql.Date) order.getInvoice().getPaymentDate());
+		pStatement.setDouble(2, order.getInvoice().getVATratio());
+		pStatement.setDouble(3, order.getInvoice().getFinalPrice());
 		return generatedID;
 	}
 
 	@Override
-	public boolean updateOrder(Order order) {
-		// TODO Auto-generated method stub
+	public boolean updateOrder(Order order) throws SQLException {
+		deleteOrder(order);
+		createOrder(order);
 		return false;
 	}
 
 	@Override
-	public boolean deleteOrder(Order order) {
-		// TODO Auto-generated method stub
+	public boolean deleteOrder(Order order) throws SQLException {
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = "DELETE FROM OrderInfo"
+				+ " WHERE OrderID = ?";
+		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setInt(0, order.getId());
+		int rowsAffected = pStatement.executeUpdate();
+		if(rowsAffected == 1)
+			return true;
 		return false;
 	}
 
