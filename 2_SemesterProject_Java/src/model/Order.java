@@ -7,7 +7,7 @@ import java.util.List;
 public class Order {
 	private int id;
 	private Customer customer;
-	private List<OrderLine> orderLines;
+	private List<StoneProduct> products;
 	private double orderPrice;
 	private Employee employee;
 	private Location office;
@@ -56,12 +56,12 @@ public class Order {
 		this.customer = customer;
 	}
 
-	public List<OrderLine> getOrderLines() {
-		return orderLines;
+	public List<StoneProduct> getProducts() {
+		return products;
 	}
 
-	public void setOrderLines(List<OrderLine> orderLines) {
-		this.orderLines = orderLines;
+	public void setProducts(List<StoneProduct> products) {
+		this.products = products;
 	}
 
 	public double getOrderPrice() {
@@ -163,10 +163,10 @@ public class Order {
 	public void addUpdate(String note) {
 		this.updates += LocalDate.now() + ": " + note + "\n";
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customer=" + customer + ", orderLines=" + orderLines + ", orderPrice="
+		return "Order [id=" + id + ", customer=" + customer + ", orderLines=" + products + ", orderPrice="
 				+ orderPrice + ", employee=" + employee + ", office=" + office + ", invoice=" + invoice
 				+ ", deliveryStatus=" + deliveryStatus + ", deliveryDate=" + deliveryDate + ", address=" + address
 				+ ", city=" + city + ", deposit=" + deposit + ", isPaid=" + isPaid + ", customerNote=" + customerNote

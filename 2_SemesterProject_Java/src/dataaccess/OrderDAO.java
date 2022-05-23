@@ -13,6 +13,7 @@ import model.City;
 import model.Customer;
 import model.DeliveryStatuses;
 import model.Employee;
+import model.IStoneUnit;
 import model.Invoice;
 import model.Location;
 import model.Order;
@@ -64,10 +65,11 @@ public class OrderDAO implements IOrderDAO {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static Order buildOrder(ResultSet resultSet) throws SQLException {
 		int id = resultSet.getInt("OrderID");
 		Person customer = PersonDAO.buildPerson(resultSet);
-		ArrayList<OrderLine> orderLines = (ArrayList<OrderLine>) buildOrderLines(resultSet);
+		ArrayList<? extends IStoneUnit> products = StoneDAO.getStoneUnits(resultSet);
 		double orderPrice = resultSet.getDouble("OrderPrice");
 		Person employee = PersonDAO.buildPerson(resultSet);
 		Location office = StoneDAO.getLocation(resultSet);
@@ -79,22 +81,10 @@ public class OrderDAO implements IOrderDAO {
 		boolean isPaid = resultSet.getBoolean("IsPaid");
 		String customerNote = resultSet.getString("CustomerNoter");
 		String updates = resultSet.getString("Updates");
-		DeliveryStatuses deliveryStatus = null;
-		switch (resultSet.getString("deliveryStatus")) {
-		case "accepted":
-			deliveryStatus = DeliveryStatuses.ACCEPTED;
-		case "inProccess":
-			deliveryStatus = DeliveryStatuses.INPROCCESS;
-		case "shipping":
-			deliveryStatus = DeliveryStatuses.SHIPPING;
-		case "delivered":
-			deliveryStatus = DeliveryStatuses.DELIVERED;
-		default:
-			deliveryStatus = DeliveryStatuses.OTHER;
-		}
+		DeliveryStatuses deliveryStatus = DeliveryStatuses.GetStatusByID(resultSet.getInt("DeliveryStatus"));
 		Order order = new Order(id, (Customer) customer, orderPrice, (Employee) employee, office, invoice,
 				deliveryStatus, deliveryDate, address, city, deposit, isPaid, customerNote);
-		order.setOrderLines(orderLines);
+		order.setProducts((List<StoneProduct>) products);
 		order.setUpdates(updates);
 		return order;
 
@@ -104,18 +94,6 @@ public class OrderDAO implements IOrderDAO {
 		ArrayList<Order> myList = new ArrayList<>();
 		while (resultSet.next())
 			myList.add(buildOrder(resultSet));
-		return myList;
-	}
-
-	@SuppressWarnings("static-access")
-	public static OrderLine buildOrderLine(ResultSet resultSet) throws SQLException {
-		return new OrderLine((StoneProduct) new StoneDAO().buildStone(resultSet));
-	}
-
-	public static List<OrderLine> buildOrderLines(ResultSet resultSet) throws SQLException {
-		ArrayList<OrderLine> myList = new ArrayList<>();
-		while (resultSet.next())
-			myList.add(buildOrderLine(resultSet));
 		return myList;
 	}
 

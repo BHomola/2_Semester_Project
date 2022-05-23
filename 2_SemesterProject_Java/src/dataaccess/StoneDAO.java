@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import model.City;
 import model.Employee;
 import model.IStoneUnit;
@@ -25,7 +27,7 @@ public class StoneDAO implements IStoneDAO{
 	
 	//TODO: Finish when the database is implemented.
 	@Override
-	public ArrayList<IStoneUnit> getAll() throws Exception {
+	public ArrayList<IStoneUnit> getAll() throws SQLException {
 		
 		String query = "";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
@@ -35,7 +37,7 @@ public class StoneDAO implements IStoneDAO{
 	}
 
 	@Override
-	public IStoneUnit getByID(int id) throws Exception {
+	public IStoneUnit getByID(int id) throws SQLException {
 		String query = "";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		ResultSet rs = statement.executeQuery();
@@ -44,7 +46,7 @@ public class StoneDAO implements IStoneDAO{
 	}
 
 	@Override
-	public ArrayList<IStoneUnit> getByMaterial(Material material) throws Exception {
+	public ArrayList<IStoneUnit> getByMaterial(Material material) throws SQLException {
 		String query = "";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		ResultSet rs = statement.executeQuery();
@@ -53,7 +55,7 @@ public class StoneDAO implements IStoneDAO{
 	}
 
 	@Override
-	public ArrayList<IStoneUnit> getByType(StoneType type) throws Exception {
+	public ArrayList<IStoneUnit> getByType(StoneType type) throws SQLException {
 		String query = "";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		ResultSet rs = statement.executeQuery();
@@ -62,19 +64,19 @@ public class StoneDAO implements IStoneDAO{
 	}
 
 	@Override
-	public int createStone(IStoneUnit stone) throws Exception {
+	public int createStone(IStoneUnit stone) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public boolean updateStoneUnit(IStoneUnit stone) throws Exception {
+	public boolean updateStoneUnit(IStoneUnit stone) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean deleteStone(IStoneUnit stone) throws Exception {
+	public boolean deleteStone(IStoneUnit stone) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -83,7 +85,7 @@ public class StoneDAO implements IStoneDAO{
 	
 	//Helper Methods
 
-	public static IStoneUnit getStoneUnit(ResultSet resultSet)  throws Exception {
+	public static IStoneUnit getStoneUnit(ResultSet resultSet)  throws SQLException {
 		int id = resultSet.getInt("StoneUnitID");
 		String stoneKind = resultSet.getString("StoneType");
 		String origin = resultSet.getString("Origin");
@@ -128,7 +130,7 @@ public class StoneDAO implements IStoneDAO{
 	}
 	
 	
-	public ArrayList<IStoneUnit> getStoneUnits(ResultSet resultSet) throws Exception{
+	public static ArrayList<IStoneUnit> getStoneUnits(ResultSet resultSet) throws SQLException{
 		ArrayList<IStoneUnit> stoneUnits = new ArrayList<IStoneUnit>();
 		while(resultSet.next()) {
 			stoneUnits.add(getStoneUnit(resultSet));
@@ -137,17 +139,17 @@ public class StoneDAO implements IStoneDAO{
 	}
 	
 	
-	public static Location getLocation(ResultSet resultSet) throws Exception {
+	public static Location getLocation(ResultSet resultSet) throws SQLException{
 		return new Location(resultSet.getInt("LocationID"), resultSet.getString("LocationName"),
 				resultSet.getString("Address"), getCity(resultSet));
 	}
 
-	public static City getCity(ResultSet resultSet) throws Exception {
+	public static City getCity(ResultSet resultSet) throws SQLException {
 		return new City(resultSet.getInt("CityID"), resultSet.getString("CityName"), resultSet.getString("Zipcode"),
 				resultSet.getString("Country"));
 	}
 	
-	public static Shape getShape(ResultSet resultSet) throws Exception {
+	public static Shape getShape(ResultSet resultSet) throws SQLException {
 		
 		return null;
 	}
