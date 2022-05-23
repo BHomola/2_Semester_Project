@@ -155,21 +155,19 @@ m2=0..*</panel_attributes>
       <x>1134</x>
       <y>1260</y>
       <w>154</w>
-      <h>112</h>
+      <h>84</h>
     </coordinates>
     <panel_attributes>/Shape/
 --
 id
-name
-area
-height</panel_attributes>
+name</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>980</x>
-      <y>1442</y>
+      <y>1414</y>
       <w>140</w>
       <h>84</h>
     </coordinates>
@@ -194,7 +192,7 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1008</x>
-      <y>1358</y>
+      <y>1330</y>
       <w>154</w>
       <h>112</h>
     </coordinates>
@@ -289,7 +287,7 @@ m2=0..*</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1288</x>
-      <y>1442</y>
+      <y>1414</y>
       <w>140</w>
       <h>84</h>
     </coordinates>
@@ -303,7 +301,7 @@ diamaterY</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1274</x>
-      <y>1358</y>
+      <y>1330</y>
       <w>140</w>
       <h>112</h>
     </coordinates>
@@ -314,7 +312,7 @@ diamaterY</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1036</x>
-      <y>1554</y>
+      <y>1512</y>
       <w>336</w>
       <h>70</h>
     </coordinates>
@@ -328,12 +326,12 @@ coordinates: ArrayList&lt;ShapePoint&gt;
     <id>Relation</id>
     <coordinates>
       <x>1190</x>
-      <y>1358</y>
+      <y>1330</y>
       <w>42</w>
-      <h>224</h>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -691,7 +689,7 @@ subUnits</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1036</x>
-      <y>1722</y>
+      <y>1666</y>
       <w>336</w>
       <h>84</h>
     </coordinates>
@@ -707,12 +705,12 @@ previous
     <id>Relation</id>
     <coordinates>
       <x>1190</x>
-      <y>1610</y>
+      <y>1568</y>
       <w>70</w>
-      <h>140</h>
+      <h>126</h>
     </coordinates>
     <panel_attributes>m1=1
 m2=0...*</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
   </element>
 </diagram>

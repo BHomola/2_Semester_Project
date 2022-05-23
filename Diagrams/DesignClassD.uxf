@@ -443,11 +443,10 @@ model::Shape
 -
 -id: int
 -name: String
--area: double
--height: double
 -
 +getName(): String
-+setName(name: String): void</panel_attributes>
++setName(name: String): void
++calculateArea(area: double) double</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -491,7 +490,7 @@ model::Shape
       <x>627</x>
       <y>1265</y>
       <w>363</w>
-      <h>165</h>
+      <h>176</h>
     </coordinates>
     <panel_attributes>model::OtherShape
 --
@@ -509,11 +508,15 @@ model::Shape
 //+deletePoint(point: Point): boolean
 //
 TO BE UPDATED
-+addPoint(point: Point): boolean
-+getAllPoints(): Collection&lt;Point&gt;
-+getPointByPosition(position: int): Point
-+updatePoint(point: Point, position: int): boolean
-+deletePoint(position: int): boolean
++getPoints(): Collection&lt;Point&gt;
++setPoints(): void
++addBetween(): void
++addPoint(point: Point): void
++addStartingPoint(point: Point) void
++addLastPoint(point: Point)
+//+getPointByPosition(position: int): Point
+//+updatePoint(point: Point, position: int): boolean
+//+deletePoint(position: int): boolean
 </panel_attributes>
     <additional_attributes/>
   </element>
