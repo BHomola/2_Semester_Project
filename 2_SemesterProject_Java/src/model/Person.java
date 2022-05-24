@@ -30,6 +30,20 @@ public abstract class Person {
 		this.description = description;
 		this.note = note;
 	}
+	
+	public Person( String name, String address, City city, String phoneNumber, String email, Date dateOfBirth,
+			int age, String description, String note) {
+		super();
+		this.name = name;
+		this.address = address;
+		this.city = city;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.dateOfBirth = dateOfBirth;
+		this.age = age;
+		this.description = description;
+		this.note = note;
+	}
 
 	public Person(int id) {
 		this.id = id;
