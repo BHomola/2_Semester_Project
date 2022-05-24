@@ -4,6 +4,7 @@ import dataaccess.DBConnection;
 import dataaccess.OrderDAO;
 import dataaccess.PersonDAO;
 import dataaccess.StoneDAO;
+import model.IStoneUnit;
 
 public class main {
 
@@ -21,7 +22,10 @@ public class main {
 //			System.out.println(oDAO.getByID(1));
 //			System.out.println(oDAO.getByID(1).getOffice());
 //			System.out.println(oDAO.getAll());
-			System.out.println(sDAO.getAllStoneUnits());
+			
+			for(IStoneUnit stone : sDAO.getAllStoneUnits()) {
+				System.out.println(stone);
+			}
 			thread.join();
 			
 		} catch (SQLException | InterruptedException e) {
