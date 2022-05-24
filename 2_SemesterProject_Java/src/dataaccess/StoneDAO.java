@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
@@ -29,7 +30,7 @@ public class StoneDAO implements IStoneDAO{
 	
 	//TODO: Finish when the database is implemented.
 	@Override
-	public ArrayList<IStoneUnit> getAll() throws SQLException {
+	public ArrayList<IStoneUnit> getAllStoneUnits() throws SQLException {
 		
 		String query = "SELECT * FROM [VIEW_STONES]";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
@@ -79,6 +80,18 @@ public class StoneDAO implements IStoneDAO{
 		ResultSet rs = statement.executeQuery();
 
 		return getStoneUnits(rs);
+	}
+	
+	@Override
+	public ArrayList<IStoneUnit> getStoneProductsByOrderID(int orderID) throws SQLException {
+		ArrayList<IStoneUnit> stoneProducts = new ArrayList<IStoneUnit>();
+		for(IStoneUnit stone : getAllStoneUnits()) {
+			if(stone instanceof StoneProduct) {
+				if(((StoneProduct)stone).getOrderID() == orderID)
+					stoneProducts.add(stone);
+			}
+		}
+		return stoneProducts;
 	}
 
 	@Override
@@ -324,5 +337,7 @@ public class StoneDAO implements IStoneDAO{
 		
 		return null;
 	}
+
+
 	
 }
