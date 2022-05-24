@@ -1,6 +1,6 @@
 package test;
 
-import model.CuttableStone;
+import model.StoneCuttable;
 import model.StoneType;
 import model.CircleShape;
 import model.City;
@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TestStone {
-	CuttableStone stone;
+	StoneCuttable stone;
 	Remains remains;
 	StoneMaterial stoneMaterial;
 	StoneType type;
@@ -62,7 +62,7 @@ public class TestStone {
 			date = formatter.parse("10-05-2022");
 			supplier = new Supplier(13, "CMD", "Vesterbro 41", city, "9143283", "test@test.com", date, 30, "None", "Note");
 			employee = null;
-			stone = new CuttableStone(1,type,"Italy", supplier, 1.5, 50.0, 
+			stone = new StoneCuttable(1,type,"Italy", supplier, 1.5, 50.0, 
 			"No description", date, location, employee, status, cshape, 250.0);
 			remains = new Remains(3, type, "Italy", supplier, 40.0, 1.0, "Left over", date, location, employee, status, 2);
 			subUnits.add(remains);

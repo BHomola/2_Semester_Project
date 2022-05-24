@@ -3,10 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class CuttableStone extends Stone {
+public class StoneCuttable extends Stone {
 	private ArrayList<IStoneUnit> subUnits = new ArrayList<>();
 	
-	public CuttableStone(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
+	public StoneCuttable(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
 			String description, Date createdDate, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
 			double totalSize) {
 		super(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, shape, totalSize);

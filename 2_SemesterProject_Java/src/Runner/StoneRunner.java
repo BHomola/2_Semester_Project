@@ -3,7 +3,7 @@ package Runner;
 import java.sql.SQLException;
 
 import dataaccess.StoneDAO;
-import model.CuttableStone;
+import model.StoneCuttable;
 import model.IStoneUnit;
 import model.StoneMaterial;
 import model.StoneUnit;
@@ -14,7 +14,7 @@ public class StoneRunner {
 		StoneDAO dao = new StoneDAO();
 		
 		
-		for(IStoneUnit stone : dao.getStoneChildren((CuttableStone) dao.getStoneUnitByID(1))) {
+		for(IStoneUnit stone : dao.getStoneChildren((StoneCuttable) dao.getStoneUnitByID(1))) {
 			if(stone!= null)
 				System.out.println(stone.toString());
 		}

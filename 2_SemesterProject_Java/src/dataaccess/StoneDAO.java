@@ -17,7 +17,7 @@ import model.StoneMaterial;
 import model.Remains;
 import model.Shape;
 import model.Stone;
-import model.CuttableStone;
+import model.StoneCuttable;
 import model.StoneProduct;
 import model.StoneType;
 import model.StoneUnit;
@@ -38,7 +38,7 @@ public class StoneDAO implements IStoneDAO{
 		return getStoneUnits(rs);
 	}
 	
-	public ArrayList<IStoneUnit> getStoneChildren(CuttableStone stone) throws SQLException {
+	public ArrayList<IStoneUnit> getStoneChildren(StoneCuttable stone) throws SQLException {
 		
 		String query = "SELECT SelectAllStoneUnits.* FROM CuttableStone\r\n"
 				+ "JOIN SelectAllStoneUnits ON CuttableStone.StoneUnitID = SelectAllStoneUnits.StoneUnitID\r\n"
@@ -126,7 +126,7 @@ public class StoneDAO implements IStoneDAO{
 				statement.setInt(5, ((StoneProduct)stone).getOrderID());
 
 			}
-			if (stone instanceof CuttableStone) {
+			if (stone instanceof StoneCuttable) {
 				query = "INSERT INTO Stone (StoneID, TotalSize) VALUES (?,?);\r\n";
 				
 				statement.setInt(1, generatedID);
@@ -201,7 +201,7 @@ public class StoneDAO implements IStoneDAO{
 				statement.setInt(2, (int) ((StoneProduct)stone).getId());
 
 			}
-			if (stone instanceof CuttableStone) {
+			if (stone instanceof StoneCuttable) {
 				query = "UPDATE Stone SET TotalSize=? WHERE StoneID=?";
 				
 				statement.setInt(1, (int) ((Stone)stone).getTotalSize());
@@ -281,7 +281,7 @@ public class StoneDAO implements IStoneDAO{
 		if (stoneKind.equals("CuttableStone")) {
 			Shape shape = getShape(resultSet);
 			double totalSize = resultSet.getInt("TotalSize");
-			CuttableStone cuttableStone = new CuttableStone(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status,
+			StoneCuttable cuttableStone = new StoneCuttable(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status,
 					shape, totalSize);
 			cuttableStone.setUpdates(updates);
 			return cuttableStone;
