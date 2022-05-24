@@ -6,15 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import java.awt.Point;
+
 import model.CircleShape;
 import model.ElipseShape;
 import model.OtherShape;
 import model.Shape;
+import model.ShapePoint;
 
 
 public class ShapeDAO implements IShapeDAO{
 
-	public Shape buildShape(ResultSet resultSet) throws SQLException {
+	public static Shape buildShape(ResultSet resultSet) throws SQLException {
 		String name = resultSet.getString("Name");
 		int id = resultSet.getInt("ShapeID");
 		String shapeType = resultSet.getString("ShapeType");
@@ -26,6 +29,19 @@ public class ShapeDAO implements IShapeDAO{
 		
 		if(shapeType.equals("OtherShape")) {
 			OtherShape otherShape = new OtherShape(name, id);
+			
+			ArrayList<ShapePoint> shapePoints = getShapePoints(otherShape);
+			otherShape.setPoints(shapePoints);
+			
+			Point startingPoint = otherShape.getPoints().get(0).getData();
+			otherShape.addStartingPoint(startingPoint);
+			
+			for(int i = 1; i < (otherShape.getPoints().size())-1; i++) {
+				otherShape.addPoint(otherShape.getPoints().get(i).getData());
+			}
+			
+			Point lastPoint = otherShape.getPoints().get(otherShape.getPoints().size()-1).getData();
+			otherShape.addLastPoint(lastPoint);
 			
 			return otherShape;
 		}
@@ -39,7 +55,7 @@ public class ShapeDAO implements IShapeDAO{
 		return null;
 	}
 	
-	public ArrayList<Shape> buildShapes(ResultSet resultSet) throws SQLException {
+	public static ArrayList<Shape> buildShapes(ResultSet resultSet) throws SQLException {
 		
 		ArrayList<Shape> shapes = new ArrayList<Shape>();
 		while (resultSet.next()) {
@@ -69,10 +85,6 @@ public class ShapeDAO implements IShapeDAO{
 
 	@Override
 	public Shape getById(int id) throws SQLException{
-		
-		Shape shape = null;
-		String name = null;
-		String shapeType = null;
 		
 		Connection connection = DBConnection.getConnection();
 		
@@ -142,10 +154,10 @@ public class ShapeDAO implements IShapeDAO{
 					coordinateX = (int)((OtherShape) shape).getPoints().get(i).getData().getY();
 					query = "INSERT INTO ShapePoint (OrderIndex, X, Y, ShapeID) VALUES(?, ?, ?, ?)";
 					statement = connection.prepareStatement(query);
-					statement.setInt(1, i);
-					statement.setInt(2, coordinateX);
-					statement.setInt(3, coordinateY);
-					statement.setInt(4, generatedID);
+					statement.setInt(1 + (i*4), i);
+					statement.setInt(2 + (i*4), coordinateX);
+					statement.setInt(3 + (i*4), coordinateY);
+					statement.setInt(4 + (i*4), generatedID);
 				}
 			}
 			
@@ -232,6 +244,7 @@ public class ShapeDAO implements IShapeDAO{
 
 	@Override
 	public boolean deleteShape(Shape shape) throws SQLException{
+		
 		boolean success = false;
 		Connection connection = DBConnection.getConnection();
 		
@@ -247,6 +260,39 @@ public class ShapeDAO implements IShapeDAO{
 			System.out.println(e.getMessage());
 		}
 		return success;
+	}
+	
+	public static ShapePoint buildShapePoint(ResultSet resultSet) throws SQLException {
+		Point point = new Point(0, 0);
+		point.setLocation(resultSet.getInt("X"), resultSet.getInt("Y")); 
+		ShapePoint shapePoint = new ShapePoint(point);
+		return shapePoint;
+	}
+	
+	public static ArrayList<ShapePoint> buildShapePoints(ResultSet resultSet) throws SQLException {
+		
+		ArrayList<ShapePoint> shapePoints = new ArrayList<ShapePoint>();
+		while (resultSet.next()) {
+			shapePoints.add(buildShapePoint(resultSet));
+		}
+		return shapePoints;
+	}
+	
+	public static ArrayList<ShapePoint> getShapePoints (Shape shape) throws SQLException{
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String query = "SELECT *\r\n"
+				+ "FROM ShapePoint \r\n"
+				+ "FULL OUTER JOIN OtherShape ON ShapePoint.ShapeID = OtherShape.ShapeID \r\n"
+				+ "WHERE ShapePoint.ShapeID = ? \r\n"
+				+ "ORDER BY ShapePoint.OrderIndex ASC;";
+			
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1, shape.getId());
+		ResultSet resultSet = statement.executeQuery();
+		if(resultSet.next() == false) return null;		
+		return buildShapePoints(resultSet);
 	}
 
 }
