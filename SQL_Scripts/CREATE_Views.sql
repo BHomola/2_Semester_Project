@@ -1,4 +1,4 @@
-USE [CSC-CSD-S212_10407562]
+USE [CSC-CSD-S212_10414384]
 GO
 
 DROP VIEW IF EXISTS VIEW_PERSONS;
@@ -82,7 +82,7 @@ GO
 
 --ORDERS
 CREATE OR ALTER VIEW VIEW_OrderInfo AS
-SELECT VIEW_OrderInfo.*, Invoice. 
+SELECT OrderInfo.*, Invoice.PaymentDate, Invoice.VATratio, Invoice.FinalPrice
 FROM OrderInfo
 LEFT JOIN Invoice
-ON OrderInfo.OrderID = Invoice.OrderID 
+ON OrderInfo.OrderID = Invoice.OrderID
