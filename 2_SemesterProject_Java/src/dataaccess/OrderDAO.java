@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -16,26 +17,30 @@ import model.Employee;
 import model.IStoneUnit;
 import model.Invoice;
 import model.Location;
-import model.Order;
+import model.OrderInfo;
 import model.Person;
 import model.StoneProduct;
 
 public class OrderDAO implements IOrderDAO {
 
 	@Override
-	public Collection<Order> getAll() throws SQLException {
+	public Collection<OrderInfo> getAll() throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "";
-		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setInt(1, 0);
-		ResultSet resultSet = pStatement.executeQuery();
+		String sqlStatement = 
+				  "SELECT * FROM StoneProduct "
+				+ "JOIN VIEW_OrderInfo "
+				+ "ON StoneProduct.OrderID = VIEW_OrderInfo.OrderID "
+				+ "JOIN VIEW_SelectAllStoneUnits "
+				+ "ON VIEW_SelectAllStoneUnits.StoneUnitID = StoneProduct.StoneID";
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery(sqlStatement);
 		if (resultSet.next() == false)
 			return null;
 		return buildOrders(resultSet);
 	}
 
 	@Override
-	public Order getByID(int id) throws SQLException {
+	public OrderInfo getByID(int id) throws SQLException {
 		Connection con = DBConnection.getConnection();
 		String sqlStatement = "";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
@@ -47,7 +52,7 @@ public class OrderDAO implements IOrderDAO {
 	}
 
 	@Override
-	public int createOrder(Order order) throws SQLException {
+	public int createOrder(OrderInfo order) throws SQLException {
 		int generatedID = -1;
 		if(order.getInvoice() == null)
 			return generatedID;
@@ -83,14 +88,14 @@ public class OrderDAO implements IOrderDAO {
 	}
 
 	@Override
-	public boolean updateOrder(Order order) throws SQLException {
+	public boolean updateOrder(OrderInfo order) throws SQLException {
 		deleteOrder(order);
 		createOrder(order);
 		return false;
 	}
 
 	@Override
-	public boolean deleteOrder(Order order) throws SQLException {
+	public boolean deleteOrder(OrderInfo order) throws SQLException {
 		Connection con = DBConnection.getConnection();
 		String sqlStatement = "DELETE FROM OrderInfo"
 				+ " WHERE OrderID = ?";
@@ -103,23 +108,27 @@ public class OrderDAO implements IOrderDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Order buildOrder(ResultSet resultSet) throws SQLException {
+	public static OrderInfo buildOrder(ResultSet resultSet) throws SQLException {
+		PersonDAO pDAO = new PersonDAO();
 		int id = resultSet.getInt("OrderID");
-		Person customer = PersonDAO.buildPerson(resultSet);
+		Person customer = pDAO.getByID(resultSet.getInt("CustomerID"));
 		ArrayList<? extends IStoneUnit> products = StoneDAO.getStoneUnits(resultSet);
 		double orderPrice = resultSet.getDouble("OrderPrice");
-		Person employee = PersonDAO.buildPerson(resultSet);
-		Location office = StoneDAO.getLocation(resultSet);
+		Person employee = pDAO.getByID(resultSet.getInt("EmplyeeID"));
+		//Location office = StoneDAO.getLocation(resultSet);
+		Location office = null;
 		Invoice invoice = getInvoice(resultSet);
+		DeliveryStatuses deliveryStatus = DeliveryStatuses.GetStatusByID(resultSet.getInt("DeliveryStatus"));
 		Date deliveryDate = resultSet.getDate("DeliveryDate");
 		String address = resultSet.getString("Address");
-		City city = StoneDAO.getCity(resultSet);
+		City city = null;
+		//City city = StoneDAO.getCity(resultSet);
 		double deposit = resultSet.getDouble("Deposit");
 		boolean isPaid = resultSet.getBoolean("IsPaid");
 		String customerNote = resultSet.getString("CustomerNoter");
 		String updates = resultSet.getString("Updates");
-		DeliveryStatuses deliveryStatus = DeliveryStatuses.GetStatusByID(resultSet.getInt("DeliveryStatus"));
-		Order order = new Order(id, (Customer) customer, orderPrice, (Employee) employee, office, invoice,
+		
+		OrderInfo order = new OrderInfo(id, (Customer) customer, orderPrice, (Employee) employee, office, invoice,
 				deliveryStatus, deliveryDate, address, city, deposit, isPaid, customerNote);
 		order.setProducts((List<StoneProduct>) products);
 		order.setUpdates(updates);
@@ -127,8 +136,8 @@ public class OrderDAO implements IOrderDAO {
 
 	}
 
-	public static List<Order> buildOrders(ResultSet resultSet) throws SQLException {
-		ArrayList<Order> myList = new ArrayList<>();
+	public static List<OrderInfo> buildOrders(ResultSet resultSet) throws SQLException {
+		ArrayList<OrderInfo> myList = new ArrayList<>();
 		while (resultSet.next())
 			myList.add(buildOrder(resultSet));
 		return myList;

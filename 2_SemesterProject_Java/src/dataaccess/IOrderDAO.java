@@ -3,12 +3,12 @@ package dataaccess;
 import java.sql.SQLException;
 import java.util.Collection;
 
-import model.Order;
+import model.OrderInfo;
 
 public interface IOrderDAO {
-	public abstract Collection<Order> getAll() throws SQLException;
-	public abstract Order getByID(int id) throws SQLException;
-	public abstract int createOrder(Order order) throws SQLException;
-	public abstract boolean updateOrder(Order order) throws SQLException;
-	public abstract boolean deleteOrder(Order order) throws SQLException;
+	public abstract Collection<OrderInfo> getAll() throws SQLException;
+	public abstract OrderInfo getByID(int id) throws SQLException;
+	public abstract int createOrder(OrderInfo order) throws SQLException;
+	public abstract boolean updateOrder(OrderInfo order) throws SQLException;
+	public abstract boolean deleteOrder(OrderInfo order) throws SQLException;
 }

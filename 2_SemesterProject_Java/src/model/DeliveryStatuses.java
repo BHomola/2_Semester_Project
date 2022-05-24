@@ -1,8 +1,8 @@
 package model;
 
 public enum DeliveryStatuses {
-	ACCEPTED("Accepted", 0), INPROCCESS("In Proccess", 1), SHIPPING("Shipping", 2), DELIVERED("Delivered", 3),
-	OTHER("Other", 4);
+	RECEIVED("Received", 0), ACCEPTED("Accepted", 1), INPROCCESS("In Proccess", 2), SHIPPING("Shipping", 3), DELIVERED("Delivered", 4),
+	OTHER("Other", 5);
 
 	private String statusString;
 	private int id;

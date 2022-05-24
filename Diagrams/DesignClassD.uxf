@@ -24,14 +24,14 @@ fontsize=10
 
 
 // This text will be stored with each diagram;  use it for notes.</help_text>
-  <zoom_level>20</zoom_level>
+  <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4680</x>
-      <y>2820</y>
-      <w>400</w>
-      <h>160</h>
+      <x>2340</x>
+      <y>1410</y>
+      <w>200</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>dataaccess:DBConnection
 --
@@ -42,10 +42,10 @@ _+getConnection(): Connection_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4600</x>
-      <y>2740</y>
-      <w>240</w>
-      <h>120</h>
+      <x>2300</x>
+      <y>1370</y>
+      <w>120</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 uses &gt;</panel_attributes>
@@ -54,10 +54,10 @@ uses &gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3980</x>
-      <y>2680</y>
-      <w>640</w>
-      <h>200</h>
+      <x>1990</x>
+      <y>1340</y>
+      <w>320</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>dataaccess::StoneDAO
 --
@@ -73,10 +73,10 @@ _+buildCity(resultSet: ResultSet): City_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4000</x>
-      <y>2260</y>
-      <w>540</w>
-      <h>280</h>
+      <x>2000</x>
+      <y>1130</y>
+      <w>270</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>&lt;&lt;intefarce&gt;&gt;
 dataaccess::IStoneDAO
@@ -94,10 +94,10 @@ dataaccess::IStoneDAO
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4260</x>
-      <y>2520</y>
-      <w>60</w>
-      <h>200</h>
+      <x>2130</x>
+      <y>1260</y>
+      <w>30</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
@@ -105,10 +105,10 @@ dataaccess::IStoneDAO
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3540</x>
-      <y>2700</y>
-      <w>280</w>
-      <h>140</h>
+      <x>1770</x>
+      <y>1350</y>
+      <w>140</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>model:StoneFactory
 --
@@ -119,10 +119,10 @@ dataaccess::IStoneDAO
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3800</x>
-      <y>2740</y>
-      <w>220</w>
-      <h>80</h>
+      <x>1900</x>
+      <y>1370</y>
+      <w>110</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt; asks</panel_attributes>
@@ -131,10 +131,10 @@ dataaccess::IStoneDAO
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3380</x>
-      <y>2600</y>
-      <w>200</w>
-      <h>240</h>
+      <x>1690</x>
+      <y>1300</y>
+      <w>100</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 creates ^</panel_attributes>
@@ -143,10 +143,10 @@ creates ^</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1920</x>
-      <y>1520</y>
-      <w>1740</w>
-      <h>1100</h>
+      <x>960</x>
+      <y>760</y>
+      <w>870</w>
+      <h>550</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes/>
@@ -154,10 +154,10 @@ creates ^</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3200</x>
-      <y>2060</y>
-      <w>280</w>
-      <h>180</h>
+      <x>1600</x>
+      <y>1030</y>
+      <w>140</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;intefarce&gt;&gt;
 model::IStoneUnit
@@ -171,10 +171,10 @@ getWeight(): double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2760</x>
-      <y>1960</y>
-      <w>280</w>
-      <h>400</h>
+      <x>1380</x>
+      <y>980</y>
+      <w>140</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 /model::StoneUnit/
@@ -199,10 +199,10 @@ getWeight(): double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2000</x>
-      <y>2420</y>
-      <w>420</w>
-      <h>180</h>
+      <x>1000</x>
+      <y>1210</y>
+      <w>210</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>model::Remains
 --
@@ -216,10 +216,10 @@ getWeight(): double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2280</x>
-      <y>2040</y>
-      <w>340</w>
-      <h>280</h>
+      <x>1140</x>
+      <y>1020</y>
+      <w>170</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 /model::Stone/
@@ -239,10 +239,10 @@ getWeight(): double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2920</x>
-      <y>2720</y>
-      <w>360</w>
-      <h>340</h>
+      <x>1460</x>
+      <y>1360</y>
+      <w>180</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>model::StoneMaterial
 --
@@ -263,10 +263,10 @@ getWeight(): double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2920</x>
-      <y>3180</y>
-      <w>280</w>
-      <h>260</h>
+      <x>1460</x>
+      <y>1590</y>
+      <w>140</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>model::StoneType
 --
@@ -284,10 +284,10 @@ getWeight(): double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2200</x>
-      <y>2720</y>
-      <w>300</w>
-      <h>280</h>
+      <x>1100</x>
+      <y>1360</y>
+      <w>150</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>model::Location
 --
@@ -305,10 +305,10 @@ getWeight(): double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2240</x>
-      <y>3080</y>
-      <w>240</w>
-      <h>220</h>
+      <x>1120</x>
+      <y>1540</y>
+      <w>120</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>model::City
 --
@@ -324,10 +324,10 @@ country: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2680</x>
-      <y>2300</y>
-      <w>120</w>
-      <h>60</h>
+      <x>1340</x>
+      <y>1150</y>
+      <w>60</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
@@ -335,10 +335,10 @@ country: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2400</x>
-      <y>2100</y>
-      <w>340</w>
-      <h>460</h>
+      <x>1200</x>
+      <y>1050</y>
+      <w>170</w>
+      <h>230</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;210.0;150.0;210.0;150.0;10.0;110.0;10.0</additional_attributes>
@@ -346,10 +346,10 @@ country: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2860</x>
-      <y>1780</y>
-      <w>60</w>
-      <h>220</h>
+      <x>1430</x>
+      <y>890</y>
+      <w>30</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
@@ -357,10 +357,10 @@ country: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3020</x>
-      <y>2140</y>
-      <w>220</w>
-      <h>60</h>
+      <x>1510</x>
+      <y>1070</y>
+      <w>110</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
@@ -368,10 +368,10 @@ country: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2920</x>
-      <y>2340</y>
-      <w>320</w>
-      <h>420</h>
+      <x>1460</x>
+      <y>1170</y>
+      <w>160</w>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;170.0;140.0;170.0;140.0;190.0</additional_attributes>
@@ -379,10 +379,10 @@ country: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3040</x>
-      <y>3040</y>
-      <w>60</w>
-      <h>180</h>
+      <x>1520</x>
+      <y>1520</y>
+      <w>30</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
@@ -390,10 +390,10 @@ country: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2320</x>
-      <y>2340</y>
-      <w>600</w>
-      <h>420</h>
+      <x>1160</x>
+      <y>1170</y>
+      <w>300</w>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>280.0;10.0;280.0;170.0;10.0;170.0;10.0;190.0</additional_attributes>
@@ -401,10 +401,10 @@ country: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2340</x>
-      <y>2980</y>
-      <w>60</w>
-      <h>140</h>
+      <x>1170</x>
+      <y>1490</y>
+      <w>30</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
@@ -412,10 +412,10 @@ country: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3140</x>
-      <y>3040</y>
-      <w>780</w>
-      <h>140</h>
+      <x>1570</x>
+      <y>1520</y>
+      <w>390</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt; creates </panel_attributes>
@@ -424,10 +424,10 @@ country: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3180</x>
-      <y>3120</y>
-      <w>180</w>
-      <h>280</h>
+      <x>1590</x>
+      <y>1560</y>
+      <w>90</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>10.0;120.0;70.0;120.0;70.0;10.0</additional_attributes>
@@ -435,10 +435,10 @@ country: String
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>580</x>
-      <y>1920</y>
-      <w>520</w>
-      <h>260</h>
+      <x>290</x>
+      <y>960</y>
+      <w>260</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 model::Shape
@@ -454,10 +454,10 @@ model::Shape
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>2320</y>
-      <w>500</w>
-      <h>280</h>
+      <x>10</x>
+      <y>1160</y>
+      <w>250</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>model::ElipseShape
 --
@@ -473,10 +473,10 @@ model::Shape
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>600</x>
-      <y>2340</y>
-      <w>480</w>
-      <h>160</h>
+      <x>300</x>
+      <y>1170</y>
+      <w>240</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>model::CircleShape
 --
@@ -489,10 +489,10 @@ model::Shape
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1140</x>
-      <y>2300</y>
-      <w>660</w>
-      <h>320</h>
+      <x>570</x>
+      <y>1150</y>
+      <w>330</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>model::OtherShape
 --
@@ -524,10 +524,10 @@ model::Shape
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1080</x>
-      <y>2120</y>
-      <w>180</w>
-      <h>220</h>
+      <x>540</x>
+      <y>1060</y>
+      <w>90</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;70.0;10.0;70.0;90.0</additional_attributes>
@@ -535,10 +535,10 @@ model::Shape
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>240</x>
-      <y>2160</y>
-      <w>380</w>
-      <h>200</h>
+      <x>120</x>
+      <y>1080</y>
+      <w>190</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>170.0;10.0;10.0;80.0</additional_attributes>
@@ -546,10 +546,10 @@ model::Shape
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
-      <y>2160</y>
-      <w>60</w>
-      <h>220</h>
+      <x>410</x>
+      <y>1080</y>
+      <w>30</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
@@ -557,10 +557,10 @@ model::Shape
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1080</x>
-      <y>2100</y>
-      <w>1240</w>
-      <h>60</h>
+      <x>540</x>
+      <y>1050</y>
+      <w>620</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>600.0;10.0;10.0;10.0</additional_attributes>
@@ -568,10 +568,10 @@ model::Shape
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1040</x>
-      <y>2760</y>
-      <w>520</w>
-      <h>140</h>
+      <x>520</x>
+      <y>1380</y>
+      <w>260</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>model:ShapeFactory
 --
@@ -583,10 +583,10 @@ _+getShape(String type): Shape_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1460</x>
-      <y>2660</y>
-      <w>140</w>
-      <h>140</h>
+      <x>730</x>
+      <y>1330</y>
+      <w>70</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt; creates </panel_attributes>
@@ -596,9 +596,9 @@ _+getShape(String type): Shape_
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>1600</y>
-      <w>1820</w>
-      <h>1080</h>
+      <y>800</y>
+      <w>910</w>
+      <h>540</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes/>
@@ -606,10 +606,10 @@ _+getShape(String type): Shape_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3700</x>
-      <y>1100</y>
-      <w>340</w>
-      <h>260</h>
+      <x>1850</x>
+      <y>550</y>
+      <w>170</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>&lt;&lt;enumeration&gt;&gt;
 model::DeliveryStatuses
@@ -628,10 +628,10 @@ other
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3020</x>
-      <y>2300</y>
-      <w>300</w>
-      <h>180</h>
+      <x>1510</x>
+      <y>1150</y>
+      <w>150</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;130.0;70.0</additional_attributes>
@@ -639,10 +639,10 @@ other
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1120</x>
-      <y>1840</y>
-      <w>660</w>
-      <h>180</h>
+      <x>560</x>
+      <y>920</y>
+      <w>330</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>model::ShapePoint
 --
@@ -672,10 +672,10 @@ other
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1460</x>
-      <y>2000</y>
-      <w>180</w>
-      <h>340</h>
+      <x>730</x>
+      <y>1000</y>
+      <w>90</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 consists of ^</panel_attributes>
@@ -684,10 +684,10 @@ consists of ^</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4360</x>
-      <y>420</y>
-      <w>400</w>
-      <h>220</h>
+      <x>2180</x>
+      <y>210</y>
+      <w>200</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>&lt;&lt;intefarce&gt;&gt;
 dataaccess::IPersonDAO
@@ -704,10 +704,10 @@ dataaccess::IPersonDAO
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3860</x>
-      <y>600</y>
-      <w>960</w>
-      <h>2260</h>
+      <x>1930</x>
+      <y>300</y>
+      <w>480</w>
+      <h>1130</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 uses &gt;</panel_attributes>
@@ -716,10 +716,10 @@ uses &gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3720</x>
-      <y>480</y>
-      <w>460</w>
-      <h>140</h>
+      <x>1860</x>
+      <y>240</y>
+      <w>230</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>dataaccess::PersonDAO
 --
@@ -731,10 +731,10 @@ _-buildPersons(resultSet: ResultSet): List&lt;Person&gt;_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3100</x>
-      <y>840</y>
-      <w>320</w>
-      <h>520</h>
+      <x>1550</x>
+      <y>420</y>
+      <w>160</w>
+      <h>260</h>
     </coordinates>
     <panel_attributes>model::Order
 --
@@ -762,10 +762,10 @@ _-buildPersons(resultSet: ResultSet): List&lt;Person&gt;_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3160</x>
-      <y>340</y>
-      <w>240</w>
-      <h>400</h>
+      <x>1580</x>
+      <y>170</y>
+      <w>120</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 model::Person
@@ -789,10 +789,10 @@ model::Person
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3280</x>
-      <y>20</y>
-      <w>200</w>
-      <h>200</h>
+      <x>1640</x>
+      <y>10</y>
+      <w>100</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>model::Note
 --
@@ -807,10 +807,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3240</x>
-      <y>720</y>
-      <w>60</w>
-      <h>160</h>
+      <x>1620</x>
+      <y>360</y>
+      <w>30</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
@@ -818,10 +818,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3240</x>
-      <y>1340</y>
-      <w>60</w>
-      <h>760</h>
+      <x>1620</x>
+      <y>670</y>
+      <w>30</w>
+      <h>380</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>10.0;360.0;10.0;10.0</additional_attributes>
@@ -829,10 +829,10 @@ text: String
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2800</x>
+      <x>1400</x>
       <y>0</y>
-      <w>200</w>
-      <h>260</h>
+      <w>100</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>model::Employee
 --
@@ -850,10 +850,10 @@ text: String
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2400</x>
+      <x>1200</x>
       <y>0</y>
-      <w>300</w>
-      <h>280</h>
+      <w>150</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>model::Login
 --
@@ -872,10 +872,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3300</x>
-      <y>200</y>
-      <w>60</w>
-      <h>180</h>
+      <x>1650</x>
+      <y>100</y>
+      <w>30</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
@@ -883,10 +883,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2980</x>
-      <y>120</y>
-      <w>320</w>
-      <h>260</h>
+      <x>1490</x>
+      <y>60</y>
+      <w>160</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>140.0;110.0;140.0;10.0;10.0;10.0</additional_attributes>
@@ -894,10 +894,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2680</x>
-      <y>120</y>
-      <w>160</w>
-      <h>60</h>
+      <x>1340</x>
+      <y>60</y>
+      <w>80</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
@@ -905,10 +905,10 @@ text: String
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2540</x>
-      <y>820</y>
-      <w>200</w>
-      <h>200</h>
+      <x>1270</x>
+      <y>410</y>
+      <w>100</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>model::Invoice
 --
@@ -924,10 +924,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2720</x>
-      <y>880</y>
-      <w>420</w>
-      <h>60</h>
+      <x>1360</x>
+      <y>440</y>
+      <w>210</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>190.0;10.0;10.0;10.0</additional_attributes>
@@ -935,10 +935,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3400</x>
-      <y>1180</y>
-      <w>340</w>
-      <h>60</h>
+      <x>1700</x>
+      <y>590</y>
+      <w>170</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>150.0;10.0;10.0;10.0</additional_attributes>
@@ -946,10 +946,10 @@ text: String
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2740</x>
-      <y>380</y>
-      <w>260</w>
-      <h>260</h>
+      <x>1370</x>
+      <y>190</y>
+      <w>130</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 /model::ImportExportPerson/
@@ -963,10 +963,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2980</x>
-      <y>480</y>
-      <w>220</w>
-      <h>60</h>
+      <x>1490</x>
+      <y>240</y>
+      <w>110</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
@@ -974,10 +974,10 @@ text: String
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2240</x>
-      <y>580</y>
-      <w>380</w>
-      <h>140</h>
+      <x>1120</x>
+      <y>290</y>
+      <w>190</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>model::Supplier
 --
@@ -989,10 +989,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2600</x>
-      <y>580</y>
-      <w>180</w>
-      <h>60</h>
+      <x>1300</x>
+      <y>290</y>
+      <w>90</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
@@ -1000,10 +1000,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2600</x>
-      <y>380</y>
-      <w>180</w>
-      <h>60</h>
+      <x>1300</x>
+      <y>190</y>
+      <w>90</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
@@ -1011,10 +1011,10 @@ text: String
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2380</x>
-      <y>340</y>
-      <w>240</w>
-      <h>200</h>
+      <x>1190</x>
+      <y>170</y>
+      <w>120</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>model::Customer
 --
@@ -1029,10 +1029,10 @@ text: String
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2600</x>
-      <y>660</y>
-      <w>440</w>
-      <h>1340</h>
+      <x>1300</x>
+      <y>330</y>
+      <w>220</w>
+      <h>670</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>200.0;650.0;200.0;10.0;10.0;10.0</additional_attributes>
@@ -1040,10 +1040,10 @@ text: String
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4360</x>
-      <y>840</y>
-      <w>360</w>
-      <h>220</h>
+      <x>2180</x>
+      <y>420</y>
+      <w>180</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>&lt;&lt;intefarce&gt;&gt;
 dataaccess::IOrderDAO
@@ -1060,10 +1060,10 @@ dataaccess::IOrderDAO
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3700</x>
-      <y>840</y>
-      <w>440</w>
-      <h>140</h>
+      <x>1850</x>
+      <y>420</y>
+      <w>220</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>dataaccess::OrderDAO
 --
@@ -1075,10 +1075,10 @@ _-buildOrders(resultSet: ResultSet): List&lt;Order&gt;_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3900</x>
-      <y>780</y>
-      <w>60</w>
-      <h>100</h>
+      <x>1950</x>
+      <y>390</y>
+      <w>30</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
@@ -1086,10 +1086,10 @@ _-buildOrders(resultSet: ResultSet): List&lt;Order&gt;_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4120</x>
-      <y>880</y>
-      <w>280</w>
-      <h>60</h>
+      <x>2060</x>
+      <y>440</y>
+      <w>140</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
@@ -1097,10 +1097,10 @@ _-buildOrders(resultSet: ResultSet): List&lt;Order&gt;_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4160</x>
-      <y>540</y>
-      <w>240</w>
-      <h>60</h>
+      <x>2080</x>
+      <y>270</y>
+      <w>120</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
@@ -1108,10 +1108,10 @@ _-buildOrders(resultSet: ResultSet): List&lt;Order&gt;_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3400</x>
-      <y>880</y>
-      <w>340</w>
-      <h>80</h>
+      <x>1700</x>
+      <y>440</y>
+      <w>170</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt; creates </panel_attributes>
@@ -1120,10 +1120,10 @@ _-buildOrders(resultSet: ResultSet): List&lt;Order&gt;_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3380</x>
-      <y>520</y>
-      <w>380</w>
-      <h>80</h>
+      <x>1690</x>
+      <y>260</y>
+      <w>190</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt; creates </panel_attributes>
@@ -1132,10 +1132,10 @@ _-buildOrders(resultSet: ResultSet): List&lt;Order&gt;_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3920</x>
-      <y>3360</y>
-      <w>500</w>
-      <h>340</h>
+      <x>1960</x>
+      <y>1680</y>
+      <w>250</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>&lt;&lt;intefarce&gt;&gt;
 dataaccess::ITypeMaterialDAO
@@ -1156,10 +1156,10 @@ dataaccess::ITypeMaterialDAO
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3880</x>
-      <y>3040</y>
-      <w>620</w>
-      <h>200</h>
+      <x>1940</x>
+      <y>1520</y>
+      <w>310</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>dataaccess::TypeMaterialDAO
 --
@@ -1176,10 +1176,10 @@ resultSet: ResultSet): StoneType
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4160</x>
-      <y>3220</y>
-      <w>60</w>
-      <h>180</h>
+      <x>2080</x>
+      <y>1610</y>
+      <w>30</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -1187,10 +1187,10 @@ resultSet: ResultSet): StoneType
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4480</x>
-      <y>2960</y>
-      <w>380</w>
-      <h>200</h>
+      <x>2240</x>
+      <y>1480</y>
+      <w>190</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 uses &gt;</panel_attributes>
@@ -1199,10 +1199,10 @@ uses &gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2340</x>
-      <y>1160</y>
-      <w>800</w>
-      <h>440</h>
+      <x>1170</x>
+      <y>580</y>
+      <w>400</w>
+      <h>220</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>380.0;10.0;10.0;10.0;10.0;200.0</additional_attributes>
@@ -1210,10 +1210,10 @@ uses &gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2980</x>
-      <y>160</y>
-      <w>160</w>
-      <h>560</h>
+      <x>1490</x>
+      <y>80</y>
+      <w>80</w>
+      <h>280</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;260.0;60.0;260.0;60.0;10.0;10.0;10.0</additional_attributes>
@@ -1221,10 +1221,10 @@ uses &gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2980</x>
-      <y>140</y>
-      <w>180</w>
-      <h>740</h>
+      <x>1490</x>
+      <y>70</y>
+      <w>90</w>
+      <h>370</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>70.0;350.0;70.0;10.0;10.0;10.0</additional_attributes>
@@ -1232,10 +1232,10 @@ uses &gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3280</x>
-      <y>2300</y>
-      <w>320</w>
-      <h>240</h>
+      <x>1640</x>
+      <y>1150</y>
+      <w>160</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>&lt;&lt;enumeration&gt;&gt;
 model::StoneUnitStatuses
@@ -1251,10 +1251,10 @@ getDescription(): String</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2000</x>
-      <y>1560</y>
-      <w>420</w>
-      <h>220</h>
+      <x>1000</x>
+      <y>780</y>
+      <w>210</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>model::StoneProduct
 --
@@ -1268,10 +1268,10 @@ getDescription(): String</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2340</x>
-      <y>1760</y>
-      <w>60</w>
-      <h>320</h>
+      <x>1170</x>
+      <y>880</y>
+      <w>30</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
@@ -1279,10 +1279,10 @@ getDescription(): String</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2460</x>
-      <y>1560</y>
-      <w>500</w>
-      <h>240</h>
+      <x>1230</x>
+      <y>780</y>
+      <w>250</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>model::StoneCuttable
 --
@@ -1299,10 +1299,10 @@ getDescription(): String</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2540</x>
-      <y>1780</y>
-      <w>60</w>
-      <h>300</h>
+      <x>1270</x>
+      <y>890</y>
+      <w>30</w>
+      <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
@@ -1310,10 +1310,10 @@ getDescription(): String</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>420</x>
-      <y>3100</y>
-      <w>500</w>
-      <h>240</h>
+      <x>210</x>
+      <y>1550</y>
+      <w>250</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>&lt;&lt;intefarce&gt;&gt;
 dataaccess::IShapeDAO
@@ -1330,10 +1330,10 @@ dataaccess::IShapeDAO
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
-      <y>2840</y>
-      <w>480</w>
-      <h>140</h>
+      <x>220</x>
+      <y>1420</y>
+      <w>240</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>dataaccess::ShapeDAO
 --
@@ -1345,10 +1345,10 @@ dataaccess::IShapeDAO
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>560</x>
-      <y>2160</y>
-      <w>160</w>
-      <h>720</h>
+      <x>280</x>
+      <y>1080</y>
+      <w>80</w>
+      <h>360</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt; creates </panel_attributes>
@@ -1357,12 +1357,55 @@ dataaccess::IShapeDAO
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
-      <y>2960</y>
-      <w>60</w>
-      <h>180</h>
+      <x>330</x>
+      <y>1480</y>
+      <w>30</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1020</x>
+      <y>1760</y>
+      <w>310</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>dataaccess::CityLocationDAO
+--
+--
+_+buildCity(rs: ResultSet): City_
+_+buildCities(rs: ResultSet): List&lt;City&gt;_
+_+buildLocation(rs: ResultSet): Location_
+_+buildLocations(rs: ResultSet): List&lt;Location&gt;_
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1400</x>
+      <y>1780</y>
+      <w>250</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;intefarce&gt;&gt;
+dataaccess::ICityLocationDAO
+--
+--
++getAllCities(): Collection&lt;City&gt;
++getAllLocations(): Collection&lt;Location&gt;
++getCityByID(id: int): City
++getLocationByID(id: int): Location
++createCity(city : City): int
++createLocation(location : Location): int
++updateCity(city : City): boolean
++updateLocation(location : Location): boolean
++deleteCity(city : City): boolean
++deleteLocation(location : Location): boolean</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
