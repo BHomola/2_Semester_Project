@@ -37,7 +37,7 @@ class TestCityLocation {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}  
 	
 	@Test
 	void testCreateLocation() {
@@ -46,7 +46,7 @@ class TestCityLocation {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}  
 	
 	@Test
 	void testUpdateCity() {
@@ -66,17 +66,17 @@ class TestCityLocation {
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-	}
+	} 
 	
 	@Test
 	void testGetCityByID() {
 		try {
-			assertEquals("Chisinau", clDAO.getCityByID(1).getCityName());
+			assertEquals("Chisinau", clDAO.getCityByID(2).getCityName());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	} 
 	
 	@Test
 	void testGetLocationByID() {
@@ -108,5 +108,5 @@ class TestCityLocation {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	} 
 }

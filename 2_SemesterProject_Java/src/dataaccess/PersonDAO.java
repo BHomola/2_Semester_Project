@@ -114,8 +114,8 @@ public class PersonDAO implements IPersonDao {
 
 		try {
 			connection.setAutoCommit(false);
-			String query = "INSERT INTO Person (Name, Address, CityID, Note, PhoneNumber, Email, DateOfBirth, Age, Description, PersonType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
-					+ "SELECT SCOPE_IDENTITIY() AS generatedID;";
+			String query = "INSERT INTO Person (Name, Address, CityID, Note, PhoneNumber, Email, DateOfBirth, Age, Description, PersonType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+					+ "SELECT SCOPE_IDENTITY() AS generatedID;";
 
 			PreparedStatement statement = connection.prepareStatement(query);
 
@@ -129,11 +129,11 @@ public class PersonDAO implements IPersonDao {
 			statement.setInt(8, person.getAge());
 			statement.setString(9, person.getDescription());
 			if (person instanceof Customer)
-				statement.setString(11, "Customer");
+				statement.setString(10, "Customer");
 			if (person instanceof Supplier)
-				statement.setString(11, "Supplier");
+				statement.setString(10, "Supplier");
 			if (person instanceof Employee)
-				statement.setString(11, "Employee");
+				statement.setString(10, "Employee");
 
 			ResultSet rs = statement.executeQuery();
 
@@ -193,11 +193,21 @@ public class PersonDAO implements IPersonDao {
 					+ "   ,[Age] = ?" + "   ,[Description] = ?" + "   ,[PersonType] = ?" + "WHERE PersonID = ?;";
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setString(1, person.getName());
+			statement.setString(2, person.getAddress());
+			statement.setInt(3, person.getCity().getId());
+			statement.setString(4, person.getNote());
+			statement.setString(5, person.getPhoneNumber());
+			statement.setString(6, person.getEmail());
+			statement.setDate(7, (java.sql.Date) person.getDateOfBirth());
+			statement.setInt(8, person.getAge());
+			statement.setString(9, person.getDescription());
 			if (person instanceof Customer)
-				statement.setString(3, "Customer");
+				statement.setString(10, "Customer");
 			if (person instanceof Employee)
-				statement.setString(3, "Employee");
-
+				statement.setString(10, "Employee");
+			if (person instanceof Supplier)
+				statement.setString(10, "Supplier");
+			statement.setInt(11, person.getId());
 			statement.executeUpdate();
 
 			if (person instanceof Customer) {
@@ -231,6 +241,7 @@ public class PersonDAO implements IPersonDao {
 			connection.commit();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return success;
 	}

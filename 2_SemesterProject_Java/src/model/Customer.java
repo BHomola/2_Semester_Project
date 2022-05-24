@@ -25,6 +25,19 @@ public class Customer extends Person {
 		this.totalsSpends = totalsSpends;
 		setOrders(new ArrayList<Order>());
 	}
+	
+	public Customer( String name, String address, City city, String phoneNumber, String email, Date dateOfBirth,
+			int age, String description, double discount, boolean isPremium, boolean isCompany, double totalsSpends,
+			String note) {
+		super( name, address, city, phoneNumber, email, dateOfBirth, age, description, note);
+		this.discount = discount;
+		this.isPremium = isPremium;
+		this.isCompany = isCompany;
+		this.lastOrderID = 0;
+		this.totalsSpends = totalsSpends;
+		setOrders(new ArrayList<Order>());
+	}
+	
 
 	public double getDiscount() {
 		return discount;
