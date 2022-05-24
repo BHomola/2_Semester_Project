@@ -2,18 +2,18 @@ package model;
 
 import java.util.Date;
 
-public class Employee extends Person{
+public class Employee extends Person {
 
 	private String position;
 	private double salary;
 	private Date startDate;
 	private Location location;
 	private Login login;
-	
+
 	public Employee(int id, String name, String address, City city, String phoneNumber, String email, Date dateOfBirth,
-			int age, String description, String note, String position, double salary, Date startDate,
-			Location location, Login login) {
-		
+			int age, String description, String note, String position, double salary, Date startDate, Location location,
+			Login login) {
+
 		super(id, name, address, city, phoneNumber, email, dateOfBirth, age, description, note);
 		this.position = position;
 		this.salary = salary;
@@ -61,7 +61,11 @@ public class Employee extends Person{
 	public void setLogin(Login login) {
 		this.login = login;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Employee [position=" + position + ", salary=" + salary + ", startDate=" + startDate + ", location="
+				+ location + ", login=" + login + "]"  + super.toString();
+	}
+
 }
