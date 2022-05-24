@@ -45,7 +45,7 @@ CREATE TABLE Customer
   LastOrderID INT,
   CustomerID INT NOT NULL,
   PRIMARY KEY (CustomerID),
-  FOREIGN KEY (CustomerID) REFERENCES Person(PersonID)
+  FOREIGN KEY (CustomerID) REFERENCES Person(PersonID) ON DELETE CASCADE
 );
 
 
@@ -53,7 +53,7 @@ CREATE TABLE Supplier
 (
   SupplierID INT NOT NULL,
   PRIMARY KEY (SupplierID),
-  FOREIGN KEY (SupplierID) REFERENCES Person(PersonID)
+  FOREIGN KEY (SupplierID) REFERENCES Person(PersonID) ON DELETE CASCADE
 );
 
 
@@ -89,7 +89,7 @@ CREATE TABLE Employee
   EmployeeID INT NOT NULL,
   LocationID INT NOT NULL,
   PRIMARY KEY (EmployeeID),
-  FOREIGN KEY (EmployeeID) REFERENCES Person(PersonID),
+  FOREIGN KEY (EmployeeID) REFERENCES Person(PersonID) ON DELETE CASCADE,
   FOREIGN KEY (LocationID) REFERENCES StoreLocation(LocationID)
 );
 

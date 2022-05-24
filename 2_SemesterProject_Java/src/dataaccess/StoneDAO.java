@@ -286,8 +286,8 @@ public class StoneDAO implements IStoneDAO{
 		//other DAOs access
 		Location location = new CityLocationDAO().getLocationByID(resultSet.getInt("LocationID"));
 		StoneType stoneType = new TypeMaterialDAO().getStoneTypeByID(resultSet.getInt("StoneTypeID"));
-		Supplier supplier = null;//ACCESS TO DAO(Supplier)PersonDAO.buildPerson(resultSet);
-		Employee employee = null;//ACCESS TO DAO(Employee)PersonDAO.buildPerson(resultSet);
+		Supplier supplier = (Supplier) new PersonDAO().getByID(resultSet.getInt("SupplierID"));
+		Employee employee = (Employee)new PersonDAO().getByID(resultSet.getInt("EmployeeID"));
 		
 
 		if (stoneKind.equals("Remains")) {
