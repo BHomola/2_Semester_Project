@@ -70,8 +70,7 @@ public class CityLocationDAO implements ICityLocationDAO{
 	@Override
 	public City getCityByID(int id) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = " SELECT *  FROM City"
-				+ "WHERE CityID = ?";
+		String sqlStatement = " SELECT *  FROM City WHERE CityID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setInt(1, id);
 		ResultSet resultSet = pStatement.executeQuery();

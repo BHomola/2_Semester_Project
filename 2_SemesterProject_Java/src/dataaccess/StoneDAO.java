@@ -266,7 +266,7 @@ public class StoneDAO implements IStoneDAO{
 		String updates = resultSet.getString("Updates");
 		StoneUnitStatuses status = StoneUnitStatuses.GetStatusByID(resultSet.getInt("Status"));
 		//other DAOs access
-		Location location = getLocation(resultSet);
+		Location location = new CityLocationDAO().getLocationByID(resultSet.getInt("LocationID"));
 		StoneType stoneType = new TypeMaterialDAO().getStoneTypeByID(resultSet.getInt("StoneTypeID"));
 		Supplier supplier = null;//ACCESS TO DAO(Supplier)PersonDAO.buildPerson(resultSet);
 		Employee employee = null;//ACCESS TO DAO(Employee)PersonDAO.buildPerson(resultSet);
