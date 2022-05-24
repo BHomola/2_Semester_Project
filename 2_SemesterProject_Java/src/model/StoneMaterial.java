@@ -91,4 +91,10 @@ public class StoneMaterial {
 		this.description = description;
 	}
 
+	@Override
+	public String toString() {
+		return "StoneMaterial [id=" + id + ", name=" + name + ", description=" + description + ", stoneType="
+				+ stoneType + "]";
+	}
+	
 }

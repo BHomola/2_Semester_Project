@@ -83,7 +83,12 @@ public class StoneType {
 	public void setsMaterial(StoneMaterial sMaterial) {
 		this.sMaterial = sMaterial;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "StoneType [id=" + id + ", name=" + name + ", description=" + description + ", picturePath="
+				+ picturePath + ", supplier=" + supplier + ", sMaterial=" + sMaterial + "]";
+	}
+	
+	
 }
