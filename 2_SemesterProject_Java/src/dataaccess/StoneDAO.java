@@ -328,41 +328,41 @@ public class StoneDAO implements IStoneDAO{
 	}
 	
 	
-	public static Location getLocation(ResultSet resultSet) throws SQLException{
-		if(!hasColumn(resultSet, "OfficeLocationName")) {
-		return new Location(resultSet.getInt("LocationID"), resultSet.getString("LocationName"),
-				resultSet.getString("Address"), getCity(resultSet));
-		} else {
-			return new Location(resultSet.getInt("LocationID"), resultSet.getString("OfficeLocationName"),
-					resultSet.getString("OfficeAddress"), getCity(resultSet));
-		}
-	}
-
-	public static City getCity(ResultSet resultSet) throws SQLException {
-		if(!hasColumn(resultSet, "OfficeCityName")) {
-		return new City(resultSet.getInt("CityID"), resultSet.getString("CityName"), resultSet.getString("Zipcode"),
-				resultSet.getString("Country"));
-		} else {
-			return new City(resultSet.getInt("OfficeCityID"), resultSet.getString("OfficeCityName"), resultSet.getString("OfficeZipcode"),
-					resultSet.getString("OfficeCountry"));
-		}
-	}
-	
-	public static Shape getShape(ResultSet resultSet) throws SQLException {
-		
-		return null;
-	}
-
-	public static boolean hasColumn(ResultSet rs, String columnName) throws SQLException {
-	    ResultSetMetaData rsmd = rs.getMetaData();
-	    int columns = rsmd.getColumnCount();
-	    for (int x = 1; x <= columns; x++) {
-	        if (columnName.equals(rsmd.getColumnName(x))) {
-//	        	System.out.println(true);
-	            return true;
-	        }
-	    }
-	    return false;
-	}
+//	public static Location getLocation(ResultSet resultSet) throws SQLException{
+//		if(!hasColumn(resultSet, "OfficeLocationName")) {
+//		return new Location(resultSet.getInt("LocationID"), resultSet.getString("LocationName"),
+//				resultSet.getString("Address"), getCity(resultSet));
+//		} else {
+//			return new Location(resultSet.getInt("LocationID"), resultSet.getString("OfficeLocationName"),
+//					resultSet.getString("OfficeAddress"), getCity(resultSet));
+//		}
+//	}
+//
+//	public static City getCity(ResultSet resultSet) throws SQLException {
+//		if(!hasColumn(resultSet, "OfficeCityName")) {
+//		return new City(resultSet.getInt("CityID"), resultSet.getString("CityName"), resultSet.getString("Zipcode"),
+//				resultSet.getString("Country"));
+//		} else {
+//			return new City(resultSet.getInt("OfficeCityID"), resultSet.getString("OfficeCityName"), resultSet.getString("OfficeZipcode"),
+//					resultSet.getString("OfficeCountry"));
+//		}
+//	}
+//	
+//	public static Shape getShape(ResultSet resultSet) throws SQLException {
+//		
+//		return null;
+//	}
+//
+//	public static boolean hasColumn(ResultSet rs, String columnName) throws SQLException {
+//	    ResultSetMetaData rsmd = rs.getMetaData();
+//	    int columns = rsmd.getColumnCount();
+//	    for (int x = 1; x <= columns; x++) {
+//	        if (columnName.equals(rsmd.getColumnName(x))) {
+////	        	System.out.println(true);
+//	            return true;
+//	        }
+//	    }
+//	    return false;
+//	}
 	
 }
