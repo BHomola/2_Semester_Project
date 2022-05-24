@@ -5,7 +5,7 @@ DROP VIEW IF EXISTS VIEW_PERSONS;
 GO
 
 --PERSON
-CREATE OR ALTER VIEW VIEW_PERSONS AS
+CREATE OR ALTER VIEW VIEW_Persons AS
 SELECT *
 FROM Person
 FULL OUTER JOIN Customer ON Person.PersonID = Customer.CustomerID
@@ -14,11 +14,11 @@ FULL OUTER JOIN Employee ON Person.PersonID = Employee.EmployeeID;
 GO
 
 
-DROP VIEW IF EXISTS VIEW_MATERIALTYPES;
+DROP VIEW IF EXISTS VIEW_MaterialTypes;
 GO
 
 --MATERIALTYPES
-CREATE VIEW VIEW_MATERIALTYPES AS
+CREATE VIEW VIEW_MaterialTypes AS
 SELECT StoneType.StoneTypeID, StoneType.Name AS TypeName, StoneType.Description AS TypeDescription,
 StoneType.Picture, StoneMaterial.StoneMaterialID, StoneMaterial.Name AS MaterialName, 
 StoneMaterial.Description as MaterialDescription
@@ -27,11 +27,11 @@ JOIN StoneMaterial ON
 StoneType.StoneMaterialID = StoneMaterial.StoneMaterialID;
 GO
 
-DROP VIEW IF EXISTS VIEW_SHAPES;
+DROP VIEW IF EXISTS VIEW_Shapes;
 GO
 
 --SHAPES
-CREATE OR ALTER VIEW VIEW_SHAPES AS
+CREATE OR ALTER VIEW VIEW_Shapes AS
 SELECT Shape.ShapeID, Shape.Name AS ShapeName, Shape.ShapeType,
 CircleShape.Diamater as CircleDiameter, 
 ElipseShape.DiamaterX AS ElipseDiamaterX, ElipseShape.DiamaterY AS ElipseDiamaterY,
@@ -43,11 +43,11 @@ FULL OUTER JOIN OtherShape ON Shape.ShapeID = OtherShape.ShapeID
 FULL OUTER JOIN ShapePoint ON OtherShape.ShapeID = ShapePoint.ShapeID;
 GO
 
-DROP VIEW IF EXISTS VIEW_LOCATIONCITY;
+DROP VIEW IF EXISTS VIEW_LocationCity;
 GO
 
 --LOCATIONCITY
-CREATE OR ALTER VIEW VIEW_LOCATIONCITY AS
+CREATE OR ALTER VIEW VIEW_LocationCity AS
 SELECT StoreLocation.LocationID, StoreLocation.LocationName, StoreLocation.Address,
 City.CityID, City.Zipcode, City.CityName, City.Country
 FROM StoreLocation
@@ -58,10 +58,10 @@ GO
 --StoneUnit
 
 
-DROP VIEW IF EXISTS VIEW_STONES;
+DROP VIEW IF EXISTS VIEW_Stones;
 GO
 
-CREATE VIEW VIEW_STONES AS
+CREATE VIEW VIEW_Stones AS
 SELECT StoneUnit.StoneUnitID, StoneUnit.Width, StoneUnit.Weight, StoneUnit.Description, StoneUnit.Status, StoneUnit.StoneType, StoneUnit.CreatedDate, StoneUnit.Origin, StoneUnit.Updates, StoneUnit.StoneTypeID, StoneType.StoneMaterialID, StoneUnit.LocationID, StoneUnit.SupplierID, StoneUnit.EmployeeID, Stone.TotalSize, StoneProduct.Price, StoneProduct.OrderID, Remains.Pieces  FROM StoneUnit
 FULL OUTER JOIN Stone ON StoneUnit.StoneUnitID = Stone.StoneID
 FULL OUTER JOIN Remains ON StoneUnit.StoneUnitID = Remains.RemainsID
@@ -75,7 +75,8 @@ GO
 --SELECT SelectAllStoneUnits.* FROM StoneCuttable
 --JOIN SelectAllStoneUnits ON StoneCuttable.StoneUnitID = SelectAllStoneUnits.StoneUnitID
 --WHERE StoneID = 1
-SELECT * FROM [VIEW_STONES] WHERE StoneUnitID=1
+
+--SELECT * FROM VIEW_Stones WHERE StoneUnitID=1
 
 GO
 
@@ -89,7 +90,7 @@ VIEW_LOCATIONCITY.CityName AS OfficeCityName, VIEW_LOCATIONCITY.Country AS Offic
 FROM OrderInfo
 LEFT JOIN City AS CustomerCity
 ON OrderInfo.CityID = CustomerCity.CityID
-LEFT JOIN VIEW_LOCATIONCITY 
-ON OrderInfo.LocationID = VIEW_LOCATIONCITY.LocationID
+LEFT JOIN VIEW_LocationCity 
+ON OrderInfo.LocationID = VIEW_LocationCity.LocationID
 LEFT JOIN Invoice
 ON OrderInfo.OrderID = Invoice.OrderID 
