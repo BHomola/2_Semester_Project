@@ -53,7 +53,8 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		pStatement.setInt(1, stoneMaterial.getId());
 		ArrayList<StoneType> sTypeList = new ArrayList<>();
 		ResultSet resultSet = pStatement.executeQuery();
-			sTypeList.add(buildType(resultSet));
+		while(resultSet.next())	
+		sTypeList.add(buildType(resultSet));
 		return sTypeList;
 	}
 
@@ -145,39 +146,40 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 	@Override
 	public boolean updateStoneMaterial(StoneMaterial stoneMaterial) throws SQLException{
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "UPDATE StoneMaterial "
-				+ "SET Name = '?'"
-				+ "SET Description = '?'"
-				+ "WHERE StoneMaterialID = ? ";
+		boolean success = false;
+		try {
+		String sqlStatement = "UPDATE StoneMaterial SET Name = ?, Description = ? WHERE StoneMaterialID = ? ";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setString(1, stoneMaterial.getName());
 		pStatement.setString(2, stoneMaterial.getDescription());
 		pStatement.setInt(3, stoneMaterial.getId());
-		int rowsAffected = pStatement.executeUpdate();
-		if(rowsAffected == 1)
-			return true;
-		return false;
-	}
+		pStatement.executeUpdate();
+		success = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return success;
+}
 
 	@Override
 	public boolean updateStoneType(StoneType stoneType) throws SQLException{
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "UPDATE StoneType "
-				+ "SET Name = ?"
-				+ "Description = ?"
-				+ "Picture = ?"
-				+ "SupplierID = ?"
-				+ "WHERE StoneTypeID = ?";
+		boolean success = false;
+		try {
+		String sqlStatement = "UPDATE StoneType SET Name = ?, Description = ?, Picture = ?, SupplierID = ? WHERE StoneTypeID = ?";
 		PreparedStatement statement = con.prepareStatement(sqlStatement);
 		statement.setString(1, stoneType.getName());
 		statement.setString(2, stoneType.getDescription());
 		statement.setString(3, stoneType.getpicturePath());
 		statement.setInt(4, stoneType.getSupplierID());
 		statement.setInt(5, stoneType.getId());
-		int rowsAffected = statement.executeUpdate();
-		if(rowsAffected == 1)
-			return true;
-		return false;	}
+		statement.executeUpdate();
+		success = true;
+		} catch (Exception e) {
+		e.printStackTrace();
+		}
+		return success;
+	}
 
 	@Override
 	public boolean deleteStoneMaterial(StoneMaterial stoneMaterial) throws SQLException{
@@ -185,7 +187,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		String sqlStatement = "DELETE FROM StoneMaterial "
 				+ "WHERE StoneMaterialID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setInt(0, stoneMaterial.getId());
+		pStatement.setInt(1, stoneMaterial.getId());
 		int rowsAffected = pStatement.executeUpdate();
 		if(rowsAffected == 1)
 			return true;
@@ -198,7 +200,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		String sqlStatement = "DELETE FROM StoneType "
 				+ "WHERE StoneTypeID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setInt(0, stoneType.getId());
+		pStatement.setInt(1, stoneType.getId());
 		int rowsAffected = pStatement.executeUpdate();
 		if(rowsAffected == 1)
 			return true;

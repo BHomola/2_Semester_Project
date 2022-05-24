@@ -35,6 +35,16 @@ public class StoneType {
 		this.description = description;
 	}
 
+	public StoneType(int id, String name, String description, String picturePath, int supplierID, int sMaterialID) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.picturePath = picturePath;
+		this.supplierID = supplierID;
+		this.sMaterialID = sMaterialID;
+	}
+
 	public int getId() {
 		return id;
 	}

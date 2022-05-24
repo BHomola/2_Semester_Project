@@ -1,19 +1,16 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import dataaccess.CityLocationDAO;
+import dataaccess.PersonDAO;
 import dataaccess.TypeMaterialDAO;
-import model.City;
 import model.StoneMaterial;
 import model.StoneType;
 import model.Supplier;
@@ -23,22 +20,22 @@ class TestTypeMaterialDAO {
 	StoneType sType, stUpdated;
 	List<StoneType> lType = new ArrayList<StoneType>();
 	Supplier supplier;
-	City city;
 	Date date;
-	SimpleDateFormat formatter;
 	TypeMaterialDAO tmDAO;
-	int m=2, t=1;
+	CityLocationDAO clDAO;
+	PersonDAO pDAO;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		try {
+			pDAO = new PersonDAO();
+			clDAO = new CityLocationDAO();
 			tmDAO = new TypeMaterialDAO();
-			formatter = new SimpleDateFormat("dd-MM-yyyy");
-			date = formatter.parse("10-05-2022");
-			city = new City(111,"Chisinau", "MD-2000", "Moldova");
-			supplier = new Supplier(4, "Grafit", "Vesterbro 49", city, "9843782", "test@test.com", date, 0, "None", "No note");
+			String sdate = "2022-05-10";
+			date = Date.valueOf(sdate);
+			supplier = new Supplier("Grafit", "Vesterbro 49", clDAO.getCityByID(3), "9843782", "test@test.com", date, 0, "Supplier", "No note");
+			pDAO.createPerson(supplier);
 			sMaterial = new StoneMaterial( "Granite", "Hard Rock", lType);
-			sType = new StoneType("Magma", "Orange-black", "Images\\Granite\\Magma.jpg", supplier.getId(), 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,28 +43,28 @@ class TestTypeMaterialDAO {
 
 	@AfterEach
 	void tearDown() throws Exception {
-		//m++;
-		t++;
 	}
-/*
-	@Test
+	
+		@Test
 	void testCreateStoneMaterial() {
 		try {
-			assertEquals(m, tmDAO.createStoneMaterial(sMaterial));
+			assertEquals(1, tmDAO.createStoneMaterial(sMaterial));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}  */
+	}   
 	
+	//Need fix
 	@Test
 	void testCreateStoneType() {
 		try {
+			sType = new StoneType("Magma", "Orange-black", "Images\\Granite\\Magma.jpg", 2, 1);
 			assertEquals(1, tmDAO.createStoneType(sType));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	} 
-	/*
+	
  	@Test
 	void testGetStoneMaterialByID() {
 		try {
@@ -88,42 +85,56 @@ class TestTypeMaterialDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	} */
+	} 
 	
 	@Test 
 	void testUpdateStoneType(){
-		
-	}
-	
-	@Test
-	void testDeleteStoneMaterial() {
-		
-	}
-	
-	@Test
-	void testDeleteStoneType() {
-		
-	}
-	
+		//Arange
+				stUpdated = new StoneType(1, "Magmma", "Orange-black", "Images\\Granite\\Magma.jpg", 2, 1);
+				//Assert
+				try {
+					assertTrue(tmDAO.updateStoneType(stUpdated));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	} 
 	
 	@Test
 	void testGetStoneTypeByID() {
-		
-	}
+		try {
+			assertEquals("Magmma", tmDAO.getStoneTypeByID(1).getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	} 
 	
 	@Test 
-	void testGetAllStoneMaterials() {
-		
+	void testGetAllStoneMaterials() throws SQLException {
+		assertEquals(1, tmDAO.getAllStoneMaterials().size());
+	} 
+	
+	@Test
+	void testGetAllStoneTypes() throws SQLException {
+		assertEquals(1, tmDAO.getAllStoneTypes().size());
 	}
 	
 	@Test
-	void testGetAllStoneTypes() {
-		
-	}
+	void testGetTypeListOfSameMaterial() throws SQLException {
+		smUpdated = new StoneMaterial(1, "Granite", "Hard hard rock");
+		assertEquals(1, tmDAO.getTypeListOfSameMaterial(smUpdated).size());
+	} 
 	
 	@Test
-	void testGetTypeListOfSameMaterial() {
-		
-	}
+	void testDeleteStoneMaterial() throws SQLException {
+		smUpdated = new StoneMaterial(1, "Granite", "Hard hard rock");
+		assertTrue(tmDAO.deleteStoneMaterial(smUpdated));
+	} 
+	
+	@Test
+	void testDeleteStoneType() throws SQLException {
+		stUpdated = new StoneType(1, "Magmma", "Orange-black", "Images\\Granite\\Magma.jpg", 11, 2);
+		assertTrue(tmDAO.deleteStoneType(stUpdated));
+	} 
 
 }

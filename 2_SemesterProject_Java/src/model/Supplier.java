@@ -12,6 +12,13 @@ public class Supplier extends Person {
 		super(id, name, address, city, phoneNumber, email, dateOfBirth, age, description, note);
 		setSelectionOfProducts(new ArrayList<StoneType>());
 	}
+	
+	public Supplier( String name, String address, City city, String phoneNumber, String email, Date dateOfBirth,
+			int age, String description, String note) {
+		super( name, address, city, phoneNumber, email, dateOfBirth, age, description, note);
+		setSelectionOfProducts(new ArrayList<StoneType>());
+	}
+
 
 	public Supplier(int id) {
 		super(id);

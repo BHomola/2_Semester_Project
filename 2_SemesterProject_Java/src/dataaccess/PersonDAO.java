@@ -157,13 +157,13 @@ public class PersonDAO implements IPersonDao {
 			if (person instanceof Supplier) {
 				query = "INSERT INTO Supplier (SupplierID) VALUES(?)";
 				statement = connection.prepareStatement(query);
-				statement.setInt(1, ((Supplier) person).getId());
+				statement.setInt(1, generatedID);
 			}
 
 			if (person instanceof Employee) {
 				query = "INSERT INTO Employee (EmployeeID, Position, Salary, StartDate, LocationID) VALUES (?, ?, ?, ?, ?, ?, ?)";
 				statement = connection.prepareStatement(query);
-				statement.setInt(1, ((Employee) person).getId());
+				statement.setInt(1, generatedID);
 				statement.setString(2, ((Employee) person).getPosition());
 				statement.setDouble(3, ((Employee) person).getSalary());
 				statement.setDate(4, (java.sql.Date) ((Employee) person).getStartDate());
@@ -175,6 +175,7 @@ public class PersonDAO implements IPersonDao {
 			connection.commit();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 			connection.rollback();
 		} finally {
 			connection.setAutoCommit(true);
