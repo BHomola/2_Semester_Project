@@ -153,17 +153,15 @@ public class ShapeDAO implements IShapeDAO{
 				
 				ArrayList<Double> coordinateX = new ArrayList<Double>();
 				ArrayList<Double> coordinateY = new ArrayList<Double>();
-				for(int i = 0; i < ((OtherShape) shape).getPoints().size(); i++) {
+				for(int i = 0; i < ((OtherShape) shape).getPoints().size()-1; i++) {
 					coordinateX.add(((OtherShape) shape).getPoints().get(i).getData().getX());
 					coordinateY.add(((OtherShape) shape).getPoints().get(i).getData().getY());
 				}
-				for(int i = 0; i < ((OtherShape) shape).getPoints().size(); i++) {
+				for(int i = 0; i < ((OtherShape) shape).getPoints().size()-1; i++) {
 					double cX = coordinateX.get(i);
 					double cY = coordinateY.get(i);
 					int intCX = (int) cX;
 					int intCY = (int) cY;
-					System.out.println(intCX);
-					System.out.println(intCY);
 					query = "INSERT INTO ShapePoint (OrderIndex, X, Y, ShapeID) VALUES(?, ?, ?, ?)";
 					statement = connection.prepareStatement(query);
 					statement.setInt(1/*+ (i*4)*/, i);
