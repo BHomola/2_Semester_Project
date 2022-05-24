@@ -1,4 +1,4 @@
-USE [CSC-CSD-S212_10407557]
+
 GO
 
 CREATE TABLE StoneMaterial

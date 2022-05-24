@@ -1,4 +1,4 @@
-USE [CSC-CSD-S212_10414384]
+
 GO
 
 DROP TABLE [dbo].[StoneProduct]

@@ -1,4 +1,4 @@
-USE [CSC-CSD-S212_10407557]
+
 INSERT INTO [City] (Zipcode,CityName,Country)
 VALUES
   ('628357','Barranca','Ukraine'),
