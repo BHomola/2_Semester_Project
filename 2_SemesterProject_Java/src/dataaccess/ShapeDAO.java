@@ -127,6 +127,7 @@ public class ShapeDAO implements IShapeDAO{
 				query = "INSERT INTO CircleShape (shapeId, diameter) VALUES (?, ?);";
 				statement.setInt(1, id);
 				statement.setInt(2, (int) ((CircleShape) shape).getDiameter());
+				statement.executeUpdate();
 			}
 			
 			if (shape instanceof ElipseShape) {
@@ -134,6 +135,7 @@ public class ShapeDAO implements IShapeDAO{
 				statement.setInt(1, id);
 				statement.setInt(2, (int) ((ElipseShape) shape).getDiameterX());
 				statement.setInt(3, (int) ((ElipseShape) shape).getDiameterY());
+				statement.executeUpdate();
 			}
 			
 			if (shape instanceof OtherShape) {
@@ -142,13 +144,11 @@ public class ShapeDAO implements IShapeDAO{
 				
 				statement.executeUpdate();
 				
-				
-				
 				ArrayList<Double> coordinateX = new ArrayList<Double>();
 				ArrayList<Double> coordinateY = new ArrayList<Double>();
 				for(int i = 0; i < ((OtherShape) shape).getPoints().size(); i++) {
-					coordinateX.add((((OtherShape) shape).getPoints().get(i).getData().getX()));
-					coordinateY.add((((OtherShape) shape).getPoints().get(i).getData().getY()));
+					coordinateX.add(((OtherShape) shape).getPoints().get(i).getData().getX());
+					coordinateY.add(((OtherShape) shape).getPoints().get(i).getData().getY());
 				}
 				for(int i = 0; i < ((OtherShape) shape).getPoints().size(); i++) {
 					double cX = coordinateX.get(i);
@@ -163,10 +163,10 @@ public class ShapeDAO implements IShapeDAO{
 					statement.setInt(2/*+ (i*4)*/, intCX);
 					statement.setInt(3/*+ (i*4)*/, intCY);
 					statement.setInt(4/*+ (i*4)*/, id);
+					statement.executeUpdate();
 				}
 			}
 			
-			statement.executeUpdate();
 			
 			connection.commit();
 			} catch (SQLException e) {
@@ -300,5 +300,7 @@ public class ShapeDAO implements IShapeDAO{
 		if(resultSet.next() == false) return null;		
 		return buildShapePoints(resultSet);
 	}
+	
+	//public static
 
 }
