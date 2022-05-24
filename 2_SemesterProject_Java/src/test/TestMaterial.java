@@ -22,7 +22,7 @@ class TestMaterial {
 		try {
 			stoneMaterial = null;
 			type = null;
-			stoneMaterial = new StoneMaterial(1, "Granite", "Hard Rock", list);
+			stoneMaterial = new StoneMaterial(1, "Granite", "Hard Rock");
 			type = new StoneType(2, "Jaguar", "Orange-black");
  		} catch (Exception e) {
 			e.printStackTrace();
