@@ -26,44 +26,42 @@ import model.StoneUnit;
 import model.StoneUnitStatuses;
 import model.Supplier;
 
-public class StoneDAO implements IStoneDAO{
+public class StoneDAO implements IStoneDAO {
 
-	
-	//TODO: Finish when the database is implemented.
+	// TODO: Finish when the database is implemented.
 	@Override
 	public ArrayList<IStoneUnit> getAllStoneUnits() throws SQLException {
-		
-		//get all stones first
+
+		// get all stones first
 		String query = "SELECT * FROM [VIEW_STONES]";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		ResultSet rs = statement.executeQuery();
-		
+
 		ArrayList<IStoneUnit> stoneUnits = getStoneUnits(rs);
-		//assigning parents stones and child stones
+		// assigning parents stones and child stones
 		query = "SELECT * FROM StoneCuttable";
 		statement = DBConnection.getConnection().prepareStatement(query);
 		rs = statement.executeQuery();
-		while(rs.next()) {
+		while (rs.next()) {
 			int parentStoneID = rs.getInt("StoneID");
 			int childStoneID = rs.getInt("StoneUnitID");
-			
-			for(IStoneUnit parentStoneUnit : stoneUnits) {
-				if(((StoneUnit)parentStoneUnit).getId() == parentStoneID) {
-					for(IStoneUnit childStoneUnit : stoneUnits) {
-						if(((StoneUnit)childStoneUnit).getId() == childStoneID) {
-							((StoneCuttable)parentStoneUnit).addStoneUnit(childStoneUnit);
+
+			for (IStoneUnit parentStoneUnit : stoneUnits) {
+				if (((StoneUnit) parentStoneUnit).getId() == parentStoneID) {
+					for (IStoneUnit childStoneUnit : stoneUnits) {
+						if (((StoneUnit) childStoneUnit).getId() == childStoneID) {
+							((StoneCuttable) parentStoneUnit).addStoneUnit(childStoneUnit);
 						}
 					}
 				}
 			}
 		}
-		
-		
+
 		return stoneUnits;
 	}
-	
+
 	public ArrayList<IStoneUnit> getStoneChildren(StoneCuttable stone) throws SQLException {
-		
+
 		String query = "SELECT [VIEW_STONES].* FROM StoneCuttable\r\n"
 				+ "JOIN [VIEW_STONES] ON StoneCuttable.StoneUnitID = [VIEW_STONES].StoneUnitID\r\n"
 				+ "WHERE StoneID = ?";
@@ -80,7 +78,7 @@ public class StoneDAO implements IStoneDAO{
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		statement.setInt(1, id);
 		ResultSet rs = statement.executeQuery();
-		if(rs.next())
+		if (rs.next())
 			return getStoneUnit(rs);
 		return null;
 	}
@@ -104,20 +102,20 @@ public class StoneDAO implements IStoneDAO{
 
 		return getStoneUnits(rs);
 	}
-	
+
 	@Override
 	public ArrayList<IStoneUnit> getStoneProductsByOrderID(int orderID) throws SQLException {
 		ArrayList<IStoneUnit> stoneProducts = new ArrayList<IStoneUnit>();
-		
+
 		String query = "SELECT * FROM StoneProduct WHERE OrderID=?";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		statement.setInt(1, orderID);
 		ResultSet rs = statement.executeQuery();
-		
-		while(rs.next()) {
+
+		while (rs.next()) {
 			stoneProducts.add(getStoneUnitByID(rs.getInt("StoneID")));
 		}
-		
+
 		return stoneProducts;
 	}
 
@@ -127,15 +125,14 @@ public class StoneDAO implements IStoneDAO{
 		Connection dbConnection = DBConnection.getConnection();
 		try {
 			dbConnection.setAutoCommit(false);
-			
+
 			String query = "INSERT INTO StoneUnit(Width, Weight, Description, Status, StoneType, CreatedDate, Origin, Updates, StoneTypeID, LocationID, SupplierID, EmployeeID)\r\n"
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?);" +
-					"SELECT SCOPE_IDENTITY() AS generatedID;";
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?);" + "SELECT SCOPE_IDENTITY() AS generatedID;";
 			PreparedStatement statement = dbConnection.prepareStatement(query);
-			
-			StoneUnit stoneUnit = (StoneUnit)stone;
-			statement.setInt(1, (int)stoneUnit.getWidth());
-			statement.setInt(2, (int)stoneUnit.getWeight());
+
+			StoneUnit stoneUnit = (StoneUnit) stone;
+			statement.setInt(1, (int) stoneUnit.getWidth());
+			statement.setInt(2, (int) stoneUnit.getWeight());
 			statement.setString(3, stoneUnit.getDescription());
 			statement.setInt(4, stoneUnit.getStatus().getID());
 			statement.setString(5, stoneUnit.getStoneKind());
@@ -151,49 +148,48 @@ public class StoneDAO implements IStoneDAO{
 
 			int generatedID = 0;
 
-			if (rs.next()) 
+			if (rs.next())
 				generatedID = rs.getInt("generatedID");
-			
+
 			statement = dbConnection.prepareStatement(query);
 			if (stone instanceof StoneProduct) {
 				query = "INSERT INTO Stone (StoneID, TotalSize) VALUES (?,?);\r\n"
 						+ "INSERT INTO StoneProduct (StoneID, Price, OrderID) VALUES (?,?,?);";
 
 				statement.setInt(1, generatedID);
-				statement.setInt(2, (int) ((Stone)stone).getTotalSize());
+				statement.setInt(2, (int) ((Stone) stone).getTotalSize());
 				statement.setInt(3, generatedID);
-				statement.setInt(4, (int) ((StoneProduct)stone).getPrice());
-				statement.setInt(5, ((StoneProduct)stone).getOrderID());
+				statement.setInt(4, (int) ((StoneProduct) stone).getPrice());
+				statement.setInt(5, ((StoneProduct) stone).getOrderID());
 
 			}
 			if (stone instanceof StoneCuttable) {
 				query = "INSERT INTO Stone (StoneID, TotalSize) VALUES (?,?);\r\n";
-				
+
 				statement.setInt(1, generatedID);
-				statement.setInt(2, (int) ((Stone)stone).getTotalSize());
+				statement.setInt(2, (int) ((Stone) stone).getTotalSize());
 
 			}
 			if (stone instanceof Remains) {
 				query = "INSERT INTO Remains (RemainsID, Pieces, material) VALUES (?, ?); ";
 				statement.setInt(1, generatedID);
-				statement.setInt(2, ((Remains)stone).getPieces());
+				statement.setInt(2, ((Remains) stone).getPieces());
 			}
 			statement.executeUpdate();
-			
-			if(parentStone != null) {
+
+			if (parentStone != null) {
 				statement = dbConnection.prepareStatement(query);
 				query = "INSERT INTO CuttableStone (StoneID, StoneUnitID) VALUES (?, ?); ";
-				statement.setInt(1, ((StoneUnit)parentStone).getId());
+				statement.setInt(1, ((StoneUnit) parentStone).getId());
 				statement.setInt(2, generatedID);
 				statement.executeUpdate();
 			}
-			
 
 			dbConnection.commit();
 			success = true;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			 dbConnection.rollback();
+			dbConnection.rollback();
 		} finally {
 			dbConnection.setAutoCommit(true);
 		}
@@ -207,13 +203,13 @@ public class StoneDAO implements IStoneDAO{
 		Connection dbConnection = DBConnection.getConnection();
 		try {
 			dbConnection.setAutoCommit(false);
-			
+
 			String query = "UPDATE StoneUnit SET Width =?, Weight =?, Description =?,Status=?,StoneType=?,CreatedDate=?, Origin=?, Updates=?, StoneTypeID=?, LocationID=?, SupplierID=?, EmployeeID=? WHERE StoneUnitID=?";
 			PreparedStatement statement = dbConnection.prepareStatement(query);
-			
-			StoneUnit stoneUnit = (StoneUnit)stone;
-			statement.setInt(1, (int)stoneUnit.getWidth());
-			statement.setInt(2, (int)stoneUnit.getWeight());
+
+			StoneUnit stoneUnit = (StoneUnit) stone;
+			statement.setInt(1, (int) stoneUnit.getWidth());
+			statement.setInt(2, (int) stoneUnit.getWeight());
 			statement.setString(3, stoneUnit.getDescription());
 			statement.setInt(4, stoneUnit.getStatus().getID());
 			statement.setString(5, stoneUnit.getStoneKind());
@@ -228,40 +224,37 @@ public class StoneDAO implements IStoneDAO{
 
 			ResultSet rs = statement.executeQuery();
 
-			
 			statement = dbConnection.prepareStatement(query);
 			if (stone instanceof StoneProduct) {
 				query = "UPDATE Stone SET TotalSize=? WHERE StoneID=?; UPDATE StoneProduct SET Price=?, OrderID=? WHERE StoneID=?";
 
-
-				statement.setInt(1, (int) ((Stone)stone).getTotalSize());
-				statement.setInt(2, (int) ((Stone)stone).getId());
-				statement.setInt(3, (int) ((StoneProduct)stone).getPrice());
-				statement.setInt(4, ((StoneProduct)stone).getOrderID());
-				statement.setInt(2, (int) ((StoneProduct)stone).getId());
+				statement.setInt(1, (int) ((Stone) stone).getTotalSize());
+				statement.setInt(2, (int) ((Stone) stone).getId());
+				statement.setInt(3, (int) ((StoneProduct) stone).getPrice());
+				statement.setInt(4, ((StoneProduct) stone).getOrderID());
+				statement.setInt(2, (int) ((StoneProduct) stone).getId());
 
 			}
 			if (stone instanceof StoneCuttable) {
 				query = "UPDATE Stone SET TotalSize=? WHERE StoneID=?";
-				
-				statement.setInt(1, (int) ((Stone)stone).getTotalSize());
-				statement.setInt(1, (int) ((Stone)stone).getId());
+
+				statement.setInt(1, (int) ((Stone) stone).getTotalSize());
+				statement.setInt(1, (int) ((Stone) stone).getId());
 
 			}
 			if (stone instanceof Remains) {
 				query = "UPDATE Remains SET Pieces=? WHERE RemainsID=?; ";
 
-				statement.setInt(1, ((Remains)stone).getPieces());
-				statement.setInt(2, ((Remains)stone).getId());
+				statement.setInt(1, ((Remains) stone).getPieces());
+				statement.setInt(2, ((Remains) stone).getId());
 			}
 			statement.executeUpdate();
-			
 
 			dbConnection.commit();
 			success = true;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			 dbConnection.rollback();
+			dbConnection.rollback();
 		} finally {
 			dbConnection.setAutoCommit(true);
 		}
@@ -271,9 +264,9 @@ public class StoneDAO implements IStoneDAO{
 
 	@Override
 	public boolean deleteStone(IStoneUnit stone) throws SQLException {
-		return deleteStone(((StoneUnit)stone).getId());
+		return deleteStone(((StoneUnit) stone).getId());
 	}
-	
+
 	@Override
 	public boolean deleteStone(int stoneID) throws SQLException {
 		boolean success = false;
@@ -283,19 +276,16 @@ public class StoneDAO implements IStoneDAO{
 			statement.setInt(1, stoneID);
 			statement.executeUpdate();
 			success = true;
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-	
+
 		return success;
 	}
-	
-	
-	
-	//Helper Methods
 
-	public static IStoneUnit getStoneUnit(ResultSet resultSet)  throws SQLException {
+	// Helper Methods
+
+	public static IStoneUnit getStoneUnit(ResultSet resultSet) throws SQLException {
 		int id = resultSet.getInt("StoneUnitID");
 		String stoneKind = resultSet.getString("StoneType");
 		String origin = resultSet.getString("Origin");
@@ -305,24 +295,23 @@ public class StoneDAO implements IStoneDAO{
 		Date createdDate = resultSet.getDate("CreatedDate");
 		String updates = resultSet.getString("Updates");
 		StoneUnitStatuses status = StoneUnitStatuses.GetStatusByID(resultSet.getInt("Status"));
-		//other DAOs access
+		// other DAOs access
 		Location location = new CityLocationDAO().getLocationByID(resultSet.getInt("LocationID"));
 		StoneType stoneType = new TypeMaterialDAO().getStoneTypeByID(resultSet.getInt("StoneTypeID"));
 		Supplier supplier = (Supplier) new PersonDAO().getByID(resultSet.getInt("SupplierID"));
-		Employee employee = (Employee)new PersonDAO().getByID(resultSet.getInt("EmployeeID"));
-		
+		Employee employee = (Employee) new PersonDAO().getByID(resultSet.getInt("EmployeeID"));
 
 		if (stoneKind.equals("Remains")) {
 			int pieces = resultSet.getInt("Pieces");
-			return new Remains(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status,
-					pieces);
+			return new Remains(id, stoneType, origin, supplier, width, weight, description, createdDate, location,
+					employee, status, pieces);
 		}
 
 		if (stoneKind.equals("StoneCuttable")) {
 			Shape shape = new ShapeDAO().getById(id);
 			double totalSize = resultSet.getInt("TotalSize");
-			StoneCuttable cuttableStone = new StoneCuttable(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status,
-					shape, totalSize);
+			StoneCuttable cuttableStone = new StoneCuttable(id, stoneType, origin, supplier, width, weight, description,
+					createdDate, location, employee, status, shape, totalSize);
 			cuttableStone.setUpdates(updates);
 			return cuttableStone;
 		}
@@ -332,24 +321,22 @@ public class StoneDAO implements IStoneDAO{
 			double totalSize = resultSet.getInt("TotalSize");
 			float price = resultSet.getInt("price");
 			int orderID = resultSet.getInt("OrderID");
-			StoneProduct stoneProduct = new StoneProduct(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee,
-					status, shape, totalSize, price, orderID);
+			StoneProduct stoneProduct = new StoneProduct(id, stoneType, origin, supplier, width, weight, description,
+					createdDate, location, employee, status, shape, totalSize, price, orderID);
 			stoneProduct.setUpdates(updates);
 			return stoneProduct;
 		}
 		return null;
 	}
-	
-	
-	public static ArrayList<IStoneUnit> getStoneUnits(ResultSet resultSet) throws SQLException{
+
+	public static ArrayList<IStoneUnit> getStoneUnits(ResultSet resultSet) throws SQLException {
 		ArrayList<IStoneUnit> stoneUnits = new ArrayList<IStoneUnit>();
-		while(resultSet.next()) {
+		while (resultSet.next()) {
 			stoneUnits.add(getStoneUnit(resultSet));
 		}
 		return stoneUnits;
 	}
-	
-	
+
 //	public static Location getLocation(ResultSet resultSet) throws SQLException{
 //		if(!hasColumn(resultSet, "OfficeLocationName")) {
 //		return new Location(resultSet.getInt("LocationID"), resultSet.getString("LocationName"),
@@ -386,5 +373,5 @@ public class StoneDAO implements IStoneDAO{
 //	    }
 //	    return false;
 //	}
-	
+
 }

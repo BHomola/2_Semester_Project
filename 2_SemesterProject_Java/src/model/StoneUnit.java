@@ -33,6 +33,20 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.status = status;
 	}
 
+	public StoneUnit(StoneType stoneType, String origin, Supplier supplier, double width, double weight,
+			String description, Date createdDate, Location location, Employee employee, StoneUnitStatuses status) {
+		this.stoneType = stoneType;
+		this.origin = origin;
+		this.supplier = supplier;
+		this.width = width;
+		this.weight = weight;
+		this.description = description;
+		this.createdDate = createdDate;
+		this.location = location;
+		this.employee = employee;
+		this.status = status;
+	}
+
 	public int getId() {
 		return id;
 	}

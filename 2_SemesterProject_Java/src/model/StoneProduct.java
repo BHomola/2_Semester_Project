@@ -13,6 +13,14 @@ public class StoneProduct extends Stone {
 		this.price = price;
 		this.orderID = orderID;
 	}
+	
+	public StoneProduct( StoneType stoneType, String origin, Supplier supplier, double width, double weight,
+			String description, Date createdDate, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
+			double totalSize, float price, int orderID) {
+		super( stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, shape, totalSize);
+		this.price = price;
+		this.orderID = orderID;
+	}
 
 	public double getPrice() {
 		return price;

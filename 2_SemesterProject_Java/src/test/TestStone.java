@@ -55,7 +55,7 @@ public class TestStone {
 			stoneMaterial = new StoneMaterial(1, "Granite", "Hard Rock");
 			type = new StoneType(2, "Jaguar", "Orange-black");
 			city = new City(111,"Chisinau", "MD-2000", "Moldova");
-			location = new Location(222, "Deposit Fauresti", "Str. Nu stiu care", city);
+			location = new Location(222, "Deposit Fauresti", "Str. Nu stiu care", 111);
 			cshape = new CircleShape  ("Cerc", 1, 12.0);
 			status = StoneUnitStatuses.AVAILABLE;
 			formatter = new SimpleDateFormat("dd-MM-yyyy");

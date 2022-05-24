@@ -15,6 +15,14 @@ public abstract class Stone extends StoneUnit {
 		this.totalSize = totalSize;
 	}
 	
+	public Stone(StoneType stoneType, String origin, Supplier supplier, double width, double weight, String description,
+			Date createdDate, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
+			double totalSize) {
+		super( stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status);
+		this.shape = shape;
+		this.totalSize = totalSize;
+	}
+
 	public Shape getShape() {
 		return shape;
 	}
