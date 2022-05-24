@@ -4,16 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
 import java.sql.Date;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import dataaccess.CityLocationDAO;
 import dataaccess.PersonDAO;
 import model.City;
 import model.Customer;
-import model.Person;
 
 class TestPersonDAO {
 	Customer customer, customerU;
@@ -28,7 +25,7 @@ class TestPersonDAO {
 		clDAO = new CityLocationDAO();
 		String sdate = "1978-05-10";
 		date = Date.valueOf(sdate);
-		customer = new Customer("Alex", "Vesterbro 4", clDAO.getCityByID(2), "4579345", "test@test.com", date, 
+		customer = new Customer("Alex", "Vesterbro 4", clDAO.getCityByID(3), "4579345", "test@test.com", date, 
 				44, "Customer", 0.00, true, false, 0.00, "None");
 	}
 
@@ -36,7 +33,7 @@ class TestPersonDAO {
 	void tearDown() throws Exception {
 	}
 
-/*	@Test
+	@Test
 	void testCreatePersonCustomer() {
 		try {
 			assertEquals(1, pDAO.createPerson(customer));
@@ -44,13 +41,29 @@ class TestPersonDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	*/
+	} 
+	
 	@Test
 	void testUpdatePersonCustomer() throws SQLException {
-		customerU = new Customer(1, "Alex", "Hasserisvej 432", clDAO.getCityByID(2), "4579345", "test@test.com", date, 
+		customerU = new Customer(1, "Alex", "Hasserisvej 432", clDAO.getCityByID(3), "4579345", "test@test.com", date, 
 				44, "Customer", 0.00, true, false, 0.00, "None");
 		assertTrue(pDAO.updatePerson(customerU));
-	}
+	} 
+	
+	@Test
+	void testGetByID() throws SQLException {
+		assertEquals("Alex", pDAO.getByID(1).getName());
+	} 
 
+	@Test
+	void testGetAll() throws SQLException {
+		assertEquals(1, pDAO.getAll().size());
+	}
+	
+	@Test
+	void testDeletePersonCustomer() throws SQLException {
+		customerU = new Customer(1, "Alex", "Hasserisvej 432", clDAO.getCityByID(3), "4579345", "test@test.com", date, 
+				44, "Customer", 0.00, true, false, 0.00, "None");
+		assertTrue(pDAO.deletePerson(customerU));
+	} 
 }
