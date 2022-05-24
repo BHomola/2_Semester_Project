@@ -86,12 +86,16 @@ public class StoneDAO implements IStoneDAO{
 	@Override
 	public ArrayList<IStoneUnit> getStoneProductsByOrderID(int orderID) throws SQLException {
 		ArrayList<IStoneUnit> stoneProducts = new ArrayList<IStoneUnit>();
-		for(IStoneUnit stone : getAllStoneUnits()) {
-			if(stone instanceof StoneProduct) {
-				if(((StoneProduct)stone).getOrderID() == orderID)
-					stoneProducts.add(stone);
-			}
+		
+		String query = "SELECT * FROM StoneProduct WHERE OrderID=?";
+		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
+		statement.setInt(1, orderID);
+		ResultSet rs = statement.executeQuery();
+		
+		while(rs.next()) {
+			stoneProducts.add(getStoneUnitByID(rs.getInt("StoneID")));
 		}
+		
 		return stoneProducts;
 	}
 
