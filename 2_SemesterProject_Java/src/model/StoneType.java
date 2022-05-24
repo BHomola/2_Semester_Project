@@ -9,7 +9,18 @@ public class StoneType {
 	private Supplier supplier;
 	private StoneMaterial sMaterial;
 
+
 	
+	public StoneType( String name, String description, String picturePath, Supplier supplier,
+			StoneMaterial sMaterial) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.picturePath = picturePath;
+		this.supplier = supplier;
+		this.sMaterial = sMaterial;
+	}
+
 	public StoneType(int id, String name, String description, String picturePath) {
 		super();
 		this.id = id;

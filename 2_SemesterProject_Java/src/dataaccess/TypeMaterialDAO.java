@@ -111,7 +111,8 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 	public int createStoneMaterial(StoneMaterial stoneMaterial) throws SQLException{
 		Connection con = DBConnection.getConnection();
 		String sqlStatement = "INSERT INTO StoneMaterial(Name, Description)"
-				+ "VALUES(?,?)";
+				+ "VALUES(?,?)"
+				+ "SELECT SCOPE_IDENTITY() AS generatedID;";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setString(1, stoneMaterial.getName());
 		pStatement.setString(2, stoneMaterial.getDescription());
@@ -125,8 +126,9 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 	@Override
 	public int createStoneType(StoneType stoneType) throws SQLException{
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "INSERT INTO StoneType(Name, Description, Picture, SupplierID, MaterialID)"
-				+ "VALUES(?,?,?,?,?)";
+		String sqlStatement = "INSERT INTO StoneType(Name, Description, Picture, SupplierID, StoneMaterialID)"
+				+ "VALUES(?,?,?,?,?)"
+				+ "SELECT SCOPE_IDENTITY() AS generatedID;";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setString(1, stoneType.getName());
 		pStatement.setString(2, stoneType.getDescription());

@@ -73,7 +73,7 @@ public class PersonDAO implements IPersonDao{
 	}
 
 	@Override
-	public ArrayList<Person> getAll() throws Exception{
+	public ArrayList<Person> getAll() throws SQLException{
 		Connection connection = DBConnection.getConnection();
 		
 		String query = "SELECT *\\r\\n"
@@ -89,7 +89,7 @@ public class PersonDAO implements IPersonDao{
 	}
 
 	@Override
-	public Person getByID(int id)  throws Exception{
+	public Person getByID(int id)  throws SQLException{
 		
 		Connection connection = DBConnection.getConnection();
 		
@@ -107,7 +107,7 @@ public class PersonDAO implements IPersonDao{
 	}
 
 	@Override
-	public int createPerson(Person person)  throws Exception{
+	public int createPerson(Person person)  throws SQLException{
 		
 		Connection connection = DBConnection.getConnection();
 		
@@ -179,7 +179,7 @@ public class PersonDAO implements IPersonDao{
 	}
 
 	@Override
-	public boolean updatePerson(Person person)  throws Exception{
+	public boolean updatePerson(Person person)  throws SQLException{
 		
 		boolean success = false;
 		Connection connection = DBConnection.getConnection();
@@ -248,7 +248,7 @@ public class PersonDAO implements IPersonDao{
 	}
 
 	@Override
-	public boolean deletePerson(Person person)  throws Exception{
+	public boolean deletePerson(Person person)  throws SQLException{
 		boolean success = false;
 		Connection connection = DBConnection.getConnection();
 		

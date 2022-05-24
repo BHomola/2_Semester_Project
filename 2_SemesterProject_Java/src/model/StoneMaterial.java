@@ -9,9 +9,8 @@ public class StoneMaterial {
 	private String description;
 	private List<StoneType> stoneType;
 	
-	public StoneMaterial(int id, String name, String description, List<StoneType> stoneType) {
+	public StoneMaterial( String name, String description, List<StoneType> stoneType) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.stoneType = stoneType;
