@@ -14,7 +14,7 @@ import java.awt.*;
 
 public class Draw extends JFrame implements MouseListener, MouseMotionListener{
 
-	private OtherShape outline = new OtherShape("test", 1);
+	private OtherShape outline = new OtherShape("test", 4);
 	private Point cursorLocation;
 	private boolean mouseClickAvailability;
 	private ShapeDAO shapeDAO;
@@ -120,13 +120,16 @@ public class Draw extends JFrame implements MouseListener, MouseMotionListener{
 				if(outline.getPoints().size() > 2 && pLast.getData().distance(pFirstActual.getData()) < closingParameter) {
 					closeShape(points);
 					mouseClickAvailability = false;
-					try {
-						shapeDAO.createShape(outline, 1);
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					
 				}
+			}
+		}
+		if(!mouseClickAvailability) {
+			try {
+				shapeDAO.createShape(outline, 4);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
