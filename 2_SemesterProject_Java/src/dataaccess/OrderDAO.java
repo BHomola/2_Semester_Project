@@ -128,12 +128,12 @@ public class OrderDAO implements IOrderDAO {
 		StoneDAO sDAO = new StoneDAO();
 		CityLocationDAO clDAO = new CityLocationDAO();
 		int id = resultSet.getInt("OrderID");
-		Person customer = null;
-		//Person customer = pDAO.getByID(resultSet.getInt("CustomerID"));
-		ArrayList<? extends IStoneUnit> products = sDAO.getStoneProductsByOrderID(id);
+//		Person customer = null;
+		Customer customer = (Customer) pDAO.getByID(resultSet.getInt("CustomerID"));
+		//ArrayList<? extends IStoneUnit> products = sDAO.getStoneProductsByOrderID(id);
 		double orderPrice = resultSet.getDouble("OrderPrice");
-		Person employee = null;
-		//Person employee = pDAO.getByID(resultSet.getInt("EmplyeeID"));
+//		Person employee = null;
+		Employee employee = (Employee) pDAO.getByID(resultSet.getInt("EmployeeID"));
 		Location office = clDAO.getLocationByID(resultSet.getInt("LocationID"));
 		//Location office = StoneDAO.getLocation(resultSet);
 		//Location office = null;
@@ -149,7 +149,7 @@ public class OrderDAO implements IOrderDAO {
 		
 		OrderInfo order = new OrderInfo(id, (Customer) customer, orderPrice, (Employee) employee, office, invoice,
 				deliveryStatus, deliveryDate, address, city, deposit, isPaid, customerNote);
-		order.setProducts((List<StoneProduct>) products);
+		//order.setProducts((List<StoneProduct>) products);
 		order.setUpdates(updates);
 		return order;
 

@@ -15,7 +15,7 @@ public abstract class Person {
 	private int age;
 	private String description;
 	private String note;
-	
+
 	public Person(int id, String name, String address, City city, String phoneNumber, String email, Date dateOfBirth,
 			int age, String description, String note) {
 		super();
@@ -30,10 +30,11 @@ public abstract class Person {
 		this.description = description;
 		this.note = note;
 	}
+
 	public Person(int id) {
 		this.id = id;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -113,6 +114,12 @@ public abstract class Person {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", name=" + name + ", address=" + address + ", city=" + city + ", phoneNumber="
+				+ phoneNumber + ", email=" + email + ", dateOfBirth=" + dateOfBirth + ", age=" + age + ", description="
+				+ description + ", note=" + note + "]"  + super.toString();
+	}
+
 }
