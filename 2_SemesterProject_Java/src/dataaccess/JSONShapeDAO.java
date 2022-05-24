@@ -38,7 +38,7 @@ public class JSONShapeDAO implements IShapeDAO {
 	}
 
 	@Override
-	public int createShape(Shape shape) throws SQLException {
+	public int createShape(Shape shape, int id) throws SQLException {
 		boolean success = false;
 		JSONShape[] jsonShapes = loadFile();
 		if(jsonShapes != null) {
