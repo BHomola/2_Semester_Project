@@ -2,22 +2,22 @@ package model;
 
 public class City {
 	private int id;
-	private String cityName;
 	private String zipCode;
+	private String cityName;
 	private String country;
 
-	public City(int id, String cityName, String zipCode, String country) {
+	public City(int id, String zipCode, String cityName, String country) {
 		super();
 		this.id = id;
-		this.cityName = cityName;
 		this.zipCode = zipCode;
+		this.cityName = cityName;
 		this.country = country;
 	}
 	
-	public City( String cityName, String zipCode, String country) {
+	public City(  String zipCode,String cityName,String country) {
 		super();
-		this.cityName = cityName;
 		this.zipCode = zipCode;
+		this.cityName = cityName;
 		this.country = country;
 	}
 

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import model.City;
 import model.Location;
 
@@ -26,8 +28,8 @@ public class CityLocationDAO implements ICityLocationDAO{
 		int id = rs.getInt("LocationID");
 		String name = rs.getString("LocationName");
 		String address = rs.getString("Address");
-		City city = new CityLocationDAO().getCityByID(rs.getInt("CityID"));
-		Location location = new Location(id, name, address, city);
+		int cityID = rs.getInt("CityID");
+		Location location = new Location(id, name, address, cityID);
 		return location;
 	}
 	
@@ -101,8 +103,8 @@ public class CityLocationDAO implements ICityLocationDAO{
 				+ "VALUES(?,?,?)"
 				+ "SELECT SCOPE_IDENTITY() AS generatedID;";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setString(1, city.getCityName());
-		pStatement.setString(2, city.getZipCode());
+		pStatement.setString(1, city.getZipCode());
+		pStatement.setString(2, city.getCityName());
 		pStatement.setString(3, city.getCountry());
 		ResultSet resultSet = pStatement.executeQuery();
 		int generatedID = 0;
@@ -120,7 +122,7 @@ public class CityLocationDAO implements ICityLocationDAO{
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setString(1, location.getLocationName());
 		pStatement.setString(2, location.getAddress());
-		pStatement.setInt(3, location.getCity().getId());
+		pStatement.setInt(3, location.getCity());
 		ResultSet resultSet = pStatement.executeQuery();
 		int generatedID = 0;
 		if (resultSet.next())
@@ -150,44 +152,53 @@ public class CityLocationDAO implements ICityLocationDAO{
 	@Override
 	public boolean updateLocation(Location location) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "UPDATE StoreLocation "
-				+ "SET LocationName = '?' "
-				+ "SET Address = '?' "
-				+ "WHERE LocationID = ? ";
+		boolean success = false;
+		try {
+		String sqlStatement = "UPDATE StoreLocation SET LocationName = ?,  Address = ? WHERE LocationID = ? ";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setString(1, location.getLocationName());
 		pStatement.setString(2, location.getAddress());
 		pStatement.setInt(3, location.getId());
-		int rowsAffected = pStatement.executeUpdate();
-		if(rowsAffected == 1)
-			return true;
-		return false;
+		pStatement.executeUpdate();
+		success = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 	@Override
 	public boolean deleteCity(City city) throws SQLException {
 		Connection con = DBConnection.getConnection();
+		boolean success = false;
+		try {
 		String sqlStatement = "DELETE FROM City "
 				+ "WHERE CityID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setInt(0, city.getId());
-		int rowsAffected = pStatement.executeUpdate();
-		if(rowsAffected == 1)
-			return true;
-		return false;
+		pStatement.setInt(1, city.getId());
+		pStatement.executeUpdate();
+		success = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 	@Override
 	public boolean deleteLocation(Location location) throws SQLException {
 		Connection con = DBConnection.getConnection();
+		boolean success = false;
+		try {
 		String sqlStatement = "DELETE FROM StoreLocation "
 				+ "WHERE LocationID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setInt(0, location.getId());
-		int rowsAffected = pStatement.executeUpdate();
-		if(rowsAffected == 1)
-			return true;
-		return false;
+		pStatement.setInt(1, location.getId());
+		pStatement.executeUpdate();
+		success = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 }
