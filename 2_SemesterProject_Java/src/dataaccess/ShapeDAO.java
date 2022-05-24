@@ -31,11 +31,7 @@ public class ShapeDAO implements IShapeDAO{
 			OtherShape otherShape = new OtherShape(name, id);
 			
 			ArrayList<ShapePoint> shapePoints = getShapePoints(otherShape);
-			System.out.println(shapePoints.size());
-			for(ShapePoint point : shapePoints) {
-				System.out.println(point.getData().x + "  " + point.getData().y);
-			}
-			
+
 			
 			Point startingPoint = shapePoints.get(0).getData();
 			otherShape.addStartingPoint(startingPoint);
