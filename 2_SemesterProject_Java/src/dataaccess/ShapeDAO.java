@@ -115,29 +115,23 @@ public class ShapeDAO implements IShapeDAO{
 			PreparedStatement statement = connection.prepareStatement(query);
 			
 			statement.setString(1, shape.getName());
-			if (shape instanceof CircleShape) statement.setString(2, "Circle");
-			if (shape instanceof ElipseShape) statement.setString(2, "Elipse");
-			if (shape instanceof OtherShape) statement.setString(2, "Other");
-			
-			ResultSet rs = statement.executeQuery();
-			
-			int generatedID = 0;
-			
-			if(rs.next()) generatedID = rs.getInt("generatedID");
+			if (shape instanceof CircleShape) statement.setString(2, "CircleShape");
+			if (shape instanceof ElipseShape) statement.setString(2, "ElipseShape");
+			if (shape instanceof OtherShape) statement.setString(2, "OtherShape");
 			
 			if (shape instanceof CircleShape) {
 				query = "INSERT INTO CircleShape (shapeId, diameter) VALUES (?, ?);";
 				statement = connection.prepareStatement(query);
 				statement.setInt(1, id);
-				statement.setDouble(2, ((CircleShape) shape).getDiameter());
+				statement.setInt(2, (int) ((CircleShape) shape).getDiameter());
 			}
 			
 			if (shape instanceof ElipseShape) {
 				query = "INSERT INTO ElipseShape (shapeId, diameterX, diameterY) VALUES (?, ?, ?);";
 				statement = connection.prepareStatement(query);
 				statement.setInt(1, id);
-				statement.setDouble(2, ((ElipseShape) shape).getDiameterX());
-				statement.setDouble(2, ((ElipseShape) shape).getDiameterY());
+				statement.setInt(2, (int) ((ElipseShape) shape).getDiameterX());
+				statement.setInt(3, (int) ((ElipseShape) shape).getDiameterY());
 			}
 			
 			if (shape instanceof OtherShape) {
