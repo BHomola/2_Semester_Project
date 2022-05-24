@@ -33,11 +33,36 @@ public class StoneDAO implements IStoneDAO{
 	@Override
 	public ArrayList<IStoneUnit> getAllStoneUnits() throws SQLException {
 		
+		//get all stones first
 		String query = "SELECT * FROM [VIEW_STONES]";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		ResultSet rs = statement.executeQuery();
-
-		return getStoneUnits(rs);
+		
+		ArrayList<IStoneUnit> stoneUnits = getStoneUnits(rs);
+		System.out.println("Obtained stone units");
+		//assigning parents stones and child stones
+		query = "SELECT * FROM StoneCuttable";
+		statement = DBConnection.getConnection().prepareStatement(query);
+		rs = statement.executeQuery();
+		System.out.println("Got StoneCuttable hierachy");
+		while(rs.next()) {
+			System.out.println("Next stone cuttable");
+			int parentStoneID = rs.getInt("StoneID");
+			int childStoneID = rs.getInt("StoneUnitID");
+			
+			for(IStoneUnit parentStoneUnit : stoneUnits) {
+				if(((StoneUnit)parentStoneUnit).getId() == parentStoneID) {
+					for(IStoneUnit childStoneUnit : stoneUnits) {
+						if(((StoneUnit)childStoneUnit).getId() == childStoneID) {
+							((StoneCuttable)parentStoneUnit).addStoneUnit(childStoneUnit);
+						}
+					}
+				}
+			}
+		}
+		
+		
+		return stoneUnits;
 	}
 	
 	public ArrayList<IStoneUnit> getStoneChildren(StoneCuttable stone) throws SQLException {
