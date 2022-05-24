@@ -297,7 +297,7 @@ public class StoneDAO implements IStoneDAO{
 		}
 
 		if (stoneKind.equals("StoneCuttable")) {
-			Shape shape = getShape(resultSet);
+			Shape shape = ShapeDAO.buildShape(resultSet);
 			double totalSize = resultSet.getInt("TotalSize");
 			StoneCuttable cuttableStone = new StoneCuttable(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status,
 					shape, totalSize);
@@ -306,7 +306,7 @@ public class StoneDAO implements IStoneDAO{
 		}
 
 		if (stoneKind.equals("StoneProduct")) {
-			Shape shape = getShape(resultSet);
+			Shape shape = ShapeDAO.buildShape(resultSet);
 			double totalSize = resultSet.getInt("TotalSize");
 			float price = resultSet.getInt("price");
 			int orderID = resultSet.getInt("OrderID");

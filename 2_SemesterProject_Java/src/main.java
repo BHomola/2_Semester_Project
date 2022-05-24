@@ -18,10 +18,10 @@ public class main {
 
 //			System.out.println(pDAO.getByID(2));
 //			System.out.println(oDAO.getOrdersByCustomerID(1));
-			System.out.println(oDAO.getByID(1).getEmployee());
+//			System.out.println(oDAO.getByID(1));
 //			System.out.println(oDAO.getByID(1).getOffice());
 //			System.out.println(oDAO.getAll());
-//			System.out.println(sDAO.getStoneProductsByOrderID(1));
+			System.out.println(sDAO.getAllStoneUnits());
 			thread.join();
 			
 		} catch (SQLException | InterruptedException e) {
