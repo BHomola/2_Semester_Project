@@ -81,7 +81,8 @@ GO
 
 --ORDERS
 CREATE OR ALTER VIEW VIEW_OrderInfo AS
-SELECT OrderInfo.*, Invoice.* CustomerCity.Zipcode, CustomerCity.CityName, CustomerCity.Country,
+SELECT OrderInfo.*, CustomerCity.Zipcode, CustomerCity.CityName, CustomerCity.Country,
+Invoice.PaymentDate, Invoice.VATratio, Invoice.FinalPrice,
 VIEW_LOCATIONCITY.LocationName AS OfficeLocationName,	VIEW_LOCATIONCITY.Address AS OfficeAddress,
 VIEW_LOCATIONCITY.CityID AS OfficeCityID, VIEW_LOCATIONCITY.Zipcode AS OfficeZipcode,
 VIEW_LOCATIONCITY.CityName AS OfficeCityName, VIEW_LOCATIONCITY.Country AS OfficeCountry
@@ -91,4 +92,4 @@ ON OrderInfo.CityID = CustomerCity.CityID
 LEFT JOIN VIEW_LOCATIONCITY 
 ON OrderInfo.LocationID = VIEW_LOCATIONCITY.LocationID
 LEFT JOIN Invoice
-ON Invoice.
+ON OrderInfo.OrderID = Invoice.OrderID 

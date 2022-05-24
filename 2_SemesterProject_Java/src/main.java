@@ -1,10 +1,6 @@
-import model.StoneMaterial;
-
 import java.sql.SQLException;
 
-import dataaccess.DBConnection;
 import dataaccess.OrderDAO;
-import model.Stone;
 
 public class main {
 
