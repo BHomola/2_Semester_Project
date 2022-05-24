@@ -35,12 +35,11 @@ public class PersonDAO implements IPersonDao{
 		
 		if(type.equals("Employee")) {
 			String position = resultSet.getString("Position");
-			String occupation = resultSet.getString("");
 			double salary = resultSet.getDouble("Salary");
 			Date startDate = resultSet.getDate("StartDate");
 			Location location = null;
 			Login login = null; //might not need it here
-			return new Employee(id, name, address, city, phoneNumber, email, dateOfBirth, age, description, note, position, occupation, salary, startDate, location, login);
+			return new Employee(id, name, address, city, phoneNumber, email, dateOfBirth, age, description, note, position, salary, startDate, location, login);
 		}
 		
 		if(type.equals("Customer")) {
@@ -52,6 +51,10 @@ public class PersonDAO implements IPersonDao{
 			double totalsSpends = resultSet.getDouble("totalSpends");
 			Customer customer = new Customer(id, name, address, city, phoneNumber, email, dateOfBirth, age, description, discount, isPremium, isCompany, totalsSpends, note);
 			customer.setLastOrderID(lastOrderID);
+			
+			OrderDAO orderDAO = new OrderDAO();
+			orderDAO.getOrdersByCustomerID(customer.getId());
+			
 			return customer;
 		}
 		
@@ -83,7 +86,7 @@ public class PersonDAO implements IPersonDao{
 				+ "FULL OUTER JOIN Employee ON Person.PersonID = Employee.EmployeeID)\r\n";
 				
 		PreparedStatement statement = connection.prepareStatement(query);
-		ResultSet resultSet = statement.executeQuery(query);
+		ResultSet resultSet = statement.executeQuery();
 		if(resultSet.next() == false) return null;		
 		return buildMultiplePeople(resultSet);
 	}
@@ -113,21 +116,20 @@ public class PersonDAO implements IPersonDao{
 		
 		try {
 			connection.setAutoCommit(false);
-			String query = "INSERT INTO Person (PersonID, Name, Address, CityID, Note, PhoneNumber, Email, DateOfBirth, Age, Description, PersonType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+			String query = "INSERT INTO Person (Name, Address, CityID, Note, PhoneNumber, Email, DateOfBirth, Age, Description, PersonType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
 					+ "SELECT SCOPE_IDENTITIY() AS generatedID;";
 					
 			PreparedStatement statement = connection.prepareStatement(query);
 			
-			statement.setInt(1, person.getId());
-			statement.setString(2, person.getName());
-			statement.setString(3, person.getAddress());
-			statement.setInt(4, person.getCity().getId());
-			statement.setString(5, person.getNote());
-			statement.setString(6, person.getPhoneNumber());
-			statement.setString(7, person.getEmail());
-			statement.setDate(8, (java.sql.Date) person.getDateOfBirth());
-			statement.setInt(9, person.getAge());
-			statement.setString(10, person.getDescription());
+			statement.setString(1, person.getName());
+			statement.setString(2, person.getAddress());
+			statement.setInt(3, person.getCity().getId());
+			statement.setString(4, person.getNote());
+			statement.setString(5, person.getPhoneNumber());
+			statement.setString(6, person.getEmail());
+			statement.setDate(7, (java.sql.Date) person.getDateOfBirth());
+			statement.setInt(8, person.getAge());
+			statement.setString(9, person.getDescription());
 			if (person instanceof Customer) statement.setString(11, "Customer");
 			if (person instanceof Supplier) statement.setString(11, "Supplier");
 			if (person instanceof Employee) statement.setString(11, "Employee");
@@ -141,7 +143,7 @@ public class PersonDAO implements IPersonDao{
 			if (person instanceof Customer) {
 				query = "INSERT INTO Customer (CustomerID, discount, IsPremium, IsCompany, totalSpends, OrdersCount, LastOrderID) VALUES (?, ?, ?, ?, ?, ?, ?)";
 				statement = connection.prepareStatement(query);
-				statement.setInt(1, ((Customer)person).getId());
+				statement.setInt(1, generatedID);
 				statement.setDouble(2, ((Customer)person).getDiscount());
 				statement.setBoolean(3, ((Customer)person).isPremium());
 				statement.setBoolean(4, ((Customer)person).isCompany());
@@ -213,10 +215,10 @@ public class PersonDAO implements IPersonDao{
 			            + "    ,[LastOrderID] = ?"
 			            + "WHERE CustomerID = ?";
 				statement = connection.prepareStatement(query);
-				statement.setDouble(1, ((Customer) person).getDiscount());
+				statement.setInt(1, (int) ((Customer) person).getDiscount());
 				statement.setBoolean(2, ((Customer) person).isPremium());
 				statement.setBoolean(3, ((Customer) person).isCompany());
-				statement.setDouble(4, ((Customer) person).getTotalsSpends());
+				statement.setInt(4, (int) ((Customer) person).getTotalsSpends());
 				statement.setInt(5, ((Customer) person).getOrders().size());
 				statement.setInt(6, ((Customer) person).getLastOrderID());
 				statement.setInt(7, ((Customer) person).getId());
@@ -230,7 +232,7 @@ public class PersonDAO implements IPersonDao{
 						+ "    ,[LocationID] = ?"
 						+ "WHERE EmployeeID = ?";
 				statement.setString(1, ((Employee) person).getPosition());
-				statement.setDouble(2, ((Employee) person).getSalary());
+				statement.setInt(2, (int) ((Employee) person).getSalary());
 				statement.setDate(3, (java.sql.Date) ((Employee) person).getStartDate());
 				statement.setInt(4, ((Employee) person).getLocation().getId());
 				statement.setInt(5, ((Employee) person).getId());
