@@ -40,15 +40,15 @@ public class main {
 			otherShape.addStartingPoint(p1);
 			otherShape.addPoint(p2);
 			otherShape.addLastPoint(p3);
-			System.out.println(otherShape.getPoints().size());
-			System.out.println(otherShape.getPoints().get(0).getData().getX());
-			System.out.println(otherShape.getPoints().get(1).getData().getX());
-			System.out.println(otherShape.getPoints().get(2).getData().getX());
-			System.out.println(p1.getY());
-			System.out.println(p2.getX());
-			System.out.println(p2.getY());
-			System.out.println(p3.getX());
-			System.out.println(p3.getY());
+//			System.out.println(otherShape.getPoints().size());
+//			System.out.println(otherShape.getPoints().get(0).getData().getX());
+//			System.out.println(otherShape.getPoints().get(1).getData().getX());
+//			System.out.println(otherShape.getPoints().get(2).getData().getX());
+//			System.out.println(p1.getY());
+//			System.out.println(p2.getX());
+//			System.out.println(p2.getY());
+//			System.out.println(p3.getX());
+//			System.out.println(p3.getY());
 			shapeDAO.createShape(otherShape, 1);
 			for(IStoneUnit stone : sDAO.getAllStoneUnits()) {
 				System.out.println(stone);

@@ -42,7 +42,6 @@ CREATE TABLE Customer
   IsCompany bit NOT NULL,
   TotalSpends INT NOT NULL,
   OrdersCount INT NOT NULL,
-  LastOrderID INT,
   CustomerID INT NOT NULL,
   PRIMARY KEY (CustomerID),
   FOREIGN KEY (CustomerID) REFERENCES Person(PersonID) ON DELETE CASCADE
