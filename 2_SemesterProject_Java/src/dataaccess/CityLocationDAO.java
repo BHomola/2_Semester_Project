@@ -131,20 +131,20 @@ public class CityLocationDAO implements ICityLocationDAO{
 	@Override
 	public boolean updateCity(City city) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "UPDATE City "
-				+ "SET Zipcode = '?' "
-				+ "SET CityName = '?' "
-				+ "SET Country = '?' "
-				+ "WHERE CityID = ? ";
+		boolean success = false;
+		try {
+		String sqlStatement = "UPDATE City SET Zipcode = ?, CityName = ?,  Country = ? WHERE CityID = ? ";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setString(2, city.getCityName());
 		pStatement.setString(1, city.getZipCode());
+		pStatement.setString(2, city.getCityName());
 		pStatement.setString(3, city.getCountry());
 		pStatement.setInt(4, city.getId());
-		int rowsAffected = pStatement.executeUpdate();
-		if(rowsAffected == 1)
-			return true;
-		return false;
+		pStatement.executeUpdate();
+		success = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 	@Override

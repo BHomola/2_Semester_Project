@@ -13,6 +13,13 @@ public class City {
 		this.zipCode = zipCode;
 		this.country = country;
 	}
+	
+	public City( String cityName, String zipCode, String country) {
+		super();
+		this.cityName = cityName;
+		this.zipCode = zipCode;
+		this.country = country;
+	}
 
 	public int getId() {
 		return id;

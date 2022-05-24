@@ -17,8 +17,8 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		String name = resultSet.getString("Name");
 		String description = resultSet.getString("Description");
 		StoneMaterial stoneMaterial = new StoneMaterial(id, name, description);
-		List<StoneType> stoneType = new TypeMaterialDAO().getTypeListOfSameMaterial(stoneMaterial);
-		stoneMaterial.setStoneType(stoneType);
+		//List<StoneType> stoneType = new TypeMaterialDAO().getTypeListOfSameMaterial(stoneMaterial);
+		//stoneMaterial.setStoneType(stoneType);
 		return stoneMaterial;
 	}
 	
@@ -133,8 +133,8 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		pStatement.setString(1, stoneType.getName());
 		pStatement.setString(2, stoneType.getDescription());
 		pStatement.setString(3, stoneType.getpicturePath());
-		pStatement.setInt(4, stoneType.getSupplier().getId());
-		pStatement.setInt(5,stoneType.getsMaterial().getId());
+		pStatement.setInt(4, stoneType.getSupplierID());
+		pStatement.setInt(5,stoneType.getsMaterialID());
 		ResultSet resultSet = pStatement.executeQuery();
 		int generatedID = 0;
 		if (resultSet.next())
@@ -172,7 +172,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		statement.setString(1, stoneType.getName());
 		statement.setString(2, stoneType.getDescription());
 		statement.setString(3, stoneType.getpicturePath());
-		statement.setInt(4, stoneType.getSupplier().getId());
+		statement.setInt(4, stoneType.getSupplierID());
 		statement.setInt(5, stoneType.getId());
 		int rowsAffected = statement.executeUpdate();
 		if(rowsAffected == 1)

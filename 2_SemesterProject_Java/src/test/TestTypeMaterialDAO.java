@@ -38,7 +38,7 @@ class TestTypeMaterialDAO {
 			city = new City(111,"Chisinau", "MD-2000", "Moldova");
 			supplier = new Supplier(4, "Grafit", "Vesterbro 49", city, "9843782", "test@test.com", date, 0, "None", "No note");
 			sMaterial = new StoneMaterial( "Granite", "Hard Rock", lType);
-			sType = new StoneType("Magma", "Orange-black", "Images\\Granite\\Magma.jpg", supplier, sMaterial);
+			sType = new StoneType("Magma", "Orange-black", "Images\\Granite\\Magma.jpg", supplier.getId(), 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,18 +57,27 @@ class TestTypeMaterialDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	} */
+	}  */
 	
 	@Test
 	void testCreateStoneType() {
 		try {
-			assertEquals(t, tmDAO.createStoneType(sType));
+			assertEquals(1, tmDAO.createStoneType(sType));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	} 
+	/*
+ 	@Test
+	void testGetStoneMaterialByID() {
+		try {
+			assertEquals("Granite", tmDAO.getStoneMaterialByID(1).getName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	@Test
+ 		@Test
 	void testUpdateStoneMaterial() {
 		//Arange
 		smUpdated = new StoneMaterial(1, "Granite", "Hard hard rock");
@@ -79,7 +88,7 @@ class TestTypeMaterialDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	} */
 	
 	@Test 
 	void testUpdateStoneType(){
@@ -96,10 +105,6 @@ class TestTypeMaterialDAO {
 		
 	}
 	
-	@Test
-	void testGetStoneMaterialByID() {
-		
-	}
 	
 	@Test
 	void testGetStoneTypeByID() {
@@ -118,26 +123,6 @@ class TestTypeMaterialDAO {
 	
 	@Test
 	void testGetTypeListOfSameMaterial() {
-		
-	}
-	
-	@Test
-	void testBuildType() {
-		
-	}
-	
-	@Test
-	void testBuildTypes() {
-		
-	}
-	
-	@Test
-	void testBuildMaterial() {
-		
-	}
-	
-	@Test
-	void testBuildMaterials() {
 		
 	}
 
