@@ -66,7 +66,7 @@ CREATE TABLE StoneType
   StoneMaterialID INT NOT NULL,
   SupplierID INT NOT NULL,
   PRIMARY KEY (StoneTypeID),
-  FOREIGN KEY (StoneMaterialID) REFERENCES StoneMaterial(StoneMaterialID),
+  FOREIGN KEY (StoneMaterialID) REFERENCES StoneMaterial(StoneMaterialID) ON DELETE CASCADE,
   FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID)
 );
 

@@ -28,6 +28,8 @@ public class StoneRunner {
 		TypeMaterialDAO typeDao = new TypeMaterialDAO();
 		//IStoneUnit insertStone = new StoneCuttable(0, typeDao.getStoneTypeByID(1), "CZ", new Supplier(22), 20, 30, "Interesting Description", Date.valueOf("2022-05-02"), new Location(1,null,null, new City(5,null,null,null)), new Employee(12), StoneUnits);
 		
+		
+		
 
 		for(IStoneUnit stone : dao.getAllStoneUnits()) {
 				System.out.println(stone);
@@ -35,7 +37,7 @@ public class StoneRunner {
 		
 		System.out.println("----------------------------------------------------------------------");
 
-		for(IStoneUnit stone : dao.getStoneChildren((StoneCuttable) dao.getStoneUnitByID(1))) {
+		for(IStoneUnit stone : dao.getStoneProductsByOrderID(1)) {
 			if(stone!= null)
 				System.out.println(stone.toString());
 		}
