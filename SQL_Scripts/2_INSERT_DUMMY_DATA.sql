@@ -340,4 +340,24 @@ INSERT INTO StoneCuttable(StoneID,StoneUnitID) VALUES(4, 10);
 INSERT INTO Remains(RemainsID,Pieces) VALUES(8, 10);
 INSERT INTO Remains(RemainsID,Pieces) VALUES(9, 10);
 INSERT INTO Remains(RemainsID,Pieces) VALUES(10, 10);
+
+INSERT INTO Shape (ShapeID, Name, ShapeType) VALUES(1, 'Shape1', 'OtherShape');
+INSERT INTO Shape (ShapeID, Name, ShapeType) VALUES(2, 'Shape2', 'OtherShape');
+INSERT INTO Shape (ShapeID, Name, ShapeType) VALUES(3, 'Shape3', 'ElipseShape');
+INSERT INTO Shape (ShapeID, Name, ShapeType) VALUES(4, 'Shape4', 'CircleShape');
+
+INSERT INTO OtherShape (ShapeID) VALUES(1);
+INSERT INTO ShapePoint (OrderIndex, X, Y, ShapeID) VALUES (1, 0, 0, 1);
+INSERT INTO ShapePoint (OrderIndex, X, Y, ShapeID) VALUES (2, 10, 0, 1);
+INSERT INTO ShapePoint (OrderIndex, X, Y, ShapeID) VALUES (3, 10, 10, 1);
+INSERT INTO OtherShape (ShapeID) VALUES(2);
+INSERT INTO ShapePoint (OrderIndex, X, Y, ShapeID) VALUES (1, 0, 0, 2);
+INSERT INTO ShapePoint (OrderIndex, X, Y, ShapeID) VALUES (2, 10, 0, 2);
+INSERT INTO ShapePoint (OrderIndex, X, Y, ShapeID) VALUES (3, 10, 10, 2);
+INSERT INTO ShapePoint (OrderIndex, X, Y, ShapeID) VALUES (4, 0, 10, 2);
+
+INSERT INTO ElipseShape (ShapeID, DiamaterX, DiamaterY) VALUES(3, 10, 20);
+
+INSERT INTO CircleShape (ShapeID, Diamater) VALUES(4, 5);
+
 GO
