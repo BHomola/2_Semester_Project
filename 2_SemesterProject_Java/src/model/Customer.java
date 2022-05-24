@@ -3,12 +3,14 @@ package model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.junit.jupiter.api.Order;
+
 public class Customer extends Person{
 
 	private double discount;
 	private boolean isPremium;
 	private boolean isCompany;
-	private ArrayList<OrderInfo> orders;
+	private ArrayList<Order> orders;
 	private int lastOrderID;
 	private double totalsSpends;
 	
@@ -22,7 +24,7 @@ public class Customer extends Person{
 		this.isCompany = isCompany;
 		this.lastOrderID = 0;
 		this.totalsSpends = totalsSpends;
-		setOrders(new ArrayList<OrderInfo>());
+		setOrders(new ArrayList<Order>());
 	}
 
 
@@ -76,12 +78,12 @@ public class Customer extends Person{
 	}
 
 
-	public ArrayList<OrderInfo> getOrders() {
+	public ArrayList<Order> getOrders() {
 		return orders;
 	}
 
 
-	public void setOrders(ArrayList<OrderInfo> orders) {
+	public void setOrders(ArrayList<Order> orders) {
 		this.orders = orders;
 	}
 	

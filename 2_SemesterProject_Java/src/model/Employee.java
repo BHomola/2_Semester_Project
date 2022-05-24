@@ -5,19 +5,17 @@ import java.util.Date;
 public class Employee extends Person{
 
 	private String position;
-	private String occupation;
 	private double salary;
 	private Date startDate;
 	private Location location;
 	private Login login;
 	
 	public Employee(int id, String name, String address, City city, String phoneNumber, String email, Date dateOfBirth,
-			int age, String description, String note, String position, String occupation, double salary, Date startDate,
+			int age, String description, String note, String position, double salary, Date startDate,
 			Location location, Login login) {
 		
 		super(id, name, address, city, phoneNumber, email, dateOfBirth, age, description, note);
 		this.position = position;
-		this.occupation = occupation;
 		this.salary = salary;
 		this.startDate = startDate;
 		this.location = location;
@@ -30,14 +28,6 @@ public class Employee extends Person{
 
 	public void setPosition(String position) {
 		this.position = position;
-	}
-
-	public String getOccupation() {
-		return occupation;
-	}
-
-	public void setOccupation(String occupation) {
-		this.occupation = occupation;
 	}
 
 	public double getSalary() {
