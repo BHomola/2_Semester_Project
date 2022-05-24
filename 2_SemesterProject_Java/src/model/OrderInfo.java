@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-public class Order {
+public class OrderInfo {
 	private int id;
 	private Customer customer;
 	private List<StoneProduct> products;
@@ -21,7 +21,7 @@ public class Order {
 	private String customerNote;
 	private String updates;
 
-	public Order(int id, Customer customer, double orderPrice, Employee employee, Location office, Invoice invoice,
+	public OrderInfo(int id, Customer customer, double orderPrice, Employee employee, Location office, Invoice invoice,
 			DeliveryStatuses deliveryStatus, Date deliveryDate, String address, City city, double deposit,
 			boolean isPaid, String customerNote) {
 		super();
@@ -38,6 +38,35 @@ public class Order {
 		this.deposit = deposit;
 		this.isPaid = isPaid;
 		this.customerNote = customerNote;
+	}
+
+	public OrderInfo(Customer customer, Employee employee, Location office, String address, City city,
+			String customerNote) {
+		super();
+		this.id = (int) Math.floor(Math.random() * (101));
+		this.customer = customer;
+		this.products = null;
+		this.orderPrice = 0;
+		this.employee = employee;
+		this.office = office;
+		this.invoice = null;
+		this.deliveryStatus = DeliveryStatuses.RECEIVED;
+		this.deliveryDate = null;
+		this.address = address;
+		this.city = city;
+		this.deposit = 0;
+		this.isPaid = false;
+		this.customerNote = customerNote;
+		this.updates = null;
+	}
+
+	// TODO SETTERS IF CHANGE -> PUT NOTE INTO UPDATES
+
+	private void updateOrderPrice() {
+		orderPrice = 0;
+		if (products != null)
+			for (StoneProduct product : products)
+				orderPrice += product.getPrice();
 	}
 
 	public int getId() {
@@ -93,6 +122,7 @@ public class Order {
 	}
 
 	public void setInvoice(Invoice invoice) {
+
 		this.invoice = invoice;
 	}
 
@@ -158,18 +188,19 @@ public class Order {
 
 	public void setUpdates(String updates) {
 		this.updates = updates;
+		updateOrderPrice();
 	}
-	
+
 	public void addUpdate(String note) {
 		this.updates += LocalDate.now() + ": " + note + "\n";
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customer=" + customer + ", orderLines=" + products + ", orderPrice="
-				+ orderPrice + ", employee=" + employee + ", office=" + office + ", invoice=" + invoice
-				+ ", deliveryStatus=" + deliveryStatus + ", deliveryDate=" + deliveryDate + ", address=" + address
-				+ ", city=" + city + ", deposit=" + deposit + ", isPaid=" + isPaid + ", customerNote=" + customerNote
-				+ ", updates=" + updates + "]";
+		return "Order [id=" + id + ", customer=" + customer + ", orderLines=" + products + ", orderPrice=" + orderPrice
+				+ ", employee=" + employee + ", office=" + office + ", invoice=" + invoice + ", deliveryStatus="
+				+ deliveryStatus + ", deliveryDate=" + deliveryDate + ", address=" + address + ", city=" + city
+				+ ", deposit=" + deposit + ", isPaid=" + isPaid + ", customerNote=" + customerNote + ", updates="
+				+ updates + "]";
 	}
 }

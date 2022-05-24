@@ -26,11 +26,11 @@ public class PersonDAO implements IPersonDao{
 		String address = resultSet.getString("Address");
 		String phoneNumber = resultSet.getString("PhoneNumber");
 		String email = resultSet.getString("Email");
-		String type = resultSet.getString("type");
+		String type = resultSet.getString("PersonType");
 		Date dateOfBirth = resultSet.getDate("DateOfBirth"); //check if the import is correct
 		int age  = resultSet.getInt("Age");
-		String description = resultSet.getString("Descripiton");
-		City city = getCity(resultSet);
+		String description = resultSet.getString("Description");
+		City city = StoneDAO.getCity(resultSet);
 		String note = resultSet.getString("Note");
 		
 		if(type.equals("Employee")) {
@@ -101,7 +101,7 @@ public class PersonDAO implements IPersonDao{
 		
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setInt(1, id);
-		ResultSet resultSet = statement.executeQuery(query);
+		ResultSet resultSet = statement.executeQuery();
 		if(resultSet.next() == false) return null;
 		return buildPerson(resultSet);
 	}
@@ -264,11 +264,6 @@ public class PersonDAO implements IPersonDao{
 			System.out.println(e.getMessage());
 		}
 		return success;
-	}
-	
-	public static City getCity(ResultSet resultSet) throws SQLException {
-		return new City(resultSet.getInt("CityID"), resultSet.getString("CityName"), resultSet.getString("Zipcode"),
-				resultSet.getString("Country"));
 	}
 
 }

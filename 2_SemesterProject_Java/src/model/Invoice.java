@@ -3,26 +3,19 @@ package model;
 import java.util.Date;
 
 public class Invoice {
-	//id out? same as the OrderID
-	private int id;
 	private Date paymentDate;
 	private double VATratio;
 	private double finalPrice;
+//	private double discount;
 
-	public Invoice(Date paymentDate, double vATratio, double finalPrice) {
+//	TODO: DISCOUNT
+	public Invoice(Date paymentDate, double VATratio, double finalPrice) {
 		super();
 		//this.id = id;
 		this.paymentDate = paymentDate;
-		VATratio = vATratio;
+		this.VATratio = VATratio;
 		this.finalPrice = finalPrice;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+		//this.discount = disocunt;
 	}
 
 	public Date getPaymentDate() {
@@ -51,7 +44,7 @@ public class Invoice {
 
 	@Override
 	public String toString() {
-		return "Invoice [id=" + id + ", paymentDate=" + paymentDate + ", VATratio=" + VATratio + ", finalPrice="
+		return "Invoice [paymentDate=" + paymentDate + ", VATratio=" + VATratio + ", finalPrice="
 				+ finalPrice + "]";
 	}
 
