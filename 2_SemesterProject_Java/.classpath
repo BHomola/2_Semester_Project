@@ -9,5 +9,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="drivers/mssql-jdbc-10.2.0.jre17.jar"/>
 	<classpathentry kind="lib" path="drivers/sqljdbc4.jar"/>
+	<classpathentry kind="lib" path="drivers/gson-2.9.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

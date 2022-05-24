@@ -182,7 +182,7 @@ CREATE TABLE StoneProduct
   FOREIGN KEY (OrderID) REFERENCES OrderInfo(OrderID)
 );
 
-CREATE TABLE CuttableStone
+CREATE TABLE StoneCuttable
 (
   StoneID INT NOT NULL,
   StoneUnitID INT NOT NULL,

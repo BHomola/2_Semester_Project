@@ -60,12 +60,12 @@ public class StoneCuttable extends Stone {
 
 	@Override
 	public String toString() {
-		return "CuttableStone [subUnits=" + subUnits + "] " + super.toString();
+		return "StoneCuttable [subUnits=" + subUnits + "] " + super.toString();
 	}
 
 	@Override
 	public String getStoneKind() {
-		return "CuttableStone";
+		return "StoneCuttable";
 	}
 	
 	

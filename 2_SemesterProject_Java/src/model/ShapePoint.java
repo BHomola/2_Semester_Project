@@ -1,6 +1,8 @@
 package model;
 import java.awt.Point;
 
+import com.google.gson.annotations.Expose;
+
 public class ShapePoint {
 
 	private Point data;

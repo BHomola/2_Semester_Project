@@ -1,0 +1,4 @@
+[{"id":0,"name":"Default Elipse Shape","shapeType":"ElipseShape","diameterX":20.0,"diameterY":30.0,"diameter":0.0},
+	{"id":1,"name":"Default Elipse Shape","shapeType":"ElipseShape","diameterX":20.0,"diameterY":30.0,"diameter":0.0},
+	{"id":2,"name":"Rectangle","shapeType":"OtherShape","diameterX":0.0,"diameterY":0.0,"points":[{"x":0,"y":0},{"x":20,"y":0},{"x":20,"y":20},{"x":0,"y":20}],"diameter":0.0},
+	{"id":3,"name":"Rectangle","shapeType":"OtherShape","diameterX":0.0,"diameterY":0.0,"points":[{"x":0,"y":0},{"x":20,"y":0},{"x":20,"y":20},{"x":0,"y":20}],"diameter":0.0}]

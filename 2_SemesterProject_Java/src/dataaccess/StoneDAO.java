@@ -31,7 +31,7 @@ public class StoneDAO implements IStoneDAO{
 	@Override
 	public ArrayList<IStoneUnit> getAll() throws SQLException {
 		
-		String query = "SELECT * FROM SelectAllStoneUnits";
+		String query = "SELECT * FROM [VIEW_STONES]";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		ResultSet rs = statement.executeQuery();
 
@@ -40,8 +40,8 @@ public class StoneDAO implements IStoneDAO{
 	
 	public ArrayList<IStoneUnit> getStoneChildren(StoneCuttable stone) throws SQLException {
 		
-		String query = "SELECT SelectAllStoneUnits.* FROM CuttableStone\r\n"
-				+ "JOIN SelectAllStoneUnits ON CuttableStone.StoneUnitID = SelectAllStoneUnits.StoneUnitID\r\n"
+		String query = "SELECT [VIEW_STONES].* FROM StoneCuttable\r\n"
+				+ "JOIN [VIEW_STONES] ON StoneCuttable.StoneUnitID = [VIEW_STONES].StoneUnitID\r\n"
 				+ "WHERE StoneID = ?";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		statement.setInt(1, stone.getId());
@@ -52,7 +52,7 @@ public class StoneDAO implements IStoneDAO{
 
 	@Override
 	public IStoneUnit getStoneUnitByID(int id) throws SQLException {
-		String query = "SELECT * FROM SelectAllStoneUnits WHERE StoneUnitID=?";
+		String query = "SELECT * FROM [VIEW_STONES] WHERE StoneUnitID=?";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		statement.setInt(1, id);
 		ResultSet rs = statement.executeQuery();
@@ -63,7 +63,7 @@ public class StoneDAO implements IStoneDAO{
 
 	@Override
 	public ArrayList<IStoneUnit> getStoneUnitsByStoneMaterial(StoneMaterial stoneMaterial) throws SQLException {
-		String query = "SELECT * FROM SelectAllStoneUnits WHERE StoneMaterialID=?";
+		String query = "SELECT * FROM [VIEW_STONES] WHERE StoneMaterialID=?";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		statement.setInt(1, stoneMaterial.getId());
 		ResultSet rs = statement.executeQuery();
@@ -73,7 +73,7 @@ public class StoneDAO implements IStoneDAO{
 
 	@Override
 	public ArrayList<IStoneUnit> getStoneUnitsByStoneType(StoneType stoneType) throws SQLException {
-		String query = "SELECT * FROM SelectAllStoneUnits WHERE StoneTypeID=?";
+		String query = "SELECT * FROM [VIEW_STONES] WHERE StoneTypeID=?";
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		statement.setInt(1, stoneType.getId());
 		ResultSet rs = statement.executeQuery();
@@ -267,7 +267,7 @@ public class StoneDAO implements IStoneDAO{
 		StoneUnitStatuses status = StoneUnitStatuses.GetStatusByID(resultSet.getInt("Status"));
 		//other DAOs access
 		Location location = getLocation(resultSet);
-		StoneType stoneType = null;// ACCESS TO DAO - MaterialTypeFactory.getStoneType(resultSet);
+		StoneType stoneType = new TypeMaterialDAO().getStoneTypeByID(resultSet.getInt("StoneTypeID"));
 		Supplier supplier = null;//ACCESS TO DAO(Supplier)PersonDAO.buildPerson(resultSet);
 		Employee employee = null;//ACCESS TO DAO(Employee)PersonDAO.buildPerson(resultSet);
 		
@@ -278,7 +278,7 @@ public class StoneDAO implements IStoneDAO{
 					pieces);
 		}
 
-		if (stoneKind.equals("CuttableStone")) {
+		if (stoneKind.equals("StoneCuttable")) {
 			Shape shape = getShape(resultSet);
 			double totalSize = resultSet.getInt("TotalSize");
 			StoneCuttable cuttableStone = new StoneCuttable(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status,
