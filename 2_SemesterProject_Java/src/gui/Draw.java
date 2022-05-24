@@ -120,12 +120,12 @@ public class Draw extends JFrame implements MouseListener, MouseMotionListener{
 				if(outline.getPoints().size() > 2 && pLast.getData().distance(pFirstActual.getData()) < closingParameter) {
 					closeShape(points);
 					mouseClickAvailability = false;
-					/*try {
-						shapeDAO.createShape(outline);
+					try {
+						shapeDAO.createShape(outline, 1);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}*/
+					}
 				}
 			}
 		}
@@ -138,7 +138,6 @@ public class Draw extends JFrame implements MouseListener, MouseMotionListener{
 		pLast.setData(pFirstActual.getData());
 		g.drawLine((int)pLast.getData().getX(), (int)pLast.getData().getY(), (int)pFirstActual.getData().getX(), (int)pFirstActual.getData().getY());
 		outline.calculateArea();
-		System.out.println(outline.calculateArea());
 	}
 	
 	

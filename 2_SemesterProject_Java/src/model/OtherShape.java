@@ -66,7 +66,6 @@ public class OtherShape extends Shape{
 			
 	        area += (coordinateX[i] * coordinateY[i+1]) - (coordinateX[i+1] * coordinateY[i]);
 		}
-		System.out.println(getPoints());
 		area += (Math.abs(area + (coordinateX[0] * coordinateY[arraySize-2]) - (coordinateX[arraySize-2] * coordinateY[0]))) /2;
 		return area;
 	}

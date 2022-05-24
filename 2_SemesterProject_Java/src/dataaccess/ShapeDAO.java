@@ -23,7 +23,7 @@ public class ShapeDAO implements IShapeDAO{
 		String shapeType = resultSet.getString("ShapeType");
 		
 		if(shapeType.equals("CircleShape")) {
-			double diameter = resultSet.getDouble("Diameter");
+			double diameter = resultSet.getInt("Diameter");
 			return new CircleShape(name, id, diameter);
 		}
 		
@@ -47,8 +47,8 @@ public class ShapeDAO implements IShapeDAO{
 		}
 
 		if(shapeType.equals("ElipseShape")) {
-			double diameterX = resultSet.getDouble("DiameterX");
-			double diameterY = resultSet.getDouble("DiameterY");
+			double diameterX = resultSet.getInt("DiameterX");
+			double diameterY = resultSet.getInt("DiameterY");
 			return new ElipseShape(name, id, diameterX, diameterY);
 		}
 		
@@ -110,46 +110,59 @@ public class ShapeDAO implements IShapeDAO{
 		
 		try {
 			connection.setAutoCommit(false);
-			String query = "INSERT INTO SHAPE (name, shapeType) VALUES (?, ?);";
+			String query = "INSERT INTO SHAPE (ShapeID, name, shapeType) VALUES (?, ?, ?);";
 					
 			PreparedStatement statement = connection.prepareStatement(query);
 			
-			statement.setString(1, shape.getName());
-			if (shape instanceof CircleShape) statement.setString(2, "CircleShape");
-			if (shape instanceof ElipseShape) statement.setString(2, "ElipseShape");
-			if (shape instanceof OtherShape) statement.setString(2, "OtherShape");
+			statement.setInt(1, shape.getId());
+			statement.setString(2, shape.getName());
+			if (shape instanceof CircleShape) statement.setString(3, "CircleShape");
+			if (shape instanceof ElipseShape) statement.setString(3, "ElipseShape");
+			if (shape instanceof OtherShape) statement.setString(3, "OtherShape");
 			
+			statement.executeUpdate();
+			
+			statement = connection.prepareStatement(query);
 			if (shape instanceof CircleShape) {
 				query = "INSERT INTO CircleShape (shapeId, diameter) VALUES (?, ?);";
-				statement = connection.prepareStatement(query);
 				statement.setInt(1, id);
 				statement.setInt(2, (int) ((CircleShape) shape).getDiameter());
 			}
 			
 			if (shape instanceof ElipseShape) {
 				query = "INSERT INTO ElipseShape (shapeId, diameterX, diameterY) VALUES (?, ?, ?);";
-				statement = connection.prepareStatement(query);
 				statement.setInt(1, id);
 				statement.setInt(2, (int) ((ElipseShape) shape).getDiameterX());
 				statement.setInt(3, (int) ((ElipseShape) shape).getDiameterY());
 			}
 			
 			if (shape instanceof OtherShape) {
-				query = "INSERT INTO ElipseShape (shapeId) VALUES (?);";
-				statement = connection.prepareStatement(query);
+				query = "INSERT INTO OtherShape (shapeId) VALUES (?);";
 				statement.setInt(1, id);
 				
-				int coordinateX = 0;
-				int coordinateY = 0;
+				statement.executeUpdate();
+				
+				
+				
+				ArrayList<Double> coordinateX = new ArrayList<Double>();
+				ArrayList<Double> coordinateY = new ArrayList<Double>();
 				for(int i = 0; i < ((OtherShape) shape).getPoints().size(); i++) {
-					coordinateX = (int)((OtherShape) shape).getPoints().get(i).getData().getX();
-					coordinateX = (int)((OtherShape) shape).getPoints().get(i).getData().getY();
+					coordinateX.add((((OtherShape) shape).getPoints().get(i).getData().getX()));
+					coordinateY.add((((OtherShape) shape).getPoints().get(i).getData().getY()));
+				}
+				for(int i = 0; i < ((OtherShape) shape).getPoints().size(); i++) {
+					double cX = coordinateX.get(i);
+					double cY = coordinateY.get(i);
+					int intCX = (int) cX;
+					int intCY = (int) cY;
+					System.out.println(intCX);
+					System.out.println(intCY);
 					query = "INSERT INTO ShapePoint (OrderIndex, X, Y, ShapeID) VALUES(?, ?, ?, ?)";
 					statement = connection.prepareStatement(query);
-					statement.setInt(1 + (i*4), i);
-					statement.setInt(2 + (i*4), coordinateX);
-					statement.setInt(3 + (i*4), coordinateY);
-					statement.setInt(4 + (i*4), id);
+					statement.setInt(1/*+ (i*4)*/, i);
+					statement.setInt(2/*+ (i*4)*/, intCX);
+					statement.setInt(3/*+ (i*4)*/, intCY);
+					statement.setInt(4/*+ (i*4)*/, id);
 				}
 			}
 			
@@ -158,6 +171,7 @@ public class ShapeDAO implements IShapeDAO{
 			connection.commit();
 			} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			e.getStackTrace();
 			connection.rollback();
 			} finally {
 			connection.setAutoCommit(true);
@@ -189,7 +203,7 @@ public class ShapeDAO implements IShapeDAO{
 						+ "SET [diameter] = ?"
 						+ "WHERE shapeID = ?;";
 				statement = connection.prepareStatement(query);
-				statement.setDouble(1, ((CircleShape) shape).getDiameter());
+				statement.setInt(1, (int) ((CircleShape) shape).getDiameter());
 				statement.setInt(2, shape.getId());
 			}
 			if (shape instanceof ElipseShape) {
@@ -198,8 +212,8 @@ public class ShapeDAO implements IShapeDAO{
 						+ "	  ,[diameterY] = ?"
 						+ "WHERE shapeID = ?;";
 				statement = connection.prepareStatement(query);
-				statement.setDouble(1, ((ElipseShape) shape).getDiameterX());
-				statement.setDouble(2, ((ElipseShape) shape).getDiameterX());
+				statement.setInt(1, (int) ((ElipseShape) shape).getDiameterX());
+				statement.setInt(2, (int) ((ElipseShape) shape).getDiameterX());
 				statement.setInt(3, shape.getId());
 			}
 			
@@ -215,9 +229,9 @@ public class ShapeDAO implements IShapeDAO{
 							+ "   ,[Y] = ?"
 							+ "WHERE shapeID = ?;";
 					statement = connection.prepareStatement(query);
-					statement.setDouble(1, i);
-					statement.setDouble(2, coordinateX);
-					statement.setDouble(3, coordinateY);
+					statement.setInt(1, i);
+					statement.setInt(2, coordinateX);
+					statement.setInt(3, coordinateY);
 					statement.setInt(4, shape.getId());
 				}
 			}
