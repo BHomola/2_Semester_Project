@@ -48,6 +48,10 @@ public class OrderDAO implements IOrderDAO {
 
 	@Override
 	public int createOrder(Order order) throws SQLException {
+		int generatedID = -1;
+		if(order.getInvoice() == null)
+			return generatedID;
+		
 		Connection con = DBConnection.getConnection();
 		String sqlStatement = "INSERT INTO OrderInfo(DeliveryStatus, DeliveryDate, Address, CityID,"
 				+ " Deposit, IsPaid, CustomerNote, LocationID, PersonID, OrderPrice, EmployeeID, Updates)"
@@ -65,7 +69,6 @@ public class OrderDAO implements IOrderDAO {
 		pStatement.setString(10, order.getUpdates());
 		ResultSet resultSet = pStatement.executeQuery();
 
-		int generatedID = 0;
 		if (resultSet.next())
 			generatedID = resultSet.getInt("generatedID");
 		

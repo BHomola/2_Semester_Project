@@ -1,14 +1,15 @@
 package dataaccess;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.Person;
 
 public interface IPersonDao {
 	
-	public ArrayList<Person> getAll() throws Exception;
-	public Person getByID(int id) throws Exception;
-	public int createPerson(Person person) throws Exception;
-	public boolean updatePerson(Person person) throws Exception;
-	public boolean deletePerson(Person person) throws Exception;
+	public ArrayList<Person> getAll() throws SQLException;
+	public Person getByID(int id) throws SQLException;
+	public int createPerson(Person person) throws SQLException;
+	public boolean updatePerson(Person person) throws SQLException;
+	public boolean deletePerson(Person person) throws SQLException;
 }
