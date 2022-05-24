@@ -1,4 +1,4 @@
-USE [CSC-CSD-S212_10407557]
+USE [CSC-CSD-S212_10407562]
 GO
 
 DROP VIEW IF EXISTS VIEW_PERSONS;
@@ -80,3 +80,15 @@ SELECT * FROM [VIEW_STONES] WHERE StoneUnitID=1
 GO
 
 --ORDERS
+CREATE OR ALTER VIEW VIEW_OrderInfo AS
+SELECT OrderInfo.*, Invoice.* CustomerCity.Zipcode, CustomerCity.CityName, CustomerCity.Country,
+VIEW_LOCATIONCITY.LocationName AS OfficeLocationName,	VIEW_LOCATIONCITY.Address AS OfficeAddress,
+VIEW_LOCATIONCITY.CityID AS OfficeCityID, VIEW_LOCATIONCITY.Zipcode AS OfficeZipcode,
+VIEW_LOCATIONCITY.CityName AS OfficeCityName, VIEW_LOCATIONCITY.Country AS OfficeCountry
+FROM OrderInfo
+LEFT JOIN City AS CustomerCity
+ON OrderInfo.CityID = CustomerCity.CityID
+LEFT JOIN VIEW_LOCATIONCITY 
+ON OrderInfo.LocationID = VIEW_LOCATIONCITY.LocationID
+LEFT JOIN Invoice
+ON Invoice.

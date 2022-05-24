@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import model.City;
 import model.Customer;
 import model.DeliveryStatuses;
@@ -29,20 +31,20 @@ public class OrderDAO implements IOrderDAO {
 		String sqlStatement = 
 				  "SELECT * FROM StoneProduct "
 				+ "JOIN VIEW_OrderInfo "
-				+ "ON StoneProduct.OrderID = VIEW_OrderInfo.OrderID "
-				+ "JOIN VIEW_SelectAllStoneUnits "
-				+ "ON VIEW_SelectAllStoneUnits.StoneUnitID = StoneProduct.StoneID";
+				+ "ON StoneProduct.OrderID = VIEW_OrderInfo.OrderID";
 		Statement statement = con.createStatement();
 		ResultSet resultSet = statement.executeQuery(sqlStatement);
-		if (resultSet.next() == false)
-			return null;
 		return buildOrders(resultSet);
 	}
 
 	@Override
 	public OrderInfo getByID(int id) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "";
+		String sqlStatement = 
+				  "SELECT * FROM StoneProduct "
+				+ "JOIN VIEW_OrderInfo "
+				+ "ON StoneProduct.OrderID = VIEW_OrderInfo.OrderID "
+				+ "WHERE VIEW_OrderInfo.OrderID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setInt(1, 0);
 		ResultSet resultSet = pStatement.executeQuery();
@@ -51,6 +53,19 @@ public class OrderDAO implements IOrderDAO {
 		return buildOrder(resultSet);
 	}
 
+	public Collection<OrderInfo> getOrdersByCustomerID(int id) throws SQLException {
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = 
+				  "SELECT * FROM StoneProduct "
+				+ "JOIN VIEW_OrderInfo "
+				+ "ON StoneProduct.OrderID = VIEW_OrderInfo.OrderID "
+				+ "WHERE VIEW_OrderInfo.CustomerID = ?";
+		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setInt(1, id);
+		ResultSet resultSet = pStatement.executeQuery();
+		return buildOrders(resultSet);
+	}
+	
 	@Override
 	public int createOrder(OrderInfo order) throws SQLException {
 		int generatedID = -1;
@@ -80,10 +95,10 @@ public class OrderDAO implements IOrderDAO {
 		sqlStatement = "INSERT INTO Invoice(OrderID, PaymentDate, VATratio, FinalPrice)"
 				+ " VALUES(?,?,?,?)";
 		pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setInt(0, generatedID);
-		pStatement.setDate(1, (java.sql.Date) order.getInvoice().getPaymentDate());
-		pStatement.setDouble(2, order.getInvoice().getVATratio());
-		pStatement.setDouble(3, order.getInvoice().getFinalPrice());
+		pStatement.setInt(1, generatedID);
+		pStatement.setDate(2, (java.sql.Date) order.getInvoice().getPaymentDate());
+		pStatement.setDouble(3, order.getInvoice().getVATratio());
+		pStatement.setDouble(4, order.getInvoice().getFinalPrice());
 		return generatedID;
 	}
 
@@ -110,22 +125,24 @@ public class OrderDAO implements IOrderDAO {
 	@SuppressWarnings("unchecked")
 	public static OrderInfo buildOrder(ResultSet resultSet) throws SQLException {
 		PersonDAO pDAO = new PersonDAO();
+		StoneDAO sDAO = new StoneDAO();
 		int id = resultSet.getInt("OrderID");
-		Person customer = pDAO.getByID(resultSet.getInt("CustomerID"));
-		ArrayList<? extends IStoneUnit> products = StoneDAO.getStoneUnits(resultSet);
+		Person customer = null;
+		//Person customer = pDAO.getByID(resultSet.getInt("CustomerID"));
+		ArrayList<? extends IStoneUnit> products = sDAO.getStoneProductsByOrderID(id);
 		double orderPrice = resultSet.getDouble("OrderPrice");
-		Person employee = pDAO.getByID(resultSet.getInt("EmplyeeID"));
-		//Location office = StoneDAO.getLocation(resultSet);
-		Location office = null;
+		Person employee = null;
+		//Person employee = pDAO.getByID(resultSet.getInt("EmplyeeID"));
+		Location office = StoneDAO.getLocation(resultSet);
+		//Location office = null;
 		Invoice invoice = getInvoice(resultSet);
 		DeliveryStatuses deliveryStatus = DeliveryStatuses.GetStatusByID(resultSet.getInt("DeliveryStatus"));
 		Date deliveryDate = resultSet.getDate("DeliveryDate");
 		String address = resultSet.getString("Address");
-		City city = null;
-		//City city = StoneDAO.getCity(resultSet);
+		City city = StoneDAO.getCity(resultSet);
 		double deposit = resultSet.getDouble("Deposit");
 		boolean isPaid = resultSet.getBoolean("IsPaid");
-		String customerNote = resultSet.getString("CustomerNoter");
+		String customerNote = resultSet.getString("CustomerNote");
 		String updates = resultSet.getString("Updates");
 		
 		OrderInfo order = new OrderInfo(id, (Customer) customer, orderPrice, (Employee) employee, office, invoice,
