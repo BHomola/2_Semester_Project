@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Customer extends Person{
@@ -7,21 +8,21 @@ public class Customer extends Person{
 	private double discount;
 	private boolean isPremium;
 	private boolean isCompany;
-	private int ordersCount;
-	private Date lastOrderID;
+	private ArrayList<Order> orders;
+	private int lastOrderID;
 	private double totalsSpends;
 	
 
 	public Customer(int id, String name, String address, City city, String phoneNumber, String email, Date dateOfBirth,
-			int age, String description, double discount, boolean isPremium, boolean isCompany, int ordersCount,
-			Date lastOrderID, double totalsSpends, String note) {
+			int age, String description, double discount, boolean isPremium, boolean isCompany,
+			double totalsSpends, String note) {
 		super(id, name, address, city, phoneNumber, email, dateOfBirth, age, description, note);
 		this.discount = discount;
 		this.isPremium = isPremium;
 		this.isCompany = isCompany;
-		this.ordersCount = ordersCount;
-		this.lastOrderID = lastOrderID;
+		this.lastOrderID = 0;
 		this.totalsSpends = totalsSpends;
+		setOrders(new ArrayList<Order>());
 	}
 
 
@@ -55,22 +56,12 @@ public class Customer extends Person{
 	}
 
 
-	public int getOrdersCount() {
-		return ordersCount;
-	}
-
-
-	public void setOrdersCount(int ordersCount) {
-		this.ordersCount = ordersCount;
-	}
-
-
-	public Date getLastOrderID() {
+	public int getLastOrderID() {
 		return lastOrderID;
 	}
 
 
-	public void setLastOrderID(Date lastOrderID) {
+	public void setLastOrderID(int lastOrderID) {
 		this.lastOrderID = lastOrderID;
 	}
 
@@ -82,6 +73,16 @@ public class Customer extends Person{
 
 	public void setTotalsSpends(double totalsSpends) {
 		this.totalsSpends = totalsSpends;
+	}
+
+
+	public ArrayList<Order> getOrders() {
+		return orders;
+	}
+
+
+	public void setOrders(ArrayList<Order> orders) {
+		this.orders = orders;
 	}
 	
 	
