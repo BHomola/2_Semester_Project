@@ -31,9 +31,13 @@ public class ShapeDAO implements IShapeDAO{
 			OtherShape otherShape = new OtherShape(name, id);
 			
 			ArrayList<ShapePoint> shapePoints = getShapePoints(otherShape);
-			otherShape.setPoints(shapePoints);
+			System.out.println(shapePoints.size());
+			for(ShapePoint point : shapePoints) {
+				System.out.println(point.getData().x + "  " + point.getData().y);
+			}
 			
-			Point startingPoint = otherShape.getPoints().get(0).getData();
+			
+			Point startingPoint = shapePoints.get(0).getData();
 			otherShape.addStartingPoint(startingPoint);
 			
 			for(int i = 1; i < (otherShape.getPoints().size())-1; i++) {
@@ -291,16 +295,15 @@ public class ShapeDAO implements IShapeDAO{
 		
 		Connection connection = DBConnection.getConnection();
 		
-		String query = "SELECT *\r\n"
+		String query = "SELECT X,Y\r\n"
 				+ "FROM ShapePoint \r\n"
-				+ "FULL OUTER JOIN OtherShape ON ShapePoint.ShapeID = OtherShape.ShapeID \r\n"
+				+ "INNER JOIN OtherShape ON ShapePoint.ShapeID = OtherShape.ShapeID \r\n"
 				+ "WHERE ShapePoint.ShapeID = ? \r\n"
 				+ "ORDER BY ShapePoint.OrderIndex ASC;";
 			
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setInt(1, shape.getId());
-		ResultSet resultSet = statement.executeQuery();
-		if(resultSet.next() == false) return null;		
+		ResultSet resultSet = statement.executeQuery();	
 		return buildShapePoints(resultSet);
 	}
 	

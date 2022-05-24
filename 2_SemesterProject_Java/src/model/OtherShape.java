@@ -39,7 +39,6 @@ public class OtherShape extends Shape{
 	}
 	
 	public void addStartingPoint(Point point) {
-	
 		ShapePoint ap = new ShapePoint(point);
 		points.add(ap);
 	}
