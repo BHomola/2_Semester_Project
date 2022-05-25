@@ -7,11 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.sql.SQLException;
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -55,7 +50,7 @@ class TestOrderDAO {
 			Person person = null;
 			Employee employee = null;
 			for (Person p : pDAO.getAll()) {
-				if(p instanceof Customer) 
+				if(p instanceof Customer && person == null) 
 					person = p;
 				if(p instanceof Employee)
 					employee = (Employee) p;
@@ -71,7 +66,7 @@ class TestOrderDAO {
 			order = new OrderInfo(0, person, 0, employee, location, invoice, 
 					DeliveryStatuses.RECEIVED, null, "TestAddress", city, 0, false, "TestCustomerNote");
 			
-			sum = oDAO.getAll().size();
+			sum = oDAO.getAllInfo().size();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -91,7 +86,7 @@ class TestOrderDAO {
 	@Test
 	void getAllTest() {
 		try {
-			assertEquals(sum+1, oDAO.getAll().size());
+			assertEquals(sum+1, oDAO.getAllInfo().size());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
