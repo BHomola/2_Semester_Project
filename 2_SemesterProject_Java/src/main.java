@@ -1,5 +1,7 @@
+import java.sql.Date;
 import java.sql.SQLException;
 
+import dataaccess.CityLocationDAO;
 import dataaccess.DBConnection;
 import dataaccess.OrderDAO;
 import dataaccess.PersonDAO;
@@ -9,6 +11,7 @@ import model.IStoneUnit;
 import model.OtherShape;
 import model.Shape;
 import model.ShapePoint;
+import model.*;
 
 import java.awt.Point;
 
@@ -20,12 +23,15 @@ public class main {
 		StoneDAO sDAO = new StoneDAO();
 		PersonDAO pDAO = new PersonDAO();
 		ShapeDAO shapeDAO = new ShapeDAO();
+		CityLocationDAO cDAO = new CityLocationDAO();
 		try {
 			//starting thread that checks for database connection
 			DatabaseCheckThread thread = new DatabaseCheckThread();
 			thread.start();
 
 //			System.out.println(oDAO.getAll());
+			Supplier supp = new Supplier("Bo", "address", cDAO.getCityByID(1), "phone", "email", Date.valueOf("1980-05-05"),55, "desc", "note" );
+			pDAO.createPerson(supp);
 			System.out.println(sDAO.getStoneProductsByOrderID(1));
 //			
 //			Point p1 = new Point(0, 0);
