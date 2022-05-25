@@ -46,13 +46,15 @@ public class TestStoneDAO {
 				150.00, 340, 1);
 	}
 
-	/*
-	 * @Test void testGetAllStoneUnits() throws SQLException { assertEquals(10,
-	 * sDAO.getAllStoneUnits().size()); }
-	 * 
-	 * @Test void testGetStoneChildren() throws SQLException { assertEquals(3,
-	 * sDAO.getStoneChildren((StoneCuttable)sDAO.getStoneUnitByID(1)).size()); }
-	 */
+	@Test
+	void testGetAllStoneUnits() throws SQLException {
+		assertEquals(10, sDAO.getAllStoneUnits().size());
+	}
+
+	@Test
+	void testGetStoneChildren() throws SQLException {
+		assertEquals(3, sDAO.getStoneChildren((StoneCuttable) sDAO.getStoneUnitByID(1)).size());
+	}
 
 	@Test
 	void testCreateStone() throws SQLException {

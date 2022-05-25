@@ -27,10 +27,10 @@ class TestJSONShapeDAO {
 	void tearDown() throws Exception {
 	}
 
-/*	@Test
+	@Test
 	void testCreateShape() throws SQLException {
 		equals(jsonDAO.createShape(cShape, 1));
-	} */
+	} 
 	
 	@Test
 	void testUpdateShape() throws SQLException {
