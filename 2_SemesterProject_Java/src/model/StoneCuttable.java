@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class StoneCuttable extends Stone {
 	private ArrayList<IStoneUnit> subUnits = new ArrayList<>();

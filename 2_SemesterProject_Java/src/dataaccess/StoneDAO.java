@@ -7,7 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
@@ -142,7 +142,7 @@ public class StoneDAO implements IStoneDAO {
 			statement.setString(3, stoneUnit.getDescription());
 			statement.setInt(4, stoneUnit.getStatus().getID());
 			statement.setString(5, stoneUnit.getStoneKind());
-			statement.setDate(6, (java.sql.Date) stoneUnit.getCreatedDate());
+			statement.setDate(6, stoneUnit.getCreatedDate());
 			statement.setString(7, stoneUnit.getOrigin());
 			statement.setString(8, stoneUnit.getUpdates());
 			statement.setInt(9, stoneUnit.getStoneType().getId());

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import model.StoneUnitStatuses;
 import model.Supplier;
@@ -59,7 +59,7 @@ public class TestStone {
 			cshape = new CircleShape  ("Cerc", 1, 12.0);
 			status = StoneUnitStatuses.AVAILABLE;
 			formatter = new SimpleDateFormat("dd-MM-yyyy");
-			date = formatter.parse("10-05-2022");
+			date = Date.valueOf("2022-05-10");
 			supplier = new Supplier(13, "CMD", "Vesterbro 41", city, "9143283", "test@test.com", date, 30, "None", "Note");
 			employee = null;
 			stone = new StoneCuttable(1,type,"Italy", supplier, 1.5, 50.0, 

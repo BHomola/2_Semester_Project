@@ -2,58 +2,32 @@ package Runner;
 import java.sql.Date;
 import java.sql.SQLException;
 
+import controller.*;
 import dataaccess.CityLocationDAO;
-import dataaccess.DBConnection;
 import dataaccess.DatabaseCheckThread;
-import dataaccess.OrderDAO;
-import dataaccess.PersonDAO;
-import dataaccess.ShapeDAO;
-import dataaccess.StoneDAO;
-import model.IStoneUnit;
-import model.OtherShape;
-import model.Shape;
-import model.ShapePoint;
 import model.*;
 
-import java.awt.Point;
 
 
 public class main {
 
 	public static void main(String[] args) {
-		OrderDAO oDAO = new OrderDAO();
-		StoneDAO sDAO = new StoneDAO();
-		PersonDAO pDAO = new PersonDAO();
-		ShapeDAO shapeDAO = new ShapeDAO();
-		CityLocationDAO cDAO = new CityLocationDAO();
+		OrderController oDAO = new OrderController();
+		StoneController sDAO = new StoneController();
+		PersonController pDAO = new PersonController();
+		StoneTypeMaterialController mDAO = new StoneTypeMaterialController();
+		LocationCityController lDAO = new LocationCityController();
+
 		try {
-			//starting thread that checks for database connection
 			DatabaseCheckThread thread = new DatabaseCheckThread();
 			thread.start();
 
-//			System.out.println(oDAO.getAll());
-			Supplier supp = new Supplier("Bo", "address", cDAO.getCityByID(1), "phone", "email", Date.valueOf("1980-05-05"),55, "desc", "note" );
-			pDAO.createPerson(supp);
-			System.out.println(sDAO.getStoneProductsByOrderID(1));
-//			
-//			Point p1 = new Point(0, 0);
-//			Point p2 = new Point(5, 5);
-//			Point p3 = new Point(4, 20);
-//			ShapePoint sp1 = new ShapePoint(p1);
-//			ShapePoint sp2 = new ShapePoint(p2);
-//			ShapePoint sp3 = new ShapePoint(p3);
-//			OtherShape otherShape = new OtherShape("other1", 1);
-//			otherShape.addStartingPoint(p1);
-//			otherShape.addPoint(p2);
-//			otherShape.addLastPoint(p3);
-//
-//			shapeDAO.createShape(otherShape, 1);
-//			for(IStoneUnit stone : sDAO.getAllStoneUnits()) {
-//				System.out.println(stone);
-//			}
-			thread.join();
 			
-		} catch (SQLException | InterruptedException e) {
+			for(IStoneUnit stone : sDAO.getAllStoneUnits()) {
+				System.out.println(stone);
+			}
+			System.out.println("Done!");
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

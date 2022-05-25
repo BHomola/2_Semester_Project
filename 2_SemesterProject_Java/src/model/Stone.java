@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public abstract class Stone extends StoneUnit {
 	private Shape shape;

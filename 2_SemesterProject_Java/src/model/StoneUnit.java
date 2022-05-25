@@ -1,7 +1,7 @@
 package model;
 
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Date;
 
 public abstract class StoneUnit implements IStoneUnit {
 	private int id;
