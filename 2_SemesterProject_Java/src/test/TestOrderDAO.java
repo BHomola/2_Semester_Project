@@ -7,9 +7,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import dataaccess.CityLocationDAO;
 import dataaccess.OrderDAO;
@@ -24,6 +31,8 @@ import model.Location;
 import model.OrderInfo;
 import model.Person;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestOrderDAO {
 	OrderDAO oDAO;
 	StoneDAO sDAO;
@@ -31,7 +40,10 @@ class TestOrderDAO {
 	CityLocationDAO clDAO;
 	
 	OrderInfo order;
-	@BeforeEach
+	int genID;
+	int sum;
+	
+	@org.junit.jupiter.api.BeforeAll
 	void setUp() {
 		oDAO = new OrderDAO();
 		sDAO = new StoneDAO();
@@ -59,29 +71,51 @@ class TestOrderDAO {
 			order = new OrderInfo(0, person, 0, employee, location, invoice, 
 					DeliveryStatuses.RECEIVED, null, "TestAddress", city, 0, false, "TestCustomerNote");
 			
+			sum = oDAO.getAll().size();
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-		
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-	
+	@Order(1)
 	@Test
-	void test() {
+	void createTest() {
+		genID = 0;
 		try {
-			int genID = 0;
 			assertNotEquals(-1, genID = oDAO.createOrder(order));
-//			System.out.println(genID);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	@Order(2)
+	@Test
+	void getAllTest() {
+		try {
+			assertEquals(sum+1, oDAO.getAll().size());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	@Order(3)
+	@Test
+	void getByIDTest() {
+		try {
 			assertEquals("TestAddress", oDAO.getByID(genID).getAddress());
-			order.setId(genID);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	@Order(4)
+	@Test
+	void deleteTest() {
+		order.setId(genID);
+		try {
 			assertTrue(oDAO.deleteOrder(order));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+	
 
 }

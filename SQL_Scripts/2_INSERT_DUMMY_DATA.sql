@@ -321,6 +321,7 @@ INSERT INTO Stone(StoneID,TotalSize) VALUES(7, 40);
 
 
 INSERT INTO OrderInfo(DeliveryStatus, DeliveryDate, Address, CityID, Deposit, IsPaid, CustomerNote, LocationID, CustomerID, OrderPrice, EmployeeID, Updates) VALUES(0, '2022-5-29', 'Random Address 5', 10, 110, 1, ' ', 1, 1, 220, 11, ' ');
+INSERT INTO Invoice(OrderID, PaymentDate, VATRatio, FinalPrice) VALUES (1, '2022-5-29', 0.25, 220)
 GO
 INSERT INTO StoneProduct(StoneID,Price, OrderID) VALUES(5, 40,1);
 INSERT INTO StoneProduct(StoneID,Price, OrderID) VALUES(6, 60,1);
