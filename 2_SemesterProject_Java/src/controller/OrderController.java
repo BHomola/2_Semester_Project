@@ -3,11 +3,12 @@ package controller;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import dataaccess.IOrderDAO;
 import dataaccess.OrderDAO;
 import model.OrderInfo;
 
 public class OrderController {
-	OrderDAO oDAO = new OrderDAO();
+	IOrderDAO oDAO = new OrderDAO();
 
 	public Collection<OrderInfo> getAll() throws SQLException {
 		return oDAO.getAll();

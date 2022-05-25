@@ -3,11 +3,12 @@ package controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import dataaccess.IPersonDao;
 import dataaccess.PersonDAO;
 import model.Person;
 
 public class PersonController {
-	PersonDAO pDAO = new PersonDAO(); 
+	IPersonDao pDAO = new PersonDAO(); 
 
 	public ArrayList<Person> getAll() throws SQLException {
 		return pDAO.getAll();
