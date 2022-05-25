@@ -46,7 +46,7 @@ public class JSONShapeDAO implements IShapeDAO {
 			for(int i = 0; i < newJsonShapes.length; i++) {
 				
 				if(i == newJsonShapes.length-1) {
-					newJsonShapes[i] = convertShapeTOJSONShape(shape);
+					newJsonShapes[i] = convertShapeToJSONShape(shape);
 					newJsonShapes[i].id = i;
 					continue;
 				}
@@ -54,7 +54,7 @@ public class JSONShapeDAO implements IShapeDAO {
 				newJsonShapes[i].id = i;
 
 			}
-			if(saveToFile(newJsonShapes))
+			if(saveFile(newJsonShapes))
 				success = true;
 		}
 		return success == true ? 1 : 0;
@@ -71,7 +71,7 @@ public class JSONShapeDAO implements IShapeDAO {
 		}
 		
 		JSONShape[] jsonShapes = convertArrayListToJSONShapes(shapes);
-		if(saveToFile(jsonShapes))
+		if(saveFile(jsonShapes))
 			success = true;
 		
 		return success;
@@ -88,7 +88,7 @@ public class JSONShapeDAO implements IShapeDAO {
 		}
 		
 		JSONShape[] jsonShapes = convertArrayListToJSONShapes(shapes);
-		if(saveToFile(jsonShapes))
+		if(saveFile(jsonShapes))
 			success = true;
 		
 		return success;
@@ -96,7 +96,7 @@ public class JSONShapeDAO implements IShapeDAO {
 
 	// Helper methods
 
-	private JSONShape convertShapeTOJSONShape(Shape shape) {
+	private JSONShape convertShapeToJSONShape(Shape shape) {
 		JSONShape jsonShape = new JSONShape();
 		if (shape instanceof CircleShape) {
 			jsonShape.name = shape.getName();
@@ -156,13 +156,13 @@ public class JSONShapeDAO implements IShapeDAO {
 	private JSONShape[] convertArrayListToJSONShapes(ArrayList<Shape> shapes) {
 		JSONShape[] jsonShapes = new JSONShape[shapes.size()];
 		for(int i = 0; i < shapes.size(); i++) {
-			jsonShapes[i] = convertShapeTOJSONShape(shapes.get(i));
+			jsonShapes[i] = convertShapeToJSONShape(shapes.get(i));
 			jsonShapes[i].id = i;
 		}
 		return jsonShapes;
 	}
 
-	private boolean saveToFile(JSONShape[] jsonShapes) {
+	private boolean saveFile(JSONShape[] jsonShapes) {
 		boolean success = false;
 
 		Gson gson = new Gson();

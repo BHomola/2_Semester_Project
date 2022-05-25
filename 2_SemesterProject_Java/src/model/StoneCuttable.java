@@ -16,6 +16,10 @@ public class StoneCuttable extends Stone {
 	public boolean addStoneUnit(IStoneUnit unit) {
 		return subUnits.add(unit);
 	}
+	public boolean addStoneUnits(ArrayList<IStoneUnit> units) {
+		subUnits = units;
+		return true;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<IStoneUnit> getAllStoneUnits() {

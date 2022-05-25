@@ -37,7 +37,7 @@ public class StoneDAO implements IStoneDAO {
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		ResultSet rs = statement.executeQuery();
 
-		ArrayList<IStoneUnit> stoneUnits = getStoneUnits(rs);
+		ArrayList<IStoneUnit> stoneUnits = buildStoneUnits(rs);
 		// assigning parents stones and child stones
 		query = "SELECT * FROM StoneCuttable";
 		statement = DBConnection.getConnection().prepareStatement(query);
@@ -69,7 +69,7 @@ public class StoneDAO implements IStoneDAO {
 		statement.setInt(1, stone.getId());
 		ResultSet rs = statement.executeQuery();
 
-		return getStoneUnits(rs);
+		return buildStoneUnits(rs);
 	}
 
 	@Override
@@ -78,8 +78,13 @@ public class StoneDAO implements IStoneDAO {
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		statement.setInt(1, id);
 		ResultSet rs = statement.executeQuery();
-		if (rs.next())
-			return getStoneUnit(rs);
+		IStoneUnit stoneUnit = null;
+		if (rs.next()) {
+			stoneUnit = buildStoneUnit(rs);
+			if(stoneUnit instanceof StoneCuttable) {
+				((StoneCuttable)stoneUnit).addStoneUnits(getStoneChildren((StoneCuttable)stoneUnit));
+			}
+		}
 		return null;
 	}
 
@@ -90,7 +95,7 @@ public class StoneDAO implements IStoneDAO {
 		statement.setInt(1, stoneMaterial.getId());
 		ResultSet rs = statement.executeQuery();
 
-		return getStoneUnits(rs);
+		return buildStoneUnits(rs);
 	}
 
 	@Override
@@ -100,7 +105,7 @@ public class StoneDAO implements IStoneDAO {
 		statement.setInt(1, stoneType.getId());
 		ResultSet rs = statement.executeQuery();
 
-		return getStoneUnits(rs);
+		return buildStoneUnits(rs);
 	}
 
 	@Override
@@ -285,7 +290,7 @@ public class StoneDAO implements IStoneDAO {
 
 	// Helper Methods
 
-	public static IStoneUnit getStoneUnit(ResultSet resultSet) throws SQLException {
+	public static IStoneUnit buildStoneUnit(ResultSet resultSet) throws SQLException {
 		int id = resultSet.getInt("StoneUnitID");
 		String stoneKind = resultSet.getString("StoneType");
 		String origin = resultSet.getString("Origin");
@@ -329,10 +334,10 @@ public class StoneDAO implements IStoneDAO {
 		return null;
 	}
 
-	public static ArrayList<IStoneUnit> getStoneUnits(ResultSet resultSet) throws SQLException {
+	public static ArrayList<IStoneUnit> buildStoneUnits(ResultSet resultSet) throws SQLException {
 		ArrayList<IStoneUnit> stoneUnits = new ArrayList<IStoneUnit>();
 		while (resultSet.next()) {
-			stoneUnits.add(getStoneUnit(resultSet));
+			stoneUnits.add(buildStoneUnit(resultSet));
 		}
 		return stoneUnits;
 	}
