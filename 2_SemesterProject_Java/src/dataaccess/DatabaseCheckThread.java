@@ -1,4 +1,4 @@
-import dataaccess.DBConnection;
+package dataaccess;
 
 public class DatabaseCheckThread  extends Thread{
 	

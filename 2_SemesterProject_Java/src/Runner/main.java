@@ -1,8 +1,10 @@
+package Runner;
 import java.sql.Date;
 import java.sql.SQLException;
 
 import dataaccess.CityLocationDAO;
 import dataaccess.DBConnection;
+import dataaccess.DatabaseCheckThread;
 import dataaccess.OrderDAO;
 import dataaccess.PersonDAO;
 import dataaccess.ShapeDAO;
