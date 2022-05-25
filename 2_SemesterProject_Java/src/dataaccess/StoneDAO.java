@@ -84,6 +84,7 @@ public class StoneDAO implements IStoneDAO {
 			if(stoneUnit instanceof StoneCuttable) {
 				((StoneCuttable)stoneUnit).addStoneUnits(getStoneChildren((StoneCuttable)stoneUnit));
 			}
+			return stoneUnit;
 		}
 		return null;
 	}
