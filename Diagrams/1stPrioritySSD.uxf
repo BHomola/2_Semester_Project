@@ -4,8 +4,8 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>170</x>
-      <y>170</y>
+      <x>120</x>
+      <y>90</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -15,8 +15,8 @@
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>480</x>
-      <y>240</y>
+      <x>430</x>
+      <y>160</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
@@ -27,140 +27,128 @@ halign=center</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>260</y>
+      <x>140</x>
+      <y>180</y>
       <w>30</w>
-      <h>580</h>
+      <h>470</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;560.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;450.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>540</x>
-      <y>260</y>
+      <x>490</x>
+      <y>180</y>
       <w>30</w>
-      <h>580</h>
+      <h>470</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;560.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;450.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>310</y>
+      <x>140</x>
+      <y>190</y>
       <w>380</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-Clickos on "Stones" button</panel_attributes>
+getAllStoneUnits()</panel_attributes>
     <additional_attributes>10.0;20.0;360.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>350</y>
+      <x>140</x>
+      <y>230</y>
       <w>380</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-Returns the collection of stones</panel_attributes>
+stoneUnits</panel_attributes>
     <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>400</y>
+      <x>140</x>
+      <y>280</y>
       <w>380</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-Sets the filters for the stone</panel_attributes>
+getStoneUnitsByStoneMaterial()</panel_attributes>
     <additional_attributes>10.0;20.0;360.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>440</y>
+      <x>140</x>
+      <y>320</y>
       <w>380</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-Returns the available stones that match the filters</panel_attributes>
+stoneUnits</panel_attributes>
     <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>490</y>
+      <x>140</x>
+      <y>360</y>
       <w>380</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-Selects an exact stone instance</panel_attributes>
+getStoneUnitByID()</panel_attributes>
     <additional_attributes>10.0;20.0;360.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>520</y>
+      <x>140</x>
+      <y>410</y>
       <w>380</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-Clicks on “Cut stone”</panel_attributes>
+updateStone()</panel_attributes>
     <additional_attributes>10.0;20.0;360.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>560</y>
+      <x>140</x>
+      <y>470</y>
+      <w>380</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+addPoint</panel_attributes>
+    <additional_attributes>10.0;20.0;360.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>500</y>
       <w>380</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-Canvas window opens</panel_attributes>
-    <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>190</x>
-      <y>620</y>
-      <w>380</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=-&gt;
-Places point on canvas</panel_attributes>
-    <additional_attributes>10.0;20.0;360.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>190</x>
-      <y>650</y>
-      <w>380</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-Point appears on canvas, saves point into collection</panel_attributes>
+pointAdded</panel_attributes>
     <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>120</x>
-      <y>600</y>
+      <x>70</x>
+      <y>450</y>
       <w>510</w>
-      <h>120</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>Drawing new shape loop</panel_attributes>
     <additional_attributes/>
@@ -168,37 +156,37 @@ Point appears on canvas, saves point into collection</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>680</y>
-      <w>380</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-Adds distance between points to circumference</panel_attributes>
-    <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>190</x>
-      <y>730</y>
+      <x>140</x>
+      <y>560</y>
       <w>380</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-Clicks on "Save stone"</panel_attributes>
+createStone</panel_attributes>
     <additional_attributes>10.0;20.0;360.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>760</y>
+      <x>140</x>
+      <y>590</y>
       <w>380</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-Creates new Stone</panel_attributes>
+stoneCreated</panel_attributes>
+    <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>380</y>
+      <w>380</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+stoneUnit</panel_attributes>
     <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
