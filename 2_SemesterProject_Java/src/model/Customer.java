@@ -10,7 +10,7 @@ public class Customer extends Person {
 	private double discount;
 	private boolean isPremium;
 	private boolean isCompany;
-	private ArrayList<Order> orders;
+	private ArrayList<OrderInfo> orders;
 	private int lastOrderID;
 	private double totalsSpends;
 
@@ -23,7 +23,7 @@ public class Customer extends Person {
 		this.isCompany = isCompany;
 		this.lastOrderID = 0;
 		this.totalsSpends = totalsSpends;
-		setOrders(new ArrayList<Order>());
+		setOrders(new ArrayList<OrderInfo>());
 	}
 	
 	public Customer( String name, String address, City city, String phoneNumber, String email, Date dateOfBirth,
@@ -35,7 +35,7 @@ public class Customer extends Person {
 		this.isCompany = isCompany;
 		this.lastOrderID = 0;
 		this.totalsSpends = totalsSpends;
-		setOrders(new ArrayList<Order>());
+		setOrders(new ArrayList<OrderInfo>());
 	}
 	
 
@@ -79,11 +79,11 @@ public class Customer extends Person {
 		this.totalsSpends = totalsSpends;
 	}
 
-	public ArrayList<Order> getOrders() {
+	public ArrayList<OrderInfo> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(ArrayList<Order> orders) {
+	public void setOrders(ArrayList<OrderInfo> orders) {
 		this.orders = orders;
 	}
 
