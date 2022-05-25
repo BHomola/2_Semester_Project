@@ -36,7 +36,7 @@ public class OrderDAO implements IOrderDAO {
 	
 	public Collection<OrderInfo> getAllInfo() throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "SELECT * VIEW_OrderInfo ";
+		String sqlStatement = "SELECT * FROM VIEW_OrderInfo ";
 		Statement statement = con.createStatement();
 		ResultSet resultSet = statement.executeQuery(sqlStatement);
 		return buildOrders(resultSet);
