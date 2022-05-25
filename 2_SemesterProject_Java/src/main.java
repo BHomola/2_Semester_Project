@@ -25,6 +25,8 @@ public class main {
 			DatabaseCheckThread thread = new DatabaseCheckThread();
 			thread.start();
 
+//			System.out.println(oDAO.getByID(1));
+			
 			Point p1 = new Point(0, 0);
 			Point p2 = new Point(5, 5);
 			Point p3 = new Point(4, 20);

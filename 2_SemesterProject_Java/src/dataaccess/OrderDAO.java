@@ -10,8 +10,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import model.City;
 import model.Customer;
 import model.DeliveryStatuses;
@@ -20,7 +18,6 @@ import model.IStoneUnit;
 import model.Invoice;
 import model.Location;
 import model.OrderInfo;
-import model.Person;
 import model.StoneProduct;
 
 public class OrderDAO implements IOrderDAO {
@@ -36,6 +33,14 @@ public class OrderDAO implements IOrderDAO {
 		ResultSet resultSet = statement.executeQuery(sqlStatement);
 		return buildOrders(resultSet);
 	}
+	
+	public Collection<OrderInfo> getAllInfo() throws SQLException {
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = "SELECT * VIEW_OrderInfo ";
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery(sqlStatement);
+		return buildOrders(resultSet);
+	}
 
 	@Override
 	public OrderInfo getByID(int id) throws SQLException {
@@ -45,6 +50,19 @@ public class OrderDAO implements IOrderDAO {
 				+ "JOIN VIEW_OrderInfo "
 				+ "ON StoneProduct.OrderID = VIEW_OrderInfo.OrderID "
 				+ "WHERE VIEW_OrderInfo.OrderID = ?";
+		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setInt(1, id);
+		ResultSet resultSet = pStatement.executeQuery();
+		if (resultSet.next() == false)
+			return getInfoByID(id);
+		return buildOrder(resultSet);
+	}
+	
+	private OrderInfo getInfoByID(int id) throws SQLException {
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = 
+				   "SELECT * FROM VIEW_OrderInfo "
+				  +"WHERE VIEW_OrderInfo.OrderID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setInt(1, id);
 		ResultSet resultSet = pStatement.executeQuery();
@@ -66,6 +84,17 @@ public class OrderDAO implements IOrderDAO {
 		return buildOrders(resultSet);
 	}
 	
+	public Collection<OrderInfo> getOrdersInfoByCustomerID(int id) throws SQLException {
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = 
+				  "SELECT * FROM VIEW_OrderInfo "
+				+ "WHERE VIEW_OrderInfo.CustomerID = ?";
+		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setInt(1, id);
+		ResultSet resultSet = pStatement.executeQuery();
+		return buildOrders(resultSet);
+	}
+	
 	@Override
 	public int createOrder(OrderInfo order) throws SQLException {
 		int generatedID = -1;
@@ -74,19 +103,23 @@ public class OrderDAO implements IOrderDAO {
 		
 		Connection con = DBConnection.getConnection();
 		String sqlStatement = "INSERT INTO OrderInfo(DeliveryStatus, DeliveryDate, Address, CityID,"
-				+ " Deposit, IsPaid, CustomerNote, LocationID, PersonID, OrderPrice, EmployeeID, Updates)"
-				+ " VALUES(?,?,?,?,?,?,?,?,?,?)";
+				+ " Deposit, IsPaid, CustomerNote, LocationID, CustomerID, OrderPrice, EmployeeID, Updates)"
+				+ " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+				+ " SELECT SCOPE_IDENTITY() AS generatedID";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setInt(1, order.getDeliveryStatus().getID());
-		pStatement.setDate(2, (java.sql.Date) order.getDeliveryDate());
+		pStatement.setDate(2, order.getDeliveryDate() == null ? 
+				null : new java.sql.Date(order.getDeliveryDate().getTime()));
 		pStatement.setString(3, order.getAddress());
 		pStatement.setInt(4, order.getCity().getId());
 		pStatement.setDouble(5, order.getDeposit());
 		pStatement.setBoolean(6, order.isPaid());
 		pStatement.setString(7, order.getCustomerNote());
 		pStatement.setInt(8, order.getOffice().getId());
-		pStatement.setInt(9, order.getEmployee().getId());
-		pStatement.setString(10, order.getUpdates());
+		pStatement.setInt(9, order.getCustomer().getId());
+		pStatement.setDouble(10, order.getOrderPrice());
+		pStatement.setInt(11, order.getEmployee().getId());
+		pStatement.setString(12, order.getUpdates());
 		ResultSet resultSet = pStatement.executeQuery();
 
 		if (resultSet.next())
@@ -96,9 +129,12 @@ public class OrderDAO implements IOrderDAO {
 				+ " VALUES(?,?,?,?)";
 		pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setInt(1, generatedID);
-		pStatement.setDate(2, (java.sql.Date) order.getInvoice().getPaymentDate());
+		pStatement.setDate(2, order.getInvoice().getPaymentDate() == null ? 
+				null : new java.sql.Date(order.getInvoice().getPaymentDate().getTime()));
 		pStatement.setDouble(3, order.getInvoice().getVATratio());
 		pStatement.setDouble(4, order.getInvoice().getFinalPrice());
+		pStatement.execute();
+		
 		return generatedID;
 	}
 
@@ -115,7 +151,7 @@ public class OrderDAO implements IOrderDAO {
 		String sqlStatement = "DELETE FROM OrderInfo"
 				+ " WHERE OrderID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setInt(0, order.getId());
+		pStatement.setInt(1, order.getId());
 		int rowsAffected = pStatement.executeUpdate();
 		if(rowsAffected == 1)
 			return true;
@@ -128,15 +164,11 @@ public class OrderDAO implements IOrderDAO {
 		StoneDAO sDAO = new StoneDAO();
 		CityLocationDAO clDAO = new CityLocationDAO();
 		int id = resultSet.getInt("OrderID");
-//		Person customer = null;
 		Customer customer = (Customer) pDAO.getByID(resultSet.getInt("CustomerID"));
 		ArrayList<? extends IStoneUnit> products = sDAO.getStoneProductsByOrderID(id);
 		double orderPrice = resultSet.getDouble("OrderPrice");
-//		Person employee = null;
 		Employee employee = (Employee) pDAO.getByID(resultSet.getInt("EmployeeID"));
 		Location office = clDAO.getLocationByID(resultSet.getInt("LocationID"));
-		//Location office = StoneDAO.getLocation(resultSet);
-		//Location office = null;
 		Invoice invoice = getInvoice(resultSet);
 		DeliveryStatuses deliveryStatus = DeliveryStatuses.GetStatusByID(resultSet.getInt("DeliveryStatus"));
 		Date deliveryDate = resultSet.getDate("DeliveryDate");

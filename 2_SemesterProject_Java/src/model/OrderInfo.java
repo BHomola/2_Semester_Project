@@ -6,7 +6,7 @@ import java.util.List;
 
 public class OrderInfo {
 	private int id;
-	private Customer customer;
+	private Person person;
 	private List<StoneProduct> products;
 	private double orderPrice;
 	private Employee employee;
@@ -21,12 +21,12 @@ public class OrderInfo {
 	private String customerNote;
 	private String updates;
 
-	public OrderInfo(int id, Customer customer, double orderPrice, Employee employee, Location office, Invoice invoice,
+	public OrderInfo(int id, Person person, double orderPrice, Employee employee, Location office, Invoice invoice,
 			DeliveryStatuses deliveryStatus, Date deliveryDate, String address, City city, double deposit,
 			boolean isPaid, String customerNote) {
 		super();
 		this.id = id;
-		this.customer = customer;
+		this.person = person;
 		this.orderPrice = orderPrice;
 		this.employee = employee;
 		this.office = office;
@@ -40,11 +40,11 @@ public class OrderInfo {
 		this.customerNote = customerNote;
 	}
 
-	public OrderInfo(Customer customer, Employee employee, Location office, String address, City city,
+	public OrderInfo(Person person, Employee employee, Location office, String address, City city,
 			String customerNote) {
 		super();
 		this.id = (int) Math.floor(Math.random() * (101));
-		this.customer = customer;
+		this.person = person;
 		this.products = null;
 		this.orderPrice = 0;
 		this.employee = employee;
@@ -77,12 +77,12 @@ public class OrderInfo {
 		this.id = id;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public Person getCustomer() {
+		return person;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustomer(Person customer) {
+		this.person = customer;
 	}
 
 	public List<StoneProduct> getProducts() {
@@ -197,7 +197,7 @@ public class OrderInfo {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customer=" + customer + ", orderLines=" + products + ", orderPrice=" + orderPrice
+		return "Order [id=" + id + ", customer=" + person + ", orderLines=" + products + ", orderPrice=" + orderPrice
 				+ ", employee=" + employee + ", office=" + office + ", invoice=" + invoice + ", deliveryStatus="
 				+ deliveryStatus + ", deliveryDate=" + deliveryDate + ", address=" + address + ", city=" + city
 				+ ", deposit=" + deposit + ", isPaid=" + isPaid + ", customerNote=" + customerNote + ", updates="

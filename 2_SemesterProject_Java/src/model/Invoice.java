@@ -17,6 +17,12 @@ public class Invoice {
 		this.finalPrice = finalPrice;
 		//this.discount = disocunt;
 	}
+	
+	public Invoice(Date paymentDate, double VATratio) {
+		super();
+		this.paymentDate = paymentDate;
+		this.VATratio = VATratio;
+	}
 
 	public Date getPaymentDate() {
 		return paymentDate;
@@ -39,7 +45,7 @@ public class Invoice {
 	}
 
 	public void setFinalPrice(double finalPrice) {
-		this.finalPrice = finalPrice;
+		this.finalPrice = finalPrice*VATratio;
 	}
 
 	@Override

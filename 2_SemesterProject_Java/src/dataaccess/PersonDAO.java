@@ -49,11 +49,9 @@ public class PersonDAO implements IPersonDao {
 			boolean isPremium = resultSet.getBoolean("IsPremium");
 			boolean isCompany = resultSet.getBoolean("IsCompany");
 			int ordersCount = resultSet.getInt("OrdersCount");
-			int lastOrderID = resultSet.getInt("LastOrderId");
 			double totalsSpends = resultSet.getDouble("totalSpends");
 			Customer customer = new Customer(id, name, address, city, phoneNumber, email, dateOfBirth, age, description,
 					discount, isPremium, isCompany, totalsSpends, note);
-			customer.setLastOrderID(lastOrderID);
 
 //			OrderDAO orderDAO = new OrderDAO();
 //			orderDAO.getOrdersByCustomerID(customer.getId());
