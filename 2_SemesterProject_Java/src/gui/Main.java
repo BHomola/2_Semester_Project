@@ -8,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Color;
-import javax.swing.JTextPane;
 import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -18,23 +17,28 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import java.awt.Component;
 import java.awt.Toolkit;
 import javax.swing.JSplitPane;
-import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
+import javax.swing.JLayeredPane;
 
 public class Main extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblPleaseLogIn;
 	private JLabel lblWelcome;
 	private JTextField textFieldUsername;
 	private JPasswordField passwordField;
 	private JPanel welcomePane;
+	private JPanel titleBarPane;
+	private JPanel cardPane;
+	private JSplitPane slideSplitPane;
 
 	/**
 	 * Launch the application.
@@ -56,25 +60,56 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
+		CardLayout cardlayout = new CardLayout();
+		
+//FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
 		setTitle("Santorina");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1920, 1080);
+		
+//PANELS		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new CardLayout(0, 0));
+		setUndecorated(true);
+		contentPane.setLayout(null);
+		
+		titleBarPane = new JPanel();
+		titleBarPane.setBackground(Color.WHITE);
+		titleBarPane.setBounds(0, 0, 1920, 40);
+		contentPane.add(titleBarPane);
+		
+		cardPane = new JPanel();
+		cardPane.setBounds(0, 40, 1920, 1040);
+		contentPane.add(cardPane);
+		cardPane.setLayout(cardlayout);
 		
 		welcomePane = new JPanel();
+		welcomePane.setBounds(0, 0, 1920, 1080);
 		welcomePane.setBackground(Color.WHITE);
-		contentPane.add(welcomePane, "name_63410508968500");
+		cardPane.add(welcomePane, "name_66960479156300");
 		welcomePane.setLayout(null);
 		
-		JSplitPane slideSplitPane = new JSplitPane();
+		slideSplitPane = new JSplitPane();
+		slideSplitPane.setBounds(-10000, -10000, 1920, 1080);
 		slideSplitPane.setBackground(Color.WHITE);
 		slideSplitPane.setDividerSize(0);
-		contentPane.add(slideSplitPane, "name_63410517035100");
+		cardPane.add(slideSplitPane, "name_66960487401900");
+		
+//CONTENT	
+		JLabel lblClose = new JLabel("");
+		lblClose.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.exit(0);
+			}
+		});
+		titleBarPane.setLayout(null);
+		lblClose.setIcon(new ImageIcon(Main.class.getResource("/imgs/close.png")));
+		lblClose.setBounds(1890, 10, 20, 20);
+		titleBarPane.add(lblClose);
 		
 		JLabel lblWallLogo = new JLabel("");
 		lblWallLogo.setIcon(new ImageIcon(Main.class.getResource("/imgs/wallLogo.png")));
@@ -164,10 +199,10 @@ public class Main extends JFrame {
 		welcomePane.add(lblLoginError);
 		
 		JButton btnSignIn = new JButton("SIGN IN");
-		btnSignIn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setContentPane(slideSplitPane);
+		btnSignIn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				titleBarPane.setVisible(true);
+				cardlayout.show(cardPane, "name_66960487401900");
 			}
 		});
 		btnSignIn.setBorder(null);
