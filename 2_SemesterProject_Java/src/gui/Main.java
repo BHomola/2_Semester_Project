@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.w3c.dom.events.EventTarget;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -22,7 +25,9 @@ import javax.swing.JSplitPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
-import javax.swing.JLayeredPane;
+import java.awt.event.MouseMotionAdapter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Main extends JFrame {
 
@@ -39,6 +44,20 @@ public class Main extends JFrame {
 	private JPanel titleBarPane;
 	private JPanel cardPane;
 	private JSplitPane slideSplitPane;
+	private JPanel sidePane;
+	private JPanel panel_1;
+	private JLabel lblSideBar;
+	private JLabel lblLogout;
+	private JLabel lblHello_1;
+	private int x,y;
+	private JLabel lblTime;
+	private JLabel lblDate;
+	private JLabel lblOrders;
+	private JLabel lblInventory;
+	private JLabel lblMaterial;
+	private JLabel lblCustomers;
+	private JLabel lblSuppliers;
+	private JLabel lblEmployees;
 
 	/**
 	 * Launch the application.
@@ -60,8 +79,10 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-		CardLayout cardlayout = new CardLayout();
+		CardLayout cardLayout = new CardLayout();
 		
+//		x = 0;
+//		y = 0;
 //FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
 		setTitle("Santorina");
@@ -77,14 +98,29 @@ public class Main extends JFrame {
 		contentPane.setLayout(null);
 		
 		titleBarPane = new JPanel();
+		titleBarPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				x = e.getX();
+				y = e.getY();
+			}
+		});
+		titleBarPane.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				int xx = e.getXOnScreen();
+				int yy = e.getYOnScreen();
+				setLocation(xx-x-300, yy-y);
+			}
+		});
 		titleBarPane.setBackground(Color.WHITE);
-		titleBarPane.setBounds(0, 0, 1920, 40);
+		titleBarPane.setBounds(300, 0, 1620, 40);
 		contentPane.add(titleBarPane);
 		
 		cardPane = new JPanel();
-		cardPane.setBounds(0, 40, 1920, 1040);
+		cardPane.setBounds(0, 0, 1920, 1080);
 		contentPane.add(cardPane);
-		cardPane.setLayout(cardlayout);
+		cardPane.setLayout(cardLayout);
 		
 		welcomePane = new JPanel();
 		welcomePane.setBounds(0, 0, 1920, 1080);
@@ -93,10 +129,160 @@ public class Main extends JFrame {
 		welcomePane.setLayout(null);
 		
 		slideSplitPane = new JSplitPane();
+		slideSplitPane.setBorder(null);
 		slideSplitPane.setBounds(-10000, -10000, 1920, 1080);
 		slideSplitPane.setBackground(Color.WHITE);
 		slideSplitPane.setDividerSize(0);
 		cardPane.add(slideSplitPane, "name_66960487401900");
+		
+		sidePane = new JPanel();
+		sidePane.setBackground(Color.WHITE);
+		slideSplitPane.setLeftComponent(sidePane);
+		sidePane.setLayout(null);
+		
+		lblHello_1 = new JLabel("Hello, <User>");
+		lblHello_1.setForeground(Color.WHITE);
+		lblHello_1.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+		lblHello_1.setBounds(55, 14, 216, 47);
+		sidePane.add(lblHello_1);
+		
+		lblLogout = new JLabel("");
+		lblLogout.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentPane.setBackground(Color.WHITE);
+				
+				cardLayout.show(cardPane, "name_66960479156300");
+			}
+		});
+		lblLogout.setIcon(new ImageIcon(Main.class.getResource("/imgs/logout.png")));
+		lblLogout.setBounds(24, 30, 19, 19);
+		sidePane.add(lblLogout);
+		
+		lblDate = new JLabel();
+		lblDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()));
+		lblDate.setForeground(new Color(255, 238, 202));
+		lblDate.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
+		lblDate.setBounds(86, 118, 131, 40);
+		sidePane.add(lblDate);
+		
+		lblTime = new JLabel("10:30");
+		lblTime.setForeground(new Color(255, 238, 202));
+		lblTime.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
+		lblTime.setBounds(99, 153, 110, 40);
+		sidePane.add(lblTime);
+		
+		lblOrders = new JLabel("Orders");
+		lblOrders.setForeground(new Color(255, 238, 202));
+		lblOrders.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 50));
+		lblOrders.setBounds(74, 295, 155, 67);
+		sidePane.add(lblOrders);
+		lblOrders.addMouseListener(new MouseAdapter() {
+		public void mouseEntered(MouseEvent e) {
+			lblOrders.setForeground(new Color(144, 124, 81));
+		}
+
+		public void mouseExited(MouseEvent e) {
+			lblOrders.setForeground(new Color(255, 238, 202));
+		}
+	});
+		
+		lblInventory = new JLabel("Inventory");
+		lblInventory.setForeground(new Color(255, 238, 202));
+		lblInventory.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 50));
+		lblInventory.setBounds(41, 422, 218, 67);
+		sidePane.add(lblInventory);
+		lblInventory.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				lblInventory.setForeground(new Color(144, 124, 81));
+			}
+
+			public void mouseExited(MouseEvent e) {
+				lblInventory.setForeground(new Color(255, 238, 202));
+			}
+		});
+		
+		lblMaterial = new JLabel("Material");
+		lblMaterial.setForeground(new Color(255, 238, 202));
+		lblMaterial.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 50));
+		lblMaterial.setBounds(56, 549, 188, 67);
+		sidePane.add(lblMaterial);
+		lblMaterial.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				lblMaterial.setForeground(new Color(144, 124, 81));
+			}
+
+			public void mouseExited(MouseEvent e) {
+				lblMaterial.setForeground(new Color(255, 238, 202));
+			}
+		});
+		
+		lblCustomers = new JLabel("Customers");
+		lblCustomers.setForeground(new Color(255, 238, 202));
+		lblCustomers.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 50));
+		lblCustomers.setBounds(30, 676, 242, 67);
+		sidePane.add(lblCustomers);
+		lblCustomers.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				lblCustomers.setForeground(new Color(144, 124, 81));
+			}
+
+			public void mouseExited(MouseEvent e) {
+				lblCustomers.setForeground(new Color(255, 238, 202));
+			}
+		});
+		
+		lblSuppliers = new JLabel("Suppliers");
+		lblSuppliers.setForeground(new Color(255, 238, 202));
+		lblSuppliers.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 50));
+		lblSuppliers.setBounds(45, 803, 210, 67);
+		sidePane.add(lblSuppliers);
+		lblSuppliers.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				lblSuppliers.setForeground(new Color(144, 124, 81));
+			}
+
+			public void mouseExited(MouseEvent e) {
+				lblSuppliers.setForeground(new Color(255, 238, 202));
+			}
+		});
+		
+		lblEmployees = new JLabel("Employees");
+		lblEmployees.setSize(242, 67);
+		lblEmployees.setLocation(29, 930);
+		lblEmployees.setForeground(new Color(255, 238, 202));
+		lblEmployees.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 50));
+		lblEmployees.setBounds(29, 930, 244, 67);
+		sidePane.add(lblEmployees);
+		lblEmployees.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				lblEmployees.setForeground(new Color(144, 124, 81));
+			}
+
+			public void mouseExited(MouseEvent e) {
+				lblEmployees.setForeground(new Color(255, 238, 202));
+			}
+		});
+		
+		lblSideBar = new JLabel("");
+		lblSideBar.setIcon(new ImageIcon(Main.class.getResource("/imgs/sideBar.png")));
+		lblSideBar.setBounds(0, 0, 300, 1080);
+		sidePane.add(lblSideBar);
+		lblSideBar.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				lblSideBar.setForeground(new Color(144, 124, 81));
+			}
+
+			public void mouseExited(MouseEvent e) {
+				lblSideBar.setForeground(new Color(255, 238, 202));
+			}
+		});
+		
+		panel_1 = new JPanel();
+		panel_1.setBackground(Color.WHITE);
+		slideSplitPane.setRightComponent(panel_1);
+		//300/1920
+		slideSplitPane.setDividerLocation(0.15625);
 		
 //CONTENT	
 		JLabel lblClose = new JLabel("");
@@ -105,10 +291,10 @@ public class Main extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
 			}
-		});
+		});		
 		titleBarPane.setLayout(null);
 		lblClose.setIcon(new ImageIcon(Main.class.getResource("/imgs/close.png")));
-		lblClose.setBounds(1890, 10, 20, 20);
+		lblClose.setBounds(1590, 10, 20, 20);
 		titleBarPane.add(lblClose);
 		
 		JLabel lblWallLogo = new JLabel("");
@@ -201,8 +387,9 @@ public class Main extends JFrame {
 		JButton btnSignIn = new JButton("SIGN IN");
 		btnSignIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				titleBarPane.setVisible(true);
-				cardlayout.show(cardPane, "name_66960487401900");
+				contentPane.setBackground(Color.BLACK);
+				
+				cardLayout.show(cardPane, "name_66960487401900");
 			}
 		});
 		btnSignIn.setBorder(null);
@@ -212,9 +399,23 @@ public class Main extends JFrame {
 		btnSignIn.setFont(new Font("Segoe UI", Font.BOLD, 30));
 		btnSignIn.setBounds(1338, 764, 155, 42);
 		welcomePane.add(btnSignIn);
-		
-		
-		
-		
+		clock();
+	}
+	private void clock() {
+		Thread clock = new Thread() {
+			public void run() {
+				try {
+					for (;;) {
+						lblTime.setText(new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
+						// ms.deSeriali();
+						sleep(1000);
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		clock.start();
 	}
 }
