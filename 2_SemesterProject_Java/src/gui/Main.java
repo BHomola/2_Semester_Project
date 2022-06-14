@@ -21,6 +21,11 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Toolkit;
+import javax.swing.JSplitPane;
+import java.awt.Rectangle;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.CardLayout;
 
 public class Main extends JFrame {
 
@@ -29,6 +34,7 @@ public class Main extends JFrame {
 	private JLabel lblWelcome;
 	private JTextField textFieldUsername;
 	private JPasswordField passwordField;
+	private JPanel welcomePane;
 
 	/**
 	 * Launch the application.
@@ -58,40 +64,50 @@ public class Main extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new CardLayout(0, 0));
+		
+		welcomePane = new JPanel();
+		welcomePane.setBackground(Color.WHITE);
+		contentPane.add(welcomePane, "name_63410508968500");
+		welcomePane.setLayout(null);
+		
+		JSplitPane slideSplitPane = new JSplitPane();
+		slideSplitPane.setBackground(Color.WHITE);
+		slideSplitPane.setDividerSize(0);
+		contentPane.add(slideSplitPane, "name_63410517035100");
 		
 		JLabel lblWallLogo = new JLabel("");
 		lblWallLogo.setIcon(new ImageIcon(Main.class.getResource("/imgs/wallLogo.png")));
 		lblWallLogo.setBounds(136, 219, 840, 642);
-		contentPane.add(lblWallLogo);
+		welcomePane.add(lblWallLogo);
 		
 		lblWelcome = new JLabel("WELCOME");
 		lblWelcome.setFont(new Font("Segoe UI", Font.BOLD, 120));
 		lblWelcome.setBounds(1125, 275, 591, 159);
-		contentPane.add(lblWelcome);
+		welcomePane.add(lblWelcome);
 		
 		JLabel lblLogInPan_1 = new JLabel("");
 		lblLogInPan_1.setIcon(new ImageIcon(Main.class.getResource("/imgs/LogInPan.png")));
 		lblLogInPan_1.setBounds(1048, 478, 181, 5);
-		contentPane.add(lblLogInPan_1);
+		welcomePane.add(lblLogInPan_1);
 		
 		JLabel lblLogInPan_2 = new JLabel("");
 		lblLogInPan_2.setIcon(new ImageIcon(Main.class.getResource("/imgs/LogInPan.png")));
 		lblLogInPan_2.setBounds(1603, 478, 181, 5);
-		contentPane.add(lblLogInPan_2);
+		welcomePane.add(lblLogInPan_2);
 		
 		lblPleaseLogIn = new JLabel("Please log in");
 		lblPleaseLogIn.setForeground(new Color(199, 176, 131));
 		lblPleaseLogIn.setFont(new Font("Segoe UI", Font.BOLD, 60));
 		lblPleaseLogIn.setBounds(1238, 434, 371, 80);
-		contentPane.add(lblPleaseLogIn);
+		welcomePane.add(lblPleaseLogIn);
 		
 		textFieldUsername = new JTextField();
 		String defaultUsernameTxt = "USERNAME";
 		textFieldUsername.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		textFieldUsername.setText("USERNAME");
 		textFieldUsername.setBounds(1204, 586, 425, 42);
-		contentPane.add(textFieldUsername);
+		welcomePane.add(textFieldUsername);
 		textFieldUsername.setColumns(10);
 		textFieldUsername.addMouseListener(new MouseAdapter() {
 			@Override
@@ -121,7 +137,7 @@ public class Main extends JFrame {
 		passwordField.setText(defaultPassTxt);
 		passwordField.setBounds(1204, 658, 425, 42);
 		passwordField.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		contentPane.add(passwordField);
+		welcomePane.add(passwordField);
 		passwordField.addFocusListener(new FocusAdapter() {
 			@SuppressWarnings("deprecation")
 			@Override
@@ -145,15 +161,25 @@ public class Main extends JFrame {
 		lblLoginError.setLocation(1204, 700);
 		lblLoginError.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		lblLoginError.setForeground(new Color(230, 57, 70));
-		contentPane.add(lblLoginError);
+		welcomePane.add(lblLoginError);
 		
 		JButton btnSignIn = new JButton("SIGN IN");
+		btnSignIn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setContentPane(slideSplitPane);
+			}
+		});
 		btnSignIn.setBorder(null);
 		btnSignIn.setFocusable(false);
 		btnSignIn.setBackground(new Color(199, 176, 131));
 		btnSignIn.setForeground(new Color(255, 238, 202));
 		btnSignIn.setFont(new Font("Segoe UI", Font.BOLD, 30));
 		btnSignIn.setBounds(1338, 764, 155, 42);
-		contentPane.add(btnSignIn);
+		welcomePane.add(btnSignIn);
+		
+		
+		
+		
 	}
 }
