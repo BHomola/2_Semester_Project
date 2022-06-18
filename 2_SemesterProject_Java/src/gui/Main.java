@@ -49,12 +49,13 @@ public class Main extends JFrame {
 	private JPasswordField passwordField;
 	private int x, y;
 	private CardLayout cardLayoutMainPane;
-	private JLabel lblRestore;
 	private JLabel lblTime;
 	private JPanel mainPane;
 	JLabel lblDatabaseStatus;
 	JLabel lblCheckOff;
 	JLabel lblLoading;
+	private JLabel lblMaximizeRestore;
+	private boolean isMaximizePressed;
 
 	/**
 	 * Launch the application.
@@ -97,8 +98,8 @@ public class Main extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
 		setTitle("Santorina");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1920, 1080);
-
+		setBounds(0, 0, 1920, 1080);
+		
 //CONTENT PANE		
 		JPanel contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -106,8 +107,9 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		setUndecorated(true);
 		contentPane.setLayout(null);
-
-//TITLE BAR		
+		
+//TITLE BAR
+		isMaximizePressed = false;
 		JPanel titleBarPane = new JPanel();
 		titleBarPane.addMouseListener(new MouseAdapter() {
 			@Override
@@ -115,13 +117,18 @@ public class Main extends JFrame {
 				x = e.getX();
 				y = e.getY();
 			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if(isMaximizePressed) {
+//					setExtendedState(JFrame.NORMAL);
+//					setState(JFrame.NORMAL);
+					checkMaximizeRestore();	
+				}
+			}
 		});
 		titleBarPane.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-//				lblMinimize.setVisible(true);
-//				lblMaximize.setVisible(false);
-
 				int xx = e.getXOnScreen();
 				int yy = e.getYOnScreen();
 				setLocation(xx - x - 300, yy - y);
@@ -143,20 +150,18 @@ public class Main extends JFrame {
 		lblClose.setIcon(new ImageIcon(Main.class.getResource("/imgs/close2.png")));
 		lblClose.setBounds(1595, 10, 10, 10);
 		titleBarPane.add(lblClose);
-
-		JLabel lblMaximize = new JLabel("");
-		lblMaximize.addMouseListener(new MouseAdapter() {
+//TODO: MAXIMIZE - MOVE - RESTORE		
+		lblMaximizeRestore = new JLabel("");
+		lblMaximizeRestore.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setExtendedState(JFrame.MAXIMIZED_BOTH);
-				lblMaximize.setVisible(false);
-				lblRestore.setVisible(true);
-			}
+				checkMaximizeRestore();
+			}	
 		});
-		lblMaximize.setIcon(new ImageIcon(Main.class.getResource("/imgs/maximize2.png")));
-		lblMaximize.setBounds(1550, 10, 10, 10);
-		titleBarPane.add(lblMaximize);
-
+		lblMaximizeRestore.setIcon(new ImageIcon(Main.class.getResource("/imgs/maximize2.png")));
+		lblMaximizeRestore.setBounds(1550, 10, 10, 10);
+		titleBarPane.add(lblMaximizeRestore);
+		
 		JLabel lblMinimize = new JLabel("");
 		lblMinimize.addMouseListener(new MouseAdapter() {
 			@Override
@@ -167,21 +172,7 @@ public class Main extends JFrame {
 		lblMinimize.setIcon(new ImageIcon(Main.class.getResource("/imgs/minimalize2.png")));
 		lblMinimize.setBounds(1505, 10, 10, 10);
 		titleBarPane.add(lblMinimize);
-
-		lblRestore = new JLabel("");
-		lblRestore.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				lblMaximize.setVisible(true);
-				lblRestore.setVisible(false);
-				setExtendedState(JFrame.NORMAL);
-			}
-		});
-		lblRestore.setVisible(false);
-		lblRestore.setIcon(new ImageIcon(Main.class.getResource("/imgs/restore.png")));
-		lblRestore.setBounds(1550, 10, 10, 10);
-		titleBarPane.add(lblRestore);
-
+		
 //INFO 		
 		JPanel infoPane = new JPanel();
 		infoPane.setBackground(Color.WHITE);
@@ -1124,5 +1115,17 @@ public class Main extends JFrame {
 
 	private void stopLoading() {
 		lblLoading.setVisible(false);
+	}
+	
+	private void checkMaximizeRestore() {
+		if(!isMaximizePressed) {
+			setExtendedState(JFrame.MAXIMIZED_BOTH);
+			lblMaximizeRestore.setIcon((new ImageIcon(Main.class.getResource("/imgs/restore.png"))));
+			isMaximizePressed = true;
+			} else {
+				setExtendedState(JFrame.NORMAL);
+				lblMaximizeRestore.setIcon(new ImageIcon(Main.class.getResource("/imgs/maximize2.png")));
+				isMaximizePressed = false;
+			}
 	}
 }
