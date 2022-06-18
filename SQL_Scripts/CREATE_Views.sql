@@ -32,9 +32,9 @@ GO
 
 --SHAPES
 CREATE OR ALTER VIEW VIEW_Shapes AS
-SELECT Shape.ShapeID, Shape.Name AS ShapeName, Shape.ShapeType,
-CircleShape.Diamater as CircleDiameter, 
-ElipseShape.DiamaterX AS ElipseDiamaterX, ElipseShape.DiamaterY AS ElipseDiamaterY,
+SELECT Shape.ShapeID, Shape.Name, Shape.ShapeType,
+CircleShape.Diamater, 
+ElipseShape.DiamaterX, ElipseShape.DiamaterY,
 ShapePoint.OrderIndex, ShapePoint.X, ShapePoint.Y
 FROM Shape
 FULL OUTER JOIN CircleShape ON Shape.ShapeID = CircleShape.ShapeID

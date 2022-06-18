@@ -23,7 +23,7 @@ public class ShapeDAO implements IShapeDAO{
 		String shapeType = resultSet.getString("ShapeType");
 		
 		if(shapeType.equals("CircleShape")) {
-			double diameter = resultSet.getInt("Diameter");
+			double diameter = resultSet.getInt("Diamater");
 			return new CircleShape(name, id, diameter);
 		}
 		
@@ -47,8 +47,8 @@ public class ShapeDAO implements IShapeDAO{
 		}
 
 		if(shapeType.equals("ElipseShape")) {
-			double diameterX = resultSet.getInt("DiameterX");
-			double diameterY = resultSet.getInt("DiameterY");
+			double diameterX = resultSet.getInt("DiamaterX");
+			double diameterY = resultSet.getInt("DiamaterY");
 			return new ElipseShape(name, id, diameterX, diameterY);
 		}
 		
