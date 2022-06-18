@@ -38,6 +38,7 @@ public class StoneDAO implements IStoneDAO {
 		ResultSet rs = statement.executeQuery();
 
 		ArrayList<IStoneUnit> stoneUnits = buildStoneUnits(rs);
+		/*
 		// assigning parents stones and child stones
 		query = "SELECT * FROM StoneCuttable";
 		statement = DBConnection.getConnection().prepareStatement(query);
@@ -56,7 +57,7 @@ public class StoneDAO implements IStoneDAO {
 				}
 			}
 		}
-
+		*/
 		return stoneUnits;
 	}
 
@@ -297,15 +298,15 @@ public class StoneDAO implements IStoneDAO {
 		String origin = resultSet.getString("Origin");
 		Double width = resultSet.getDouble("Width");
 		Double weight = resultSet.getDouble("Weight");
-		String description = resultSet.getString("Description");
+		String description = resultSet.getString("StoneDescription");
 		Date createdDate = resultSet.getDate("CreatedDate");
 		String updates = resultSet.getString("Updates");
 		StoneUnitStatuses status = StoneUnitStatuses.GetStatusByID(resultSet.getInt("Status"));
 		// other DAOs access
-		Location location = new CityLocationDAO().getLocationByID(resultSet.getInt("LocationID"));
-		StoneType stoneType = new TypeMaterialDAO().getStoneTypeByID(resultSet.getInt("StoneTypeID"));
-		Supplier supplier = (Supplier) new PersonDAO().getByID(resultSet.getInt("SupplierID"));
-		Employee employee = (Employee) new PersonDAO().getByID(resultSet.getInt("EmployeeID"));
+		Location location = CityLocationDAO.buildLocation(resultSet);
+		StoneType stoneType = TypeMaterialDAO.buildType(resultSet);
+		Supplier supplier = new Supplier(resultSet.getInt("SupplierID"));//(Supplier) new PersonDAO().getByID(resultSet.getInt("SupplierID"));
+		Employee employee = new Employee(resultSet.getInt("EmployeeID"));//(Employee) new PersonDAO().getByID(resultSet.getInt("EmployeeID"));
 
 		if (stoneKind.equals("Remains")) {
 			int pieces = resultSet.getInt("Pieces");
@@ -343,41 +344,5 @@ public class StoneDAO implements IStoneDAO {
 		return stoneUnits;
 	}
 
-//	public static Location getLocation(ResultSet resultSet) throws SQLException{
-//		if(!hasColumn(resultSet, "OfficeLocationName")) {
-//		return new Location(resultSet.getInt("LocationID"), resultSet.getString("LocationName"),
-//				resultSet.getString("Address"), getCity(resultSet));
-//		} else {
-//			return new Location(resultSet.getInt("LocationID"), resultSet.getString("OfficeLocationName"),
-//					resultSet.getString("OfficeAddress"), getCity(resultSet));
-//		}
-//	}
-//
-//	public static City getCity(ResultSet resultSet) throws SQLException {
-//		if(!hasColumn(resultSet, "OfficeCityName")) {
-//		return new City(resultSet.getInt("CityID"), resultSet.getString("CityName"), resultSet.getString("Zipcode"),
-//				resultSet.getString("Country"));
-//		} else {
-//			return new City(resultSet.getInt("OfficeCityID"), resultSet.getString("OfficeCityName"), resultSet.getString("OfficeZipcode"),
-//					resultSet.getString("OfficeCountry"));
-//		}
-//	}
-//	
-//	public static Shape getShape(ResultSet resultSet) throws SQLException {
-//		
-//		return null;
-//	}
-//
-//	public static boolean hasColumn(ResultSet rs, String columnName) throws SQLException {
-//	    ResultSetMetaData rsmd = rs.getMetaData();
-//	    int columns = rsmd.getColumnCount();
-//	    for (int x = 1; x <= columns; x++) {
-//	        if (columnName.equals(rsmd.getColumnName(x))) {
-////	        	System.out.println(true);
-//	            return true;
-//	        }
-//	    }
-//	    return false;
-//	}
 
 }

@@ -6,18 +6,19 @@ public class StoneType {
 	private String name;
 	private String description;
 	private String picturePath;
-	private int sMaterialID, supplierID;
+	private StoneMaterial material;
+	private int supplierID;
 
 
 	
 	public StoneType( String name, String description, String picturePath, int supplierID,
-			int sMaterialID) {
+			StoneMaterial material) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.picturePath = picturePath;
 		this.supplierID = supplierID;
-		this.sMaterialID = sMaterialID;
+		this.material = material;
 	}
 
 	public StoneType(int id, String name, String description, String picturePath) {
@@ -35,14 +36,14 @@ public class StoneType {
 		this.description = description;
 	}
 
-	public StoneType(int id, String name, String description, String picturePath, int supplierID, int sMaterialID) {
+	public StoneType(int id, String name, String description, String picturePath, int supplierID, StoneMaterial material ) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.picturePath = picturePath;
 		this.supplierID = supplierID;
-		this.sMaterialID = sMaterialID;
+		this.material = material;
 	}
 
 	public int getId() {
@@ -77,12 +78,12 @@ public class StoneType {
 		this.picturePath = picturePath;
 	}
 
-	public int getsMaterialID() {
-		return sMaterialID;
+	public StoneMaterial getMaterial() {
+		return material;
 	}
 
-	public void setsMaterialID(int sMaterialID) {
-		this.sMaterialID = sMaterialID;
+	public void setsMaterial(StoneMaterial material) {
+		this.material = material;
 	}
 
 	public int getSupplierID() {
@@ -96,7 +97,7 @@ public class StoneType {
 	@Override
 	public String toString() {
 		return "StoneType [id=" + id + ", name=" + name + ", description=" + description + ", picturePath="
-				+ picturePath + ", supplierID=" + supplierID + ", sMaterialID=" + sMaterialID + "]";
+				+ picturePath + ", supplierID=" + supplierID + ", material=" + material.toString() + "]";
 	}
 	
 	

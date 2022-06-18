@@ -21,6 +21,9 @@ public class Employee extends Person {
 		this.location = location;
 		this.login = login;
 	}
+	public Employee(int id) {
+		super(id);
+	}
 
 	public String getPosition() {
 		return position;

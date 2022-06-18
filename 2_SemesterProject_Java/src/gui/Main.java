@@ -82,11 +82,11 @@ public class Main extends JFrame {
 		// Local JComponents
 		DefaultTableModel defaultTableModelInventory = new DefaultTableModel(new Object[][] { null, null, null },
 				new String[] { "ID", "Stone Type", "Origin", "Width", "Weight", "Description", "Created Date",
-						"Location", "Employee", "Status" }) {
+						"Location", "Status", "Material", "Type"}) {
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Double.class,
-					String.class, String.class, String.class, String.class, String.class };
+					String.class, String.class, String.class, String.class, String.class, String.class };
 
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -667,6 +667,9 @@ public class Main extends JFrame {
 		tableInventory.setGridColor(new Color(172, 172, 172));
 		tableInventory.setBackground(Color.WHITE);
 		tableInventory.setModel(defaultTableModelInventory);
+		tableInventory.getColumnModel().getColumn(0).setMaxWidth(40);
+		tableInventory.getColumnModel().getColumn(3).setMaxWidth(50);
+		tableInventory.getColumnModel().getColumn(4).setMaxWidth(50);
 		TableRowSorter<DefaultTableModel> tableRowSorterInventory = new TableRowSorter<DefaultTableModel>(
 				defaultTableModelInventory);
 		tableInventory.setRowSorter(tableRowSorterInventory);
@@ -1093,8 +1096,7 @@ public class Main extends JFrame {
 						StoneUnit stone = (StoneUnit) stoneUnit;
 						defaultTableModelInventory.addRow(new Object[] { stone.getId(), stone.getStoneKind(),
 								stone.getOrigin(), stone.getWidth(), stone.getWeight(), stone.getDescription(),
-								stone.getCreatedDate(), stone.getLocation().getLocationName(),
-								stone.getEmployee().getName(), stone.getStatus().toString() });
+								stone.getCreatedDate(), stone.getLocation().getLocationName(), stone.getStatus().toString(), stone.getStoneType().getMaterial().getName(),stone.getStoneType().getName() });
 
 					}
 

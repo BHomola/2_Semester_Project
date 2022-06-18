@@ -61,7 +61,7 @@ class TestTypeMaterialDAO {
 	@Test
 	void testCreateStoneType() {
 		try {
-			sType = new StoneType("Magma", "Orange-black", "Images\\Granite\\Magma.jpg", 1, 1);
+			sType = new StoneType("Magma", "Orange-black", "Images\\Granite\\Magma.jpg", 1, sMaterial);
 			assertEquals(1, tmDAO.createStoneType(sType));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,7 +96,7 @@ class TestTypeMaterialDAO {
 	@Test 
 	void testUpdateStoneType(){
 		//Arange
-				stUpdated = new StoneType(1, "Magmma", "Orange-black", "Images\\Granite\\Magma.jpg", 2, 1);
+				stUpdated = new StoneType(1, "Magmma", "Orange-black", "Images\\Granite\\Magma.jpg", 2, sMaterial);
 				//Assert
 				try {
 					assertTrue(tmDAO.updateStoneType(stUpdated));
@@ -145,7 +145,7 @@ class TestTypeMaterialDAO {
 	@Order(10)
 	@Test
 	void testDeleteStoneType() throws SQLException {
-		stUpdated = new StoneType(1, "Magmma", "Orange-black", "Images\\Granite\\Magma.jpg", 11, 2);
+		stUpdated = new StoneType(1, "Magmma", "Orange-black", "Images\\Granite\\Magma.jpg", 11, sMaterial);
 		assertTrue(tmDAO.deleteStoneType(stUpdated));
 	} 
 

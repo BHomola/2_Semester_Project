@@ -9,17 +9,15 @@ import java.util.Collection;
 import java.util.List;
 import model.StoneMaterial;
 import model.StoneType;
+import model.Supplier;
 
 public class TypeMaterialDAO implements ITypeMaterialDAO {
 
 	public static StoneMaterial buildMaterial(ResultSet resultSet) throws SQLException {
 		int id = resultSet.getInt("StoneMaterialID");
-		String name = resultSet.getString("Name");
-		String description = resultSet.getString("Description");
+		String name = resultSet.getString("MaterialName");
+		String description = resultSet.getString("MaterialDescription");
 		StoneMaterial stoneMaterial = new StoneMaterial(id, name, description);
-		// List<StoneType> stoneType = new
-		// TypeMaterialDAO().getTypeListOfSameMaterial(stoneMaterial);
-		// stoneMaterial.setStoneType(stoneType);
 		return stoneMaterial;
 	}
 
@@ -32,10 +30,12 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 
 	public static StoneType buildType(ResultSet resultSet) throws SQLException {
 		int id = resultSet.getInt("StoneTypeID");
-		String name = resultSet.getString("Name");
-		String description = resultSet.getString("Description");
+		String name = resultSet.getString("TypeName");
+		String description = resultSet.getString("TypeDescription");
 		String picturePath = resultSet.getString("Picture");
-		StoneType stoneType = new StoneType(id, name, description, picturePath);
+		StoneMaterial material = buildMaterial(resultSet);
+		int supplierID = resultSet.getInt("StoneTypeSupplierID");
+		StoneType stoneType = new StoneType(id, name, description, picturePath,supplierID, material);
 		return stoneType;
 	}
 
@@ -48,7 +48,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 
 	public List<StoneType> getTypeListOfSameMaterial(StoneMaterial stoneMaterial) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = " SELECT *  FROM StoneType " + "WHERE StoneMaterialID = ?";
+		String sqlStatement = " SELECT *  FROM [VIEW_MaterialTypes] " + "WHERE StoneMaterialID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setInt(1, stoneMaterial.getId());
 		ArrayList<StoneType> sTypeList = new ArrayList<>();
@@ -61,7 +61,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 	@Override
 	public Collection<StoneMaterial> getAllStoneMaterials() throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "SELECT * FROM StoneMaterial";
+		String sqlStatement = "SELECT * FROM [VIEW_MaterialTypes]";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		ResultSet resultSet = pStatement.executeQuery();
 		if (resultSet.next() == false)
@@ -72,7 +72,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 	@Override
 	public Collection<StoneType> getAllStoneTypes() throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "SELECT * FROM StoneType";
+		String sqlStatement = "SELECT * FROM [VIEW_MaterialTypes]";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		ResultSet resultSet = pStatement.executeQuery();
 		if (resultSet.next() == false)
@@ -83,7 +83,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 	@Override
 	public StoneMaterial getStoneMaterialByID(int id) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = " SELECT *  FROM StoneMaterial " + "WHERE StoneMaterialID = ?";
+		String sqlStatement = " SELECT *  FROM [VIEW_MaterialTypes] " + "WHERE StoneMaterialID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setInt(1, id);
 		ResultSet resultSet = pStatement.executeQuery();
@@ -96,7 +96,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 	@Override
 	public StoneType getStoneTypeByID(int id) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = " SELECT *  FROM StoneType " + "WHERE StoneTypeID = ?";
+		String sqlStatement = " SELECT *  FROM [VIEW_MaterialTypes] " + "WHERE StoneTypeID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setInt(1, id);
 		ResultSet resultSet = pStatement.executeQuery();
@@ -131,7 +131,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		pStatement.setString(2, stoneType.getDescription());
 		pStatement.setString(3, stoneType.getpicturePath());
 		pStatement.setInt(4, stoneType.getSupplierID());
-		pStatement.setInt(5, stoneType.getsMaterialID());
+		pStatement.setInt(5, stoneType.getMaterial().getId());
 		ResultSet resultSet = pStatement.executeQuery();
 		int generatedID = 0;
 		if (resultSet.next())
