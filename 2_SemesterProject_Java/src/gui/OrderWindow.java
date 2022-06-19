@@ -1,8 +1,11 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -10,13 +13,17 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import model.DeliveryStatuses;
 
 public class OrderWindow extends JFrame {
 
@@ -24,12 +31,35 @@ public class OrderWindow extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	private JPanel contentPane;
+	private JLabel lblDeleteStorno;
+	private JLabel lblEditCheck;
+	private JLabel lblMaximizeRestore;
+	private JLabel lblStornoSmall;
+	private JTextArea textAreaUpdates;
+	private JLabel lblPaidNote;
+	private boolean isEditNotesPressed;
+	private boolean isEditPressed;
+	private boolean isMaximizePressed;
+	private boolean isPaid;
 	private int x;
 	private int y;
-	private JLabel lblMaximizeRestore;
-	private boolean isMaximizePressed;
-	private JTextField textField;
-	private JTextArea textAreaUpdates;
+	private JTextField textFieldOfficeCity;
+	private JTextField textFieldOfficeAddress;
+	private JTextField textFieldOffice;
+	private JTextField textFieldCustomerNote;
+	private JTextField textFieldDeposit;
+	private JTextField textFieldOrderPrice;
+	private JTextField textFieldDeliveryDate;
+	private JTextField textFieldCity;
+	private JTextField textFieldAddress;
+	private JComboBox<?> comboBoxDeliveryStatus;
+	private JLabel lblPersonError;
+	private JLabel lblOrderPriceError;
+	private JLabel lblDepositError;
+	private Container lblEmployeeError;
+	
 
 	/**
 	 * Launch the application.
@@ -50,6 +80,7 @@ public class OrderWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public OrderWindow() {
 //FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
@@ -58,7 +89,7 @@ public class OrderWindow extends JFrame {
 		setBounds(320, 180, 1280, 720);
 
 //CONTENT PANE
-		JPanel contentPane = new JPanel();
+		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -77,8 +108,6 @@ public class OrderWindow extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if(isMaximizePressed) {
-//					setExtendedState(JFrame.NORMAL);
-//					setState(JFrame.NORMAL);
 					checkMaximizeRestore();	
 				}
 			}
@@ -86,7 +115,6 @@ public class OrderWindow extends JFrame {
 		titleBarPane.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				
 				int xx = e.getXOnScreen();
 				int yy = e.getYOnScreen();
 				setLocation(xx-x, yy-y);
@@ -138,12 +166,64 @@ public class OrderWindow extends JFrame {
 		lblTitle.setBounds(105, 60, 515, 100);
 		contentPane.add(lblTitle);
 		
-		JLabel lblEditCheck = new JLabel("");
+		lblEditCheck = new JLabel("");
+		lblEditCheck.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(!isEditPressed) {
+					lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/confirm1.png")));
+					lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/storno.png")));
+					isEditPressed = true;
+					switchEditable();
+					textFieldCity.grabFocus();
+				} else {
+					if(haveErrors()) {
+						JOptionPane.showMessageDialog(null, "Check Errors!", "ERROR!", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					int answer = JOptionPane.showConfirmDialog(null, "Do you really want to apply changes?", "Are you sure?", JOptionPane.YES_NO_CANCEL_OPTION);
+					switch(answer) {
+						case 0: 
+							System.out.println("yes");
+							//SAVE CHANGES
+							break;
+						case 1: 
+							System.out.println("no");
+							//ABORT CHANGES
+							break;
+						case 2:
+							return;	
+					}
+						lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton.png")));
+						lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/deleteButton.png")));
+						contentPane.grabFocus();
+						isEditPressed = false;
+						switchEditable();
+					
+				}
+			}
+		});
 		lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton.png")));
 		lblEditCheck.setBounds(998, 85, 50, 50);
 		contentPane.add(lblEditCheck);
 		
-		JLabel lblDeleteStorno = new JLabel("");
+		lblDeleteStorno = new JLabel("");
+		lblDeleteStorno.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(isEditPressed) {
+				lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton.png")));
+				lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/deleteButton.png")));
+				contentPane.grabFocus();
+				isEditPressed = false;
+				switchEditable();
+				} else {
+					int answer = JOptionPane.showConfirmDialog(null, "Do you really want to delete Order No. #?", "Are you sure?", JOptionPane.YES_NO_OPTION);
+					if(answer == 1) {}
+						//DELETE 
+				}
+			}
+		});
 		lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/deleteButton.png")));
 		lblDeleteStorno.setBounds(1060, 85, 50, 50);
 		contentPane.add(lblDeleteStorno);
@@ -170,8 +250,15 @@ public class OrderWindow extends JFrame {
 		lblPerson.setBounds(108, 172, 156, 53);
 		contentPane.add(lblPerson);
 		
+		lblPersonError = new JLabel("Must not be empty!");
+		lblPersonError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblPersonError.setForeground(Color.RED);
+		lblPersonError.setBounds(110, 225, 340, 14);
+//		lblPersonError.setVisible(false);
+		contentPane.add(lblPersonError);
+		
 		JLabel lblMoveToPerson = new JLabel("");
-		lblMoveToPerson.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto.png")));
+		lblMoveToPerson.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
 		lblMoveToPerson.setBounds(275, 189, 25, 25);
 		contentPane.add(lblMoveToPerson);
 		
@@ -182,20 +269,20 @@ public class OrderWindow extends JFrame {
 		contentPane.add(lblProducts);
 		
 		JLabel lblMoveToProducts = new JLabel("");
-		lblMoveToProducts.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto.png")));
+		lblMoveToProducts.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
 		lblMoveToProducts.setBounds(709, 189, 25, 25);
 		contentPane.add(lblMoveToProducts);
 		
-		JTextField lblAddress = new JTextField();
-		lblAddress.setText("ADDRESS");
-		lblAddress.setBorder(null);
-		lblAddress.setDisabledTextColor(Color.WHITE);
-		lblAddress.setBackground(Color.WHITE);
-		lblAddress.setForeground(new Color(192, 176, 131));
-		lblAddress.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblAddress.setBounds(108, 240, 180, 53);
-		lblAddress.setEditable(false);
-		contentPane.add(lblAddress);
+		textFieldAddress = new JTextField();
+		textFieldAddress.setText("ADDRESS");
+		textFieldAddress.setBorder(null);
+		textFieldAddress.setDisabledTextColor(Color.WHITE);
+		textFieldAddress.setBackground(Color.WHITE);
+		textFieldAddress.setForeground(new Color(192, 176, 131));
+		textFieldAddress.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldAddress.setBounds(108, 240, 430, 53);
+		textFieldAddress.setEditable(false);
+		contentPane.add(textFieldAddress);
 		
 		JLabel lblAddressDescription = new JLabel("DELIVERY ADDRESS");
 		lblAddressDescription.setForeground(new Color(255, 238, 202));
@@ -203,16 +290,16 @@ public class OrderWindow extends JFrame {
 		lblAddressDescription.setBounds(548, 261, 186, 27);
 		contentPane.add(lblAddressDescription);
 		
-		JTextField lblCity = new JTextField();
-		lblCity.setText("CITY");
-		lblCity.setBorder(null);
-		lblCity.setDisabledTextColor(Color.WHITE);
-		lblCity.setBackground(Color.WHITE);
-		lblCity.setForeground(new Color(192, 176, 131));
-		lblCity.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblCity.setBounds(108, 308, 86, 53);
-		lblCity.setEditable(false);
-		contentPane.add(lblCity);
+		textFieldCity = new JTextField();
+		textFieldCity.setText("CITY");
+		textFieldCity.setBorder(null);
+		textFieldCity.setDisabledTextColor(Color.WHITE);
+		textFieldCity.setBackground(Color.WHITE);
+		textFieldCity.setForeground(new Color(192, 176, 131));
+		textFieldCity.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldCity.setBounds(108, 308, 430, 53);
+		textFieldCity.setEditable(false);
+		contentPane.add(textFieldCity);
 		
 		JLabel lblCityDescription = new JLabel("CITY");
 		lblCityDescription.setForeground(new Color(255, 238, 202));
@@ -220,16 +307,18 @@ public class OrderWindow extends JFrame {
 		lblCityDescription.setBounds(690, 329, 44, 27);
 		contentPane.add(lblCityDescription);
 		
-		JTextField lblDeliveryStatus = new JTextField();
-		lblDeliveryStatus.setText("DELIVERY STATUS");
-		lblDeliveryStatus.setBorder(null);
-		lblDeliveryStatus.setDisabledTextColor(Color.WHITE);
-		lblDeliveryStatus.setBackground(Color.WHITE);
-		lblDeliveryStatus.setForeground(new Color(192, 176, 131));
-		lblDeliveryStatus.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblDeliveryStatus.setBounds(108, 376, 340, 53);
-		lblDeliveryStatus.setEditable(false);
-		contentPane.add(lblDeliveryStatus);
+		comboBoxDeliveryStatus = new JComboBox();
+		comboBoxDeliveryStatus.setFocusable(false);
+		comboBoxDeliveryStatus.setModel(new DefaultComboBoxModel(DeliveryStatuses.values()));
+		comboBoxDeliveryStatus.setBorder(null);
+		comboBoxDeliveryStatus.setBackground(Color.WHITE);
+		comboBoxDeliveryStatus.setForeground(new Color(192, 176, 131));
+		comboBoxDeliveryStatus.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		comboBoxDeliveryStatus.setBounds(108, 376, 300, 53);
+		comboBoxDeliveryStatus.hidePopup();
+		comboBoxDeliveryStatus.setEditable(false);
+		comboBoxDeliveryStatus.setEnabled(false);
+		contentPane.add(comboBoxDeliveryStatus);
 		
 		JLabel lblDeliveryStatusDescription = new JLabel("DELIVERY STATUS");
 		lblDeliveryStatusDescription.setForeground(new Color(255, 238, 202));
@@ -237,16 +326,16 @@ public class OrderWindow extends JFrame {
 		lblDeliveryStatusDescription.setBounds(556, 397, 168, 27);
 		contentPane.add(lblDeliveryStatusDescription);
 		
-		JTextField lblDeliveryDate = new JTextField();
-		lblDeliveryDate.setText("DELIVERY DATE");
-		lblDeliveryDate.setBorder(null);
-		lblDeliveryDate.setDisabledTextColor(Color.WHITE);
-		lblDeliveryDate.setBackground(Color.WHITE);
-		lblDeliveryDate.setForeground(new Color(192, 176, 131));
-		lblDeliveryDate.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblDeliveryDate.setBounds(108, 444, 300, 53);
-		lblDeliveryDate.setEditable(false);
-		contentPane.add(lblDeliveryDate);
+		textFieldDeliveryDate = new JTextField();
+		textFieldDeliveryDate.setText("DELIVERY DATE");
+		textFieldDeliveryDate.setBorder(null);
+		textFieldDeliveryDate.setDisabledTextColor(Color.WHITE);
+		textFieldDeliveryDate.setBackground(Color.WHITE);
+		textFieldDeliveryDate.setForeground(new Color(192, 176, 131));
+		textFieldDeliveryDate.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldDeliveryDate.setBounds(108, 444, 430, 53);
+		textFieldDeliveryDate.setEditable(false);
+		contentPane.add(textFieldDeliveryDate);
 		
 		JLabel lblDeliveryDateDescription = new JLabel("DELIVERY DATE");
 		lblDeliveryDateDescription.setForeground(new Color(255, 238, 202));
@@ -254,16 +343,34 @@ public class OrderWindow extends JFrame {
 		lblDeliveryDateDescription.setBounds(588, 465, 146, 27);
 		contentPane.add(lblDeliveryDateDescription);
 		
-		JTextField lblOrderPrice = new JTextField();
-		lblOrderPrice.setText("ORDER PRICE");
-		lblOrderPrice.setBorder(null);
-		lblOrderPrice.setDisabledTextColor(Color.WHITE);
-		lblOrderPrice.setBackground(Color.WHITE);
-		lblOrderPrice.setForeground(new Color(192, 176, 131));
-		lblOrderPrice.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblOrderPrice.setBounds(108, 512, 260, 53);
-		lblOrderPrice.setEditable(false);
-		contentPane.add(lblOrderPrice);
+		textFieldOrderPrice = new JTextField();
+		textFieldOrderPrice.setText("ORDER PRICE");
+		textFieldOrderPrice.setBorder(null);
+		textFieldOrderPrice.setDisabledTextColor(Color.WHITE);
+		textFieldOrderPrice.setBackground(Color.WHITE);
+		textFieldOrderPrice.setForeground(new Color(192, 176, 131));
+		textFieldOrderPrice.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldOrderPrice.setBounds(108, 512, 430, 53);
+		textFieldOrderPrice.setEditable(false);
+		contentPane.add(textFieldOrderPrice);
+		
+		lblOrderPriceError = new JLabel("Must be a positive number! (devided by dot)");
+		lblOrderPriceError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblOrderPriceError.setForeground(Color.RED);
+		lblOrderPriceError.setBounds(110, 565, 340, 14);
+		lblOrderPriceError.setVisible(false);
+		contentPane.add(lblOrderPriceError);
+		textFieldOrderPrice.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				try {
+					Double.parseDouble(textFieldOrderPrice.getText());
+					lblOrderPriceError.setVisible(false);
+				} catch(NumberFormatException ex) {
+					lblOrderPriceError.setVisible(true);
+				}
+			}
+		});
 		
 		JLabel lblOrderPriceDescription = new JLabel("ODER PRICE");
 		lblOrderPriceDescription.setForeground(new Color(255, 238, 202));
@@ -271,22 +378,72 @@ public class OrderWindow extends JFrame {
 		lblOrderPriceDescription.setBounds(608, 533, 126, 27);
 		contentPane.add(lblOrderPriceDescription);
 		
-		JTextField lblDeposit = new JTextField();
-		lblDeposit.setText("DEPOSIT");
-		lblDeposit.setBorder(null);
-		lblDeposit.setDisabledTextColor(Color.WHITE);
-		lblDeposit.setBackground(Color.WHITE);
-		lblDeposit.setForeground(new Color(192, 176, 131));
-		lblDeposit.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblDeposit.setBounds(108, 580, 164, 53);
-		lblDeposit.setEditable(false);
-		contentPane.add(lblDeposit);
+		textFieldDeposit = new JTextField();
+		textFieldDeposit.setText("DEPOSIT");
+		textFieldDeposit.setBorder(null);
+		textFieldDeposit.setDisabledTextColor(Color.WHITE);
+		textFieldDeposit.setBackground(Color.WHITE);
+		textFieldDeposit.setForeground(new Color(192, 176, 131));
+		textFieldDeposit.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldDeposit.setBounds(108, 580, 164, 53);
+		textFieldDeposit.setEditable(false);
+		contentPane.add(textFieldDeposit);
+		
+		lblDepositError = new JLabel("Must be a positive number! (devided by dot)");
+		lblDepositError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblDepositError.setForeground(Color.RED);
+		lblDepositError.setBounds(110, 635, 340, 14);
+		lblDepositError.setVisible(false);
+		contentPane.add(lblDepositError);
+		textFieldDeposit.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				try {
+					Double.parseDouble(textFieldDeposit.getText());
+					lblDepositError.setVisible(false);
+				} catch(NumberFormatException ex) {
+					lblDepositError.setVisible(true);
+				}
+			}
+		});
 		
 		JLabel lblisPaid = new JLabel("");
-//		lblisPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/trueIcon2.png")));
-		lblisPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/falseIcon2.png")));
+		//GET DATA
+		isPaid = true;
+		lblisPaid.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(isEditPressed)
+					if(isPaid) {
+						lblisPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/falseIcon3.png")));
+						isPaid = false;
+					} else {
+						lblisPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/trueIcon3.png")));
+						isPaid = true;
+					}
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(isEditPressed)
+					lblPaidNote.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblPaidNote.setVisible(false);
+			}
+		});
+		if(isPaid)
+			lblisPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/trueIcon3.png")));
+		if(!isPaid)
+			lblisPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/falseIcon3.png")));
 		lblisPaid.setBounds(286, 597, 28, 28);
 		contentPane.add(lblisPaid);
+		
+		lblPaidNote = new JLabel("Click to change");
+		lblPaidNote.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblPaidNote.setBounds(310, 597, 116, 14);
+		lblPaidNote.setVisible(false);
+		contentPane.add(lblPaidNote);
 		
 		JLabel lblDepositDescription = new JLabel("DEPOPSIT/ISPAID");
 		lblDepositDescription.setForeground(new Color(255, 238, 202));
@@ -294,16 +451,16 @@ public class OrderWindow extends JFrame {
 		lblDepositDescription.setBounds(580, 601, 154, 27);
 		contentPane.add(lblDepositDescription);
 		
-		JTextField lblCustomerNote = new JTextField();
-		lblCustomerNote.setText("CUSTOMER NOTE");
-		lblCustomerNote.setBorder(null);
-		lblCustomerNote.setDisabledTextColor(Color.WHITE);
-		lblCustomerNote.setBackground(Color.WHITE);
-		lblCustomerNote.setForeground(new Color(192, 176, 131));
-		lblCustomerNote.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblCustomerNote.setBounds(108, 648, 330, 53);
-		lblCustomerNote.setEditable(false);
-		contentPane.add(lblCustomerNote);
+		textFieldCustomerNote = new JTextField();
+		textFieldCustomerNote.setText("CUSTOMER NOTE");
+		textFieldCustomerNote.setBorder(null);
+		textFieldCustomerNote.setDisabledTextColor(Color.WHITE);
+		textFieldCustomerNote.setBackground(Color.WHITE);
+		textFieldCustomerNote.setForeground(new Color(192, 176, 131));
+		textFieldCustomerNote.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldCustomerNote.setBounds(108, 648, 430, 53);
+		textFieldCustomerNote.setEditable(false);
+		contentPane.add(textFieldCustomerNote);
 		
 		JLabel lblCustomerNoteDescription = new JLabel("CUSTOMER NOTE");
 		lblCustomerNoteDescription.setForeground(new Color(255, 238, 202));
@@ -317,21 +474,28 @@ public class OrderWindow extends JFrame {
 		lblEmployee.setBounds(760, 172, 200, 53);
 		contentPane.add(lblEmployee);
 		
+		lblEmployeeError = new JLabel("Must not be empty!");
+		lblEmployeeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblEmployeeError.setForeground(Color.RED);
+		lblEmployeeError.setBounds(762, 225, 340, 14);
+//		lblEmployeeError.setVisible(false);
+		contentPane.add(lblEmployeeError);
+		
 		JLabel lblMoveToEmployee = new JLabel("");
-		lblMoveToEmployee.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto.png")));
+		lblMoveToEmployee.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
 		lblMoveToEmployee.setBounds(972, 189, 25, 25);
 		contentPane.add(lblMoveToEmployee);
 		
-		JTextField lblOffice = new JTextField();
-		lblOffice.setText("OFFICE");
-		lblOffice.setBorder(null);
-		lblOffice.setDisabledTextColor(Color.WHITE);
-		lblOffice.setBackground(Color.WHITE);
-		lblOffice.setForeground(new Color(192, 176, 131));
-		lblOffice.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblOffice.setBounds(760, 240, 145, 53);
-		lblOffice.setEditable(false);
-		contentPane.add(lblOffice);
+		textFieldOffice = new JTextField();
+		textFieldOffice.setText("OFFICE");
+		textFieldOffice.setBorder(null);
+		textFieldOffice.setDisabledTextColor(Color.WHITE);
+		textFieldOffice.setBackground(Color.WHITE);
+		textFieldOffice.setForeground(new Color(192, 176, 131));
+		textFieldOffice.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldOffice.setBounds(760, 240, 405, 53);
+		textFieldOffice.setEditable(false);
+		contentPane.add(textFieldOffice);
 		
 		JLabel lblOfficeDescription = new JLabel("OFFICE");
 		lblOfficeDescription.setForeground(new Color(255, 238, 202));
@@ -339,16 +503,16 @@ public class OrderWindow extends JFrame {
 		lblOfficeDescription.setBounds(1199, 261, 66, 27);
 		contentPane.add(lblOfficeDescription);
 		
-		JTextField lblOfficeAddress = new JTextField();
-		lblOfficeAddress.setText("ADDRESS");
-		lblOfficeAddress.setBorder(null);
-		lblOfficeAddress.setDisabledTextColor(Color.WHITE);
-		lblOfficeAddress.setBackground(Color.WHITE);
-		lblOfficeAddress.setForeground(new Color(192, 176, 131));
-		lblOfficeAddress.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblOfficeAddress.setBounds(760, 310, 180, 53);
-		lblOfficeAddress.setEditable(false);
-		contentPane.add(lblOfficeAddress);
+		textFieldOfficeAddress = new JTextField();
+		textFieldOfficeAddress.setText("ADDRESS");
+		textFieldOfficeAddress.setBorder(null);
+		textFieldOfficeAddress.setDisabledTextColor(Color.WHITE);
+		textFieldOfficeAddress.setBackground(Color.WHITE);
+		textFieldOfficeAddress.setForeground(new Color(192, 176, 131));
+		textFieldOfficeAddress.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldOfficeAddress.setBounds(760, 310, 405, 53);
+		textFieldOfficeAddress.setEditable(false);
+		contentPane.add(textFieldOfficeAddress);
 		
 		JLabel lblOfficeAddressDescription = new JLabel("ADDRESS");
 		lblOfficeAddressDescription.setForeground(new Color(255, 238, 202));
@@ -356,16 +520,16 @@ public class OrderWindow extends JFrame {
 		lblOfficeAddressDescription.setBounds(1175, 331, 90, 27);
 		contentPane.add(lblOfficeAddressDescription);
 		
-		JTextField lblOfficeCity = new JTextField();
-		lblOfficeCity.setText("CITY");
-		lblOfficeCity.setBorder(null);
-		lblOfficeCity.setDisabledTextColor(Color.WHITE);
-		lblOfficeCity.setBackground(Color.WHITE);
-		lblOfficeCity.setForeground(new Color(192, 176, 131));
-		lblOfficeCity.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblOfficeCity.setBounds(760, 378, 86, 53);
-		lblOfficeCity.setEditable(false);
-		contentPane.add(lblOfficeCity);
+		textFieldOfficeCity = new JTextField();
+		textFieldOfficeCity.setText("CITY");
+		textFieldOfficeCity.setBorder(null);
+		textFieldOfficeCity.setDisabledTextColor(Color.WHITE);
+		textFieldOfficeCity.setBackground(Color.WHITE);
+		textFieldOfficeCity.setForeground(new Color(192, 176, 131));
+		textFieldOfficeCity.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldOfficeCity.setBounds(760, 378, 405, 53);
+		textFieldOfficeCity.setEditable(false);
+		contentPane.add(textFieldOfficeCity);
 		
 		JLabel lblOfficeCityDescription = new JLabel("CITY");
 		lblOfficeCityDescription.setForeground(new Color(255, 238, 202));
@@ -384,30 +548,81 @@ public class OrderWindow extends JFrame {
 		lblUpdates.setEditable(false);
 		contentPane.add(lblUpdates);
 		
-		JLabel lblUpdatesIcon = new JLabel("");
-		lblUpdatesIcon.addMouseListener(new MouseAdapter() {
+		JLabel lblUpdateConfirmIcon = new JLabel("");
+		isEditNotesPressed = false;
+		lblUpdateConfirmIcon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				textAreaUpdates.setEditable(true);
-				textAreaUpdates.grabFocus();
+				if(!isEditNotesPressed) {
+					lblUpdateConfirmIcon.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/confirmSmall.png")));
+					lblStornoSmall.setVisible(true);
+					textAreaUpdates.setEditable(true);
+					textAreaUpdates.grabFocus();
+					isEditNotesPressed = true;
+				} else {
+					int answer = JOptionPane.showConfirmDialog(null, "Do you really want to apply changes?", "Are you sure?", JOptionPane.YES_NO_CANCEL_OPTION);
+					switch(answer) {
+						case 0: 
+							System.out.println("yes");
+							//SAVE CHANGES
+							break;
+						case 1: 
+							System.out.println("no");
+							//ABORT CHANGES
+							break;
+						case 2:
+							return;	
+					}
+					lblUpdateConfirmIcon.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/notes2.png")));
+					lblStornoSmall.setVisible(false);
+					textAreaUpdates.setEditable(false);
+					contentPane.grabFocus();
+					isEditNotesPressed = false;
+				}
 			}
 		});
-		lblUpdatesIcon.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/notes.png")));
-		lblUpdatesIcon.setBounds(948, 460, 25, 25);
-		contentPane.add(lblUpdatesIcon);
+		lblUpdateConfirmIcon.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/notes2.png")));
+		lblUpdateConfirmIcon.setBounds(948, 460, 25, 25);
+		contentPane.add(lblUpdateConfirmIcon);
+		
+		lblStornoSmall = new JLabel("");
+		lblStornoSmall.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblUpdateConfirmIcon.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/notes2.png")));
+				lblStornoSmall.setVisible(false);
+				textAreaUpdates.setEditable(false);
+				contentPane.grabFocus();
+				isEditNotesPressed = false;
+			}
+		});
+		lblStornoSmall.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/stornoSmall.png")));
+		lblStornoSmall.setBounds(978, 460, 27, 25);
+		lblStornoSmall.setVisible(false);
+		contentPane.add(lblStornoSmall);
+		
+		JScrollPane updatesScrollPane = new JScrollPane();
+		updatesScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		updatesScrollPane.setBorder(null);
+		updatesScrollPane.setBounds(760, 512, 505, 184);
+		updatesScrollPane.getVerticalScrollBar().setUnitIncrement(4);
+		contentPane.add(updatesScrollPane);
 		
 		textAreaUpdates = new JTextArea();
 		textAreaUpdates.setLineWrap(true);
-		textAreaUpdates.setText("12.06.2022(17:30) - Product \"xxxx\" added to ordereeeeeeeeeeeeeeeeeeeeeeeeeeeee\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n\r\n12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n\r\n");
+		textAreaUpdates.setWrapStyleWord(true);
+		textAreaUpdates.setText("12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n\r\n12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n\r\n");
 		textAreaUpdates.setForeground(new Color(192, 176, 131));
 		textAreaUpdates.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		textAreaUpdates.setEditable(false);
-		textAreaUpdates.setBounds(760, 512, 505, 184);
-		contentPane.add(textAreaUpdates);
-		
-	
+		updatesScrollPane.setViewportView(textAreaUpdates);
+		textAreaUpdates.setCaretPosition(0);
 	}
 	
+	private boolean haveErrors() {
+		return lblPersonError.isVisible() || lblOrderPriceError.isVisible() || lblDepositError.isVisible() || lblEmployeeError.isVisible();
+	}
+
 	private void checkMaximizeRestore() {
 		if(!isMaximizePressed) {
 			setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -418,5 +633,31 @@ public class OrderWindow extends JFrame {
 				lblMaximizeRestore.setIcon(new ImageIcon(Main.class.getResource("/imgs/maximize2.png")));
 				isMaximizePressed = false;
 			}
+	}	
+	private void switchEditable() {
+		if(isEditPressed) {
+			textFieldAddress.setEditable(true);
+			textFieldCity.setEditable(true);
+			comboBoxDeliveryStatus.setEnabled(true);
+			textFieldDeliveryDate.setEditable(true);
+			textFieldOrderPrice.setEditable(true);
+			textFieldDeposit.setEditable(true);
+			textFieldCustomerNote.setEditable(true);
+			textFieldOffice.setEditable(true);
+			textFieldOfficeAddress.setEditable(true);
+			textFieldOfficeCity.setEditable(true);
+		} else {
+			textFieldAddress.setEditable(false);
+			textFieldCity.setEditable(false);
+			comboBoxDeliveryStatus.setEnabled(false);
+			textFieldDeliveryDate.setEditable(false);
+			textFieldOrderPrice.setEditable(false);
+			textFieldDeposit.setEditable(false);
+			textFieldCustomerNote.setEditable(false);
+			textFieldOffice.setEditable(false);
+			textFieldOfficeAddress.setEditable(false);
+			textFieldOfficeCity.setEditable(false);
+		}
+		
 	}
 }
