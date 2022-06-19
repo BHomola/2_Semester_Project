@@ -24,6 +24,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import model.StoneUnitStatuses;
 import javax.swing.SwingConstants;
+import java.awt.CardLayout;
 
 public class StoneUnitWindow extends JFrame {
 
@@ -55,9 +56,11 @@ public class StoneUnitWindow extends JFrame {
 	private JComboBox<?> comboBoxStatus;
 	private JLabel lblSupplierError;
 	private JLabel lblOrderPriceError;
-	private JLabel lblDepositError;
+	private JLabel lblWeightError;
 	private JLabel lblEmployeeError;
 	private JLabel lblMaterialTypeError;
+	private CardLayout cardLayout;
+	private JPanel cardPane;
 	
 
 	/**
@@ -81,6 +84,8 @@ public class StoneUnitWindow extends JFrame {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public StoneUnitWindow() {
+		cardLayout = new CardLayout();
+		
 //FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
 		setTitle("Santorina");
@@ -95,7 +100,7 @@ public class StoneUnitWindow extends JFrame {
 		setUndecorated(true);
 		contentPane.setLayout(null);
 		
-//TITLE BAR		
+//TITLE BAR	PANE	
 		isMaximizePressed = false;
 		JPanel titleBarPane = new JPanel();
 		titleBarPane.addMouseListener(new MouseAdapter() {
@@ -158,14 +163,29 @@ public class StoneUnitWindow extends JFrame {
 		lblMinimize.setBounds(1165, 10, 10, 10);
 		titleBarPane.add(lblMinimize);
 		
-//TITLE BAR		
+//CARD PANE		
+		cardPane = new JPanel();
+		cardPane.setBackground(Color.WHITE);
+		cardPane.setBounds(0, 60, 1280, 720);
+		contentPane.add(cardPane);
+		cardPane.setLayout(cardLayout);
+				
+//STONE UNIT PANE		
+		JPanel stoneUnitPane = new JPanel();
+		stoneUnitPane.setBackground(Color.WHITE);
+		cardPane.add(stoneUnitPane, "name_105638542096500");
+		stoneUnitPane.setLayout(null);
+				
+//TITLE		
 		JLabel lblTitle = new JLabel("STONE UNIT");
+		lblTitle.setBounds(105, 0, 420, 100);
+		stoneUnitPane.add(lblTitle);
 		lblTitle.setForeground(new Color(144, 124, 81));
 		lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
-		lblTitle.setBounds(105, 60, 420, 100);
-		contentPane.add(lblTitle);
 		
 		lblEditCheck = new JLabel("");
+		lblEditCheck.setBounds(998, 25, 50, 50);
+		stoneUnitPane.add(lblEditCheck);
 		lblEditCheck.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -203,10 +223,10 @@ public class StoneUnitWindow extends JFrame {
 			}
 		});
 		lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/editButton.png")));
-		lblEditCheck.setBounds(998, 85, 50, 50);
-		contentPane.add(lblEditCheck);
 		
 		lblDeleteStorno = new JLabel("");
+		lblDeleteStorno.setBounds(1060, 25, 50, 50);
+		stoneUnitPane.add(lblDeleteStorno);
 		lblDeleteStorno.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -224,319 +244,329 @@ public class StoneUnitWindow extends JFrame {
 			}
 		});
 		lblDeleteStorno.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/deleteButton.png")));
-		lblDeleteStorno.setBounds(1060, 85, 50, 50);
-		contentPane.add(lblDeleteStorno);
 		
 		JLabel lblTree = new JLabel("");
+		lblTree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				cardLayout.show(cardPane, "name_105672345315800");
+			}
+		});
+		lblTree.setBounds(1140, 25, 50, 50);
+		stoneUnitPane.add(lblTree);
 		lblTree.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/treeButton.png")));
-		lblTree.setBounds(1140, 85, 50, 50);
-		contentPane.add(lblTree);
 		
 		JLabel lblMore = new JLabel("");
+		lblMore.setBounds(1200, 25, 50, 50);
+		stoneUnitPane.add(lblMore);
 		lblMore.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/moreButton.png")));
-		lblMore.setBounds(1200, 85, 50, 50);
-		contentPane.add(lblMore);
 		
 		JLabel lblWindowOrderBar = new JLabel("");
+		lblWindowOrderBar.setBounds(0, 0, 1280, 100);
+		stoneUnitPane.add(lblWindowOrderBar);
 		lblWindowOrderBar.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/windowTitleBar.png")));
-		lblWindowOrderBar.setBounds(0, 60, 1280, 100);
-		contentPane.add(lblWindowOrderBar);
 		
 		JLabel lblSplitLine = new JLabel("");
+		lblSplitLine.setBounds(747, 140, 1, 500);
+		stoneUnitPane.add(lblSplitLine);
 		lblSplitLine.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/splitLine.png")));
-		lblSplitLine.setBounds(747, 200, 1, 500);
-		contentPane.add(lblSplitLine);
 		
-//CONTENT		
+//CONTENT	
+		
+		
+		
 		textFieldId = new JTextField();
+		textFieldId.setBounds(108, 112, 430, 53);
+		stoneUnitPane.add(textFieldId);
 		textFieldId.setText("ID");
 		textFieldId.setBorder(null);
 		textFieldId.setDisabledTextColor(Color.WHITE);
 		textFieldId.setBackground(Color.WHITE);
 		textFieldId.setForeground(new Color(192, 176, 131));
 		textFieldId.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldId.setBounds(108, 172, 430, 53);
 		textFieldId.setEditable(false);
-		contentPane.add(textFieldId);
 		
 		JLabel lblIdDescription = new JLabel("ID");
+		lblIdDescription.setBounds(712, 133, 22, 27);
+		stoneUnitPane.add(lblIdDescription);
 		lblIdDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblIdDescription.setForeground(new Color(255, 238, 202));
 		lblIdDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblIdDescription.setBounds(712, 193, 22, 27);
-		contentPane.add(lblIdDescription);
 		
 		JLabel lblMaterialType = new JLabel("MATERIAL TYPE");
+		lblMaterialType.setBounds(108, 180, 430, 53);
+		stoneUnitPane.add(lblMaterialType);
 		lblMaterialType.setForeground(new Color(192, 176, 131));
 		lblMaterialType.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblMaterialType.setBounds(108, 240, 430, 53);
-		contentPane.add(lblMaterialType);
 		
 		lblMaterialTypeError = new JLabel("Must not be empty!");
+		lblMaterialTypeError.setBounds(110, 233, 140, 14);
+		stoneUnitPane.add(lblMaterialTypeError);
 		lblMaterialTypeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblMaterialTypeError.setForeground(Color.RED);
-		lblMaterialTypeError.setBounds(110, 293, 140, 14);
-//		lblPersonError.setVisible(false);
-		contentPane.add(lblMaterialTypeError);
 		
 		JLabel lblMoveToMaterialType = new JLabel("");
+		lblMoveToMaterialType.setBounds(422, 197, 25, 25);
+		stoneUnitPane.add(lblMoveToMaterialType);
 		lblMoveToMaterialType.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/moveto2.png")));
-		lblMoveToMaterialType.setBounds(422, 257, 25, 25);
-		contentPane.add(lblMoveToMaterialType);
 		
 		JLabel lblMoveToMaterialTypedDescription = new JLabel("MATERIAL TYPE");
+		lblMoveToMaterialTypedDescription.setBounds(574, 201, 160, 27);
+		stoneUnitPane.add(lblMoveToMaterialTypedDescription);
 		lblMoveToMaterialTypedDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblMoveToMaterialTypedDescription.setForeground(new Color(255, 238, 202));
 		lblMoveToMaterialTypedDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblMoveToMaterialTypedDescription.setBounds(574, 261, 160, 27);
-		contentPane.add(lblMoveToMaterialTypedDescription);
 		
 		textFieldOrigin = new JTextField();
+		textFieldOrigin.setBounds(108, 248, 430, 53);
+		stoneUnitPane.add(textFieldOrigin);
 		textFieldOrigin.setText("ORIGIN");
 		textFieldOrigin.setBorder(null);
 		textFieldOrigin.setDisabledTextColor(Color.WHITE);
 		textFieldOrigin.setBackground(Color.WHITE);
 		textFieldOrigin.setForeground(new Color(192, 176, 131));
 		textFieldOrigin.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldOrigin.setBounds(108, 308, 430, 53);
 		textFieldOrigin.setEditable(false);
-		contentPane.add(textFieldOrigin);
 		
 		JLabel lblOriginDescription = new JLabel("ORIGIN");
+		lblOriginDescription.setBounds(664, 269, 70, 27);
+		stoneUnitPane.add(lblOriginDescription);
 		lblOriginDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblOriginDescription.setForeground(new Color(255, 238, 202));
 		lblOriginDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblOriginDescription.setBounds(664, 329, 70, 27);
-		contentPane.add(lblOriginDescription);
 		
 		textFieldWidth = new JTextField();
+		textFieldWidth.setBounds(108, 316, 430, 53);
+		stoneUnitPane.add(textFieldWidth);
 		textFieldWidth.setText("WIDTH");
 		textFieldWidth.setBorder(null);
 		textFieldWidth.setDisabledTextColor(Color.WHITE);
 		textFieldWidth.setBackground(Color.WHITE);
 		textFieldWidth.setForeground(new Color(192, 176, 131));
 		textFieldWidth.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldWidth.setBounds(108, 376, 430, 53);
 		textFieldWidth.setEditable(false);
-		contentPane.add(textFieldWidth);
 		
 		lblOrderPriceError = new JLabel("Must be a positive number! (devided by dot)");
+		lblOrderPriceError.setBounds(110, 369, 337, 14);
+		stoneUnitPane.add(lblOrderPriceError);
 		lblOrderPriceError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblOrderPriceError.setForeground(Color.RED);
-		lblOrderPriceError.setBounds(110, 429, 337, 14);
-		lblOrderPriceError.setVisible(false);
-		contentPane.add(lblOrderPriceError);
-		textFieldWidth.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				try {
-					Double.parseDouble(textFieldWidth.getText());
-					lblOrderPriceError.setVisible(false);
-				} catch(NumberFormatException ex) {
-					lblOrderPriceError.setVisible(true);
-				}
-			}
-		});
 		
 		JLabel lblWidthDescription = new JLabel("WIDTH (CM)");
+		lblWidthDescription.setBounds(615, 337, 119, 27);
+		stoneUnitPane.add(lblWidthDescription);
 		lblWidthDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblWidthDescription.setForeground(new Color(255, 238, 202));
 		lblWidthDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblWidthDescription.setBounds(615, 397, 119, 27);
-		contentPane.add(lblWidthDescription);
 		
 		textFieldWeight = new JTextField();
+		textFieldWeight.setBounds(108, 384, 430, 53);
+		stoneUnitPane.add(textFieldWeight);
 		textFieldWeight.setText("WEIGHT");
 		textFieldWeight.setBorder(null);
 		textFieldWeight.setDisabledTextColor(Color.WHITE);
 		textFieldWeight.setBackground(Color.WHITE);
 		textFieldWeight.setForeground(new Color(192, 176, 131));
 		textFieldWeight.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldWeight.setBounds(108, 444, 430, 53);
 		textFieldWeight.setEditable(false);
-		contentPane.add(textFieldWeight);
 		
-		lblDepositError = new JLabel("Must be a positive number! (devided by dot)");
-		lblDepositError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		lblDepositError.setForeground(Color.RED);
-		lblDepositError.setBounds(110, 497, 337, 14);
-		lblDepositError.setVisible(false);
-		contentPane.add(lblDepositError);
+		lblWeightError = new JLabel("Must be a positive number! (devided by dot)");
+		lblWeightError.setBounds(110, 437, 337, 14);
+		lblWeightError.setVisible(false);
+		stoneUnitPane.add(lblWeightError);
+		lblWeightError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblWeightError.setForeground(Color.RED);
 		textFieldWeight.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
-					Double.parseDouble(textFieldWeight.getText());
-					lblDepositError.setVisible(false);
+					Double number = Double.parseDouble(textFieldWeight.getText());
+					lblWeightError.setVisible(false);
+					if(number < 0) 
+						lblWeightError.setVisible(true);
 				} catch(NumberFormatException ex) {
-					lblDepositError.setVisible(true);
+					lblWeightError.setVisible(true);
 				}
 			}
 		});
+		lblOrderPriceError.setVisible(false);
+		textFieldWidth.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				try {
+					Double number = Double.parseDouble(textFieldWidth.getText());
+					lblOrderPriceError.setVisible(false);
+					if(number < 0)
+						lblOrderPriceError.setVisible(true);
+				} catch(NumberFormatException ex) {
+					lblOrderPriceError.setVisible(true);
+				}
+			}
+		});
+		isEditNotesPressed = false;
 		
-		JLabel lblDepositDescription = new JLabel("WEIGHT (KG)");
-		lblDepositDescription.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDepositDescription.setForeground(new Color(255, 238, 202));
-		lblDepositDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblDepositDescription.setBounds(604, 465, 130, 27);
-		contentPane.add(lblDepositDescription);
+		JLabel lblWeightDescription = new JLabel("WEIGHT (KG)");
+		lblWeightDescription.setBounds(604, 405, 130, 27);
+		stoneUnitPane.add(lblWeightDescription);
+		lblWeightDescription.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblWeightDescription.setForeground(new Color(255, 238, 202));
+		lblWeightDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		textFieldCreatedDate = new JTextField();
+		textFieldCreatedDate.setBounds(108, 452, 430, 53);
+		stoneUnitPane.add(textFieldCreatedDate);
 		textFieldCreatedDate.setText("CREATED DATE");
 		textFieldCreatedDate.setBorder(null);
 		textFieldCreatedDate.setDisabledTextColor(Color.WHITE);
 		textFieldCreatedDate.setBackground(Color.WHITE);
 		textFieldCreatedDate.setForeground(new Color(192, 176, 131));
 		textFieldCreatedDate.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldCreatedDate.setBounds(108, 512, 430, 53);
 		textFieldCreatedDate.setEditable(false);
-		contentPane.add(textFieldCreatedDate);
 		
 		JLabel lblCreatedDateDescription = new JLabel("CREATED DATE");
+		lblCreatedDateDescription.setBounds(574, 473, 160, 27);
+		stoneUnitPane.add(lblCreatedDateDescription);
 		lblCreatedDateDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCreatedDateDescription.setForeground(new Color(255, 238, 202));
 		lblCreatedDateDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblCreatedDateDescription.setBounds(574, 533, 160, 27);
-		contentPane.add(lblCreatedDateDescription);
 		
 		comboBoxStatus = new JComboBox();
+		comboBoxStatus.setBounds(108, 520, 340, 53);
+		stoneUnitPane.add(comboBoxStatus);
 		comboBoxStatus.setFocusable(false);
 		comboBoxStatus.setModel(new DefaultComboBoxModel(StoneUnitStatuses.values()));
 		comboBoxStatus.setBorder(null);
 		comboBoxStatus.setBackground(Color.WHITE);
 		comboBoxStatus.setForeground(new Color(192, 176, 131));
 		comboBoxStatus.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		comboBoxStatus.setBounds(108, 580, 340, 53);
 		comboBoxStatus.hidePopup();
 		comboBoxStatus.setEditable(false);
 		comboBoxStatus.setEnabled(false);
-		contentPane.add(comboBoxStatus);
 		
 		JLabel lblStatusDescription = new JLabel("STATUS");
+		lblStatusDescription.setBounds(654, 541, 80, 27);
+		stoneUnitPane.add(lblStatusDescription);
 		lblStatusDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblStatusDescription.setForeground(new Color(255, 238, 202));
 		lblStatusDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblStatusDescription.setBounds(654, 601, 80, 27);
-		contentPane.add(lblStatusDescription);
 		
 		textFieldDescription = new JTextField();
+		textFieldDescription.setBounds(108, 588, 430, 53);
+		stoneUnitPane.add(textFieldDescription);
 		textFieldDescription.setText("DESCRIPTION");
 		textFieldDescription.setBorder(null);
 		textFieldDescription.setDisabledTextColor(Color.WHITE);
 		textFieldDescription.setBackground(Color.WHITE);
 		textFieldDescription.setForeground(new Color(192, 176, 131));
 		textFieldDescription.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldDescription.setBounds(108, 648, 430, 53);
 		textFieldDescription.setEditable(false);
-		contentPane.add(textFieldDescription);
 		
 		JLabel lblDescriptionDescription = new JLabel("DESCRIPTION");
+		lblDescriptionDescription.setBounds(604, 609, 130, 27);
+		stoneUnitPane.add(lblDescriptionDescription);
 		lblDescriptionDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDescriptionDescription.setForeground(new Color(255, 238, 202));
 		lblDescriptionDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblDescriptionDescription.setBounds(604, 669, 130, 27);
-		contentPane.add(lblDescriptionDescription);
 		
 		textFieldLocation = new JTextField();
+		textFieldLocation.setBounds(760, 112, 395, 53);
+		stoneUnitPane.add(textFieldLocation);
 		textFieldLocation.setText("LOCATION");
 		textFieldLocation.setBorder(null);
 		textFieldLocation.setDisabledTextColor(Color.WHITE);
 		textFieldLocation.setBackground(Color.WHITE);
 		textFieldLocation.setForeground(new Color(192, 176, 131));
 		textFieldLocation.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldLocation.setBounds(760, 172, 395, 53);
 		textFieldLocation.setEditable(false);
-		contentPane.add(textFieldLocation);
 		
 		JLabel lblLocationDescription = new JLabel("LOCATION");
+		lblLocationDescription.setBounds(1165, 133, 100, 27);
+		stoneUnitPane.add(lblLocationDescription);
 		lblLocationDescription.setForeground(new Color(255, 238, 202));
 		lblLocationDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblLocationDescription.setBounds(1165, 193, 100, 27);
-		contentPane.add(lblLocationDescription);
 		
 		textFieldLocationAddress = new JTextField();
+		textFieldLocationAddress.setBounds(760, 180, 395, 53);
+		stoneUnitPane.add(textFieldLocationAddress);
 		textFieldLocationAddress.setText("ADDRESS");
 		textFieldLocationAddress.setBorder(null);
 		textFieldLocationAddress.setDisabledTextColor(Color.WHITE);
 		textFieldLocationAddress.setBackground(Color.WHITE);
 		textFieldLocationAddress.setForeground(new Color(192, 176, 131));
 		textFieldLocationAddress.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldLocationAddress.setBounds(760, 240, 395, 53);
 		textFieldLocationAddress.setEditable(false);
-		contentPane.add(textFieldLocationAddress);
 		
 		JLabel lblLocationAddressDescription = new JLabel("ADDRESS");
+		lblLocationAddressDescription.setBounds(1175, 201, 90, 27);
+		stoneUnitPane.add(lblLocationAddressDescription);
 		lblLocationAddressDescription.setForeground(new Color(255, 238, 202));
 		lblLocationAddressDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblLocationAddressDescription.setBounds(1175, 261, 90, 27);
-		contentPane.add(lblLocationAddressDescription);
 		
 		textFieldLocationCity = new JTextField();
+		textFieldLocationCity.setBounds(760, 248, 395, 53);
+		stoneUnitPane.add(textFieldLocationCity);
 		textFieldLocationCity.setText("CITY");
 		textFieldLocationCity.setBorder(null);
 		textFieldLocationCity.setDisabledTextColor(Color.WHITE);
 		textFieldLocationCity.setBackground(Color.WHITE);
 		textFieldLocationCity.setForeground(new Color(192, 176, 131));
 		textFieldLocationCity.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldLocationCity.setBounds(760, 308, 395, 53);
 		textFieldLocationCity.setEditable(false);
-		contentPane.add(textFieldLocationCity);
 		
 		JLabel lblLocationCityDescription = new JLabel("CITY");
+		lblLocationCityDescription.setBounds(1221, 269, 44, 27);
+		stoneUnitPane.add(lblLocationCityDescription);
 		lblLocationCityDescription.setForeground(new Color(255, 238, 202));
 		lblLocationCityDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblLocationCityDescription.setBounds(1221, 329, 44, 27);
-		contentPane.add(lblLocationCityDescription);
 		
 		JLabel lblSupplier = new JLabel("SUPPLIER");
+		lblSupplier.setBounds(760, 316, 182, 53);
+		stoneUnitPane.add(lblSupplier);
 		lblSupplier.setForeground(new Color(192, 176, 131));
 		lblSupplier.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblSupplier.setBounds(760, 376, 182, 53);
-		contentPane.add(lblSupplier);
 		
 		lblSupplierError = new JLabel("Must not be empty!");
+		lblSupplierError.setBounds(762, 369, 140, 14);
+		stoneUnitPane.add(lblSupplierError);
 		lblSupplierError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblSupplierError.setForeground(Color.RED);
-		lblSupplierError.setBounds(762, 429, 140, 14);
-//		lblPersonError.setVisible(false);
-		contentPane.add(lblSupplierError);
 		
 		JLabel lblMoveToSupplier = new JLabel("");
+		lblMoveToSupplier.setBounds(953, 333, 25, 25);
+		stoneUnitPane.add(lblMoveToSupplier);
 		lblMoveToSupplier.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/moveto2.png")));
-		lblMoveToSupplier.setBounds(953, 393, 25, 25);
-		contentPane.add(lblMoveToSupplier);
 		
 		JLabel lblEmployee = new JLabel("EMPLOYEE");
+		lblEmployee.setBounds(1028, 316, 200, 53);
+		stoneUnitPane.add(lblEmployee);
 		lblEmployee.setForeground(new Color(192, 176, 131));
 		lblEmployee.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblEmployee.setBounds(1028, 376, 200, 53);
-		contentPane.add(lblEmployee);
 		
 		lblEmployeeError = new JLabel("Must not be empty!");
+		lblEmployeeError.setBounds(1030, 369, 140, 14);
+		stoneUnitPane.add(lblEmployeeError);
 		lblEmployeeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblEmployeeError.setForeground(Color.RED);
-		lblEmployeeError.setBounds(1030, 429, 140, 14);
-//		lblEmployeeError.setVisible(false);
-		contentPane.add(lblEmployeeError);
 		
 		JLabel lblMoveToEmployee = new JLabel("");
+		lblMoveToEmployee.setBounds(1240, 333, 25, 25);
+		stoneUnitPane.add(lblMoveToEmployee);
 		lblMoveToEmployee.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/moveto2.png")));
-		lblMoveToEmployee.setBounds(1240, 393, 25, 25);
-		contentPane.add(lblMoveToEmployee);
 		
 		JTextField lblUpdates = new JTextField();
+		lblUpdates.setBounds(760, 384, 180, 53);
+		stoneUnitPane.add(lblUpdates);
 		lblUpdates.setText("UPDATES");
 		lblUpdates.setBorder(null);
 		lblUpdates.setDisabledTextColor(Color.WHITE);
 		lblUpdates.setBackground(Color.WHITE);
 		lblUpdates.setForeground(new Color(192, 176, 131));
 		lblUpdates.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblUpdates.setBounds(760, 444, 180, 53);
 		lblUpdates.setEditable(false);
-		contentPane.add(lblUpdates);
 		
 		JLabel lblUpdateConfirmIcon = new JLabel("");
-		isEditNotesPressed = false;
+		lblUpdateConfirmIcon.setBounds(948, 400, 25, 25);
+		stoneUnitPane.add(lblUpdateConfirmIcon);
 		lblUpdateConfirmIcon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -569,10 +599,11 @@ public class StoneUnitWindow extends JFrame {
 			}
 		});
 		lblUpdateConfirmIcon.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/notes2.png")));
-		lblUpdateConfirmIcon.setBounds(948, 460, 25, 25);
-		contentPane.add(lblUpdateConfirmIcon);
 		
 		lblStornoSmall = new JLabel("");
+		lblStornoSmall.setBounds(978, 400, 27, 25);
+		lblStornoSmall.setVisible(false);
+		stoneUnitPane.add(lblStornoSmall);
 		lblStornoSmall.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -584,16 +615,13 @@ public class StoneUnitWindow extends JFrame {
 			}
 		});
 		lblStornoSmall.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/stornoSmall.png")));
-		lblStornoSmall.setBounds(978, 460, 27, 25);
-		lblStornoSmall.setVisible(false);
-		contentPane.add(lblStornoSmall);
 		
 		JScrollPane updatesScrollPane = new JScrollPane();
+		updatesScrollPane.setBounds(760, 452, 505, 184);
+		stoneUnitPane.add(updatesScrollPane);
 		updatesScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		updatesScrollPane.setBorder(null);
-		updatesScrollPane.setBounds(760, 512, 505, 184);
 		updatesScrollPane.getVerticalScrollBar().setUnitIncrement(4);
-		contentPane.add(updatesScrollPane);
 		
 		textAreaUpdates = new JTextArea();
 		textAreaUpdates.setLineWrap(true);
@@ -604,10 +632,39 @@ public class StoneUnitWindow extends JFrame {
 		textAreaUpdates.setEditable(false);
 		updatesScrollPane.setViewportView(textAreaUpdates);
 		textAreaUpdates.setCaretPosition(0);
+		
+//TREE PANE		
+		JPanel treePane = new JPanel();
+		treePane.setBackground(Color.WHITE);
+		cardPane.add(treePane, "name_105672345315800");
+		treePane.setLayout(null);
+		
+//TREE CONTENT		
+		JLabel lblUnitTreeTitle = new JLabel("UNIT TREE");
+		lblUnitTreeTitle.setForeground(new Color(144,124,81));
+		lblUnitTreeTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
+		lblUnitTreeTitle.setBounds(105, 0, 350, 100);
+		treePane.add(lblUnitTreeTitle);
+		
+		JLabel lblBack = new JLabel("");
+		lblBack.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				cardLayout.show(cardPane, "name_105638542096500");
+			}
+		});
+		lblBack.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/backButton2.png")));
+		lblBack.setBounds(30, 27, 50, 50);
+		treePane.add(lblBack);
+		
+		JLabel lblTreeTitle = new JLabel("");
+		lblTreeTitle.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/windowTitleBar.png")));
+		lblTreeTitle.setBounds(0, 0, 1280, 100);
+		treePane.add(lblTreeTitle);
 	}
-	
+		
 	private boolean haveErrors() {
-		return lblSupplierError.isVisible() || lblOrderPriceError.isVisible() || lblDepositError.isVisible() || lblEmployeeError.isVisible();
+		return lblSupplierError.isVisible() || lblOrderPriceError.isVisible() || lblWeightError.isVisible() || lblEmployeeError.isVisible();
 	}
 
 	private void checkMaximizeRestore() {
@@ -621,6 +678,7 @@ public class StoneUnitWindow extends JFrame {
 				isMaximizePressed = false;
 			}
 	}	
+	
 	private void switchEditable() {
 		if(isEditPressed) {
 //			textFieldId.setEditable(true);
@@ -645,6 +703,5 @@ public class StoneUnitWindow extends JFrame {
 			textFieldLocationAddress.setEditable(false);
 			textFieldLocationCity.setEditable(false);
 		}
-		
 	}
 }

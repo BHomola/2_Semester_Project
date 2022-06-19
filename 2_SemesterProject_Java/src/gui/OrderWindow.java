@@ -96,7 +96,7 @@ public class OrderWindow extends JFrame {
 		setUndecorated(true);
 		contentPane.setLayout(null);
 		
-//TITLE BAR		
+//TITLE BAR	PANE	
 		isMaximizePressed = false;
 		JPanel titleBarPane = new JPanel();
 		titleBarPane.addMouseListener(new MouseAdapter() {
@@ -159,7 +159,7 @@ public class OrderWindow extends JFrame {
 		lblMinimize.setBounds(1165, 10, 10, 10);
 		titleBarPane.add(lblMinimize);
 		
-//TITLE BAR		
+//TITLE		
 		JLabel lblTitle = new JLabel("ORDER NO. #");
 		lblTitle.setForeground(new Color(144, 124, 81));
 		lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
@@ -367,8 +367,10 @@ public class OrderWindow extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
-					Double.parseDouble(textFieldOrderPrice.getText());
+					Double number = Double.parseDouble(textFieldOrderPrice.getText());
 					lblOrderPriceError.setVisible(false);
+					if(number < 0)
+						lblOrderPriceError.setVisible(true);
 				} catch(NumberFormatException ex) {
 					lblOrderPriceError.setVisible(true);
 				}
@@ -403,8 +405,10 @@ public class OrderWindow extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
-					Double.parseDouble(textFieldDeposit.getText());
+					Double number = Double.parseDouble(textFieldDeposit.getText());
 					lblDepositError.setVisible(false);
+					if(number < 0)
+						lblDepositError.setVisible(true);
 				} catch(NumberFormatException ex) {
 					lblDepositError.setVisible(true);
 				}
