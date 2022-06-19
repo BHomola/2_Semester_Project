@@ -59,7 +59,6 @@ public class OrderWindow extends JFrame {
 	private JLabel lblOrderPriceError;
 	private JLabel lblDepositError;
 	private JLabel lblEmployeeError;
-	
 
 	/**
 	 * Launch the application.
@@ -85,7 +84,7 @@ public class OrderWindow extends JFrame {
 //FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
 		setTitle("Santorina");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(320, 180, 1280, 720);
 
 //CONTENT PANE
@@ -129,7 +128,8 @@ public class OrderWindow extends JFrame {
 		lblClose.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.exit(0);
+//				System.exit(0);				
+				dispose();
 			}
 		});		
 		
@@ -163,7 +163,7 @@ public class OrderWindow extends JFrame {
 		JLabel lblTitle = new JLabel("ORDER NO. #");
 		lblTitle.setForeground(new Color(144, 124, 81));
 		lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
-		lblTitle.setBounds(105, 60, 515, 100);
+		lblTitle.setBounds(105, 60, 515, 94);
 		contentPane.add(lblTitle);
 		
 		lblEditCheck = new JLabel("");
@@ -194,7 +194,7 @@ public class OrderWindow extends JFrame {
 						case 2:
 							return;	
 					}
-						lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton.png")));
+						lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton2.png")));
 						lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/deleteButton.png")));
 						contentPane.grabFocus();
 						isEditPressed = false;
@@ -203,7 +203,7 @@ public class OrderWindow extends JFrame {
 				}
 			}
 		});
-		lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton.png")));
+		lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton2.png")));
 		lblEditCheck.setBounds(998, 85, 50, 50);
 		contentPane.add(lblEditCheck);
 		
@@ -212,7 +212,7 @@ public class OrderWindow extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(isEditPressed) {
-				lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton.png")));
+				lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton2.png")));
 				lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/deleteButton.png")));
 				contentPane.grabFocus();
 				isEditPressed = false;

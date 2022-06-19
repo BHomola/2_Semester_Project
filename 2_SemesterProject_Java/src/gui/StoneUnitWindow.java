@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -61,7 +62,6 @@ public class StoneUnitWindow extends JFrame {
 	private JLabel lblMaterialTypeError;
 	private CardLayout cardLayout;
 	private JPanel cardPane;
-	
 
 	/**
 	 * Launch the application.
@@ -89,7 +89,7 @@ public class StoneUnitWindow extends JFrame {
 //FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
 		setTitle("Santorina");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(320, 180, 1280, 720);
 
 //CONTENT PANE
@@ -133,7 +133,8 @@ public class StoneUnitWindow extends JFrame {
 		lblClose.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.exit(0);
+//				System.exit(0);
+				dispose();
 			}
 		});		
 		
@@ -178,7 +179,7 @@ public class StoneUnitWindow extends JFrame {
 				
 //TITLE		
 		JLabel lblTitle = new JLabel("STONE UNIT");
-		lblTitle.setBounds(105, 0, 420, 100);
+		lblTitle.setBounds(105, 0, 420, 94);
 		stoneUnitPane.add(lblTitle);
 		lblTitle.setForeground(new Color(144, 124, 81));
 		lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
@@ -213,7 +214,7 @@ public class StoneUnitWindow extends JFrame {
 						case 2:
 							return;	
 					}
-						lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/editButton.png")));
+						lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/editButton2.png")));
 						lblDeleteStorno.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/deleteButton.png")));
 						contentPane.grabFocus();
 						isEditPressed = false;
@@ -222,7 +223,7 @@ public class StoneUnitWindow extends JFrame {
 				}
 			}
 		});
-		lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/editButton.png")));
+		lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/editButton2.png")));
 		
 		lblDeleteStorno = new JLabel("");
 		lblDeleteStorno.setBounds(1060, 25, 50, 50);
@@ -231,7 +232,7 @@ public class StoneUnitWindow extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(isEditPressed) {
-				lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/editButton.png")));
+				lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/editButton2.png")));
 				lblDeleteStorno.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/deleteButton.png")));
 				contentPane.grabFocus();
 				isEditPressed = false;
@@ -257,6 +258,17 @@ public class StoneUnitWindow extends JFrame {
 		lblTree.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/treeButton.png")));
 		
 		JLabel lblMore = new JLabel("");
+		lblMore.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+//				StoneUnitRemainsWindow stoneUnitRemains = new StoneUnitRemainsWindow();
+//				stoneUnitRemains.setVisible(true);
+//				StoneUnitCuttableWindow stoneUnitCuttable = new StoneUnitCuttableWindow();
+//				stoneUnitCuttable.setVisible(true);
+				StoneUnitProductWindow stoneUnitProduct = new StoneUnitProductWindow();
+				stoneUnitProduct.setVisible(true);
+			}
+		});
 		lblMore.setBounds(1200, 25, 50, 50);
 		stoneUnitPane.add(lblMore);
 		lblMore.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/moreButton.png")));
@@ -352,8 +364,8 @@ public class StoneUnitWindow extends JFrame {
 		lblOrderPriceError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblOrderPriceError.setForeground(Color.RED);
 		
-		JLabel lblWidthDescription = new JLabel("WIDTH (CM)");
-		lblWidthDescription.setBounds(615, 337, 119, 27);
+		JLabel lblWidthDescription = new JLabel("WIDTH (MM)");
+		lblWidthDescription.setBounds(604, 337, 130, 27);
 		stoneUnitPane.add(lblWidthDescription);
 		lblWidthDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblWidthDescription.setForeground(new Color(255, 238, 202));
