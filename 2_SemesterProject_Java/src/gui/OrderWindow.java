@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
@@ -24,6 +23,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import model.DeliveryStatuses;
+import javax.swing.SwingConstants;
 
 public class OrderWindow extends JFrame {
 
@@ -58,7 +58,7 @@ public class OrderWindow extends JFrame {
 	private JLabel lblPersonError;
 	private JLabel lblOrderPriceError;
 	private JLabel lblDepositError;
-	private Container lblEmployeeError;
+	private JLabel lblEmployeeError;
 	
 
 	/**
@@ -285,9 +285,10 @@ public class OrderWindow extends JFrame {
 		contentPane.add(textFieldAddress);
 		
 		JLabel lblAddressDescription = new JLabel("DELIVERY ADDRESS");
+		lblAddressDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblAddressDescription.setForeground(new Color(255, 238, 202));
-		lblAddressDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblAddressDescription.setBounds(548, 261, 186, 27);
+		lblAddressDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblAddressDescription.setBounds(547, 262, 190, 27);
 		contentPane.add(lblAddressDescription);
 		
 		textFieldCity = new JTextField();
@@ -302,9 +303,10 @@ public class OrderWindow extends JFrame {
 		contentPane.add(textFieldCity);
 		
 		JLabel lblCityDescription = new JLabel("CITY");
+		lblCityDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCityDescription.setForeground(new Color(255, 238, 202));
-		lblCityDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblCityDescription.setBounds(690, 329, 44, 27);
+		lblCityDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblCityDescription.setBounds(693, 330, 44, 27);
 		contentPane.add(lblCityDescription);
 		
 		comboBoxDeliveryStatus = new JComboBox();
@@ -321,9 +323,10 @@ public class OrderWindow extends JFrame {
 		contentPane.add(comboBoxDeliveryStatus);
 		
 		JLabel lblDeliveryStatusDescription = new JLabel("DELIVERY STATUS");
+		lblDeliveryStatusDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDeliveryStatusDescription.setForeground(new Color(255, 238, 202));
-		lblDeliveryStatusDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblDeliveryStatusDescription.setBounds(556, 397, 168, 27);
+		lblDeliveryStatusDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblDeliveryStatusDescription.setBounds(565, 397, 172, 27);
 		contentPane.add(lblDeliveryStatusDescription);
 		
 		textFieldDeliveryDate = new JTextField();
@@ -339,8 +342,8 @@ public class OrderWindow extends JFrame {
 		
 		JLabel lblDeliveryDateDescription = new JLabel("DELIVERY DATE");
 		lblDeliveryDateDescription.setForeground(new Color(255, 238, 202));
-		lblDeliveryDateDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblDeliveryDateDescription.setBounds(588, 465, 146, 27);
+		lblDeliveryDateDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblDeliveryDateDescription.setBounds(587, 466, 150, 27);
 		contentPane.add(lblDeliveryDateDescription);
 		
 		textFieldOrderPrice = new JTextField();
@@ -372,10 +375,11 @@ public class OrderWindow extends JFrame {
 			}
 		});
 		
-		JLabel lblOrderPriceDescription = new JLabel("ODER PRICE");
+		JLabel lblOrderPriceDescription = new JLabel("ODER PRICE (\u20AC)");
+		lblOrderPriceDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblOrderPriceDescription.setForeground(new Color(255, 238, 202));
-		lblOrderPriceDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblOrderPriceDescription.setBounds(608, 533, 126, 27);
+		lblOrderPriceDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblOrderPriceDescription.setBounds(587, 534, 150, 27);
 		contentPane.add(lblOrderPriceDescription);
 		
 		textFieldDeposit = new JTextField();
@@ -446,9 +450,10 @@ public class OrderWindow extends JFrame {
 		contentPane.add(lblPaidNote);
 		
 		JLabel lblDepositDescription = new JLabel("DEPOPSIT/ISPAID");
+		lblDepositDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDepositDescription.setForeground(new Color(255, 238, 202));
-		lblDepositDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblDepositDescription.setBounds(580, 601, 154, 27);
+		lblDepositDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblDepositDescription.setBounds(565, 602, 172, 27);
 		contentPane.add(lblDepositDescription);
 		
 		textFieldCustomerNote = new JTextField();
@@ -463,9 +468,10 @@ public class OrderWindow extends JFrame {
 		contentPane.add(textFieldCustomerNote);
 		
 		JLabel lblCustomerNoteDescription = new JLabel("CUSTOMER NOTE");
+		lblCustomerNoteDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCustomerNoteDescription.setForeground(new Color(255, 238, 202));
-		lblCustomerNoteDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblCustomerNoteDescription.setBounds(568, 669, 166, 27);
+		lblCustomerNoteDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblCustomerNoteDescription.setBounds(565, 670, 172, 27);
 		contentPane.add(lblCustomerNoteDescription);
 		
 		JLabel lblEmployee = new JLabel("EMPLOYEE");
@@ -498,8 +504,9 @@ public class OrderWindow extends JFrame {
 		contentPane.add(textFieldOffice);
 		
 		JLabel lblOfficeDescription = new JLabel("OFFICE");
+		lblOfficeDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblOfficeDescription.setForeground(new Color(255, 238, 202));
-		lblOfficeDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+		lblOfficeDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		lblOfficeDescription.setBounds(1199, 261, 66, 27);
 		contentPane.add(lblOfficeDescription);
 		
@@ -515,8 +522,9 @@ public class OrderWindow extends JFrame {
 		contentPane.add(textFieldOfficeAddress);
 		
 		JLabel lblOfficeAddressDescription = new JLabel("ADDRESS");
+		lblOfficeAddressDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblOfficeAddressDescription.setForeground(new Color(255, 238, 202));
-		lblOfficeAddressDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+		lblOfficeAddressDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		lblOfficeAddressDescription.setBounds(1175, 331, 90, 27);
 		contentPane.add(lblOfficeAddressDescription);
 		
@@ -532,8 +540,9 @@ public class OrderWindow extends JFrame {
 		contentPane.add(textFieldOfficeCity);
 		
 		JLabel lblOfficeCityDescription = new JLabel("CITY");
+		lblOfficeCityDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblOfficeCityDescription.setForeground(new Color(255, 238, 202));
-		lblOfficeCityDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+		lblOfficeCityDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		lblOfficeCityDescription.setBounds(1221, 399, 44, 27);
 		contentPane.add(lblOfficeCityDescription);
 		
