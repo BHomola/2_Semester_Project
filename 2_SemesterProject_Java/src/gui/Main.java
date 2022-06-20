@@ -6,9 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.LoginController;
 import controller.StoneController;
 import dataaccess.DBConnection;
 import model.IStoneUnit;
+import model.Login;
 import model.StoneUnit;
 
 import javax.swing.JLabel;
@@ -310,9 +312,32 @@ public class Main extends JFrame {
 		JButton btnSignIn = new JButton("SIGN IN");
 		btnSignIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+		/*		LoginController loginC = new LoginController();
+				String inputedUsername = textFieldUsername.getText();
+				@SuppressWarnings("deprecation")
+				String inputedPassword = passwordField.getText();
+				try {
+					for(Login l : loginC.getAllLogins()) {
+						if(inputedUsername.equals(l.getUsername())) {
+							if(inputedPassword.equals(l.getPassword())) {
+								contentPane.updateUI();
+
+							cardLayout.show(cardPane, "name_66960487401900");
+						break;
+							}
+						}
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			*/	
 				contentPane.updateUI();
 
 				cardLayout.show(cardPane, "name_66960487401900");
+		
 			}
 		});
 		btnSignIn.setBorder(null);

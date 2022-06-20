@@ -29,12 +29,6 @@ class TestCityLocation {
 		city = new City( "MD-2000","Chisinau", "Moldova");
 		location = new Location( "Main Storage", "Vesterbro 34", 1);
 	}
-	
-
-	@AfterEach
-	void tearDown() throws Exception {
-		
-	}
 
 	@Order(1)
 	@Test
