@@ -38,7 +38,7 @@ public class StoneUnitProductWindow extends JFrame {
 	private JLabel lblPriceError;
 	private JLabel lblShapeError;
 	private JTextField textFieldTotalSize;
-	private JLabel lblTotalSizeError;
+//	private JLabel lblTotalSizeError;
 	/**
 	 * Launch the application.
 	 */
@@ -153,7 +153,7 @@ public class StoneUnitProductWindow extends JFrame {
 					lblStorno.setVisible(true);
 					isEditPressed = true;
 					switchEditable();
-					textFieldTotalSize.grabFocus();
+					textFieldPrice.grabFocus();
 				} else {
 					if(haveErrors()) {
 						JOptionPane.showMessageDialog(null, "Check Errors!", "ERROR!", JOptionPane.ERROR_MESSAGE);
@@ -200,6 +200,7 @@ public class StoneUnitProductWindow extends JFrame {
 		lblStorno.setVisible(false);
 		contentPane.add(lblStorno);
 		
+//CONTENT		
 		JLabel lblWindowOrderBar = new JLabel("");
 		lblWindowOrderBar.setIcon(new ImageIcon(StoneUnitProductWindow.class.getResource("/imgs/windowTitleBar.png")));
 		lblWindowOrderBar.setBounds(0, 60, 1280, 100);
@@ -259,31 +260,31 @@ public class StoneUnitProductWindow extends JFrame {
 		textFieldTotalSize.setEditable(false);
 		contentPane.add(textFieldTotalSize);
 		
-		lblTotalSizeError = new JLabel("Must be a positive number! (devided by dot)");
-		lblTotalSizeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		lblTotalSizeError.setForeground(Color.RED);
-		lblTotalSizeError.setBounds(110, 293, 240, 14);
-		lblTotalSizeError.setVisible(false);
-		contentPane.add(lblTotalSizeError);
-		textFieldTotalSize.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				try {
-					Double number = Double.parseDouble(textFieldTotalSize.getText());
-					lblTotalSizeError.setVisible(false);
-					if(number < 0)
-						lblTotalSizeError.setVisible(true);
-				} catch(NumberFormatException ex) {
-					lblTotalSizeError.setVisible(true);
-				}
-			}
-		});
+//		lblTotalSizeError = new JLabel("Must be a positive number! (devided by dot)");
+//		lblTotalSizeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+//		lblTotalSizeError.setForeground(Color.RED);
+//		lblTotalSizeError.setBounds(110, 293, 240, 14);
+//		lblTotalSizeError.setVisible(false);
+//		contentPane.add(lblTotalSizeError);
+//		textFieldTotalSize.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				try {
+//					Double number = Double.parseDouble(textFieldTotalSize.getText());
+//					lblTotalSizeError.setVisible(false);
+//					if(number < 0)
+//						lblTotalSizeError.setVisible(true);
+//				} catch(NumberFormatException ex) {
+//					lblTotalSizeError.setVisible(true);
+//				}
+//			}
+//		});
 		
 		JLabel lblTotalSizeDescription = new JLabel("TOTAL SIZE (CM^2)");
 		lblTotalSizeDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTotalSizeDescription.setForeground(new Color(255, 238, 202));
 		lblTotalSizeDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblTotalSizeDescription.setBounds(551, 266, 186, 27);
+		lblTotalSizeDescription.setBounds(551, 261, 186, 27);
 		contentPane.add(lblTotalSizeDescription);
 		
 		JLabel lblShape = new JLabel("SHAPE");
@@ -292,7 +293,7 @@ public class StoneUnitProductWindow extends JFrame {
 		lblShape.setBounds(108, 308, 128, 53);
 		contentPane.add(lblShape);
 		
-		lblShapeError = new JLabel("Must not be empty!");
+		lblShapeError = new JLabel("Must be set!");
 		lblShapeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblShapeError.setForeground(Color.RED);
 		lblShapeError.setBounds(110, 361, 108, 14);
@@ -317,7 +318,8 @@ public class StoneUnitProductWindow extends JFrame {
 	}
 	
 	private boolean haveErrors() {
-		return lblPriceError.isVisible() || lblShapeError.isVisible() || lblTotalSizeError.isVisible() ;
+		return lblPriceError.isVisible() || lblShapeError.isVisible();
+		// || lblTotalSizeError.isVisible()
 	}
 
 	private void checkMaximizeRestore() {
@@ -335,10 +337,10 @@ public class StoneUnitProductWindow extends JFrame {
 	private void switchEditable() {
 		if(isEditPressed) {
 			textFieldPrice.setEditable(true);
-			textFieldTotalSize.setEditable(true);
+//			textFieldTotalSize.setEditable(true);
 		} else {
 			textFieldPrice.setEditable(false);
-			textFieldTotalSize.setEditable(false);
+//			textFieldTotalSize.setEditable(false);
 		}
 		
 	}

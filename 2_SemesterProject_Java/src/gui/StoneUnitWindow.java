@@ -56,7 +56,7 @@ public class StoneUnitWindow extends JFrame {
 	private JTextField textFieldId;
 	private JComboBox<?> comboBoxStatus;
 	private JLabel lblSupplierError;
-	private JLabel lblOrderPriceError;
+	private JLabel lblWidthError;
 	private JLabel lblWeightError;
 	private JLabel lblEmployeeError;
 	private JLabel lblMaterialTypeError;
@@ -185,7 +185,7 @@ public class StoneUnitWindow extends JFrame {
 		lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
 		
 		lblEditCheck = new JLabel("");
-		lblEditCheck.setBounds(998, 25, 50, 50);
+		lblEditCheck.setBounds(1000, 25, 50, 50);
 		stoneUnitPane.add(lblEditCheck);
 		lblEditCheck.addMouseListener(new MouseAdapter() {
 			@Override
@@ -263,8 +263,10 @@ public class StoneUnitWindow extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 //				StoneUnitRemainsWindow stoneUnitRemains = new StoneUnitRemainsWindow();
 //				stoneUnitRemains.setVisible(true);
+				
 //				StoneUnitCuttableWindow stoneUnitCuttable = new StoneUnitCuttableWindow();
 //				stoneUnitCuttable.setVisible(true);
+				
 				StoneUnitProductWindow stoneUnitProduct = new StoneUnitProductWindow();
 				stoneUnitProduct.setVisible(true);
 			}
@@ -284,13 +286,9 @@ public class StoneUnitWindow extends JFrame {
 		lblSplitLine.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/splitLine.png")));
 		
 //CONTENT	
-		
-		
-		
-		textFieldId = new JTextField();
+		textFieldId = new JTextField("ID");
 		textFieldId.setBounds(108, 112, 430, 53);
 		stoneUnitPane.add(textFieldId);
-		textFieldId.setText("ID");
 		textFieldId.setBorder(null);
 		textFieldId.setDisabledTextColor(Color.WHITE);
 		textFieldId.setBackground(Color.WHITE);
@@ -358,11 +356,11 @@ public class StoneUnitWindow extends JFrame {
 		textFieldWidth.setFont(new Font("Segoe UI", Font.BOLD, 40));
 		textFieldWidth.setEditable(false);
 		
-		lblOrderPriceError = new JLabel("Must be a positive number! (devided by dot)");
-		lblOrderPriceError.setBounds(110, 369, 337, 14);
-		stoneUnitPane.add(lblOrderPriceError);
-		lblOrderPriceError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		lblOrderPriceError.setForeground(Color.RED);
+		lblWidthError = new JLabel("Must be a positive number! (devided by dot)");
+		lblWidthError.setBounds(110, 369, 337, 14);
+		stoneUnitPane.add(lblWidthError);
+		lblWidthError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblWidthError.setForeground(Color.RED);
 		
 		JLabel lblWidthDescription = new JLabel("WIDTH (MM)");
 		lblWidthDescription.setBounds(604, 337, 130, 27);
@@ -401,17 +399,17 @@ public class StoneUnitWindow extends JFrame {
 				}
 			}
 		});
-		lblOrderPriceError.setVisible(false);
+		lblWidthError.setVisible(false);
 		textFieldWidth.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
 					Double number = Double.parseDouble(textFieldWidth.getText());
-					lblOrderPriceError.setVisible(false);
+					lblWidthError.setVisible(false);
 					if(number < 0)
-						lblOrderPriceError.setVisible(true);
+						lblWidthError.setVisible(true);
 				} catch(NumberFormatException ex) {
-					lblOrderPriceError.setVisible(true);
+					lblWidthError.setVisible(true);
 				}
 			}
 		});
@@ -531,8 +529,8 @@ public class StoneUnitWindow extends JFrame {
 		lblLocationCityDescription.setForeground(new Color(255, 238, 202));
 		lblLocationCityDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
-		JLabel lblSupplier = new JLabel("SUPPLIER");
-		lblSupplier.setBounds(760, 316, 182, 53);
+		JLabel lblSupplier = new JLabel("SUPPLIER(S)");
+		lblSupplier.setBounds(760, 316, 235, 53);
 		stoneUnitPane.add(lblSupplier);
 		lblSupplier.setForeground(new Color(192, 176, 131));
 		lblSupplier.setFont(new Font("Segoe UI", Font.BOLD, 40));
@@ -544,12 +542,12 @@ public class StoneUnitWindow extends JFrame {
 		lblSupplierError.setForeground(Color.RED);
 		
 		JLabel lblMoveToSupplier = new JLabel("");
-		lblMoveToSupplier.setBounds(953, 333, 25, 25);
+		lblMoveToSupplier.setBounds(996, 333, 25, 25);
 		stoneUnitPane.add(lblMoveToSupplier);
 		lblMoveToSupplier.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/moveto2.png")));
 		
 		JLabel lblEmployee = new JLabel("EMPLOYEE");
-		lblEmployee.setBounds(1028, 316, 200, 53);
+		lblEmployee.setBounds(1035, 316, 200, 53);
 		stoneUnitPane.add(lblEmployee);
 		lblEmployee.setForeground(new Color(192, 176, 131));
 		lblEmployee.setFont(new Font("Segoe UI", Font.BOLD, 40));
@@ -629,7 +627,7 @@ public class StoneUnitWindow extends JFrame {
 		lblStornoSmall.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/stornoSmall.png")));
 		
 		JScrollPane updatesScrollPane = new JScrollPane();
-		updatesScrollPane.setBounds(760, 452, 505, 184);
+		updatesScrollPane.setBounds(760, 437, 505, 212);
 		stoneUnitPane.add(updatesScrollPane);
 		updatesScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		updatesScrollPane.setBorder(null);
@@ -676,7 +674,7 @@ public class StoneUnitWindow extends JFrame {
 	}
 		
 	private boolean haveErrors() {
-		return lblSupplierError.isVisible() || lblOrderPriceError.isVisible() || lblWeightError.isVisible() || lblEmployeeError.isVisible();
+		return lblSupplierError.isVisible() || lblWidthError.isVisible() || lblWeightError.isVisible() || lblEmployeeError.isVisible();
 	}
 
 	private void checkMaximizeRestore() {

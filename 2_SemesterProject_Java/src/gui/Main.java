@@ -40,6 +40,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
 
 public class Main extends JFrame {
 
@@ -351,16 +352,18 @@ public class Main extends JFrame {
 		sidePane.add(lblLogout);
 
 		JLabel lblDate = new JLabel();
+		lblDate.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()));
 		lblDate.setForeground(new Color(255, 238, 202));
 		lblDate.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
-		lblDate.setBounds(86, 118, 131, 40);
+		lblDate.setBounds(0, 118, 300, 40);
 		sidePane.add(lblDate);
 
 		lblTime = new JLabel("10:30:47");
+		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTime.setForeground(new Color(255, 238, 202));
 		lblTime.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
-		lblTime.setBounds(99, 152, 110, 40);
+		lblTime.setBounds(0, 152, 300, 40);
 		sidePane.add(lblTime);
 
 		JLabel lblOrders = new JLabel("Orders");

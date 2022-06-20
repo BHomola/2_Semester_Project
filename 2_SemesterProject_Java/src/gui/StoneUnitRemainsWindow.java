@@ -208,6 +208,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 		lblSplitLine.setBounds(747, 200, 1, 500);
 		contentPane.add(lblSplitLine);
 		
+//CONTENT		
 		textFieldPieces = new JTextField();
 		textFieldPieces.setText("PIECES");
 		textFieldPieces.setBorder(null);

@@ -13,10 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
-public class StoneUnitCuttableWindow extends JFrame {
+public class ProfileSupplierWindow extends JFrame {
 
 	/**
 	 * 
@@ -31,9 +29,9 @@ public class StoneUnitCuttableWindow extends JFrame {
 	private boolean isMaximizePressed;
 	private int x;
 	private int y;
-	private JTextField textFieldTotalSize;
+//	private JTextField textFieldTotalSize;
 //	private JLabel lblTotalSizeError;
-	private JLabel lblShapeError;
+//	private JLabel lblShapeError;
 
 	/**
 	 * Launch the application.
@@ -42,7 +40,7 @@ public class StoneUnitCuttableWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StoneUnitCuttableWindow frame = new StoneUnitCuttableWindow();
+					ProfileSupplierWindow frame = new ProfileSupplierWindow();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,7 +52,7 @@ public class StoneUnitCuttableWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public StoneUnitCuttableWindow() {
+	public ProfileSupplierWindow() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
@@ -134,10 +132,10 @@ public class StoneUnitCuttableWindow extends JFrame {
 		titleBarPane.add(lblMinimize);
 		
 //TITLE		
-		JLabel lblTitle = new JLabel("CUTTABLE STONE");
+		JLabel lblTitle = new JLabel("SUPPLIER, NAME");
 		lblTitle.setForeground(new Color(144, 124, 81));
 		lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
-		lblTitle.setBounds(105, 60, 590, 94);
+		lblTitle.setBounds(105, 60, 565, 94);
 		contentPane.add(lblTitle);
 		
 //		lblEditCheck = new JLabel("");
@@ -145,7 +143,7 @@ public class StoneUnitCuttableWindow extends JFrame {
 //			@Override
 //			public void mouseClicked(MouseEvent e) {
 //				if(!isEditPressed) {
-//					lblEditCheck.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/confirm1.png")));
+//					lblEditCheck.setIcon(new ImageIcon(ProfileSupplierWindow.class.getResource("/imgs/confirm1.png")));
 //					lblStorno.setVisible(true);
 //					isEditPressed = true;
 //					switchEditable();
@@ -168,7 +166,7 @@ public class StoneUnitCuttableWindow extends JFrame {
 //						case 2:
 //							return;	
 //					}
-//						lblEditCheck.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/editButton2.png")));
+//						lblEditCheck.setIcon(new ImageIcon(ProfileSupplierWindow.class.getResource("/imgs/editButton2.png")));
 //						lblStorno.setVisible(false);
 //						contentPane.grabFocus();
 //						isEditPressed = false;
@@ -176,10 +174,7 @@ public class StoneUnitCuttableWindow extends JFrame {
 //				}
 //			}
 //		});
-//		lblEditCheck.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/editButton2.png")));
-//		lblEditCheck.setBounds(1060, 85, 50, 50);
-//		contentPane.add(lblEditCheck);
-//				
+		
 //		lblStorno = new JLabel("");
 //		lblStorno.addMouseListener(new MouseAdapter() {
 //			@Override
@@ -191,33 +186,37 @@ public class StoneUnitCuttableWindow extends JFrame {
 //				switchEditable();
 //			}
 //		});
-//		lblStorno.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/storno.png")));
+//		lblStorno.setIcon(new ImageIcon(ProfileSupplierWindow.class.getResource("/imgs/storno.png")));
 //		lblStorno.setBounds(1120, 85, 50, 50);
 //		lblStorno.setVisible(false);
-//		contentPane.add(lblStorno);
-
+//		contentPane.add(lblStorno);		
+//		lblEditCheck.setIcon(new ImageIcon(ProfileSupplierWindow.class.getResource("/imgs/editButton2.png")));
+//		lblEditCheck.setBounds(1060, 85, 50, 50);
+//		contentPane.add(lblEditCheck);
+//		
+		
 //CONTENT
 		JLabel lblWindowOrderBar = new JLabel("");
-		lblWindowOrderBar.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/windowTitleBar.png")));
+		lblWindowOrderBar.setIcon(new ImageIcon(ProfileSupplierWindow.class.getResource("/imgs/windowTitleBar.png")));
 		lblWindowOrderBar.setBounds(0, 60, 1280, 100);
 		contentPane.add(lblWindowOrderBar);
 		
-		JLabel lblSplitLine = new JLabel("");
-		lblSplitLine.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/splitLine.png")));
-		lblSplitLine.setBounds(747, 200, 1, 500);
-		contentPane.add(lblSplitLine);
+//		JLabel lblSplitLine = new JLabel("");
+//		lblSplitLine.setIcon(new ImageIcon(ProfileSupplierWindow.class.getResource("/imgs/splitLine.png")));
+//		lblSplitLine.setBounds(747, 200, 1, 500);
+//		contentPane.add(lblSplitLine);
 		
-		textFieldTotalSize = new JTextField();
-		textFieldTotalSize.setText("TOTAL SIZE");
-		textFieldTotalSize.setBorder(null);
-		textFieldTotalSize.setDisabledTextColor(Color.WHITE);
-		textFieldTotalSize.setBackground(Color.WHITE);
-		textFieldTotalSize.setForeground(new Color(192, 176, 131));
-		textFieldTotalSize.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldTotalSize.setBounds(108, 172, 430, 53);
-		textFieldTotalSize.setEditable(false);
-		contentPane.add(textFieldTotalSize);
-		
+//		textFieldTotalSize = new JTextField();
+//		textFieldTotalSize.setText("TOTAL SIZE");
+//		textFieldTotalSize.setBorder(null);
+//		textFieldTotalSize.setDisabledTextColor(Color.WHITE);
+//		textFieldTotalSize.setBackground(Color.WHITE);
+//		textFieldTotalSize.setForeground(new Color(192, 176, 131));
+//		textFieldTotalSize.setFont(new Font("Segoe UI", Font.BOLD, 40));
+//		textFieldTotalSize.setBounds(108, 172, 430, 53);
+//		textFieldTotalSize.setEditable(false);
+//		contentPane.add(textFieldTotalSize);
+//		
 //		lblTotalSizeError = new JLabel("Must be a positive number! (devided by dot)");
 //		lblTotalSizeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 //		lblTotalSizeError.setForeground(Color.RED);
@@ -238,35 +237,34 @@ public class StoneUnitCuttableWindow extends JFrame {
 //			}
 //		});
 		
-		JLabel lblTotalSizeDescription = new JLabel("TOTAL SIZE (CM^2)");
-		lblTotalSizeDescription.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTotalSizeDescription.setForeground(new Color(255, 238, 202));
-		lblTotalSizeDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblTotalSizeDescription.setBounds(548, 193, 186, 27);
-		contentPane.add(lblTotalSizeDescription);
+//		JLabel lblTotalSizeDescription = new JLabel("TOTAL SIZE (CM^2)");
+//		lblTotalSizeDescription.setHorizontalAlignment(SwingConstants.RIGHT);
+//		lblTotalSizeDescription.setForeground(new Color(255, 238, 202));
+//		lblTotalSizeDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
+//		lblTotalSizeDescription.setBounds(548, 193, 186, 27);
+//		contentPane.add(lblTotalSizeDescription);
 		
-		JLabel lblShape = new JLabel("SHAPE");
+		JLabel lblShape = new JLabel("SELECTION OF PRODUCTS");
 		lblShape.setForeground(new Color(192, 176, 131));
 		lblShape.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblShape.setBounds(108, 240, 128, 53);
+		lblShape.setBounds(108, 172, 492, 53);
 		contentPane.add(lblShape);
 		
-		lblShapeError = new JLabel("Must be set!");
-		lblShapeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		lblShapeError.setForeground(Color.RED);
-		lblShapeError.setBounds(110, 293, 108, 14);
-//		lblPersonError.setVisible(false);
-		contentPane.add(lblShapeError);
+//		lblShapeError = new JLabel("Must be set!");
+//		lblShapeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+//		lblShapeError.setForeground(Color.RED);
+//		lblShapeError.setBounds(110, 293, 108, 14);
+//		//lblPersonError.setVisible(false);
+//		contentPane.add(lblShapeError);
 		
 		JLabel lblMoveToShape = new JLabel("");
 		lblMoveToShape.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
-		lblMoveToShape.setBounds(247, 257, 25, 25);
+		lblMoveToShape.setBounds(612, 189, 25, 25);
 		contentPane.add(lblMoveToShape);
 	}
 	
 //	private boolean haveErrors() {
-//		return lblShapeError.isVisible();
-//		//|| lblTotalSizeError.isVisible();
+//		return lblTotalSizeError.isVisible() || lblShapeError.isVisible();
 //	}
 
 	private void checkMaximizeRestore() {
@@ -279,6 +277,7 @@ public class StoneUnitCuttableWindow extends JFrame {
 				lblMaximizeRestore.setIcon(new ImageIcon(Main.class.getResource("/imgs/maximize2.png")));
 				isMaximizePressed = false;
 			}
+		
 	}	
 //	private void switchEditable() {
 //		if(isEditPressed) {
@@ -286,6 +285,5 @@ public class StoneUnitCuttableWindow extends JFrame {
 //		} else {
 //			textFieldTotalSize.setEditable(false);
 //		}
-//		
 //	}
 }

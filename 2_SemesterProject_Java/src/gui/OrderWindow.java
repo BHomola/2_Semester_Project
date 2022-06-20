@@ -204,7 +204,7 @@ public class OrderWindow extends JFrame {
 			}
 		});
 		lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton2.png")));
-		lblEditCheck.setBounds(998, 85, 50, 50);
+		lblEditCheck.setBounds(1000, 85, 50, 50);
 		contentPane.add(lblEditCheck);
 		
 		lblDeleteStorno = new JLabel("");
@@ -262,10 +262,10 @@ public class OrderWindow extends JFrame {
 		lblMoveToPerson.setBounds(275, 189, 25, 25);
 		contentPane.add(lblMoveToPerson);
 		
-		JLabel lblProducts = new JLabel("PRODUCTS");
+		JLabel lblProducts = new JLabel("PRODUCT(S)");
 		lblProducts.setForeground(new Color(192, 176, 131));
 		lblProducts.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblProducts.setBounds(487, 172, 210, 53);
+		lblProducts.setBounds(459, 172, 240, 53);
 		contentPane.add(lblProducts);
 		
 		JLabel lblMoveToProducts = new JLabel("");
@@ -288,7 +288,7 @@ public class OrderWindow extends JFrame {
 		lblAddressDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblAddressDescription.setForeground(new Color(255, 238, 202));
 		lblAddressDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblAddressDescription.setBounds(547, 262, 190, 27);
+		lblAddressDescription.setBounds(547, 261, 190, 27);
 		contentPane.add(lblAddressDescription);
 		
 		textFieldCity = new JTextField();
@@ -306,7 +306,7 @@ public class OrderWindow extends JFrame {
 		lblCityDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCityDescription.setForeground(new Color(255, 238, 202));
 		lblCityDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblCityDescription.setBounds(693, 330, 44, 27);
+		lblCityDescription.setBounds(693, 329, 44, 27);
 		contentPane.add(lblCityDescription);
 		
 		comboBoxDeliveryStatus = new JComboBox();
@@ -415,18 +415,18 @@ public class OrderWindow extends JFrame {
 			}
 		});
 		
-		JLabel lblisPaid = new JLabel("");
+		JLabel lblIsPaid = new JLabel("");
 		//GET DATA
 		isPaid = true;
-		lblisPaid.addMouseListener(new MouseAdapter() {
+		lblIsPaid.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(isEditPressed)
 					if(isPaid) {
-						lblisPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/falseIcon3.png")));
+						lblIsPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/falseIcon3.png")));
 						isPaid = false;
 					} else {
-						lblisPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/trueIcon3.png")));
+						lblIsPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/trueIcon3.png")));
 						isPaid = true;
 					}
 			}
@@ -441,11 +441,11 @@ public class OrderWindow extends JFrame {
 			}
 		});
 		if(isPaid)
-			lblisPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/trueIcon3.png")));
+			lblIsPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/trueIcon3.png")));
 		if(!isPaid)
-			lblisPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/falseIcon3.png")));
-		lblisPaid.setBounds(286, 597, 28, 28);
-		contentPane.add(lblisPaid);
+			lblIsPaid.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/falseIcon3.png")));
+		lblIsPaid.setBounds(286, 597, 28, 28);
+		contentPane.add(lblIsPaid);
 		
 		lblPaidNote = new JLabel("Click to change");
 		lblPaidNote.setFont(new Font("Segoe UI", Font.PLAIN, 11));
@@ -617,7 +617,7 @@ public class OrderWindow extends JFrame {
 		JScrollPane updatesScrollPane = new JScrollPane();
 		updatesScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		updatesScrollPane.setBorder(null);
-		updatesScrollPane.setBounds(760, 512, 505, 184);
+		updatesScrollPane.setBounds(760, 497, 505, 212);
 		updatesScrollPane.getVerticalScrollBar().setUnitIncrement(4);
 		contentPane.add(updatesScrollPane);
 		
