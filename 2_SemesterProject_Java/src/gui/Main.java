@@ -58,6 +58,7 @@ public class Main extends JFrame {
 	JLabel lblLoading;
 	private JLabel lblMaximizeRestore;
 	private boolean isMaximizePressed;
+	private JLabel lblLoadingIcon;
 
 	/**
 	 * Launch the application.
@@ -184,20 +185,27 @@ public class Main extends JFrame {
 
 		lblCheckOff = new JLabel("");
 		lblCheckOff.setIcon(new ImageIcon(Main.class.getResource("/imgs/checkOFF.png")));
-		lblCheckOff.setBounds(1204, 16, 17, 17);
+		lblCheckOff.setBounds(1418, 15, 17, 17);
 		infoPane.add(lblCheckOff);
 
 		lblDatabaseStatus = new JLabel("Connecting...");
 		lblDatabaseStatus.setForeground(new Color(172, 172, 172));
 		lblDatabaseStatus.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
-		lblDatabaseStatus.setBounds(1231, 0, 379, 40);
+		lblDatabaseStatus.setBounds(1442, 0, 166, 40);
 		infoPane.add(lblDatabaseStatus);
 
 		lblLoading = new JLabel("Loading...");
-		lblLoading.setBounds(553, -4, 153, 43);
+		lblLoading.setBounds(30, -2, 153, 45);
+//		lblLoading.setForeground(new Color(172, 172, 172));
+		lblLoading.setFont(new Font("Segoe UI Light", Font.BOLD, 30));
 		infoPane.add(lblLoading);
 		lblLoading.setVisible(false);
-		lblLoading.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		
+		lblLoadingIcon = new JLabel("");
+		lblLoadingIcon.setIcon(new ImageIcon(Main.class.getResource("/imgs/loading2.gif")));
+		lblLoadingIcon.setBounds(10, 12, 20, 20);
+		infoPane.add(lblLoadingIcon);
+		lblLoadingIcon.setVisible(false);
 
 //CARD PANE		
 		JPanel cardPane = new JPanel();
@@ -519,6 +527,7 @@ public class Main extends JFrame {
 		orders.setLayout(null);
 
 		JTextField textFieldSearchOrders = new JTextField();
+		textFieldSearchOrders.setForeground(new Color(199,176,131));
 		String ordersSearchDefault = "ID, Customer, Date...";
 		textFieldSearchOrders.setFont(new Font("Segoe UI", Font.PLAIN, 35));
 		textFieldSearchOrders.setText(ordersSearchDefault);
@@ -611,6 +620,7 @@ public class Main extends JFrame {
 		JTextField textFieldSearchInventory = new JTextField();
 		String inventorySearchDefault = "ID, Customer, Date...";
 		textFieldSearchInventory.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+		textFieldSearchInventory.setForeground(new Color (199,176,131));
 		textFieldSearchInventory.setText(inventorySearchDefault);
 		textFieldSearchInventory.setBorder(null);
 		textFieldSearchInventory.setBackground(new Color(255, 238, 202));
@@ -687,6 +697,7 @@ public class Main extends JFrame {
 		JTextField textFieldSearchMaterial = new JTextField();
 		String materialSearchDefault = "ID, Customer, Date...";
 		textFieldSearchMaterial.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+		textFieldSearchMaterial.setForeground(new Color (199,176,131));
 		textFieldSearchMaterial.setText(materialSearchDefault);
 		textFieldSearchMaterial.setBorder(null);
 		textFieldSearchMaterial.setBackground(new Color(255, 238, 202));
@@ -776,6 +787,7 @@ public class Main extends JFrame {
 		JTextField textFieldSearchCustomers = new JTextField();
 		String customersSearchDefault = "ID, Customer, Date...";
 		textFieldSearchCustomers.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+		textFieldSearchCustomers.setForeground(new Color (199,176,131));
 		textFieldSearchCustomers.setText(customersSearchDefault);
 		textFieldSearchCustomers.setBorder(null);
 		textFieldSearchCustomers.setBackground(new Color(255, 238, 202));
@@ -865,6 +877,7 @@ public class Main extends JFrame {
 		JTextField textFieldSearchSuppliers = new JTextField();
 		String suppliersSearchDefault = "ID, Customer, Date...";
 		textFieldSearchSuppliers.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+		textFieldSearchSuppliers.setForeground(new Color (199,176,131));
 		textFieldSearchSuppliers.setText(suppliersSearchDefault);
 		textFieldSearchSuppliers.setBorder(null);
 		textFieldSearchSuppliers.setBackground(new Color(255, 238, 202));
@@ -954,6 +967,7 @@ public class Main extends JFrame {
 		JTextField textFieldSearchEmployees = new JTextField();
 		String employeesSearchDefault = "ID, Customer, Date...";
 		textFieldSearchEmployees.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+		textFieldSearchEmployees.setForeground(new Color (199,176,131));
 		textFieldSearchEmployees.setText(employeesSearchDefault);
 		textFieldSearchEmployees.setBorder(null);
 		textFieldSearchEmployees.setBackground(new Color(255, 238, 202));
@@ -1047,7 +1061,6 @@ public class Main extends JFrame {
 						sleep(1000);
 					}
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -1062,16 +1075,21 @@ public class Main extends JFrame {
 					try {
 
 						if (DBConnection.getConnection() == null) {
+							lblDatabaseStatus.setText("Disconnected");
+							lblDatabaseStatus.setBounds(1436, 0, 170, 40);
+							
 							lblCheckOff.setIcon(new ImageIcon(Main.class.getResource("/imgs/checkOFF.png")));
-							lblDatabaseStatus.setText("No Connection");
+							lblCheckOff.setBounds(1411, 15, 17, 17);
 						} else {
-							lblDatabaseStatus.setText("Connection Established");
+							lblDatabaseStatus.setText("Connected");
+							lblDatabaseStatus.setBounds(1469, 0, 140, 40);
+							
 							lblCheckOff.setIcon(new ImageIcon(Main.class.getResource("/imgs/checkON.png")));
+							lblCheckOff.setBounds(1444, 15, 17, 17);
 						}
 
 						sleep(5000);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -1104,7 +1122,6 @@ public class Main extends JFrame {
 					}
 
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} finally {
 					stopLoading();
@@ -1117,10 +1134,12 @@ public class Main extends JFrame {
 
 	private void startLoading() {
 		lblLoading.setVisible(true);
+		lblLoadingIcon.setVisible(true);
 	}
 
 	private void stopLoading() {
 		lblLoading.setVisible(false);
+		lblLoadingIcon.setVisible(false);
 	}
 	
 	private void checkMaximizeRestore() {
