@@ -195,14 +195,14 @@ public class Main extends JFrame {
 		infoPane.add(lblDatabaseStatus);
 
 		lblLoading = new JLabel("Loading...");
-		lblLoading.setBounds(30, -2, 153, 45);
+		lblLoading.setBounds(35, -2, 153, 45);
 //		lblLoading.setForeground(new Color(172, 172, 172));
 		lblLoading.setFont(new Font("Segoe UI Light", Font.BOLD, 30));
 		infoPane.add(lblLoading);
 		lblLoading.setVisible(false);
 		
 		lblLoadingIcon = new JLabel("");
-		lblLoadingIcon.setIcon(new ImageIcon(Main.class.getResource("/imgs/loading2.gif")));
+		lblLoadingIcon.setIcon(new ImageIcon(Main.class.getResource("/imgs/loading3.gif")));
 		lblLoadingIcon.setBounds(10, 12, 20, 20);
 		infoPane.add(lblLoadingIcon);
 		lblLoadingIcon.setVisible(false);
@@ -545,14 +545,17 @@ public class Main extends JFrame {
 		textFieldSearchOrders.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
+				textFieldSearchOrders.setForeground(Color.BLACK);
 				if (textFieldSearchOrders.getText().equals(ordersSearchDefault))
 					textFieldSearchOrders.setText("");
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (textFieldSearchOrders.getText().equals(""))
+				if (textFieldSearchOrders.getText().equals("")) {
 					textFieldSearchOrders.setText(ordersSearchDefault);
+					textFieldSearchOrders.setForeground(new Color (199,176,131));
+				}
 			}
 		});
 
@@ -636,14 +639,17 @@ public class Main extends JFrame {
 		textFieldSearchInventory.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
+				textFieldSearchInventory.setForeground(Color.BLACK);
 				if (textFieldSearchInventory.getText().equals(inventorySearchDefault))
 					textFieldSearchInventory.setText("");
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (textFieldSearchInventory.getText().equals(""))
+				if (textFieldSearchInventory.getText().equals("")) {
 					textFieldSearchInventory.setText(inventorySearchDefault);
+					textFieldSearchInventory.setForeground(new Color (199,176,131));
+				}
 			}
 		});
 
@@ -713,14 +719,17 @@ public class Main extends JFrame {
 		textFieldSearchMaterial.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
+				textFieldSearchMaterial.setForeground(Color.BLACK);
 				if (textFieldSearchMaterial.getText().equals(materialSearchDefault))
 					textFieldSearchMaterial.setText("");
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (textFieldSearchMaterial.getText().equals(""))
+				if (textFieldSearchMaterial.getText().equals("")) {
 					textFieldSearchMaterial.setText(materialSearchDefault);
+					textFieldSearchMaterial.setForeground(new Color (199,176,131));
+				}
 			}
 		});
 
@@ -803,14 +812,17 @@ public class Main extends JFrame {
 		textFieldSearchCustomers.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
+				textFieldSearchCustomers.setForeground(Color.BLACK);
 				if (textFieldSearchCustomers.getText().equals(customersSearchDefault))
 					textFieldSearchCustomers.setText("");
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (textFieldSearchCustomers.getText().equals(""))
+				if (textFieldSearchCustomers.getText().equals("")) {
 					textFieldSearchCustomers.setText(customersSearchDefault);
+					textFieldSearchCustomers.setForeground(new Color (199,176,131));
+				}
 			}
 		});
 
@@ -893,14 +905,17 @@ public class Main extends JFrame {
 		textFieldSearchSuppliers.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
+				textFieldSearchSuppliers.setForeground(Color.BLACK);
 				if (textFieldSearchSuppliers.getText().equals(suppliersSearchDefault))
 					textFieldSearchSuppliers.setText("");
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (textFieldSearchSuppliers.getText().equals(""))
+				if (textFieldSearchSuppliers.getText().equals("")) {
 					textFieldSearchSuppliers.setText(suppliersSearchDefault);
+					textFieldSearchSuppliers.setForeground(new Color (199,176,131));
+				}
 			}
 		});
 
@@ -983,14 +998,17 @@ public class Main extends JFrame {
 		textFieldSearchEmployees.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
+				textFieldSearchEmployees.setForeground(Color.BLACK);
 				if (textFieldSearchEmployees.getText().equals(employeesSearchDefault))
 					textFieldSearchEmployees.setText("");
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (textFieldSearchEmployees.getText().equals(""))
+				if (textFieldSearchEmployees.getText().equals("")) {
 					textFieldSearchEmployees.setText(employeesSearchDefault);
+					textFieldSearchEmployees.setForeground(new Color (199,176,131));
+				}
 			}
 		});
 
