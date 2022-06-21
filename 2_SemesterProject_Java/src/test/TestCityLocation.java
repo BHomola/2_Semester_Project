@@ -27,7 +27,7 @@ class TestCityLocation {
 	void setUp() throws Exception {
 		clDAO = new CityLocationDAO();
 		city = new City( "MD-2000","Chisinau", "Moldova");
-		location = new Location( "Main Storage", "Vesterbro 34", 1);
+		location = new Location(0, "Main Storage", "Vesterbro 34", city);
 	}
 
 	@Order(1)
@@ -64,7 +64,7 @@ class TestCityLocation {
 	@Order(4)
 	@Test 
 	void testUpdateLocation() {
-		lUpdated = new Location(1, "Main Storage", "Vesterbro 35", 1);
+		lUpdated = new Location(1, "Main Storage", "Vesterbro 35", city);
 		try {
 			assertTrue(clDAO.updateLocation(lUpdated));
 		} catch (Exception e){
@@ -109,7 +109,7 @@ class TestCityLocation {
 	@Order(7)
 	@Test
 	void testDeleteLocation() {
-		lUpdated = new Location(2, "Main Storage", "Vesterbro 34", 1);
+		lUpdated = new Location(2, "Main Storage", "Vesterbro 34", city);
 		try {
 			assertTrue(clDAO.deleteLocation(lUpdated));
 		} catch (SQLException e) {

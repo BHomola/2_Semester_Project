@@ -4,22 +4,17 @@ public class Location {
 	private int id;
 	private String locationName;
 	private String address;
-	private int cityID;
+	private City city;
 
-	public Location(int id, String locationName, String address, int cityID) {
+	public Location(int id, String locationName, String address, City city) {
 		super();
 		this.id = id;
 		this.locationName = locationName;
 		this.address = address;
-		this.cityID = cityID;
+		this.city = city;
 	}
 	
-	public Location( String locationName, String address, int cityID) {
-		super();
-		this.locationName = locationName;
-		this.address = address;
-		this.cityID = cityID;
-	}
+
 
 	public int getId() {
 		return id;
@@ -45,17 +40,17 @@ public class Location {
 		this.address = address;
 	}
 
-	public int getCity() {
-		return cityID;
+	public City getCity() {
+		return city;
 	}
 
-	public void setCity(int cityID) {
-		this.cityID = cityID;
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 	@Override
 	public String toString() {
-		return "Location [id=" + id + ", locationName=" + locationName + ", address=" + address + ", cityID=" + cityID + "]";
+		return "Location [id=" + id + ", locationName=" + locationName + ", address=" + address + ", cityID=" + city + "]";
 	}
 	
 	

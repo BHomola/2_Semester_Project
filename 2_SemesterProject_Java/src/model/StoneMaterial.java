@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StoneMaterial {
@@ -21,6 +22,7 @@ public class StoneMaterial {
 		this.id = id;
 		this.name = name;
 		this.description = description;
+		stoneType = new ArrayList<StoneType>();
 	}
 
 	public boolean addType(StoneType type) {

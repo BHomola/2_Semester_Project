@@ -29,7 +29,11 @@ public class CityLocationDAO implements ICityLocationDAO{
 		String name = rs.getString("LocationName");
 		String address = rs.getString("Address");
 		int cityID = rs.getInt("CityID");
-		Location location = new Location(id, name, address, cityID);
+		String zipcode = rs.getString("Zipcode");
+		String cityName = rs.getString("CityName");
+		String country = rs.getString("Country");
+		City city = new City(cityID, zipcode, cityName, country);
+		Location location = new Location(id, name, address, city);
 		return location;
 	}
 	
@@ -61,7 +65,7 @@ public class CityLocationDAO implements ICityLocationDAO{
 	@Override
 	public Collection<Location> getAllLocations() throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = "SELECT * FROM StoreLocation";
+		String sqlStatement = "SELECT * FROM [VIEW_LocationCity]";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		ResultSet resultSet = pStatement.executeQuery();
 		if (resultSet.next() == false)
@@ -85,7 +89,7 @@ public class CityLocationDAO implements ICityLocationDAO{
 	@Override
 	public Location getLocationByID(int id) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = " SELECT *  FROM StoreLocation "
+		String sqlStatement = " SELECT * [VIEW_LocationCity] "
 				+ "WHERE LocationID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setInt(1, id);
@@ -122,7 +126,7 @@ public class CityLocationDAO implements ICityLocationDAO{
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setString(1, location.getLocationName());
 		pStatement.setString(2, location.getAddress());
-		pStatement.setInt(3, location.getCity());
+		pStatement.setInt(3, location.getCity().getId());
 		ResultSet resultSet = pStatement.executeQuery();
 		int generatedID = 0;
 		if (resultSet.next())

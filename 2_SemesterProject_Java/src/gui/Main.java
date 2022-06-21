@@ -6,11 +6,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.LocationCityController;
 import controller.LoginController;
 import controller.StoneController;
+import controller.StoneTypeMaterialController;
 import dataaccess.DBConnection;
 import model.IStoneUnit;
+import model.Location;
 import model.Login;
+import model.StoneMaterial;
+import model.StoneType;
 import model.StoneUnit;
 
 import javax.swing.JLabel;
@@ -46,9 +51,11 @@ import javax.swing.SwingConstants;
 
 public class Main extends JFrame {
 
-	/**
-	 * 
-	 */
+	
+	public static ArrayList<StoneMaterial> cachedMaterials;
+	public static ArrayList<StoneType> cachedStoneTypes;
+	public static ArrayList<Location> cachedLocations;
+	
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
 	private int x, y;
@@ -61,6 +68,7 @@ public class Main extends JFrame {
 	private JLabel lblMaximizeRestore;
 	private boolean isMaximizePressed;
 	private JLabel lblLoadingIcon;
+	JLabel lblCacheInfo;
 
 	/**
 	 * Launch the application.
@@ -86,7 +94,7 @@ public class Main extends JFrame {
 		// Local JComponents
 		DefaultTableModel defaultTableModelInventory = new DefaultTableModel(new Object[][] { null, null, null },
 				new String[] { "ID", "Stone Type", "Origin", "Width", "Weight", "Description", "Created Date",
-						"Location", "Status", "Material", "Type"}) {
+						"Location", "Status", "Material", "Type" }) {
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Double.class,
@@ -104,7 +112,7 @@ public class Main extends JFrame {
 		setTitle("Santorina");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1920, 1080);
-		
+
 //CONTENT PANE		
 		JPanel contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -112,7 +120,7 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		setUndecorated(true);
 		contentPane.setLayout(null);
-		
+
 //TITLE BAR
 		isMaximizePressed = false;
 		JPanel titleBarPane = new JPanel();
@@ -122,12 +130,13 @@ public class Main extends JFrame {
 				x = e.getX();
 				y = e.getY();
 			}
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if(isMaximizePressed) {
+				if (isMaximizePressed) {
 //					setExtendedState(JFrame.NORMAL);
 //					setState(JFrame.NORMAL);
-					checkMaximizeRestore();	
+					checkMaximizeRestore();
 				}
 			}
 		});
@@ -161,12 +170,12 @@ public class Main extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				checkMaximizeRestore();
-			}	
+			}
 		});
 		lblMaximizeRestore.setIcon(new ImageIcon(Main.class.getResource("/imgs/maximize2.png")));
 		lblMaximizeRestore.setBounds(1550, 10, 10, 10);
 		titleBarPane.add(lblMaximizeRestore);
-		
+
 		JLabel lblMinimize = new JLabel("");
 		lblMinimize.addMouseListener(new MouseAdapter() {
 			@Override
@@ -177,7 +186,7 @@ public class Main extends JFrame {
 		lblMinimize.setIcon(new ImageIcon(Main.class.getResource("/imgs/minimalize2.png")));
 		lblMinimize.setBounds(1505, 10, 10, 10);
 		titleBarPane.add(lblMinimize);
-		
+
 //INFO 		
 		JPanel infoPane = new JPanel();
 		infoPane.setBackground(Color.WHITE);
@@ -202,7 +211,7 @@ public class Main extends JFrame {
 		lblLoading.setFont(new Font("Segoe UI Light", Font.BOLD, 30));
 		infoPane.add(lblLoading);
 		lblLoading.setVisible(false);
-		
+
 		lblLoadingIcon = new JLabel("");
 		lblLoadingIcon.setIcon(new ImageIcon(Main.class.getResource("/imgs/loading3.gif")));
 		lblLoadingIcon.setBounds(10, 12, 20, 20);
@@ -312,32 +321,25 @@ public class Main extends JFrame {
 		JButton btnSignIn = new JButton("SIGN IN");
 		btnSignIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-		/*		LoginController loginC = new LoginController();
-				String inputedUsername = textFieldUsername.getText();
-				@SuppressWarnings("deprecation")
-				String inputedPassword = passwordField.getText();
-				try {
-					for(Login l : loginC.getAllLogins()) {
-						if(inputedUsername.equals(l.getUsername())) {
-							if(inputedPassword.equals(l.getPassword())) {
-								contentPane.updateUI();
 
-							cardLayout.show(cardPane, "name_66960487401900");
-						break;
-							}
-						}
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			*/	
+				/*
+				 * LoginController loginC = new LoginController(); String inputedUsername =
+				 * textFieldUsername.getText();
+				 * 
+				 * @SuppressWarnings("deprecation") String inputedPassword =
+				 * passwordField.getText(); try { for(Login l : loginC.getAllLogins()) {
+				 * if(inputedUsername.equals(l.getUsername())) {
+				 * if(inputedPassword.equals(l.getPassword())) { contentPane.updateUI();
+				 * 
+				 * cardLayout.show(cardPane, "name_66960487401900"); break; } } } } catch
+				 * (SQLException e1) { // TODO Auto-generated catch block e1.printStackTrace();
+				 * }
+				 * 
+				 */
 				contentPane.updateUI();
 
 				cardLayout.show(cardPane, "name_66960487401900");
-		
+
 			}
 		});
 		btnSignIn.setBorder(null);
@@ -363,6 +365,13 @@ public class Main extends JFrame {
 		sidePane.setBackground(Color.WHITE);
 		slideSplitPane.setLeftComponent(sidePane);
 		sidePane.setLayout(null);
+		
+		lblCacheInfo = new JLabel("Caching Data...");
+		lblCacheInfo.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCacheInfo.setForeground(new Color(222, 184, 135));
+		lblCacheInfo.setFont(new Font("SansSerif", Font.BOLD, 12));
+		lblCacheInfo.setBounds(10, 163, 216, 67);
+		sidePane.add(lblCacheInfo);
 
 		JLabel lblHello = new JLabel("Hello, <User>");
 		lblHello.setForeground(Color.WHITE);
@@ -389,14 +398,14 @@ public class Main extends JFrame {
 		lblDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()));
 		lblDate.setForeground(new Color(255, 238, 202));
 		lblDate.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
-		lblDate.setBounds(0, 118, 300, 40);
+		lblDate.setBounds(0, 82, 300, 40);
 		sidePane.add(lblDate);
 
 		lblTime = new JLabel("10:30:47");
 		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTime.setForeground(new Color(255, 238, 202));
 		lblTime.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
-		lblTime.setBounds(0, 152, 300, 40);
+		lblTime.setBounds(0, 112, 300, 40);
 		sidePane.add(lblTime);
 
 		JLabel lblOrders = new JLabel("Orders");
@@ -552,7 +561,7 @@ public class Main extends JFrame {
 		orders.setLayout(null);
 
 		JTextField textFieldSearchOrders = new JTextField();
-		textFieldSearchOrders.setForeground(new Color(199,176,131));
+		textFieldSearchOrders.setForeground(new Color(199, 176, 131));
 		String ordersSearchDefault = "ID, Customer, Date...";
 		textFieldSearchOrders.setFont(new Font("Segoe UI", Font.PLAIN, 35));
 		textFieldSearchOrders.setText(ordersSearchDefault);
@@ -579,7 +588,7 @@ public class Main extends JFrame {
 			public void focusLost(FocusEvent e) {
 				if (textFieldSearchOrders.getText().equals("")) {
 					textFieldSearchOrders.setText(ordersSearchDefault);
-					textFieldSearchOrders.setForeground(new Color (199,176,131));
+					textFieldSearchOrders.setForeground(new Color(199, 176, 131));
 				}
 			}
 		});
@@ -648,7 +657,7 @@ public class Main extends JFrame {
 		JTextField textFieldSearchInventory = new JTextField();
 		String inventorySearchDefault = "ID, Customer, Date...";
 		textFieldSearchInventory.setFont(new Font("Segoe UI", Font.PLAIN, 35));
-		textFieldSearchInventory.setForeground(new Color (199,176,131));
+		textFieldSearchInventory.setForeground(new Color(199, 176, 131));
 		textFieldSearchInventory.setText(inventorySearchDefault);
 		textFieldSearchInventory.setBorder(null);
 		textFieldSearchInventory.setBackground(new Color(255, 238, 202));
@@ -673,7 +682,7 @@ public class Main extends JFrame {
 			public void focusLost(FocusEvent e) {
 				if (textFieldSearchInventory.getText().equals("")) {
 					textFieldSearchInventory.setText(inventorySearchDefault);
-					textFieldSearchInventory.setForeground(new Color (199,176,131));
+					textFieldSearchInventory.setForeground(new Color(199, 176, 131));
 				}
 			}
 		});
@@ -717,6 +726,30 @@ public class Main extends JFrame {
 		TableRowSorter<DefaultTableModel> tableRowSorterInventory = new TableRowSorter<DefaultTableModel>(
 				defaultTableModelInventory);
 		tableInventory.setRowSorter(tableRowSorterInventory);
+		tableInventory.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				if (e.getClickCount() == 2 && !e.isConsumed()) {
+					e.consume();
+					// handle double click event.
+					int rowIndex = tableInventory.getSelectedRow();
+					int id = (int) defaultTableModelInventory.getValueAt(rowIndex, 0);
+					String stoneType = (String) defaultTableModelInventory.getValueAt(rowIndex, 1);
+					new StoneUnitWindow(id).setVisible(true);
+					if (stoneType.equals("StoneCuttable")) {
+
+					}
+					if (stoneType.equals("StoneProduct")) {
+
+					}
+					if (stoneType.equals("Remains")) {
+						
+					}
+					System.out.println("Selected ID: " + id);
+				}
+			}
+		});
 		scrollPaneInventory.setViewportView(tableInventory);
 
 //MATERIAL
@@ -728,7 +761,7 @@ public class Main extends JFrame {
 		JTextField textFieldSearchMaterial = new JTextField();
 		String materialSearchDefault = "ID, Customer, Date...";
 		textFieldSearchMaterial.setFont(new Font("Segoe UI", Font.PLAIN, 35));
-		textFieldSearchMaterial.setForeground(new Color (199,176,131));
+		textFieldSearchMaterial.setForeground(new Color(199, 176, 131));
 		textFieldSearchMaterial.setText(materialSearchDefault);
 		textFieldSearchMaterial.setBorder(null);
 		textFieldSearchMaterial.setBackground(new Color(255, 238, 202));
@@ -753,7 +786,7 @@ public class Main extends JFrame {
 			public void focusLost(FocusEvent e) {
 				if (textFieldSearchMaterial.getText().equals("")) {
 					textFieldSearchMaterial.setText(materialSearchDefault);
-					textFieldSearchMaterial.setForeground(new Color (199,176,131));
+					textFieldSearchMaterial.setForeground(new Color(199, 176, 131));
 				}
 			}
 		});
@@ -821,7 +854,7 @@ public class Main extends JFrame {
 		JTextField textFieldSearchCustomers = new JTextField();
 		String customersSearchDefault = "ID, Customer, Date...";
 		textFieldSearchCustomers.setFont(new Font("Segoe UI", Font.PLAIN, 35));
-		textFieldSearchCustomers.setForeground(new Color (199,176,131));
+		textFieldSearchCustomers.setForeground(new Color(199, 176, 131));
 		textFieldSearchCustomers.setText(customersSearchDefault);
 		textFieldSearchCustomers.setBorder(null);
 		textFieldSearchCustomers.setBackground(new Color(255, 238, 202));
@@ -846,7 +879,7 @@ public class Main extends JFrame {
 			public void focusLost(FocusEvent e) {
 				if (textFieldSearchCustomers.getText().equals("")) {
 					textFieldSearchCustomers.setText(customersSearchDefault);
-					textFieldSearchCustomers.setForeground(new Color (199,176,131));
+					textFieldSearchCustomers.setForeground(new Color(199, 176, 131));
 				}
 			}
 		});
@@ -914,7 +947,7 @@ public class Main extends JFrame {
 		JTextField textFieldSearchSuppliers = new JTextField();
 		String suppliersSearchDefault = "ID, Customer, Date...";
 		textFieldSearchSuppliers.setFont(new Font("Segoe UI", Font.PLAIN, 35));
-		textFieldSearchSuppliers.setForeground(new Color (199,176,131));
+		textFieldSearchSuppliers.setForeground(new Color(199, 176, 131));
 		textFieldSearchSuppliers.setText(suppliersSearchDefault);
 		textFieldSearchSuppliers.setBorder(null);
 		textFieldSearchSuppliers.setBackground(new Color(255, 238, 202));
@@ -939,7 +972,7 @@ public class Main extends JFrame {
 			public void focusLost(FocusEvent e) {
 				if (textFieldSearchSuppliers.getText().equals("")) {
 					textFieldSearchSuppliers.setText(suppliersSearchDefault);
-					textFieldSearchSuppliers.setForeground(new Color (199,176,131));
+					textFieldSearchSuppliers.setForeground(new Color(199, 176, 131));
 				}
 			}
 		});
@@ -1007,7 +1040,7 @@ public class Main extends JFrame {
 		JTextField textFieldSearchEmployees = new JTextField();
 		String employeesSearchDefault = "ID, Customer, Date...";
 		textFieldSearchEmployees.setFont(new Font("Segoe UI", Font.PLAIN, 35));
-		textFieldSearchEmployees.setForeground(new Color (199,176,131));
+		textFieldSearchEmployees.setForeground(new Color(199, 176, 131));
 		textFieldSearchEmployees.setText(employeesSearchDefault);
 		textFieldSearchEmployees.setBorder(null);
 		textFieldSearchEmployees.setBackground(new Color(255, 238, 202));
@@ -1032,7 +1065,7 @@ public class Main extends JFrame {
 			public void focusLost(FocusEvent e) {
 				if (textFieldSearchEmployees.getText().equals("")) {
 					textFieldSearchEmployees.setText(employeesSearchDefault);
-					textFieldSearchEmployees.setForeground(new Color (199,176,131));
+					textFieldSearchEmployees.setForeground(new Color(199, 176, 131));
 				}
 			}
 		});
@@ -1093,6 +1126,7 @@ public class Main extends JFrame {
 
 		clock();
 		databaseCheck();
+		cacheData();
 	}
 
 	private void clock() {
@@ -1120,13 +1154,13 @@ public class Main extends JFrame {
 						if (DBConnection.getConnection() == null) {
 							lblDatabaseStatus.setText("Disconnected");
 							lblDatabaseStatus.setBounds(1436, 0, 170, 40);
-							
+
 							lblCheckOff.setIcon(new ImageIcon(Main.class.getResource("/imgs/checkOFF.png")));
 							lblCheckOff.setBounds(1411, 15, 17, 17);
 						} else {
 							lblDatabaseStatus.setText("Connected");
 							lblDatabaseStatus.setBounds(1469, 0, 140, 40);
-							
+
 							lblCheckOff.setIcon(new ImageIcon(Main.class.getResource("/imgs/checkON.png")));
 							lblCheckOff.setBounds(1444, 15, 17, 17);
 						}
@@ -1158,9 +1192,11 @@ public class Main extends JFrame {
 
 					for (IStoneUnit stoneUnit : stoneUnits) {
 						StoneUnit stone = (StoneUnit) stoneUnit;
-						defaultTableModelInventory.addRow(new Object[] { stone.getId(), stone.getStoneKind(),
-								stone.getOrigin(), stone.getWidth(), stone.getWeight(), stone.getDescription(),
-								stone.getCreatedDate(), stone.getLocation().getLocationName(), stone.getStatus().toString(), stone.getStoneType().getMaterial().getName(),stone.getStoneType().getName() });
+						defaultTableModelInventory.addRow(
+								new Object[] { stone.getId(), stone.getStoneKind(), stone.getOrigin(), stone.getWidth(),
+										stone.getWeight(), stone.getDescription(), stone.getCreatedDate(),
+										stone.getLocation().getLocationName(), stone.getStatus().toString(),
+										stone.getStoneType().getMaterial().getName(), stone.getStoneType().getName() });
 
 					}
 
@@ -1184,16 +1220,38 @@ public class Main extends JFrame {
 		lblLoading.setVisible(false);
 		lblLoadingIcon.setVisible(false);
 	}
-	
+
 	private void checkMaximizeRestore() {
-		if(!isMaximizePressed) {
+		if (!isMaximizePressed) {
 			setExtendedState(JFrame.MAXIMIZED_BOTH);
 			lblMaximizeRestore.setIcon((new ImageIcon(Main.class.getResource("/imgs/restore.png"))));
 			isMaximizePressed = true;
-			} else {
-				setExtendedState(JFrame.NORMAL);
-				lblMaximizeRestore.setIcon(new ImageIcon(Main.class.getResource("/imgs/maximize2.png")));
-				isMaximizePressed = false;
+		} else {
+			setExtendedState(JFrame.NORMAL);
+			lblMaximizeRestore.setIcon(new ImageIcon(Main.class.getResource("/imgs/maximize2.png")));
+			isMaximizePressed = false;
+		}
+	}
+	
+	private void cacheData() {
+		Thread thread = new Thread() {
+			public void run() {
+				try {
+					lblCacheInfo.setText("Caching Data...");
+					StoneTypeMaterialController matCtrl = new StoneTypeMaterialController();
+					LocationCityController locCtrl = new LocationCityController();
+					
+					cachedMaterials = (ArrayList<StoneMaterial>) matCtrl.getAllStoneMaterials();
+					cachedStoneTypes = (ArrayList<StoneType>) matCtrl.getAllStoneTypes();;
+					cachedLocations = (ArrayList<Location>) locCtrl.getAllLocations();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					lblCacheInfo.setText("<html>Cached data:<br/>"+cachedMaterials.size()+" Materials<br/>"+cachedStoneTypes.size()+" Stone Types<br/>"+ cachedLocations.size()+" Locations</html>");
+				}
 			}
+		};
+		thread.start();
 	}
 }

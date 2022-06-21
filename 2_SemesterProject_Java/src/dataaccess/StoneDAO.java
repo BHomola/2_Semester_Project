@@ -37,7 +37,7 @@ public class StoneDAO implements IStoneDAO {
 		PreparedStatement statement = DBConnection.getConnection().prepareStatement(query);
 		ResultSet rs = statement.executeQuery();
 
-		ArrayList<IStoneUnit> stoneUnits = buildStoneUnits(rs);
+		ArrayList<IStoneUnit> stoneUnits = buildStoneUnitsPartial(rs);
 		/*
 		// assigning parents stones and child stones
 		query = "SELECT * FROM StoneCuttable";
@@ -70,7 +70,7 @@ public class StoneDAO implements IStoneDAO {
 		statement.setInt(1, stone.getId());
 		ResultSet rs = statement.executeQuery();
 
-		return buildStoneUnits(rs);
+		return buildStoneUnitsPartial(rs);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class StoneDAO implements IStoneDAO {
 		ResultSet rs = statement.executeQuery();
 		IStoneUnit stoneUnit = null;
 		if (rs.next()) {
-			stoneUnit = buildStoneUnit(rs);
+			stoneUnit = buildStoneUnitFull(rs);
 			if(stoneUnit instanceof StoneCuttable) {
 				((StoneCuttable)stoneUnit).addStoneUnits(getStoneChildren((StoneCuttable)stoneUnit));
 			}
@@ -97,7 +97,7 @@ public class StoneDAO implements IStoneDAO {
 		statement.setInt(1, stoneMaterial.getId());
 		ResultSet rs = statement.executeQuery();
 
-		return buildStoneUnits(rs);
+		return buildStoneUnitsPartial(rs);
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class StoneDAO implements IStoneDAO {
 		statement.setInt(1, stoneType.getId());
 		ResultSet rs = statement.executeQuery();
 
-		return buildStoneUnits(rs);
+		return buildStoneUnitsPartial(rs);
 	}
 
 	@Override
@@ -292,7 +292,7 @@ public class StoneDAO implements IStoneDAO {
 
 	// Helper Methods
 
-	public static IStoneUnit buildStoneUnit(ResultSet resultSet) throws SQLException {
+	public static IStoneUnit buildStoneUnitFull(ResultSet resultSet) throws SQLException {
 		int id = resultSet.getInt("StoneUnitID");
 		String stoneKind = resultSet.getString("StoneType");
 		String origin = resultSet.getString("Origin");
@@ -305,8 +305,8 @@ public class StoneDAO implements IStoneDAO {
 		// other DAOs access
 		Location location = CityLocationDAO.buildLocation(resultSet);
 		StoneType stoneType = TypeMaterialDAO.buildType(resultSet);
-		Supplier supplier = new Supplier(resultSet.getInt("SupplierID"));//(Supplier) new PersonDAO().getByID(resultSet.getInt("SupplierID"));
-		Employee employee = new Employee(resultSet.getInt("EmployeeID"));//(Employee) new PersonDAO().getByID(resultSet.getInt("EmployeeID"));
+		Supplier supplier = (Supplier) new PersonDAO().getByID(resultSet.getInt("SupplierID"));
+		Employee employee = (Employee) new PersonDAO().getByID(resultSet.getInt("EmployeeID"));
 
 		if (stoneKind.equals("Remains")) {
 			int pieces = resultSet.getInt("Pieces");
@@ -336,10 +336,62 @@ public class StoneDAO implements IStoneDAO {
 		return null;
 	}
 
-	public static ArrayList<IStoneUnit> buildStoneUnits(ResultSet resultSet) throws SQLException {
+	public static IStoneUnit buildStoneUnitPartial(ResultSet resultSet) throws SQLException {
+		int id = resultSet.getInt("StoneUnitID");
+		String stoneKind = resultSet.getString("StoneType");
+		String origin = resultSet.getString("Origin");
+		Double width = resultSet.getDouble("Width");
+		Double weight = resultSet.getDouble("Weight");
+		String description = resultSet.getString("StoneDescription");
+		Date createdDate = resultSet.getDate("CreatedDate");
+		String updates = resultSet.getString("Updates");
+		StoneUnitStatuses status = StoneUnitStatuses.GetStatusByID(resultSet.getInt("Status"));
+		// other DAOs access
+		Location location = CityLocationDAO.buildLocation(resultSet);
+		StoneType stoneType = TypeMaterialDAO.buildType(resultSet);
+		Supplier supplier = new Supplier(resultSet.getInt("SupplierID"));
+		Employee employee = new Employee(resultSet.getInt("EmployeeID"));
+
+		if (stoneKind.equals("Remains")) {
+			int pieces = resultSet.getInt("Pieces");
+			return new Remains(id, stoneType, origin, supplier, width, weight, description, createdDate, location,
+					employee, status, pieces);
+		}
+
+		if (stoneKind.equals("StoneCuttable")) {
+			Shape shape = new ShapeDAO().getById(id);
+			double totalSize = resultSet.getInt("TotalSize");
+			StoneCuttable cuttableStone = new StoneCuttable(id, stoneType, origin, supplier, width, weight, description,
+					createdDate, location, employee, status, shape, totalSize);
+			cuttableStone.setUpdates(updates);
+			return cuttableStone;
+		}
+
+		if (stoneKind.equals("StoneProduct")) {
+			Shape shape = new ShapeDAO().getById(id);
+			double totalSize = resultSet.getInt("TotalSize");
+			float price = resultSet.getInt("price");
+			int orderID = resultSet.getInt("OrderID");
+			StoneProduct stoneProduct = new StoneProduct(id, stoneType, origin, supplier, width, weight, description,
+					createdDate, location, employee, status, shape, totalSize, price, orderID);
+			stoneProduct.setUpdates(updates);
+			return stoneProduct;
+		}
+		return null;
+	}
+
+	
+	public static ArrayList<IStoneUnit> buildStoneUnitsFull(ResultSet resultSet) throws SQLException {
 		ArrayList<IStoneUnit> stoneUnits = new ArrayList<IStoneUnit>();
 		while (resultSet.next()) {
-			stoneUnits.add(buildStoneUnit(resultSet));
+			stoneUnits.add(buildStoneUnitFull(resultSet));
+		}
+		return stoneUnits;
+	}
+	public static ArrayList<IStoneUnit> buildStoneUnitsPartial(ResultSet resultSet) throws SQLException {
+		ArrayList<IStoneUnit> stoneUnits = new ArrayList<IStoneUnit>();
+		while (resultSet.next()) {
+			stoneUnits.add(buildStoneUnitPartial(resultSet));
 		}
 		return stoneUnits;
 	}

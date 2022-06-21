@@ -22,10 +22,23 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 	}
 
 	public static List<StoneMaterial> buildMaterials(ResultSet resultSet) throws SQLException {
-		ArrayList<StoneMaterial> sMaterialList = new ArrayList<>();
-		while (resultSet.next())
-			sMaterialList.add(buildMaterial(resultSet));
-		return sMaterialList;
+		ArrayList<StoneType> stoneTypeList = (ArrayList<StoneType>) buildTypes(resultSet);
+		ArrayList<StoneMaterial> materials = new ArrayList<>();
+		
+		typeLoop:
+		for(StoneType type : stoneTypeList) {
+			for(StoneMaterial mat : materials) {
+				if(type.getMaterial().getId() == mat.getId()) {
+				//mat already exists in the list
+					mat.addType(type);
+					type.setsMaterial(mat);
+					continue typeLoop;
+				}
+			}
+			
+			materials.add(type.getMaterial());
+		}
+		return materials;
 	}
 
 	public static StoneType buildType(ResultSet resultSet) throws SQLException {

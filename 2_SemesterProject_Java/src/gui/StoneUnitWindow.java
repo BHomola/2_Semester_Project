@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,6 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import controller.StoneController;
 
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -23,6 +28,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
+import model.IStoneUnit;
+import model.StoneUnit;
 import model.StoneUnitStatuses;
 import javax.swing.SwingConstants;
 import java.awt.CardLayout;
@@ -70,7 +78,7 @@ public class StoneUnitWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StoneUnitWindow frame = new StoneUnitWindow();
+					StoneUnitWindow frame = new StoneUnitWindow(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -83,7 +91,7 @@ public class StoneUnitWindow extends JFrame {
 	 * Create the frame.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public StoneUnitWindow() {
+	public StoneUnitWindow(int id) {
 		cardLayout = new CardLayout();
 		
 //FRAME		
@@ -671,6 +679,9 @@ public class StoneUnitWindow extends JFrame {
 		lblTreeTitle.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/windowTitleBar.png")));
 		lblTreeTitle.setBounds(0, 0, 1280, 100);
 		treePane.add(lblTreeTitle);
+		
+		
+		loadStoneUnit(id);
 	}
 		
 	private boolean haveErrors() {
@@ -713,5 +724,42 @@ public class StoneUnitWindow extends JFrame {
 			textFieldLocationAddress.setEditable(false);
 			textFieldLocationCity.setEditable(false);
 		}
+	}
+	
+	private void loadStoneUnit(int id) {
+
+		Thread thread = new Thread() {
+			public void run() {
+				try {
+					StoneController sctrl = new StoneController();
+
+
+					try {
+						StoneUnit stoneUnit = (StoneUnit)sctrl.getStoneUnitByID(id);
+						textFieldId.setText(stoneUnit.getId()+"");
+						textFieldOrigin.setText(stoneUnit.getOrigin());
+						comboBoxStatus.setSelectedIndex(stoneUnit.getStatus().getID());
+						textFieldCreatedDate.setText(stoneUnit.getCreatedDate().toString());
+						textFieldWidth.setText(stoneUnit.getWidth()+"");
+						textFieldWeight.setText(stoneUnit.getWeight()+"");
+						textFieldDescription.setText(stoneUnit.getDescription());
+						textFieldLocation.setText(stoneUnit.getLocation().getLocationName());
+						textFieldLocationAddress.setText(stoneUnit.getLocation().getAddress());
+						textFieldLocationCity.setText(stoneUnit.getLocation().getCity().getCityName());
+						
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+
+				}
+			}
+		};
+		thread.start();
+
 	}
 }
