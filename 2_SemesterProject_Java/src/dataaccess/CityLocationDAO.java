@@ -89,7 +89,7 @@ public class CityLocationDAO implements ICityLocationDAO{
 	@Override
 	public Location getLocationByID(int id) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = " SELECT * [VIEW_LocationCity] "
+		String sqlStatement = " SELECT * FROM [VIEW_LocationCity] "
 				+ "WHERE LocationID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setInt(1, id);
