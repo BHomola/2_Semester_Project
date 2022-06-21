@@ -7,15 +7,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.LocationCityController;
-import controller.LoginController;
+import controller.OrderController;
 import controller.StoneController;
 import controller.StoneTypeMaterialController;
 import dataaccess.DBConnection;
 import model.IStoneUnit;
 import model.Location;
-import model.Login;
 import model.StoneMaterial;
 import model.StoneType;
+import model.OrderInfo;
 import model.StoneUnit;
 
 import javax.swing.JLabel;
@@ -42,11 +42,12 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 
 public class Main extends JFrame {
@@ -69,6 +70,8 @@ public class Main extends JFrame {
 	private boolean isMaximizePressed;
 	private JLabel lblLoadingIcon;
 	JLabel lblCacheInfo;
+	private DefaultTableModel defaultTableModelOrders;
+	private JLabel lblReloadButtonOrders;
 
 	/**
 	 * Launch the application.
@@ -337,9 +340,8 @@ public class Main extends JFrame {
 				 * 
 				 */
 				contentPane.updateUI();
-
 				cardLayout.show(cardPane, "name_66960487401900");
-
+				updateOrdersTable();
 			}
 		});
 		btnSignIn.setBorder(null);
@@ -601,9 +603,29 @@ public class Main extends JFrame {
 		orders.add(lblOrdersTitle);
 
 		JLabel lblAddButtonOrders = new JLabel("");
+		lblAddButtonOrders.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				OrderWindow orderWindow = new OrderWindow(true);
+				orderWindow.setVisible(true);
+			}
+		});
 		lblAddButtonOrders.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
-		lblAddButtonOrders.setBounds(1110, 130, 50, 50);
+		lblAddButtonOrders.setBounds(1035, 130, 50, 50);
 		orders.add(lblAddButtonOrders);
+		
+		lblReloadButtonOrders = new JLabel("");
+		lblReloadButtonOrders.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(lblReloadButtonOrders.isEnabled()) {
+					updateOrdersTable();
+				}
+			}
+		});
+		lblReloadButtonOrders.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
+		lblReloadButtonOrders.setBounds(1115, 130, 50, 50);
+		orders.add(lblReloadButtonOrders);
 
 		JLabel lblMainBarOrders = new JLabel("");
 		lblMainBarOrders.addMouseListener(new MouseAdapter() {
@@ -626,17 +648,17 @@ public class Main extends JFrame {
 		tableOrders.setGridColor(new Color(172, 172, 172));
 		tableOrders.setBackground(Color.WHITE);
 
-		DefaultTableModel defaultTableModelOrders = new DefaultTableModel(new Object[][] { null, null, null },
-				new String[] { "ID", "Name", "Category", "Price", "Sold", "Discount", "Contractor", "Cost Price",
-						"Stock", "Location", "Condition", "UnavailableTil", "Type", "Available" }) {
+		defaultTableModelOrders = new DefaultTableModel(new Object[][] { null, null, null },
+				new String[] { "OrderID", "CustomerID", "DeliveryDate", "Address", "CityID", "OrderPrice", "Deposit", "isPaid",
+						"DeliveryStatus", "EmployeeID", "LocationID", "PaymentDate", "VATration", "FinalPrice" }) {
 			/**
 			* 
 			*/
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
-			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Boolean.class,
-					Double.class, Object.class, Double.class, Integer.class, Object.class, String.class, Object.class,
-					Object.class, Boolean.class };
+			Class[] columnTypes = new Class[] { Integer.class, Integer.class, Date.class, String.class, Integer.class,
+					Double.class, Double.class, Boolean.class, String.class, Integer.class, Integer.class, Date.class,
+					Double.class, Double.class };
 
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -693,11 +715,16 @@ public class Main extends JFrame {
 		lblInventoryTitle.setForeground(new Color(144, 124, 81));
 		lblInventoryTitle.setBounds(100, 83, 575, 133);
 		inventory.add(lblInventoryTitle);
-
+		
 		JLabel lblAddButtonInventory = new JLabel("");
 		lblAddButtonInventory.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
-		lblAddButtonInventory.setBounds(1110, 130, 50, 50);
+		lblAddButtonInventory.setBounds(1035, 130, 50, 50);
 		inventory.add(lblAddButtonInventory);
+		
+		JLabel lblReloadButtonInventory = new JLabel("");
+		lblReloadButtonInventory.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
+		lblReloadButtonInventory.setBounds(1115, 130, 50, 50);
+		inventory.add(lblReloadButtonInventory);
 
 		JLabel lblMainBarInventory = new JLabel("");
 		lblMainBarInventory.addMouseListener(new MouseAdapter() {
@@ -800,9 +827,14 @@ public class Main extends JFrame {
 
 		JLabel lblAddButtonMaterial = new JLabel("");
 		lblAddButtonMaterial.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
-		lblAddButtonMaterial.setBounds(1110, 130, 50, 50);
+		lblAddButtonMaterial.setBounds(1035, 130, 50, 50);
 		material.add(lblAddButtonMaterial);
-
+		
+		JLabel lblReloadButtonMaterial = new JLabel("");
+		lblReloadButtonMaterial.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
+		lblReloadButtonMaterial.setBounds(1115, 130, 50, 50);
+		material.add(lblReloadButtonMaterial);
+		
 		JLabel lblMainBarMaterial = new JLabel("");
 		lblMainBarMaterial.addMouseListener(new MouseAdapter() {
 			@Override
@@ -890,11 +922,16 @@ public class Main extends JFrame {
 		lblCustomersTitle.setForeground(new Color(144, 124, 81));
 		lblCustomersTitle.setBounds(100, 83, 600, 133);
 		customers.add(lblCustomersTitle);
-
+		
 		JLabel lblAddButtonCustomers = new JLabel("");
 		lblAddButtonCustomers.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
-		lblAddButtonCustomers.setBounds(1110, 130, 50, 50);
+		lblAddButtonCustomers.setBounds(1035, 130, 50, 50);
 		customers.add(lblAddButtonCustomers);
+		
+		JLabel lblReloadButtonCustomers = new JLabel("");
+		lblReloadButtonCustomers.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
+		lblReloadButtonCustomers.setBounds(1115, 130, 50, 50);
+		customers.add(lblReloadButtonCustomers);
 
 		JLabel lblMainBarCustomers = new JLabel("");
 		lblMainBarCustomers.addMouseListener(new MouseAdapter() {
@@ -983,11 +1020,16 @@ public class Main extends JFrame {
 		lblSuppliersTitle.setForeground(new Color(144, 124, 81));
 		lblSuppliersTitle.setBounds(100, 83, 510, 133);
 		suppliers.add(lblSuppliersTitle);
-
+		
 		JLabel lblAddButtonSuppliers = new JLabel("");
 		lblAddButtonSuppliers.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
-		lblAddButtonSuppliers.setBounds(1110, 130, 50, 50);
+		lblAddButtonSuppliers.setBounds(1035, 130, 50, 50);
 		suppliers.add(lblAddButtonSuppliers);
+		
+		JLabel lblReloadButtonSuppliers = new JLabel("");
+		lblReloadButtonSuppliers.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
+		lblReloadButtonSuppliers.setBounds(1115, 130, 50, 50);
+		suppliers.add(lblReloadButtonSuppliers);
 
 		JLabel lblMainBarSuppliers = new JLabel("");
 		lblMainBarSuppliers.addMouseListener(new MouseAdapter() {
@@ -1076,11 +1118,16 @@ public class Main extends JFrame {
 		lblEmployeesTitle.setForeground(new Color(144, 124, 81));
 		lblEmployeesTitle.setBounds(100, 83, 560, 133);
 		employees.add(lblEmployeesTitle);
-
+		
 		JLabel lblAddButtonEmployees = new JLabel("");
 		lblAddButtonEmployees.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
-		lblAddButtonEmployees.setBounds(1110, 130, 50, 50);
+		lblAddButtonEmployees.setBounds(1035, 130, 50, 50);
 		employees.add(lblAddButtonEmployees);
+		
+		JLabel lblReloadButtonEmployees = new JLabel("");
+		lblReloadButtonEmployees.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
+		lblReloadButtonEmployees.setBounds(1115, 130, 50, 50);
+		employees.add(lblReloadButtonEmployees);
 
 		JLabel lblMainBarEmployees = new JLabel("");
 		lblMainBarEmployees.addMouseListener(new MouseAdapter() {
@@ -1128,7 +1175,6 @@ public class Main extends JFrame {
 		databaseCheck();
 		cacheData();
 	}
-
 	private void clock() {
 		Thread clock = new Thread() {
 			public void run() {
@@ -1209,6 +1255,33 @@ public class Main extends JFrame {
 		};
 		thread.start();
 
+	}
+	
+	private void updateOrdersTable() {
+		OrderController orderController = new OrderController();
+		
+		startLoading();
+		lblReloadButtonOrders.setEnabled(false);
+		defaultTableModelOrders.setRowCount(0); // clear the table
+		Thread thread = new Thread() {
+			public void run() {
+				try {
+//					defaultTableModelOrders.addRow(orderController.getAll().toArray());
+					for (OrderInfo order:orderController.getAllInfo()) 
+						defaultTableModelOrders.addRow(new Object[] { order.getId(), order.getCustomer().getId(), order.getDeliveryDate(), order.getAddress(),
+								order.getCity().getId(), order.getOrderPrice(), order.getDeposit(), order.isPaid(), order.getDeliveryStatus(),
+								order.getEmployee().getId(), order.getOffice().getId(), order.getInvoice().getPaymentDate(), 
+								order.getInvoice().getVATratio(), order.getInvoice().getFinalPrice(),	
+						});	
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					lblReloadButtonOrders.setEnabled(true);
+					stopLoading();
+				}
+			}
+		};
+		thread.start();
 	}
 
 	private void startLoading() {

@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,6 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.PersonController;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -23,6 +27,9 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import model.DeliveryStatuses;
+import model.Employee;
+import model.OrderInfo;
+
 import javax.swing.SwingConstants;
 
 public class OrderWindow extends JFrame {
@@ -43,6 +50,7 @@ public class OrderWindow extends JFrame {
 	private boolean isEditPressed;
 	private boolean isMaximizePressed;
 	private boolean isPaid;
+	private boolean isNew;
 	private int x;
 	private int y;
 	private JTextField textFieldOfficeCity;
@@ -59,7 +67,10 @@ public class OrderWindow extends JFrame {
 	private JLabel lblOrderPriceError;
 	private JLabel lblDepositError;
 	private JLabel lblEmployeeError;
+	private JTextField txtFieldPersonID;
+	private OrderInfo order;
 
+	private JTextField txtFieldEmployeeID;
 	/**
 	 * Launch the application.
 	 */
@@ -67,7 +78,7 @@ public class OrderWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					OrderWindow frame = new OrderWindow();
+					OrderWindow frame = new OrderWindow(true);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -80,7 +91,9 @@ public class OrderWindow extends JFrame {
 	 * Create the frame.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public OrderWindow() {
+	public OrderWindow(Boolean isNew) {
+		this.isNew = isNew;
+		order = new OrderInfo(null, null, null, null, null, null);
 //FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
 		setTitle("Santorina");
@@ -189,7 +202,8 @@ public class OrderWindow extends JFrame {
 							break;
 						case 1: 
 							System.out.println("no");
-							//ABORT CHANGES
+							if(isNew)
+								dispose();
 							break;
 						case 2:
 							return;	
@@ -212,10 +226,12 @@ public class OrderWindow extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(isEditPressed) {
-				lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton2.png")));
-				lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/deleteButton.png")));
-				contentPane.grabFocus();
-				isEditPressed = false;
+					if(isNew)
+						dispose();
+					lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/editButton2.png")));
+					lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/deleteButton.png")));
+					contentPane.grabFocus();
+					isEditPressed = false;
 				switchEditable();
 				} else {
 					int answer = JOptionPane.showConfirmDialog(null, "Do you really want to delete Order No. #?", "Are you sure?", JOptionPane.YES_NO_OPTION);
@@ -231,6 +247,8 @@ public class OrderWindow extends JFrame {
 		JLabel lblInvoice = new JLabel("");
 		lblInvoice.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/invoiceButton.png")));
 		lblInvoice.setBounds(1200, 85, 50, 50);
+		if(isNew)
+			lblInvoice.setVisible(false);
 		contentPane.add(lblInvoice);
 		
 		JLabel lblWindowOrderBar = new JLabel("");
@@ -254,23 +272,49 @@ public class OrderWindow extends JFrame {
 		lblPersonError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblPersonError.setForeground(Color.RED);
 		lblPersonError.setBounds(110, 225, 340, 14);
-//		lblPersonError.setVisible(false);
+		if(!isNew)
+			lblPersonError.setVisible(false);
 		contentPane.add(lblPersonError);
 		
 		JLabel lblMoveToPerson = new JLabel("");
+		lblMoveToPerson.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtFieldPersonID.setVisible(true);
+			}
+		});
 		lblMoveToPerson.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
 		lblMoveToPerson.setBounds(275, 189, 25, 25);
 		contentPane.add(lblMoveToPerson);
+		
+		txtFieldPersonID = new JTextField();
+//TODO MAYBE NOT KEYRELEASED
+		txtFieldPersonID.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				checkCustomerIDError();
+			}
+		});
+		txtFieldPersonID.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+		txtFieldPersonID.setText("INPUT ID");
+		txtFieldPersonID.setBounds(310, 189, 86, 25);
+		contentPane.add(txtFieldPersonID);
+		txtFieldPersonID.setVisible(false);
+		txtFieldPersonID.setColumns(10);
 		
 		JLabel lblProducts = new JLabel("PRODUCT(S)");
 		lblProducts.setForeground(new Color(192, 176, 131));
 		lblProducts.setFont(new Font("Segoe UI", Font.BOLD, 40));
 		lblProducts.setBounds(459, 172, 240, 53);
+		if(isNew)
+			lblProducts.setVisible(false);
 		contentPane.add(lblProducts);
 		
 		JLabel lblMoveToProducts = new JLabel("");
 		lblMoveToProducts.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
 		lblMoveToProducts.setBounds(709, 189, 25, 25);
+		if(isNew)
+			lblMoveToProducts.setVisible(false);
 		contentPane.add(lblMoveToProducts);
 		
 		textFieldAddress = new JTextField();
@@ -488,13 +532,35 @@ public class OrderWindow extends JFrame {
 		lblEmployeeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblEmployeeError.setForeground(Color.RED);
 		lblEmployeeError.setBounds(762, 225, 340, 14);
-//		lblEmployeeError.setVisible(false);
+		if(!isNew)
+			lblEmployeeError.setVisible(false);
 		contentPane.add(lblEmployeeError);
 		
 		JLabel lblMoveToEmployee = new JLabel("");
+		lblMoveToEmployee.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtFieldEmployeeID.setVisible(true);
+			}
+		});
 		lblMoveToEmployee.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
 		lblMoveToEmployee.setBounds(972, 189, 25, 25);
 		contentPane.add(lblMoveToEmployee);
+		
+		txtFieldEmployeeID = new JTextField();
+		//TODO MAYBE NOT KEYRELEASED
+		txtFieldEmployeeID.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				checkEmployeeIDError();
+			}
+		});
+		txtFieldEmployeeID.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+		txtFieldEmployeeID.setText("INPUT ID");
+		txtFieldEmployeeID.setBounds(1007, 189, 86, 25);
+		contentPane.add(txtFieldEmployeeID);
+		txtFieldEmployeeID.setVisible(false);
+		txtFieldEmployeeID.setColumns(10);
 		
 		textFieldOffice = new JTextField();
 		textFieldOffice.setText("OFFICE");
@@ -523,6 +589,8 @@ public class OrderWindow extends JFrame {
 		textFieldOfficeAddress.setFont(new Font("Segoe UI", Font.BOLD, 40));
 		textFieldOfficeAddress.setBounds(760, 310, 405, 53);
 		textFieldOfficeAddress.setEditable(false);
+		if(isNew)
+			textFieldOfficeAddress.setForeground(new Color(172, 172, 172));
 		contentPane.add(textFieldOfficeAddress);
 		
 		JLabel lblOfficeAddressDescription = new JLabel("ADDRESS");
@@ -541,6 +609,8 @@ public class OrderWindow extends JFrame {
 		textFieldOfficeCity.setFont(new Font("Segoe UI", Font.BOLD, 40));
 		textFieldOfficeCity.setBounds(760, 378, 405, 53);
 		textFieldOfficeCity.setEditable(false);
+		if(isNew)
+			textFieldOfficeCity.setForeground(new Color(172, 172, 172));
 		contentPane.add(textFieldOfficeCity);
 		
 		JLabel lblOfficeCityDescription = new JLabel("CITY");
@@ -624,14 +694,65 @@ public class OrderWindow extends JFrame {
 		textAreaUpdates = new JTextArea();
 		textAreaUpdates.setLineWrap(true);
 		textAreaUpdates.setWrapStyleWord(true);
-		textAreaUpdates.setText("12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n\r\n12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n12.06.2022(17:30) - Product \"xxxx\" added to order\r\n12.06.2022(17:00) - Employee (name) assigned to order\r\n12.06.2022(15:35) - Delivery status changed to \"accepted\"\r\n12.06.2022(15:30) - Employee (name) assigned to order\r\n12.06.2022(15:00) - Order created\r\n\r\n");
+		if(isNew)
+			textAreaUpdates.setText("EXAMPLE:\r\n12.06.2022(17:30) - Product \"xxxx\" added to order");
 		textAreaUpdates.setForeground(new Color(192, 176, 131));
 		textAreaUpdates.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		textAreaUpdates.setEditable(false);
 		updatesScrollPane.setViewportView(textAreaUpdates);
 		textAreaUpdates.setCaretPosition(0);
+		
+		if(isNew) {
+			lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/confirm1.png")));
+			lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/storno.png")));
+			isEditPressed = true;
+			switchEditable();
+			textFieldCity.grabFocus();
+		}
 	}
 	
+	private void checkEmployeeIDError() {
+		try {
+			Integer number = Integer.parseInt(txtFieldEmployeeID.getText());	
+			PersonController personController = new PersonController();
+			if(number < 0) {
+				lblEmployeeError.setText("Must be a positive number!");
+			} else {
+				order.setEmployee((Employee) personController.getByID(number));
+				if(order.getEmployee() == null)
+					throw new NullPointerException();
+				lblEmployeeError.setVisible(false);
+			}
+		} catch(NumberFormatException ex) {
+			lblEmployeeError.setVisible(true);
+			lblEmployeeError.setText("Must be a positive number!");
+		} catch (SQLException | ClassCastException | NullPointerException exx) {
+			lblEmployeeError.setVisible(true);
+			lblEmployeeError.setText("No such person!");
+		}
+	}
+
+	private void checkCustomerIDError() {
+		try {
+			Integer number = Integer.parseInt(txtFieldPersonID.getText());	
+			PersonController personController = new PersonController();
+			if(number < 0) {
+				lblPersonError.setText("Must be a positive number!");
+			} else {
+				order.setCustomer(personController.getByID(number));
+				if(order.getCustomer() == null)
+					throw new NullPointerException();
+				lblPersonError.setVisible(false);
+			}
+		} catch(NumberFormatException ex) {
+			lblPersonError.setVisible(true);
+			lblPersonError.setText("Must be a positive number!");
+		} catch (SQLException | NullPointerException exx) {
+			lblPersonError.setVisible(true);
+			lblPersonError.setText("No such person!");
+		}
+	}
+
 	private boolean haveErrors() {
 		return lblPersonError.isVisible() || lblOrderPriceError.isVisible() || lblDepositError.isVisible() || lblEmployeeError.isVisible();
 	}
@@ -657,8 +778,10 @@ public class OrderWindow extends JFrame {
 			textFieldDeposit.setEditable(true);
 			textFieldCustomerNote.setEditable(true);
 			textFieldOffice.setEditable(true);
-			textFieldOfficeAddress.setEditable(true);
-			textFieldOfficeCity.setEditable(true);
+			if(!isNew) {
+				textFieldOfficeAddress.setEditable(true);
+				textFieldOfficeCity.setEditable(true);
+			}
 		} else {
 			textFieldAddress.setEditable(false);
 			textFieldCity.setEditable(false);
@@ -668,8 +791,10 @@ public class OrderWindow extends JFrame {
 			textFieldDeposit.setEditable(false);
 			textFieldCustomerNote.setEditable(false);
 			textFieldOffice.setEditable(false);
-			textFieldOfficeAddress.setEditable(false);
-			textFieldOfficeCity.setEditable(false);
+			if(!isNew) {
+				textFieldOfficeAddress.setEditable(false);
+				textFieldOfficeCity.setEditable(false);
+			}
 		}
 		
 	}
