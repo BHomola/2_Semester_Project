@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.LocationCityController;
 import controller.PersonController;
 
 import java.awt.Font;
@@ -28,9 +30,16 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import model.DeliveryStatuses;
 import model.Employee;
+import model.Location;
 import model.OrderInfo;
 
 import javax.swing.SwingConstants;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.event.PopupMenuEvent;
 
 public class OrderWindow extends JFrame {
 
@@ -71,6 +80,10 @@ public class OrderWindow extends JFrame {
 	private OrderInfo order;
 
 	private JTextField txtFieldEmployeeID;
+
+	private JLabel lblOfficeError;
+
+	private JComboBox comboBoxOffice;
 	/**
 	 * Launch the application.
 	 */
@@ -198,7 +211,7 @@ public class OrderWindow extends JFrame {
 					switch(answer) {
 						case 0: 
 							System.out.println("yes");
-							//SAVE CHANGES
+							buildOrder();
 							break;
 						case 1: 
 							System.out.println("no");
@@ -280,7 +293,11 @@ public class OrderWindow extends JFrame {
 		lblMoveToPerson.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				txtFieldPersonID.setVisible(true);
+				if(txtFieldPersonID.isVisible()) {
+					txtFieldPersonID.setVisible(false);
+				} else {
+					txtFieldPersonID.setVisible(true);
+				}
 			}
 		});
 		lblMoveToPerson.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
@@ -288,6 +305,24 @@ public class OrderWindow extends JFrame {
 		contentPane.add(lblMoveToPerson);
 		
 		txtFieldPersonID = new JTextField();
+		String personIDDefaultInput = "INPUT ID";
+		txtFieldPersonID.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (txtFieldPersonID.getText().equals(personIDDefaultInput))
+					txtFieldPersonID.setText("");
+				}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (txtFieldPersonID.getText().equals("")) {
+					txtFieldPersonID.setText(personIDDefaultInput);
+				} else {
+					if(!lblPersonError.isVisible())
+						txtFieldPersonID.setVisible(false);
+				}
+			}
+		});
 //TODO MAYBE NOT KEYRELEASED
 		txtFieldPersonID.addKeyListener(new KeyAdapter() {
 			@Override
@@ -323,7 +358,7 @@ public class OrderWindow extends JFrame {
 		textFieldAddress.setDisabledTextColor(Color.WHITE);
 		textFieldAddress.setBackground(Color.WHITE);
 		textFieldAddress.setForeground(new Color(192, 176, 131));
-		textFieldAddress.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldAddress.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		textFieldAddress.setBounds(108, 240, 430, 53);
 		textFieldAddress.setEditable(false);
 		contentPane.add(textFieldAddress);
@@ -341,7 +376,7 @@ public class OrderWindow extends JFrame {
 		textFieldCity.setDisabledTextColor(Color.WHITE);
 		textFieldCity.setBackground(Color.WHITE);
 		textFieldCity.setForeground(new Color(192, 176, 131));
-		textFieldCity.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldCity.setFont(new Font("Segoe UI", Font.BOLD, 15));
 		textFieldCity.setBounds(108, 308, 430, 53);
 		textFieldCity.setEditable(false);
 		contentPane.add(textFieldCity);
@@ -361,9 +396,8 @@ public class OrderWindow extends JFrame {
 		comboBoxDeliveryStatus.setForeground(new Color(192, 176, 131));
 		comboBoxDeliveryStatus.setFont(new Font("Segoe UI", Font.BOLD, 40));
 		comboBoxDeliveryStatus.setBounds(108, 376, 300, 53);
-		comboBoxDeliveryStatus.hidePopup();
-		comboBoxDeliveryStatus.setEditable(false);
-		comboBoxDeliveryStatus.setEnabled(false);
+		if(!isNew)
+			comboBoxDeliveryStatus.setEnabled(false);
 		contentPane.add(comboBoxDeliveryStatus);
 		
 		JLabel lblDeliveryStatusDescription = new JLabel("DELIVERY STATUS");
@@ -410,13 +444,10 @@ public class OrderWindow extends JFrame {
 		textFieldOrderPrice.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				try {
-					Double number = Double.parseDouble(textFieldOrderPrice.getText());
-					lblOrderPriceError.setVisible(false);
-					if(number < 0)
-						lblOrderPriceError.setVisible(true);
-				} catch(NumberFormatException ex) {
+				if(!isCorrectDoubleNumber(textFieldOrderPrice)) {
 					lblOrderPriceError.setVisible(true);
+				} else {
+					lblOrderPriceError.setVisible(false);
 				}
 			}
 		});
@@ -448,13 +479,10 @@ public class OrderWindow extends JFrame {
 		textFieldDeposit.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				try {
-					Double number = Double.parseDouble(textFieldDeposit.getText());
-					lblDepositError.setVisible(false);
-					if(number < 0)
-						lblDepositError.setVisible(true);
-				} catch(NumberFormatException ex) {
+				if(!isCorrectDoubleNumber(textFieldOrderPrice)) {
 					lblDepositError.setVisible(true);
+				} else {
+					lblDepositError.setVisible(false);
 				}
 			}
 		});
@@ -510,7 +538,7 @@ public class OrderWindow extends JFrame {
 		textFieldCustomerNote.setDisabledTextColor(Color.WHITE);
 		textFieldCustomerNote.setBackground(Color.WHITE);
 		textFieldCustomerNote.setForeground(new Color(192, 176, 131));
-		textFieldCustomerNote.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		textFieldCustomerNote.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		textFieldCustomerNote.setBounds(108, 648, 430, 53);
 		textFieldCustomerNote.setEditable(false);
 		contentPane.add(textFieldCustomerNote);
@@ -540,7 +568,11 @@ public class OrderWindow extends JFrame {
 		lblMoveToEmployee.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				txtFieldEmployeeID.setVisible(true);
+				if(txtFieldEmployeeID.isVisible()) {
+					txtFieldEmployeeID.setVisible(false);
+				} else {
+					txtFieldEmployeeID.setVisible(true);
+				}
 			}
 		});
 		lblMoveToEmployee.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
@@ -548,7 +580,25 @@ public class OrderWindow extends JFrame {
 		contentPane.add(lblMoveToEmployee);
 		
 		txtFieldEmployeeID = new JTextField();
-		//TODO MAYBE NOT KEYRELEASED
+		String emplopyeeIDDefaultInput = "INPUT ID";
+		txtFieldEmployeeID.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (txtFieldEmployeeID.getText().equals(emplopyeeIDDefaultInput))
+					txtFieldEmployeeID.setText("");
+				}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (txtFieldEmployeeID.getText().equals("")) {
+					txtFieldEmployeeID.setText(emplopyeeIDDefaultInput);
+				} else {
+					if(!lblEmployeeError.isVisible())
+						txtFieldEmployeeID.setVisible(false);
+				}
+			}
+		});
+//TODO MAYBE NOT KEYRELEASED
 		txtFieldEmployeeID.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -556,28 +606,55 @@ public class OrderWindow extends JFrame {
 			}
 		});
 		txtFieldEmployeeID.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		txtFieldEmployeeID.setText("INPUT ID");
+		txtFieldEmployeeID.setText(emplopyeeIDDefaultInput);
 		txtFieldEmployeeID.setBounds(1007, 189, 86, 25);
 		contentPane.add(txtFieldEmployeeID);
 		txtFieldEmployeeID.setVisible(false);
 		txtFieldEmployeeID.setColumns(10);
+	
+		comboBoxOffice = new JComboBox<Location>(new Vector<Location>(Main.cachedLocations));
+//		comboBoxOffice.setModel(new DefaultComboBoxModel<String>(Main.cachedLocations.toArray(new String[0])));
+//		comboBoxOffice = new JComboBox();
+		comboBoxOffice.addPopupMenuListener(new PopupMenuListener() {
+			public void popupMenuCanceled(PopupMenuEvent e) {
+			}
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+				comboBoxOffice.setFont(new Font("Segoe UI", Font.BOLD, 40));
+				order.setOffice((Location) comboBoxOffice.getSelectedItem());
+				textFieldOfficeAddress.setText(order.getOffice().getAddress());
+				textFieldOfficeCity.setText(order.getOffice().getCity().getCityName() + ", " 
+						+ order.getOffice().getCity().getZipCode() + ", "
+						+ order.getOffice().getCity().getCountry());
+			}
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				comboBoxOffice.setFont(new Font("Segoe UI", Font.BOLD, 15));
+			}
+		});
+		comboBoxOffice.setFocusable(false);
+		comboBoxOffice.setBorder(null);
+		comboBoxOffice.setBackground(Color.WHITE);
+		comboBoxOffice.setForeground(new Color(192, 176, 131));
+		comboBoxOffice.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		comboBoxOffice.setBounds(760, 240, 350, 53);
+		if(!isNew) {
+			comboBoxOffice.setEnabled(false);
+		}
+		contentPane.add(comboBoxOffice);
 		
-		textFieldOffice = new JTextField();
-		textFieldOffice.setText("OFFICE");
-		textFieldOffice.setBorder(null);
-		textFieldOffice.setDisabledTextColor(Color.WHITE);
-		textFieldOffice.setBackground(Color.WHITE);
-		textFieldOffice.setForeground(new Color(192, 176, 131));
-		textFieldOffice.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldOffice.setBounds(760, 240, 405, 53);
-		textFieldOffice.setEditable(false);
-		contentPane.add(textFieldOffice);
+		lblOfficeError = new JLabel("Must not be empty!");
+		lblOfficeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblOfficeError.setForeground(Color.RED);
+		lblOfficeError.setBounds(762, 293, 340, 14);
+		if(!isNew)
+			lblPersonError.setVisible(false);
+		contentPane.add(lblOfficeError);
 		
-		JLabel lblOfficeDescription = new JLabel("OFFICE");
+		JLabel lblOfficeDescription = new JLabel();
+		lblOfficeDescription.setText("OFFICE");
 		lblOfficeDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblOfficeDescription.setForeground(new Color(255, 238, 202));
 		lblOfficeDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblOfficeDescription.setBounds(1199, 261, 66, 27);
+		lblOfficeDescription.setBounds(1149, 261, 116, 27);
 		contentPane.add(lblOfficeDescription);
 		
 		textFieldOfficeAddress = new JTextField();
@@ -586,8 +663,8 @@ public class OrderWindow extends JFrame {
 		textFieldOfficeAddress.setDisabledTextColor(Color.WHITE);
 		textFieldOfficeAddress.setBackground(Color.WHITE);
 		textFieldOfficeAddress.setForeground(new Color(192, 176, 131));
-		textFieldOfficeAddress.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldOfficeAddress.setBounds(760, 310, 405, 53);
+		textFieldOfficeAddress.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		textFieldOfficeAddress.setBounds(760, 310, 390, 53);
 		textFieldOfficeAddress.setEditable(false);
 		if(isNew)
 			textFieldOfficeAddress.setForeground(new Color(172, 172, 172));
@@ -606,8 +683,8 @@ public class OrderWindow extends JFrame {
 		textFieldOfficeCity.setDisabledTextColor(Color.WHITE);
 		textFieldOfficeCity.setBackground(Color.WHITE);
 		textFieldOfficeCity.setForeground(new Color(192, 176, 131));
-		textFieldOfficeCity.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		textFieldOfficeCity.setBounds(760, 378, 405, 53);
+		textFieldOfficeCity.setFont(new Font("Segoe UI", Font.BOLD, 15));
+		textFieldOfficeCity.setBounds(760, 378, 451, 53);
 		textFieldOfficeCity.setEditable(false);
 		if(isNew)
 			textFieldOfficeCity.setForeground(new Color(172, 172, 172));
@@ -701,7 +778,6 @@ public class OrderWindow extends JFrame {
 		textAreaUpdates.setEditable(false);
 		updatesScrollPane.setViewportView(textAreaUpdates);
 		textAreaUpdates.setCaretPosition(0);
-		
 		if(isNew) {
 			lblEditCheck.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/confirm1.png")));
 			lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/storno.png")));
@@ -710,7 +786,35 @@ public class OrderWindow extends JFrame {
 			textFieldCity.grabFocus();
 		}
 	}
+
+	private void buildOrder() {
+		order.setAddress(textFieldAddress.getText().substring(0, 1).toUpperCase() + textFieldAddress.getText().substring(1));
+		order.setCity(null);
+	}
+
+
+//	private boolean isCorrectIntNumber(JTextField textField) {
+//		try {
+//			Integer number = Integer.parseInt(textField.getText());	
+//			if(number < 0)
+//				return false;
+//		} catch(NumberFormatException e) {
+//			return false;
+//		}
+//		return true;
+//	}
 	
+	private boolean isCorrectDoubleNumber(JTextField textField) {
+		try {
+			Double number = Double.parseDouble(textField.getText());	
+			if(number < 0)
+				return false;
+		} catch(NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+
 	private void checkEmployeeIDError() {
 		try {
 			Integer number = Integer.parseInt(txtFieldEmployeeID.getText());	
@@ -777,7 +881,7 @@ public class OrderWindow extends JFrame {
 			textFieldOrderPrice.setEditable(true);
 			textFieldDeposit.setEditable(true);
 			textFieldCustomerNote.setEditable(true);
-			textFieldOffice.setEditable(true);
+			comboBoxOffice.setEnabled(true);
 			if(!isNew) {
 				textFieldOfficeAddress.setEditable(true);
 				textFieldOfficeCity.setEditable(true);
@@ -790,7 +894,7 @@ public class OrderWindow extends JFrame {
 			textFieldOrderPrice.setEditable(false);
 			textFieldDeposit.setEditable(false);
 			textFieldCustomerNote.setEditable(false);
-			textFieldOffice.setEditable(false);
+			comboBoxOffice.setEnabled(false);
 			if(!isNew) {
 				textFieldOfficeAddress.setEditable(false);
 				textFieldOfficeCity.setEditable(false);
