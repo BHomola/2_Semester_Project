@@ -11,6 +11,7 @@ import controller.OrderController;
 import controller.StoneController;
 import controller.StoneTypeMaterialController;
 import dataaccess.DBConnection;
+import model.City;
 import model.IStoneUnit;
 import model.Location;
 import model.StoneMaterial;
@@ -56,6 +57,7 @@ public class Main extends JFrame {
 	public static ArrayList<StoneMaterial> cachedMaterials;
 	public static ArrayList<StoneType> cachedStoneTypes;
 	public static ArrayList<Location> cachedLocations;
+	public static ArrayList<City> cachedCities;
 	
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
@@ -1267,7 +1269,7 @@ public class Main extends JFrame {
 			public void run() {
 				try {
 //					defaultTableModelOrders.addRow(orderController.getAll().toArray());
-					for (OrderInfo order:orderController.getAllInfo()) 
+					for (OrderInfo order:orderController.getAllInfo())
 						defaultTableModelOrders.addRow(new Object[] { order.getId(), order.getCustomer().getId(), order.getDeliveryDate(), order.getAddress(),
 								order.getCity().getId(), order.getOrderPrice(), order.getDeposit(), order.isPaid(), order.getDeliveryStatus(),
 								order.getEmployee().getId(), order.getOffice().getId(), order.getInvoice().getPaymentDate(), 
@@ -1317,6 +1319,7 @@ public class Main extends JFrame {
 					cachedMaterials = (ArrayList<StoneMaterial>) matCtrl.getAllStoneMaterials();
 					cachedStoneTypes = (ArrayList<StoneType>) matCtrl.getAllStoneTypes();;
 					cachedLocations = (ArrayList<Location>) locCtrl.getAllLocations();
+					cachedCities = (ArrayList<City>) locCtrl.getAllCities();
 
 				} catch (Exception e) {
 					e.printStackTrace();

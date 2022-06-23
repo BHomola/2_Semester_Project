@@ -63,10 +63,11 @@ public class OrderInfo {
 	// TODO SETTERS IF CHANGE -> PUT NOTE INTO UPDATES
 
 	private void updateOrderPrice() {
-		orderPrice = 0;
-		if (products != null)
+		if (products != null && products.size() > 0) {
+			orderPrice = 0;
 			for (StoneProduct product : products)
 				orderPrice += product.getPrice();
+		}
 	}
 
 	public int getId() {
@@ -91,6 +92,7 @@ public class OrderInfo {
 
 	public void setProducts(List<StoneProduct> products) {
 		this.products = products;
+		updateOrderPrice();
 	}
 
 	public double getOrderPrice() {
@@ -188,7 +190,6 @@ public class OrderInfo {
 
 	public void setUpdates(String updates) {
 		this.updates = updates;
-		updateOrderPrice();
 	}
 
 	public void addUpdate(String note) {

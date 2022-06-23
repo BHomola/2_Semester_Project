@@ -37,4 +37,9 @@ public class Supplier extends Person {
 		return "Supplier [selectionOfProducts=" + selectionOfProducts + "]"  + super.toString();
 	}
 
+	@Override
+	public double getDiscount() {
+		return 0;
+	}
+
 }

@@ -136,4 +136,5 @@ public abstract class Person {
 				+ description + ", note=" + note + "]"  + super.toString();
 	}
 
+	public abstract double getDiscount();
 }

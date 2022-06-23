@@ -12,6 +12,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import model.City;
 import model.Location;
+import model.OrderInfo;
 
 public class CityLocationDAO implements ICityLocationDAO{
 	
@@ -87,6 +88,16 @@ public class CityLocationDAO implements ICityLocationDAO{
 	}
 
 	@Override
+	public Collection<City> getCityByZipCode(String zipCode) throws SQLException {
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = " SELECT *  FROM City WHERE Zipcode LIKE ?";
+		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setString(1, "%" + zipCode + "%");
+		ResultSet resultSet = pStatement.executeQuery();
+		return buildCities(resultSet);
+	}
+	
+	@Override
 	public Location getLocationByID(int id) throws SQLException {
 		Connection con = DBConnection.getConnection();
 		String sqlStatement = " SELECT * FROM [VIEW_LocationCity] "
@@ -99,7 +110,7 @@ public class CityLocationDAO implements ICityLocationDAO{
 		}
 		return null;
 	}
-
+	
 	@Override
 	public int createCity(City city) throws SQLException {
 		Connection con = DBConnection.getConnection();
@@ -204,5 +215,4 @@ public class CityLocationDAO implements ICityLocationDAO{
 		}
 		return success;
 	}
-
 }

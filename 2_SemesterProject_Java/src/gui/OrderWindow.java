@@ -3,12 +3,18 @@ package gui;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -19,7 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.LocationCityController;
+import controller.OrderController;
 import controller.PersonController;
+import dataaccess.OrderDAO;
 
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -28,8 +36,12 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
+import model.City;
+import model.Customer;
 import model.DeliveryStatuses;
 import model.Employee;
+import model.Invoice;
 import model.Location;
 import model.OrderInfo;
 
@@ -62,6 +74,7 @@ public class OrderWindow extends JFrame {
 	private boolean isNew;
 	private int x;
 	private int y;
+	private JTextField txtFieldEmployeeID;
 	private JTextField textFieldOfficeCity;
 	private JTextField textFieldOfficeAddress;
 	private JTextField textFieldOffice;
@@ -72,18 +85,20 @@ public class OrderWindow extends JFrame {
 	private JTextField textFieldCity;
 	private JTextField textFieldAddress;
 	private JComboBox<?> comboBoxDeliveryStatus;
+	private JComboBox<?> comboBoxOffice;
+	private JComboBox<?> comboBoxCity;
 	private JLabel lblPersonError;
 	private JLabel lblOrderPriceError;
 	private JLabel lblDepositError;
 	private JLabel lblEmployeeError;
+	private JLabel lblOfficeError;
+	private JLabel lblDeliveryDateError;
 	private JTextField txtFieldPersonID;
 	private OrderInfo order;
+	
+	
 
-	private JTextField txtFieldEmployeeID;
-
-	private JLabel lblOfficeError;
-
-	private JComboBox comboBoxOffice;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -201,7 +216,7 @@ public class OrderWindow extends JFrame {
 					lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/storno.png")));
 					isEditPressed = true;
 					switchEditable();
-					textFieldCity.grabFocus();
+					textFieldAddress.grabFocus();
 				} else {
 					if(haveErrors()) {
 						JOptionPane.showMessageDialog(null, "Check Errors!", "ERROR!", JOptionPane.ERROR_MESSAGE);
@@ -370,14 +385,55 @@ public class OrderWindow extends JFrame {
 		lblAddressDescription.setBounds(547, 261, 190, 27);
 		contentPane.add(lblAddressDescription);
 		
+//		comboBoxCity = new JComboBox();
+		comboBoxCity = new JComboBox<City>(new Vector<City>(Main.cachedCities));
+		comboBoxCity.setFocusable(false);
+		comboBoxCity.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				order.setCity((City) comboBoxCity.getSelectedItem());
+				textFieldCity.setText(order.getCity().getZipCode());
+			}
+		});
+		comboBoxCity.setBorder(null);
+		comboBoxCity.setBackground(Color.WHITE);
+		comboBoxCity.setForeground(new Color(192, 176, 131));
+		comboBoxCity.setFont(new Font("Segoe UI", Font.BOLD, 15));
+		comboBoxCity.setBounds(183, 308, 300, 53);
+		if(!isNew)
+			comboBoxCity.setEnabled(false);
+		comboBoxCity.setEditable(false);
+		contentPane.add(comboBoxCity);
+		
 		textFieldCity = new JTextField();
-		textFieldCity.setText("CITY");
+		textFieldCity.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				LocationCityController locationCityController = new LocationCityController();
+				ArrayList<City> myList = new ArrayList<>();
+				try {
+					myList = (ArrayList<City>) locationCityController.getCityByZipCode(textFieldCity.getText());
+				} catch (SQLException e2) {
+					e2.printStackTrace();
+				}
+				if (myList != null && myList.size() > 0) {
+					//comboBoxCity = new JComboBox<City>(new Vector<City>(myList));		
+					DefaultComboBoxModel defaultComboModel = new DefaultComboBoxModel();
+					for (int i = 0; i < myList.size(); i++) {
+						defaultComboModel.addElement(myList.get(i));
+					}
+					comboBoxCity.setModel(defaultComboModel);
+					comboBoxCity.showPopup();
+				}
+			}
+		});
+		if(isNew)
+			textFieldCity.setText("ZIPCODE");
 		textFieldCity.setBorder(null);
 		textFieldCity.setDisabledTextColor(Color.WHITE);
 		textFieldCity.setBackground(Color.WHITE);
 		textFieldCity.setForeground(new Color(192, 176, 131));
 		textFieldCity.setFont(new Font("Segoe UI", Font.BOLD, 15));
-		textFieldCity.setBounds(108, 308, 430, 53);
+		textFieldCity.setBounds(108, 308, 70, 53);
 		textFieldCity.setEditable(false);
 		contentPane.add(textFieldCity);
 		
@@ -398,6 +454,7 @@ public class OrderWindow extends JFrame {
 		comboBoxDeliveryStatus.setBounds(108, 376, 300, 53);
 		if(!isNew)
 			comboBoxDeliveryStatus.setEnabled(false);
+		comboBoxDeliveryStatus.setSelectedIndex(-1);
 		contentPane.add(comboBoxDeliveryStatus);
 		
 		JLabel lblDeliveryStatusDescription = new JLabel("DELIVERY STATUS");
@@ -407,8 +464,8 @@ public class OrderWindow extends JFrame {
 		lblDeliveryStatusDescription.setBounds(565, 397, 172, 27);
 		contentPane.add(lblDeliveryStatusDescription);
 		
-		textFieldDeliveryDate = new JTextField();
-		textFieldDeliveryDate.setText("DELIVERY DATE");
+		textFieldDeliveryDate = new JTextField();	
+		textFieldDeliveryDate.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		textFieldDeliveryDate.setBorder(null);
 		textFieldDeliveryDate.setDisabledTextColor(Color.WHITE);
 		textFieldDeliveryDate.setBackground(Color.WHITE);
@@ -417,6 +474,23 @@ public class OrderWindow extends JFrame {
 		textFieldDeliveryDate.setBounds(108, 444, 430, 53);
 		textFieldDeliveryDate.setEditable(false);
 		contentPane.add(textFieldDeliveryDate);
+		
+		lblDeliveryDateError = new JLabel("Must be in format YYYY-MM-DD(-)!");
+		lblDeliveryDateError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblDeliveryDateError.setForeground(Color.RED);
+		lblDeliveryDateError.setBounds(110, 497, 340, 14);
+		lblDeliveryDateError.setVisible(false);
+		contentPane.add(lblDeliveryDateError);
+		textFieldDeliveryDate.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!isCorrectDateFormat(textFieldDeliveryDate)) {
+					lblDeliveryDateError.setVisible(true);
+				} else {
+					lblDeliveryDateError.setVisible(false);
+				}
+			}
+		});
 		
 		JLabel lblDeliveryDateDescription = new JLabel("DELIVERY DATE");
 		lblDeliveryDateDescription.setForeground(new Color(255, 238, 202));
@@ -439,7 +513,8 @@ public class OrderWindow extends JFrame {
 		lblOrderPriceError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblOrderPriceError.setForeground(Color.RED);
 		lblOrderPriceError.setBounds(110, 565, 340, 14);
-		lblOrderPriceError.setVisible(false);
+		if(!isNew)
+			lblOrderPriceError.setVisible(false);
 		contentPane.add(lblOrderPriceError);
 		textFieldOrderPrice.addKeyListener(new KeyAdapter() {
 			@Override
@@ -474,7 +549,8 @@ public class OrderWindow extends JFrame {
 		lblDepositError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblDepositError.setForeground(Color.RED);
 		lblDepositError.setBounds(110, 635, 340, 14);
-		lblDepositError.setVisible(false);
+		if(!isNew)
+			lblDepositError.setVisible(false);
 		contentPane.add(lblDepositError);
 		textFieldDeposit.addKeyListener(new KeyAdapter() {
 			@Override
@@ -612,9 +688,9 @@ public class OrderWindow extends JFrame {
 		txtFieldEmployeeID.setVisible(false);
 		txtFieldEmployeeID.setColumns(10);
 	
-		comboBoxOffice = new JComboBox<Location>(new Vector<Location>(Main.cachedLocations));
-//		comboBoxOffice.setModel(new DefaultComboBoxModel<String>(Main.cachedLocations.toArray(new String[0])));
 //		comboBoxOffice = new JComboBox();
+		comboBoxOffice = new JComboBox<Location>(new Vector<Location>(Main.cachedLocations));
+//		comboBoxOffice.setModel(new DefaultComboBoxModel<Location>((Location[]) Main.cachedLocations.toArray()));
 		comboBoxOffice.addPopupMenuListener(new PopupMenuListener() {
 			public void popupMenuCanceled(PopupMenuEvent e) {
 			}
@@ -622,12 +698,11 @@ public class OrderWindow extends JFrame {
 				comboBoxOffice.setFont(new Font("Segoe UI", Font.BOLD, 40));
 				order.setOffice((Location) comboBoxOffice.getSelectedItem());
 				textFieldOfficeAddress.setText(order.getOffice().getAddress());
-				textFieldOfficeCity.setText(order.getOffice().getCity().getCityName() + ", " 
-						+ order.getOffice().getCity().getZipCode() + ", "
-						+ order.getOffice().getCity().getCountry());
+				textFieldOfficeCity.setText(order.getOffice().getCity().toString());
+				lblOfficeError.setVisible(false);
 			}
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-				comboBoxOffice.setFont(new Font("Segoe UI", Font.BOLD, 15));
+				comboBoxOffice.setFont(new Font("Segoe UI", Font.BOLD, 10));
 			}
 		});
 		comboBoxOffice.setFocusable(false);
@@ -783,15 +858,43 @@ public class OrderWindow extends JFrame {
 			lblDeleteStorno.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/storno.png")));
 			isEditPressed = true;
 			switchEditable();
-			textFieldCity.grabFocus();
+			textFieldAddress.grabFocus();
 		}
 	}
-
+	
 	private void buildOrder() {
-		order.setAddress(textFieldAddress.getText().substring(0, 1).toUpperCase() + textFieldAddress.getText().substring(1));
-		order.setCity(null);
+		OrderController orderController = new OrderController();
+		order.setAddress(textFieldAddress.getText().toLowerCase().substring(0, 1).toUpperCase() + textFieldAddress.getText().toLowerCase().substring(1));
+		order.setDeliveryStatus((DeliveryStatuses)comboBoxDeliveryStatus.getSelectedItem());
+		System.out.println(order.getDeliveryStatus());
+		order.setDeliveryDate(Date.valueOf(textFieldDeliveryDate.getText()));
+		order.setOrderPrice(Double.parseDouble(textFieldOrderPrice.getText()));
+		System.out.println(order.getOrderPrice());
+		order.setDeposit(Double.parseDouble(textFieldDeposit.getText()));
+		order.setPaid(isPaid);
+		order.setCustomerNote(textFieldCustomerNote.getText().toLowerCase().substring(0, 1).toUpperCase() + textFieldCustomerNote.getText().toLowerCase().substring(1));
+		order.setUpdates(textAreaUpdates.getText());
+		
+		order.setInvoice(new Invoice(order.getDeliveryDate(), 0.25, order.getOrderPrice()*order.getCustomer().getDiscount()));
+		System.out.println(order.getInvoice().getVATratio());
+		System.out.println(order);
+		try {
+			int id = orderController.createOrder(order);
+			JOptionPane.showInternalMessageDialog(null, "The order created, ID: " + id,
+					"Order created", JOptionPane.INFORMATION_MESSAGE);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-
+	
+	private boolean isCorrectDateFormat(JTextField textFieldDeliveryDate) {
+		try {
+			Date.valueOf(textFieldDeliveryDate.getText());
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+		return true;
+	}
 
 //	private boolean isCorrectIntNumber(JTextField textField) {
 //		try {
@@ -858,7 +961,8 @@ public class OrderWindow extends JFrame {
 	}
 
 	private boolean haveErrors() {
-		return lblPersonError.isVisible() || lblOrderPriceError.isVisible() || lblDepositError.isVisible() || lblEmployeeError.isVisible();
+		return lblPersonError.isVisible() || lblOrderPriceError.isVisible() || lblDepositError.isVisible() || lblEmployeeError.isVisible()
+				|| lblOfficeError.isVisible() || lblDeliveryDateError.isVisible();
 	}
 
 	private void checkMaximizeRestore() {
@@ -876,6 +980,7 @@ public class OrderWindow extends JFrame {
 		if(isEditPressed) {
 			textFieldAddress.setEditable(true);
 			textFieldCity.setEditable(true);
+			comboBoxCity.setEnabled(true);
 			comboBoxDeliveryStatus.setEnabled(true);
 			textFieldDeliveryDate.setEditable(true);
 			textFieldOrderPrice.setEditable(true);
@@ -889,6 +994,7 @@ public class OrderWindow extends JFrame {
 		} else {
 			textFieldAddress.setEditable(false);
 			textFieldCity.setEditable(false);
+			comboBoxCity.setEnabled(true);
 			comboBoxDeliveryStatus.setEnabled(false);
 			textFieldDeliveryDate.setEditable(false);
 			textFieldOrderPrice.setEditable(false);

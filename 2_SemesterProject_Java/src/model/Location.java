@@ -50,8 +50,13 @@ public class Location {
 
 	@Override
 	public String toString() {
-		return "Location [id=" + id + ", locationName=" + locationName + ", address=" + address + ", cityID=" + city + "]";
+		return locationName + ", " + address + ", " + city;
 	}
+	
+//	@Override
+//	public String toString() {
+//		return "Location [id=" + id + ", locationName=" + locationName + ", address=" + address + ", cityID=" + city + "]";
+//	}
 	
 	
 }

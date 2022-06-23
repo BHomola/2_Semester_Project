@@ -25,11 +25,13 @@ public class LocationCityController {
 		return dao.getCityByID(id);
 	}
 
-
+	public Collection<City> getCityByZipCode(String zipCode) throws SQLException {
+		return dao.getCityByZipCode(zipCode);
+	}
+	
 	public Location getLocationByID(int id) throws SQLException {
 		return dao.getLocationByID(id);
 	}
-
 
 	public int createCity(City city) throws SQLException {
 		return dao.createCity(city);

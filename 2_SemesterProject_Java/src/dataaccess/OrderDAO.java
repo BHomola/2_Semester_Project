@@ -134,7 +134,6 @@ public class OrderDAO implements IOrderDAO {
 		pStatement.setDouble(3, order.getInvoice().getVATratio());
 		pStatement.setDouble(4, order.getInvoice().getFinalPrice());
 		pStatement.execute();
-		
 		return generatedID;
 	}
 

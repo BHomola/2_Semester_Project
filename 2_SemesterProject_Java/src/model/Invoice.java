@@ -14,7 +14,7 @@ public class Invoice {
 		//this.id = id;
 		this.paymentDate = paymentDate;
 		this.VATratio = VATratio;
-		this.finalPrice = finalPrice;
+		setFinalPrice(finalPrice);
 		//this.discount = disocunt;
 	}
 	

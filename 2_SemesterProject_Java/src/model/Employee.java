@@ -70,5 +70,9 @@ public class Employee extends Person {
 		return "Employee [position=" + position + ", salary=" + salary + ", startDate=" + startDate + ", location="
 				+ location + ", login=" + login + "]"  + super.toString();
 	}
+	@Override
+	public double getDiscount() {
+		return 0;
+	}
 
 }
