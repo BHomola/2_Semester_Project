@@ -69,8 +69,6 @@ public class CityLocationDAO implements ICityLocationDAO{
 		String sqlStatement = "SELECT * FROM [VIEW_LocationCity]";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		ResultSet resultSet = pStatement.executeQuery();
-		if (resultSet.next() == false)
-			return null;
 		return buildLocations(resultSet);
 	}
 

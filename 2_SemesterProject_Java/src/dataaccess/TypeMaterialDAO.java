@@ -25,6 +25,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		ArrayList<StoneType> stoneTypeList = (ArrayList<StoneType>) buildTypes(resultSet);
 		ArrayList<StoneMaterial> materials = new ArrayList<>();
 		
+		int i = 0;
 		typeLoop:
 		for(StoneType type : stoneTypeList) {
 			for(StoneMaterial mat : materials) {
@@ -37,6 +38,9 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 			}
 			
 			materials.add(type.getMaterial());
+			materials.get(i).addType(type);
+			type.setsMaterial(materials.get(i));
+			i++;
 		}
 		return materials;
 	}
@@ -77,8 +81,6 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		String sqlStatement = "SELECT * FROM [VIEW_MaterialTypes]";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		ResultSet resultSet = pStatement.executeQuery();
-		if (resultSet.next() == false)
-			return null;
 		return buildMaterials(resultSet);
 	}
 
@@ -88,8 +90,7 @@ public class TypeMaterialDAO implements ITypeMaterialDAO {
 		String sqlStatement = "SELECT * FROM [VIEW_MaterialTypes]";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		ResultSet resultSet = pStatement.executeQuery();
-		if (resultSet.next() == false)
-			return null;
+
 		return buildTypes(resultSet);
 	}
 

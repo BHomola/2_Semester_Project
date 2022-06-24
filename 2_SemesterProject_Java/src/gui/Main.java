@@ -53,12 +53,11 @@ import javax.swing.SwingConstants;
 
 public class Main extends JFrame {
 
-	
 	public static ArrayList<StoneMaterial> cachedMaterials;
 	public static ArrayList<StoneType> cachedStoneTypes;
 	public static ArrayList<Location> cachedLocations;
 	public static ArrayList<City> cachedCities;
-	
+
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
 	private int x, y;
@@ -369,7 +368,7 @@ public class Main extends JFrame {
 		sidePane.setBackground(Color.WHITE);
 		slideSplitPane.setLeftComponent(sidePane);
 		sidePane.setLayout(null);
-		
+
 		lblCacheInfo = new JLabel("Caching Data...");
 		lblCacheInfo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCacheInfo.setForeground(new Color(222, 184, 135));
@@ -615,12 +614,12 @@ public class Main extends JFrame {
 		lblAddButtonOrders.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
 		lblAddButtonOrders.setBounds(1035, 130, 50, 50);
 		orders.add(lblAddButtonOrders);
-		
+
 		lblReloadButtonOrders = new JLabel("");
 		lblReloadButtonOrders.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(lblReloadButtonOrders.isEnabled()) {
+				if (lblReloadButtonOrders.isEnabled()) {
 					updateOrdersTable();
 				}
 			}
@@ -651,8 +650,9 @@ public class Main extends JFrame {
 		tableOrders.setBackground(Color.WHITE);
 
 		defaultTableModelOrders = new DefaultTableModel(new Object[][] { null, null, null },
-				new String[] { "OrderID", "CustomerID", "DeliveryDate", "Address", "CityID", "OrderPrice", "Deposit", "isPaid",
-						"DeliveryStatus", "EmployeeID", "LocationID", "PaymentDate", "VATration", "FinalPrice" }) {
+				new String[] { "OrderID", "CustomerID", "DeliveryDate", "Address", "CityID", "OrderPrice", "Deposit",
+						"isPaid", "DeliveryStatus", "EmployeeID", "LocationID", "PaymentDate", "VATration",
+						"FinalPrice" }) {
 			/**
 			* 
 			*/
@@ -717,12 +717,12 @@ public class Main extends JFrame {
 		lblInventoryTitle.setForeground(new Color(144, 124, 81));
 		lblInventoryTitle.setBounds(100, 83, 575, 133);
 		inventory.add(lblInventoryTitle);
-		
+
 		JLabel lblAddButtonInventory = new JLabel("");
 		lblAddButtonInventory.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
 		lblAddButtonInventory.setBounds(1035, 130, 50, 50);
 		inventory.add(lblAddButtonInventory);
-		
+
 		JLabel lblReloadButtonInventory = new JLabel("");
 		lblReloadButtonInventory.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonInventory.setBounds(1115, 130, 50, 50);
@@ -765,15 +765,15 @@ public class Main extends JFrame {
 					int rowIndex = tableInventory.getSelectedRow();
 					int id = (int) defaultTableModelInventory.getValueAt(rowIndex, 0);
 					String stoneType = (String) defaultTableModelInventory.getValueAt(rowIndex, 1);
-					new StoneUnitWindow(id).setVisible(true);
-					if (stoneType.equals("StoneCuttable")) {
 
+					if (stoneType.equals("StoneCuttable")) {
+						new StoneUnitWindow(id).setVisible(true);
 					}
 					if (stoneType.equals("StoneProduct")) {
-
+						new StoneUnitWindow(id).setVisible(true);
 					}
 					if (stoneType.equals("Remains")) {
-						
+						new StoneUnitRemainsWindow(id).setVisible(true);
 					}
 					System.out.println("Selected ID: " + id);
 				}
@@ -831,12 +831,12 @@ public class Main extends JFrame {
 		lblAddButtonMaterial.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
 		lblAddButtonMaterial.setBounds(1035, 130, 50, 50);
 		material.add(lblAddButtonMaterial);
-		
+
 		JLabel lblReloadButtonMaterial = new JLabel("");
 		lblReloadButtonMaterial.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonMaterial.setBounds(1115, 130, 50, 50);
 		material.add(lblReloadButtonMaterial);
-		
+
 		JLabel lblMainBarMaterial = new JLabel("");
 		lblMainBarMaterial.addMouseListener(new MouseAdapter() {
 			@Override
@@ -924,12 +924,12 @@ public class Main extends JFrame {
 		lblCustomersTitle.setForeground(new Color(144, 124, 81));
 		lblCustomersTitle.setBounds(100, 83, 600, 133);
 		customers.add(lblCustomersTitle);
-		
+
 		JLabel lblAddButtonCustomers = new JLabel("");
 		lblAddButtonCustomers.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
 		lblAddButtonCustomers.setBounds(1035, 130, 50, 50);
 		customers.add(lblAddButtonCustomers);
-		
+
 		JLabel lblReloadButtonCustomers = new JLabel("");
 		lblReloadButtonCustomers.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonCustomers.setBounds(1115, 130, 50, 50);
@@ -1022,12 +1022,12 @@ public class Main extends JFrame {
 		lblSuppliersTitle.setForeground(new Color(144, 124, 81));
 		lblSuppliersTitle.setBounds(100, 83, 510, 133);
 		suppliers.add(lblSuppliersTitle);
-		
+
 		JLabel lblAddButtonSuppliers = new JLabel("");
 		lblAddButtonSuppliers.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
 		lblAddButtonSuppliers.setBounds(1035, 130, 50, 50);
 		suppliers.add(lblAddButtonSuppliers);
-		
+
 		JLabel lblReloadButtonSuppliers = new JLabel("");
 		lblReloadButtonSuppliers.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonSuppliers.setBounds(1115, 130, 50, 50);
@@ -1120,12 +1120,12 @@ public class Main extends JFrame {
 		lblEmployeesTitle.setForeground(new Color(144, 124, 81));
 		lblEmployeesTitle.setBounds(100, 83, 560, 133);
 		employees.add(lblEmployeesTitle);
-		
+
 		JLabel lblAddButtonEmployees = new JLabel("");
 		lblAddButtonEmployees.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
 		lblAddButtonEmployees.setBounds(1035, 130, 50, 50);
 		employees.add(lblAddButtonEmployees);
-		
+
 		JLabel lblReloadButtonEmployees = new JLabel("");
 		lblReloadButtonEmployees.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonEmployees.setBounds(1115, 130, 50, 50);
@@ -1177,6 +1177,7 @@ public class Main extends JFrame {
 		databaseCheck();
 		cacheData();
 	}
+
 	private void clock() {
 		Thread clock = new Thread() {
 			public void run() {
@@ -1258,10 +1259,10 @@ public class Main extends JFrame {
 		thread.start();
 
 	}
-	
+
 	private void updateOrdersTable() {
 		OrderController orderController = new OrderController();
-		
+
 		startLoading();
 		lblReloadButtonOrders.setEnabled(false);
 		defaultTableModelOrders.setRowCount(0); // clear the table
@@ -1269,12 +1270,13 @@ public class Main extends JFrame {
 			public void run() {
 				try {
 //					defaultTableModelOrders.addRow(orderController.getAll().toArray());
-					for (OrderInfo order:orderController.getAllInfo())
-						defaultTableModelOrders.addRow(new Object[] { order.getId(), order.getCustomer().getId(), order.getDeliveryDate(), order.getAddress(),
-								order.getCity().getId(), order.getOrderPrice(), order.getDeposit(), order.isPaid(), order.getDeliveryStatus(),
-								order.getEmployee().getId(), order.getOffice().getId(), order.getInvoice().getPaymentDate(), 
-								order.getInvoice().getVATratio(), order.getInvoice().getFinalPrice(),	
-						});	
+					for (OrderInfo order : orderController.getAllInfo())
+						defaultTableModelOrders.addRow(new Object[] { order.getId(), order.getCustomer().getId(),
+								order.getDeliveryDate(), order.getAddress(), order.getCity().getId(),
+								order.getOrderPrice(), order.getDeposit(), order.isPaid(), order.getDeliveryStatus(),
+								order.getEmployee().getId(), order.getOffice().getId(),
+								order.getInvoice().getPaymentDate(), order.getInvoice().getVATratio(),
+								order.getInvoice().getFinalPrice(), });
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} finally {
@@ -1307,7 +1309,7 @@ public class Main extends JFrame {
 			isMaximizePressed = false;
 		}
 	}
-	
+
 	private void cacheData() {
 		Thread thread = new Thread() {
 			public void run() {
@@ -1315,16 +1317,18 @@ public class Main extends JFrame {
 					lblCacheInfo.setText("Caching Data...");
 					StoneTypeMaterialController matCtrl = new StoneTypeMaterialController();
 					LocationCityController locCtrl = new LocationCityController();
-					
+
 					cachedMaterials = (ArrayList<StoneMaterial>) matCtrl.getAllStoneMaterials();
-					cachedStoneTypes = (ArrayList<StoneType>) matCtrl.getAllStoneTypes();;
+					cachedStoneTypes = (ArrayList<StoneType>) matCtrl.getAllStoneTypes();
 					cachedLocations = (ArrayList<Location>) locCtrl.getAllLocations();
 					cachedCities = (ArrayList<City>) locCtrl.getAllCities();
 
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
-					lblCacheInfo.setText("<html>Cached data:<br/>"+cachedMaterials.size()+" Materials<br/>"+cachedStoneTypes.size()+" Stone Types<br/>"+ cachedLocations.size()+" Locations</html>");
+					lblCacheInfo.setText("<html>Cached data:<br/>" + cachedMaterials.size() + " Materials<br/>"
+							+ cachedStoneTypes.size() + " Stone Types<br/>" + cachedLocations.size()
+							+ " Locations</html>");
 				}
 			}
 		};

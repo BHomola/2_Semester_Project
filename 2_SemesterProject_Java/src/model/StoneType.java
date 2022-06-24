@@ -96,8 +96,7 @@ public class StoneType {
 
 	@Override
 	public String toString() {
-		return "StoneType [id=" + id + ", name=" + name + ", description=" + description + ", picturePath="
-				+ picturePath + ", supplierID=" + supplierID + ", material=" + material.toString() + "]";
+		return name;
 	}
 	
 	
