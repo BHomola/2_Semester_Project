@@ -55,7 +55,7 @@ public class StoneCuttable extends Stone {
 
 	@Override
 	public int getPieces() {
-		int sum = 0;
+		int sum = 1;
 		for (IStoneUnit su: getAllStoneUnits())
 			if(su instanceof Remains)
 				sum += su.getPieces();

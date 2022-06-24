@@ -13,6 +13,10 @@ public class Remains extends StoneUnit {
 
 	@Override
 	public int getPieces() {
+		return 1;
+	}
+	
+	public int getPiecesCoint() {
 		return pieces;
 	}
 

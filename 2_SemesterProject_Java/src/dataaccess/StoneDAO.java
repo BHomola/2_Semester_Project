@@ -38,7 +38,7 @@ public class StoneDAO implements IStoneDAO {
 		ResultSet rs = statement.executeQuery();
 
 		ArrayList<IStoneUnit> stoneUnits = buildStoneUnitsPartial(rs);
-		/*
+		
 		// assigning parents stones and child stones
 		query = "SELECT * FROM StoneCuttable";
 		statement = DBConnection.getConnection().prepareStatement(query);
@@ -57,7 +57,7 @@ public class StoneDAO implements IStoneDAO {
 				}
 			}
 		}
-		*/
+		
 		return stoneUnits;
 	}
 
@@ -162,7 +162,7 @@ public class StoneDAO implements IStoneDAO {
 			if (stone instanceof StoneProduct) {
 				query = "INSERT INTO Stone (StoneID, TotalSize) VALUES (?,?);\r\n"
 						+ "INSERT INTO StoneProduct (StoneID, Price, OrderID) VALUES (?,?,?);";
-
+				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, generatedID);
 				statement.setInt(2, (int) ((Stone) stone).getTotalSize());
 				statement.setInt(3, generatedID);
@@ -172,21 +172,22 @@ public class StoneDAO implements IStoneDAO {
 			}
 			if (stone instanceof StoneCuttable) {
 				query = "INSERT INTO Stone (StoneID, TotalSize) VALUES (?,?);\r\n";
-
+				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, generatedID);
 				statement.setInt(2, (int) ((Stone) stone).getTotalSize());
 
 			}
 			if (stone instanceof Remains) {
 				query = "INSERT INTO Remains (RemainsID, Pieces, material) VALUES (?, ?); ";
+				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, generatedID);
 				statement.setInt(2, ((Remains) stone).getPieces());
 			}
 			statement.executeUpdate();
 
 			if (parentStone != null) {
-				statement = dbConnection.prepareStatement(query);
 				query = "INSERT INTO CuttableStone (StoneID, StoneUnitID) VALUES (?, ?); ";
+				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, ((StoneUnit) parentStone).getId());
 				statement.setInt(2, generatedID);
 				statement.executeUpdate();
@@ -228,35 +229,32 @@ public class StoneDAO implements IStoneDAO {
 			statement.setInt(11, stoneUnit.getSupplier().getId());
 			statement.setInt(12, stoneUnit.getEmployee().getId());
 			statement.setInt(13, stoneUnit.getId());
+			int rowsAffected = statement.executeUpdate();
 
-			ResultSet rs = statement.executeQuery();
-
-			statement = dbConnection.prepareStatement(query);
 			if (stone instanceof StoneProduct) {
 				query = "UPDATE Stone SET TotalSize=? WHERE StoneID=?; UPDATE StoneProduct SET Price=?, OrderID=? WHERE StoneID=?";
-
+				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, (int) ((Stone) stone).getTotalSize());
 				statement.setInt(2, (int) ((Stone) stone).getId());
 				statement.setInt(3, (int) ((StoneProduct) stone).getPrice());
 				statement.setInt(4, ((StoneProduct) stone).getOrderID());
-				statement.setInt(2, (int) ((StoneProduct) stone).getId());
+				statement.setInt(5, (int) ((StoneProduct) stone).getId());
 
 			}
 			if (stone instanceof StoneCuttable) {
 				query = "UPDATE Stone SET TotalSize=? WHERE StoneID=?";
-
+				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, (int) ((Stone) stone).getTotalSize());
-				statement.setInt(1, (int) ((Stone) stone).getId());
+				statement.setInt(2, (int) ((Stone) stone).getId());
 
 			}
 			if (stone instanceof Remains) {
 				query = "UPDATE Remains SET Pieces=? WHERE RemainsID=?; ";
-
+				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, ((Remains) stone).getPieces());
 				statement.setInt(2, ((Remains) stone).getId());
 			}
 			statement.executeUpdate();
-
 			dbConnection.commit();
 			success = true;
 		} catch (SQLException e) {

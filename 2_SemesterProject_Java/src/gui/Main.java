@@ -98,11 +98,11 @@ public class Main extends JFrame {
 		// Local JComponents
 		DefaultTableModel defaultTableModelInventory = new DefaultTableModel(new Object[][] { null, null, null },
 				new String[] { "ID", "Stone Type", "Origin", "Width", "Weight", "Description", "Created Date",
-						"Location", "Status", "Material", "Type" }) {
+						"Location", "Status", "Material", "Type", "No Of Products" }) {
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Double.class,
-					String.class, String.class, String.class, String.class, String.class, String.class };
+					String.class, String.class, String.class, String.class, String.class, String.class, Integer.class};
 
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -724,6 +724,13 @@ public class Main extends JFrame {
 		inventory.add(lblAddButtonInventory);
 
 		JLabel lblReloadButtonInventory = new JLabel("");
+		lblReloadButtonInventory.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				fillStonesToInventory(defaultTableModelInventory);
+				
+			}
+		});
 		lblReloadButtonInventory.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonInventory.setBounds(1115, 130, 50, 50);
 		inventory.add(lblReloadButtonInventory);
@@ -1242,10 +1249,20 @@ public class Main extends JFrame {
 					for (IStoneUnit stoneUnit : stoneUnits) {
 						StoneUnit stone = (StoneUnit) stoneUnit;
 						defaultTableModelInventory.addRow(
-								new Object[] { stone.getId(), stone.getStoneKind(), stone.getOrigin(), stone.getWidth(),
-										stone.getWeight(), stone.getDescription(), stone.getCreatedDate(),
-										stone.getLocation().getLocationName(), stone.getStatus().toString(),
-										stone.getStoneType().getMaterial().getName(), stone.getStoneType().getName() });
+								new Object[] {
+										stone.getId(),
+										stone.getStoneKind(),
+										stone.getOrigin(),
+										stone.getWidth(),
+										stone.getWeight(),
+										stone.getDescription(),
+										stone.getCreatedDate(),
+										stone.getLocation().getLocationName(),
+										stone.getStatus().toString(),
+										stone.getStoneType().getMaterial().getName(),
+										stone.getStoneType().getName(),
+										stoneUnit.getPieces()
+										});
 
 					}
 
@@ -1334,4 +1351,5 @@ public class Main extends JFrame {
 		};
 		thread.start();
 	}
+	
 }
