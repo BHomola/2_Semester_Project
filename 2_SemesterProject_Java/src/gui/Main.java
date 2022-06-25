@@ -624,7 +624,7 @@ public class Main extends JFrame {
 		lblAddButtonOrders.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				OrderWindow orderWindow = new OrderWindow(true);
+				OrderWindow orderWindow = new OrderWindow(true, -1);
 				orderWindow.setVisible(true);
 			}
 		});
@@ -662,6 +662,15 @@ public class Main extends JFrame {
 		orders.add(scrollPaneOrders);
 
 		JTable tableOrders = new JTable();
+		tableOrders.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = tableRowSorterOrders.convertRowIndexToModel(tableOrders.getSelectedRow());
+				int id = (int) defaultTableModelOrders.getValueAt(index, 0);
+				OrderWindow orderWindow = new OrderWindow(false, id);
+				orderWindow.setVisible(true);
+			}
+		});
 		tableOrders.setDefaultEditor(Object.class, null); // non-editable
 		tableOrders.setGridColor(new Color(172, 172, 172));
 		tableOrders.setBackground(Color.WHITE);

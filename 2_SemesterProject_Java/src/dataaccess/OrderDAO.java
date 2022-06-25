@@ -39,7 +39,7 @@ public class OrderDAO implements IOrderDAO {
 		String sqlStatement = "SELECT * FROM VIEW_OrderInfo ";
 		Statement statement = con.createStatement();
 		ResultSet resultSet = statement.executeQuery(sqlStatement);
-		return buildOrders(resultSet);
+		return getAllInfo(resultSet);
 	}
 
 	@Override
@@ -98,8 +98,8 @@ public class OrderDAO implements IOrderDAO {
 	@Override
 	public int createOrder(OrderInfo order) throws SQLException {
 		int generatedID = -1;
-		if(order.getInvoice() == null)
-			return generatedID;
+//		if(order.getInvoice() == null)
+//			return generatedID;
 		
 		Connection con = DBConnection.getConnection();
 		String sqlStatement = "INSERT INTO OrderInfo(DeliveryStatus, DeliveryDate, Address, CityID,"
@@ -125,16 +125,29 @@ public class OrderDAO implements IOrderDAO {
 		if (resultSet.next())
 			generatedID = resultSet.getInt("generatedID");
 		
-		sqlStatement = "INSERT INTO Invoice(OrderID, PaymentDate, VATratio, FinalPrice)"
-				+ " VALUES(?,?,?,?)";
-		pStatement = con.prepareStatement(sqlStatement);
-		pStatement.setInt(1, generatedID);
-		pStatement.setDate(2, order.getInvoice().getPaymentDate() == null ? 
-				null : new java.sql.Date(order.getInvoice().getPaymentDate().getTime()));
-		pStatement.setDouble(3, order.getInvoice().getVATratio());
-		pStatement.setDouble(4, order.getInvoice().getFinalPrice());
-		pStatement.execute();
+//		sqlStatement = "INSERT INTO Invoice(OrderID, PaymentDate, VATratio, FinalPrice)"
+//				+ " VALUES(?,?,?,?)";
+//		pStatement = con.prepareStatement(sqlStatement);
+//		pStatement.setInt(1, generatedID);
+//		pStatement.setDate(2, order.getInvoice().getPaymentDate() == null ? 
+//				null : new java.sql.Date(order.getInvoice().getPaymentDate().getTime()));
+//		pStatement.setDouble(3, order.getInvoice().getVATratio());
+//		pStatement.setDouble(4, order.getInvoice().getFinalPrice());
+//		pStatement.execute();
 		return generatedID;
+	}
+	
+	public boolean createInvoice(int orderID, Invoice invoice) throws SQLException {
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = "INSERT INTO Invoice(OrderID, PaymentDate, VATratio, FinalPrice)"
+				+ " VALUES(?,?,?,?)";
+		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setInt(1, orderID);
+		pStatement.setDate(2, invoice.getPaymentDate() == null ? 
+				null : new java.sql.Date(invoice.getPaymentDate().getTime()));
+		pStatement.setDouble(3,invoice.getVATratio());
+		pStatement.setDouble(4, invoice.getFinalPrice());
+		return pStatement.execute();
 	}
 
 	@Override
@@ -183,13 +196,37 @@ public class OrderDAO implements IOrderDAO {
 		order.setProducts((List<StoneProduct>) products);
 		order.setUpdates(updates);
 		return order;
-
 	}
 
 	public static List<OrderInfo> buildOrders(ResultSet resultSet) throws SQLException {
 		ArrayList<OrderInfo> myList = new ArrayList<>();
 		while (resultSet.next())
 			myList.add(buildOrder(resultSet));
+		return myList;
+	}
+	
+	private static OrderInfo getInfo(ResultSet resultSet) throws SQLException {
+		int id = resultSet.getInt("OrderID");
+		Customer customer = new Customer(null, null, null, null, null, null, id, null, id, false, false, id, null);
+		customer.setId(resultSet.getInt("CustomerID"));
+		Date deliveryDate = resultSet.getDate("DeliveryDate");
+		String address = resultSet.getString("Address");
+		City city = new City(resultSet.getInt("CityID"), null, null, null);
+		double orderPrice = resultSet.getDouble("OrderPrice");
+		double deposit = resultSet.getDouble("Deposit");
+		boolean isPaid = resultSet.getBoolean("IsPaid");
+		DeliveryStatuses deliveryStatus = DeliveryStatuses.GetStatusByID(resultSet.getInt("DeliveryStatus"));
+		Employee employee = new Employee(resultSet.getInt("EmployeeID"));
+		Location office = new Location(resultSet.getInt("LocationID"), null, null, null);
+		Invoice invoice = getInvoice(resultSet);
+		return new OrderInfo(id, (Customer) customer, orderPrice, (Employee) employee, office, invoice,
+				deliveryStatus, deliveryDate, address, city, deposit, isPaid, null);
+	}
+	
+	public static  Collection<OrderInfo> getAllInfo(ResultSet resultSet) throws SQLException {
+		ArrayList<OrderInfo> myList = new ArrayList<>();
+		while(resultSet.next())
+			myList.add(getInfo(resultSet));
 		return myList;
 	}
 

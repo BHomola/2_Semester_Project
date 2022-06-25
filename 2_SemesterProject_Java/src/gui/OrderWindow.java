@@ -77,7 +77,6 @@ public class OrderWindow extends JFrame {
 	private JTextField txtFieldEmployeeID;
 	private JTextField textFieldOfficeCity;
 	private JTextField textFieldOfficeAddress;
-	private JTextField textFieldOffice;
 	private JTextField textFieldCustomerNote;
 	private JTextField textFieldDeposit;
 	private JTextField textFieldOrderPrice;
@@ -95,6 +94,14 @@ public class OrderWindow extends JFrame {
 	private JLabel lblDeliveryDateError;
 	private JTextField txtFieldPersonID;
 	private OrderInfo order;
+
+	private OrderInfo orderInfo;
+
+	private JLabel lblPerson;
+
+	private JLabel lblIsPaid;
+
+	private JLabel lblEmployee;
 	
 	
 
@@ -106,7 +113,7 @@ public class OrderWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					OrderWindow frame = new OrderWindow(true);
+					OrderWindow frame = new OrderWindow(true, -1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -117,9 +124,17 @@ public class OrderWindow extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param id 
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public OrderWindow(Boolean isNew) {
+	public OrderWindow(Boolean isNew, int id) {
+		OrderController orderController = new OrderController();
+		if(id != -1)
+			try {
+				orderInfo = orderController.getByID(id);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}	
 		this.isNew = isNew;
 		order = new OrderInfo(null, null, null, null, null, null);
 //FRAME		
@@ -127,7 +142,7 @@ public class OrderWindow extends JFrame {
 		setTitle("Santorina");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(320, 180, 1280, 720);
-
+		
 //CONTENT PANE
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -201,7 +216,13 @@ public class OrderWindow extends JFrame {
 		titleBarPane.add(lblMinimize);
 		
 //TITLE		
+		
 		JLabel lblTitle = new JLabel("ORDER NO. #");
+		if(isNew) {
+			lblTitle.setText("NEW ORDER");
+		} else {
+			lblTitle.setText("ORDER NO. #" + id);
+		}
 		lblTitle.setForeground(new Color(144, 124, 81));
 		lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
 		lblTitle.setBounds(105, 60, 515, 94);
@@ -225,11 +246,11 @@ public class OrderWindow extends JFrame {
 					int answer = JOptionPane.showConfirmDialog(null, "Do you really want to apply changes?", "Are you sure?", JOptionPane.YES_NO_CANCEL_OPTION);
 					switch(answer) {
 						case 0: 
-							System.out.println("yes");
+//							System.out.println("yes");
 							buildOrder();
 							break;
 						case 1: 
-							System.out.println("no");
+	//						System.out.println("no");
 							if(isNew)
 								dispose();
 							break;
@@ -262,7 +283,7 @@ public class OrderWindow extends JFrame {
 					isEditPressed = false;
 				switchEditable();
 				} else {
-					int answer = JOptionPane.showConfirmDialog(null, "Do you really want to delete Order No. #?", "Are you sure?", JOptionPane.YES_NO_OPTION);
+					int answer = JOptionPane.showConfirmDialog(null, "Do you really want to delete Order No. #" + id, "Are you sure?", JOptionPane.YES_NO_OPTION);
 					if(answer == 1) {}
 						//DELETE 
 				}
@@ -290,7 +311,7 @@ public class OrderWindow extends JFrame {
 		contentPane.add(lblSplitLine);
 		
 //CONTENT		
-		JLabel lblPerson = new JLabel("PERSON");
+		lblPerson = new JLabel("PERSON");
 		lblPerson.setForeground(new Color(192, 176, 131));
 		lblPerson.setFont(new Font("Segoe UI", Font.BOLD, 40));
 		lblPerson.setBounds(108, 172, 156, 53);
@@ -346,7 +367,7 @@ public class OrderWindow extends JFrame {
 			}
 		});
 		txtFieldPersonID.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		txtFieldPersonID.setText("INPUT ID");
+		txtFieldPersonID.setText(personIDDefaultInput);
 		txtFieldPersonID.setBounds(310, 189, 86, 25);
 		contentPane.add(txtFieldPersonID);
 		txtFieldPersonID.setVisible(false);
@@ -454,7 +475,7 @@ public class OrderWindow extends JFrame {
 		comboBoxDeliveryStatus.setBounds(108, 376, 300, 53);
 		if(!isNew)
 			comboBoxDeliveryStatus.setEnabled(false);
-		comboBoxDeliveryStatus.setSelectedIndex(-1);
+		comboBoxDeliveryStatus.setSelectedIndex(0);
 		contentPane.add(comboBoxDeliveryStatus);
 		
 		JLabel lblDeliveryStatusDescription = new JLabel("DELIVERY STATUS");
@@ -563,9 +584,10 @@ public class OrderWindow extends JFrame {
 			}
 		});
 		
-		JLabel lblIsPaid = new JLabel("");
-		//GET DATA
-		isPaid = true;
+		lblIsPaid = new JLabel("");
+		isPaid = false;
+		if(orderInfo != null)
+			isPaid = orderInfo.isPaid();
 		lblIsPaid.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -626,7 +648,7 @@ public class OrderWindow extends JFrame {
 		lblCustomerNoteDescription.setBounds(565, 670, 172, 27);
 		contentPane.add(lblCustomerNoteDescription);
 		
-		JLabel lblEmployee = new JLabel("EMPLOYEE");
+		lblEmployee = new JLabel("EMPLOYEE");
 		lblEmployee.setForeground(new Color(192, 176, 131));
 		lblEmployee.setFont(new Font("Segoe UI", Font.BOLD, 40));
 		lblEmployee.setBounds(760, 172, 200, 53);
@@ -860,24 +882,45 @@ public class OrderWindow extends JFrame {
 			switchEditable();
 			textFieldAddress.grabFocus();
 		}
+		setAllInfo();
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void setAllInfo() {
+		lblPerson.setText(orderInfo.getCustomer().getName());
+		txtFieldPersonID.setText(String.valueOf(orderInfo.getCustomer().getId()));
+		textFieldAddress.setText(orderInfo.getAddress());
+		textFieldCity.setText(orderInfo.getCity().getZipCode());
+		comboBoxCity.setModel(new DefaultComboBoxModel(new String[] {orderInfo.getCity().toString()}));
+//		comboBoxCity.setSelectedItem(orderInfo.getCity());
+		comboBoxDeliveryStatus.setSelectedItem(orderInfo.getDeliveryStatus());
+		textFieldDeliveryDate.setText(orderInfo.getDeliveryDate().toString());
+		textFieldOrderPrice.setText(String.valueOf(orderInfo.getOrderPrice()));
+		textFieldDeposit.setText(String.valueOf(orderInfo.getDeposit()));
+		textFieldCustomerNote.setText(orderInfo.getCustomerNote());
+		lblEmployee.setText(orderInfo.getEmployee().getName());
+		txtFieldEmployeeID.setText(String.valueOf(orderInfo.getEmployee().getId()));
+//		comboBoxOffice.setSelectedItem(orderInfo.getOffice());
+		for(int i=0; i < Main.cachedCities.size(); i++)
+			if(Main.cachedCities.get(i).getId() == orderInfo.getOffice().getId()) {
+				comboBoxOffice.setSelectedIndex(i+1);
+				break;
+			}
+		textFieldOfficeAddress.setText(orderInfo.getOffice().getAddress());
+		textFieldOfficeCity.setText(orderInfo.getOffice().getCity().toString());
+		textAreaUpdates.setText(orderInfo.getUpdates());
+	}
+
 	private void buildOrder() {
 		OrderController orderController = new OrderController();
 		order.setAddress(textFieldAddress.getText().toLowerCase().substring(0, 1).toUpperCase() + textFieldAddress.getText().toLowerCase().substring(1));
 		order.setDeliveryStatus((DeliveryStatuses)comboBoxDeliveryStatus.getSelectedItem());
-		System.out.println(order.getDeliveryStatus());
 		order.setDeliveryDate(Date.valueOf(textFieldDeliveryDate.getText()));
 		order.setOrderPrice(Double.parseDouble(textFieldOrderPrice.getText()));
-		System.out.println(order.getOrderPrice());
 		order.setDeposit(Double.parseDouble(textFieldDeposit.getText()));
 		order.setPaid(isPaid);
 		order.setCustomerNote(textFieldCustomerNote.getText().toLowerCase().substring(0, 1).toUpperCase() + textFieldCustomerNote.getText().toLowerCase().substring(1));
 		order.setUpdates(textAreaUpdates.getText());
-		
-		order.setInvoice(new Invoice(order.getDeliveryDate(), 0.25, order.getOrderPrice()*order.getCustomer().getDiscount()));
-		System.out.println(order.getInvoice().getVATratio());
-		System.out.println(order);
 		try {
 			int id = orderController.createOrder(order);
 			JOptionPane.showInternalMessageDialog(null, "The order created, ID: " + id,
@@ -976,6 +1019,7 @@ public class OrderWindow extends JFrame {
 				isMaximizePressed = false;
 			}
 	}	
+	
 	private void switchEditable() {
 		if(isEditPressed) {
 			textFieldAddress.setEditable(true);

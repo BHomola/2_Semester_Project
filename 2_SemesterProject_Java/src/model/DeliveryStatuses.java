@@ -18,16 +18,18 @@ public enum DeliveryStatuses {
 
 	public static DeliveryStatuses GetStatusByID(int id) {
 		switch (id) {
-		case 0:
-			return DeliveryStatuses.ACCEPTED;
-		case 1:
-			return DeliveryStatuses.INPROCCESS;
-		case 2:
-			return DeliveryStatuses.SHIPPING;
-		case 3:
-			return DeliveryStatuses.DELIVERED;
-		default:
-			return DeliveryStatuses.OTHER;
+			case 0:
+				return DeliveryStatuses.RECEIVED;
+			case 1:
+				return DeliveryStatuses.ACCEPTED;
+			case 2:
+				return DeliveryStatuses.INPROCCESS;
+			case 3:
+				return DeliveryStatuses.SHIPPING;
+			case 4:
+				return DeliveryStatuses.DELIVERED;
+			default:
+				return DeliveryStatuses.OTHER;
 		}
 	}
 
