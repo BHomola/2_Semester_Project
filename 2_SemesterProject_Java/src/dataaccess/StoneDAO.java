@@ -178,7 +178,7 @@ public class StoneDAO implements IStoneDAO {
 
 			}
 			if (stone instanceof Remains) {
-				query = "INSERT INTO Remains (RemainsID, Pieces, material) VALUES (?, ?); ";
+				query = "INSERT INTO Remains (RemainsID, Pieces) VALUES (?, ?); ";
 				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, generatedID);
 				statement.setInt(2, ((Remains) stone).getPieces());

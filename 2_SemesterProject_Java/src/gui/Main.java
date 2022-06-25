@@ -20,6 +20,7 @@ import model.OrderInfo;
 import model.StoneUnit;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Font;
@@ -31,8 +32,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+
 import java.awt.Toolkit;
 import javax.swing.JSplitPane;
 import java.awt.event.ActionListener;
@@ -73,6 +78,7 @@ public class Main extends JFrame {
 	JLabel lblCacheInfo;
 	private DefaultTableModel defaultTableModelOrders;
 	private JLabel lblReloadButtonOrders;
+	TableRowSorter<DefaultTableModel> tableRowSorterInventory;
 
 	/**
 	 * Launch the application.
@@ -690,8 +696,13 @@ public class Main extends JFrame {
 		textFieldSearchInventory.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-//				productsList = getProductsList(productsSearchField.getText());
-//				updateProductsTable(productsList);
+                String text = textFieldSearchInventory.getText();
+
+                if (text.trim().length() == 0) {
+                	tableRowSorterInventory.setRowFilter(null);
+                } else {
+                	tableRowSorterInventory.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
 			}
 		});
 		textFieldSearchInventory.addFocusListener(new FocusAdapter() {
@@ -719,6 +730,35 @@ public class Main extends JFrame {
 		inventory.add(lblInventoryTitle);
 
 		JLabel lblAddButtonInventory = new JLabel("");
+		lblAddButtonInventory.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			       String[] types= {"Cuttable Stone","Stone Product","Remains"};
+
+			        JComboBox<String> combo = new JComboBox<String>(types);
+
+
+
+			        String[] options = { "Create", "Cancel"};
+
+			        int selection = JOptionPane.showOptionDialog(null, combo, "Please Select",
+			                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+			                options[0]);
+			        
+			        if (selection == 0) {
+			        	 switch(combo.getSelectedIndex()) {
+			        	 case 0: // cuttable
+			        		 
+			        		 break;
+			        	 case 1: // product
+			        		 break;
+			        	 case 2://remains
+			        		 new StoneUnitRemainsWindow(-1).setVisible(true);
+			        		 break;
+			        	 }
+			         }
+			}
+		});
 		lblAddButtonInventory.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
 		lblAddButtonInventory.setBounds(1035, 130, 50, 50);
 		inventory.add(lblAddButtonInventory);
@@ -759,7 +799,7 @@ public class Main extends JFrame {
 		tableInventory.getColumnModel().getColumn(0).setMaxWidth(40);
 		tableInventory.getColumnModel().getColumn(3).setMaxWidth(50);
 		tableInventory.getColumnModel().getColumn(4).setMaxWidth(50);
-		TableRowSorter<DefaultTableModel> tableRowSorterInventory = new TableRowSorter<DefaultTableModel>(
+		tableRowSorterInventory = new TableRowSorter<DefaultTableModel>(
 				defaultTableModelInventory);
 		tableInventory.setRowSorter(tableRowSorterInventory);
 		tableInventory.addMouseListener(new MouseAdapter() {
