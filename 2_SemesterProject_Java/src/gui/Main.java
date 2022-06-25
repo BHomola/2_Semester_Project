@@ -69,16 +69,22 @@ public class Main extends JFrame {
 	private CardLayout cardLayoutMainPane;
 	private JLabel lblTime;
 	private JPanel mainPane;
-	JLabel lblDatabaseStatus;
-	JLabel lblCheckOff;
-	JLabel lblLoading;
+	private JLabel lblDatabaseStatus;
+	private JLabel lblCheckOff;
+	private JLabel lblLoading;
 	private JLabel lblMaximizeRestore;
 	private boolean isMaximizePressed;
 	private JLabel lblLoadingIcon;
 	JLabel lblCacheInfo;
 	private DefaultTableModel defaultTableModelOrders;
 	private JLabel lblReloadButtonOrders;
-	TableRowSorter<DefaultTableModel> tableRowSorterInventory;
+	private TableRowSorter<DefaultTableModel> tableRowSorterInventory;
+	private JLabel lblReloadButtonInventory;
+	private JLabel lblReloadButtonMaterial;
+	private JLabel lblReloadButtonCustomers;
+	private JLabel lblReloadButtonSuppliers;
+	private JLabel lblReloadButtonEmployees;
+	private TableRowSorter<DefaultTableModel> tableRowSorterOrders;
 
 	/**
 	 * Launch the application.
@@ -210,13 +216,13 @@ public class Main extends JFrame {
 		infoPane.add(lblCheckOff);
 
 		lblDatabaseStatus = new JLabel("Connecting...");
-		lblDatabaseStatus.setForeground(new Color(172, 172, 172));
+		lblDatabaseStatus.setForeground(Color.BLACK);
 		lblDatabaseStatus.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
 		lblDatabaseStatus.setBounds(1442, 0, 166, 40);
 		infoPane.add(lblDatabaseStatus);
 
 		lblLoading = new JLabel("Loading...");
-		lblLoading.setBounds(35, -2, 153, 45);
+		lblLoading.setBounds(35, -2, 153, 40);
 //		lblLoading.setForeground(new Color(172, 172, 172));
 		lblLoading.setFont(new Font("Segoe UI Light", Font.BOLD, 30));
 		infoPane.add(lblLoading);
@@ -226,6 +232,13 @@ public class Main extends JFrame {
 		lblLoadingIcon.setIcon(new ImageIcon(Main.class.getResource("/imgs/loading3.gif")));
 		lblLoadingIcon.setBounds(10, 12, 20, 20);
 		infoPane.add(lblLoadingIcon);
+		
+				lblCacheInfo = new JLabel("Caching Data...");
+				lblCacheInfo.setBounds(172, 0, 1236, 40);
+				infoPane.add(lblCacheInfo);
+				lblCacheInfo.setHorizontalAlignment(SwingConstants.RIGHT);
+				lblCacheInfo.setForeground(new Color(172, 172, 172));
+				lblCacheInfo.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
 		lblLoadingIcon.setVisible(false);
 
 //CARD PANE		
@@ -375,13 +388,6 @@ public class Main extends JFrame {
 		slideSplitPane.setLeftComponent(sidePane);
 		sidePane.setLayout(null);
 
-		lblCacheInfo = new JLabel("Caching Data...");
-		lblCacheInfo.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCacheInfo.setForeground(new Color(222, 184, 135));
-		lblCacheInfo.setFont(new Font("SansSerif", Font.BOLD, 12));
-		lblCacheInfo.setBounds(10, 163, 216, 67);
-		sidePane.add(lblCacheInfo);
-
 		JLabel lblHello = new JLabel("Hello, <User>");
 		lblHello.setForeground(Color.WHITE);
 		lblHello.setFont(new Font("Segoe UI", Font.PLAIN, 35));
@@ -407,14 +413,14 @@ public class Main extends JFrame {
 		lblDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()));
 		lblDate.setForeground(new Color(255, 238, 202));
 		lblDate.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
-		lblDate.setBounds(0, 82, 300, 40);
+		lblDate.setBounds(0, 118, 300, 40);
 		sidePane.add(lblDate);
 
 		lblTime = new JLabel("10:30:47");
 		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTime.setForeground(new Color(255, 238, 202));
 		lblTime.setFont(new Font("Segoe UI Light", Font.PLAIN, 30));
-		lblTime.setBounds(0, 112, 300, 40);
+		lblTime.setBounds(0, 148, 300, 40);
 		sidePane.add(lblTime);
 
 		JLabel lblOrders = new JLabel("Orders");
@@ -581,8 +587,13 @@ public class Main extends JFrame {
 		textFieldSearchOrders.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-//				productsList = getProductsList(productsSearchField.getText());
-//				updateProductsTable(productsList);
+				String text = textFieldSearchOrders.getText();
+
+                if (text.trim().length() == 0) {
+                	tableRowSorterOrders.setRowFilter(null);
+                } else {
+                	tableRowSorterOrders.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
 			}
 		});
 		textFieldSearchOrders.addFocusListener(new FocusAdapter() {
@@ -673,7 +684,7 @@ public class Main extends JFrame {
 			}
 		};
 		tableOrders.setModel(defaultTableModelOrders);
-		TableRowSorter<DefaultTableModel> tableRowSorterOrders = new TableRowSorter<DefaultTableModel>(
+		tableRowSorterOrders = new TableRowSorter<DefaultTableModel>(
 				defaultTableModelOrders);
 		tableOrders.setRowSorter(tableRowSorterOrders);
 		scrollPaneOrders.setViewportView(tableOrders);
@@ -763,7 +774,7 @@ public class Main extends JFrame {
 		lblAddButtonInventory.setBounds(1035, 130, 50, 50);
 		inventory.add(lblAddButtonInventory);
 
-		JLabel lblReloadButtonInventory = new JLabel("");
+		lblReloadButtonInventory = new JLabel("");
 		lblReloadButtonInventory.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -879,7 +890,7 @@ public class Main extends JFrame {
 		lblAddButtonMaterial.setBounds(1035, 130, 50, 50);
 		material.add(lblAddButtonMaterial);
 
-		JLabel lblReloadButtonMaterial = new JLabel("");
+		lblReloadButtonMaterial = new JLabel("");
 		lblReloadButtonMaterial.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonMaterial.setBounds(1115, 130, 50, 50);
 		material.add(lblReloadButtonMaterial);
@@ -977,7 +988,7 @@ public class Main extends JFrame {
 		lblAddButtonCustomers.setBounds(1035, 130, 50, 50);
 		customers.add(lblAddButtonCustomers);
 
-		JLabel lblReloadButtonCustomers = new JLabel("");
+		lblReloadButtonCustomers = new JLabel("");
 		lblReloadButtonCustomers.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonCustomers.setBounds(1115, 130, 50, 50);
 		customers.add(lblReloadButtonCustomers);
@@ -1075,7 +1086,7 @@ public class Main extends JFrame {
 		lblAddButtonSuppliers.setBounds(1035, 130, 50, 50);
 		suppliers.add(lblAddButtonSuppliers);
 
-		JLabel lblReloadButtonSuppliers = new JLabel("");
+		lblReloadButtonSuppliers = new JLabel("");
 		lblReloadButtonSuppliers.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonSuppliers.setBounds(1115, 130, 50, 50);
 		suppliers.add(lblReloadButtonSuppliers);
@@ -1173,7 +1184,7 @@ public class Main extends JFrame {
 		lblAddButtonEmployees.setBounds(1035, 130, 50, 50);
 		employees.add(lblAddButtonEmployees);
 
-		JLabel lblReloadButtonEmployees = new JLabel("");
+		lblReloadButtonEmployees = new JLabel("");
 		lblReloadButtonEmployees.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonEmployees.setBounds(1115, 130, 50, 50);
 		employees.add(lblReloadButtonEmployees);
@@ -1321,7 +1332,7 @@ public class Main extends JFrame {
 		OrderController orderController = new OrderController();
 
 		startLoading();
-		lblReloadButtonOrders.setEnabled(false);
+//		lblReloadButtonOrders.setEnabled(false);
 		defaultTableModelOrders.setRowCount(0); // clear the table
 		Thread thread = new Thread() {
 			public void run() {
@@ -1337,7 +1348,7 @@ public class Main extends JFrame {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} finally {
-					lblReloadButtonOrders.setEnabled(true);
+//					lblReloadButtonOrders.setEnabled(true);
 					stopLoading();
 				}
 			}
@@ -1345,16 +1356,28 @@ public class Main extends JFrame {
 		thread.start();
 	}
 
-	private void startLoading() {
+	private synchronized void startLoading() {
 		lblLoading.setVisible(true);
 		lblLoadingIcon.setVisible(true);
+		reloadButtonsSetEnabled(false);
+		
 	}
 
-	private void stopLoading() {
+	private synchronized void stopLoading() {
 		lblLoading.setVisible(false);
 		lblLoadingIcon.setVisible(false);
+		reloadButtonsSetEnabled(true);
 	}
 
+	private void reloadButtonsSetEnabled(boolean visible) {
+		lblReloadButtonOrders.setEnabled(visible);
+		lblReloadButtonInventory.setEnabled(visible);
+		lblReloadButtonMaterial.setEnabled(visible);
+		lblReloadButtonCustomers.setEnabled(visible);
+		lblReloadButtonSuppliers.setEnabled(visible);
+		lblReloadButtonEmployees.setEnabled(visible);
+	}
+	
 	private void checkMaximizeRestore() {
 		if (!isMaximizePressed) {
 			setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -1383,9 +1406,15 @@ public class Main extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
-					lblCacheInfo.setText("<html>Cached data:<br/>" + cachedMaterials.size() + " Materials<br/>"
-							+ cachedStoneTypes.size() + " Stone Types<br/>" + cachedLocations.size()
-							+ " Locations</html>");
+					/*
+					 * lblCacheInfo.setText("<html>Cached data:<br/>" + cachedMaterials.size() +
+					 * " Materials<br/>" + cachedStoneTypes.size() + " Stone Types<br/>" +
+					 * cachedLocations.size() + " Locations</html>");
+					 */
+					lblCacheInfo.setText("Cached data: " + cachedMaterials.size() + " Materials | " + cachedStoneTypes.size()
+					+ " Stone Types | " + cachedLocations.size() + " Locations | " + cachedCities.size() + " Cities");
+					
+							
 				}
 			}
 		};
