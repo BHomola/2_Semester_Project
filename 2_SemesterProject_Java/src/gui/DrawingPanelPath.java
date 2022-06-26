@@ -210,6 +210,7 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 	
 	public void removeLastPointAndRedraw() {
 		outline.getPoints().remove(outline.getPoints().size()-1);
+		repaint();
 		drawShape(outline.getPoints());
 	}
 	
@@ -230,19 +231,5 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 	}
 	
 	//public void drawLastSegment() {}
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		JFrame drawingFrame = new JFrame();
-		drawingFrame.setBounds(320, 180, 1280, 720);
-		drawingFrame.getContentPane().setLayout(null);
-		drawingFrame.setTitle("Drawing Panel");
-		drawingFrame.setVisible(true);
-		drawingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		DrawingPanelPath drawingPanel = new DrawingPanelPath();
-		drawingFrame.add(drawingPanel);
-		
-	}
 
 }
