@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.LocationCityController;
+import controller.LoginController;
 import controller.OrderController;
 import controller.StoneController;
 import controller.StoneTypeMaterialController;
@@ -333,7 +334,7 @@ public class Main extends JFrame {
 			}
 		});
 
-		JLabel lblLoginError = new JLabel("ERROR! Wrong USERNAME or PASSWORD");
+		JLabel lblLoginError = new JLabel("ERROR! Wrong Username or Password");
 		lblLoginError.setVisible(false);
 		lblLoginError.setSize(382, 42);
 		lblLoginError.setLocation(1204, 700);
@@ -343,25 +344,22 @@ public class Main extends JFrame {
 
 		JButton btnSignIn = new JButton("SIGN IN");
 		btnSignIn.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-
-				/*
-				 * LoginController loginC = new LoginController(); String inputedUsername =
-				 * textFieldUsername.getText();
-				 * 
-				 * @SuppressWarnings("deprecation") String inputedPassword =
-				 * passwordField.getText(); try { for(Login l : loginC.getAllLogins()) {
-				 * if(inputedUsername.equals(l.getUsername())) {
-				 * if(inputedPassword.equals(l.getPassword())) { contentPane.updateUI();
-				 * 
-				 * cardLayout.show(cardPane, "name_66960487401900"); break; } } } } catch
-				 * (SQLException e1) { // TODO Auto-generated catch block e1.printStackTrace();
-				 * }
-				 * 
-				 */
+				LoginController loginC = new LoginController(); 
+				String inputedUsername = textFieldUsername.getText();
+				String inputedPassword = passwordField.getText();
+				try {
+					if(inputedPassword.equalsIgnoreCase(loginC.authentication(inputedUsername))) {
 				contentPane.updateUI();
 				cardLayout.show(cardPane, "name_66960487401900");
-				updateOrdersTable();
+				updateOrdersTable();}
+					else {
+						lblLoginError.setVisible(true);
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnSignIn.setBorder(null);

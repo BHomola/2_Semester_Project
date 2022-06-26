@@ -12,6 +12,10 @@ import model.Login;
 public class LoginController {
 	ILoginDAO dao = new LoginDAO();
 	
+	public String authentication(String username) throws SQLException {
+		return dao.authentication(username);
+	}
+	
 	public Collection<Login> getAllLogins() throws SQLException {
 		return dao.getAllLogins();
 	}

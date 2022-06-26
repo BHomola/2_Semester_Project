@@ -27,6 +27,19 @@ public class LoginDAO implements ILoginDAO {
 		return loginList;
 	}
 	
+	public String authentication(String username) throws SQLException {
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = " SELECT Password FROM Login"
+				+ " WHERE Username = ?";
+		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setString(1, username);
+		ResultSet rs = pStatement.executeQuery();
+		if (rs.next() == false) {
+			return null;
+		}
+		return rs.getString("Password");
+	}
+	
 	public Collection<Login> getAllLogins() throws SQLException {
 		Connection con =  DBConnection.getConnection();
 		String sqlStatement = "SELECT * FROM Login";

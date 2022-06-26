@@ -6,6 +6,7 @@ import java.util.Collection;
 import model.Login;
 
 public interface ILoginDAO {
+	public abstract String authentication(String username) throws SQLException;
 	public abstract Collection<Login> getAllLogins() throws SQLException;
 	public abstract Login getLoginByID(int id) throws SQLException;
 	public abstract boolean createLogin(Login login) throws SQLException;
