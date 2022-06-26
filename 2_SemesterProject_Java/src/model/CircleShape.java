@@ -9,6 +9,10 @@ public class CircleShape extends Shape{
 		this.diameter = diameter;
 	}
 	
+	public CircleShape(double diameter) {
+		
+	}
+	
 	public CircleShape() {
 		
 	}

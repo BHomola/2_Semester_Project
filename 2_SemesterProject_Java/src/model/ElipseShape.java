@@ -11,7 +11,7 @@ public class ElipseShape extends Shape{
 		this.diameterY = diameterY;
 	}
 	
-	public ElipseShape() {
+	public ElipseShape(double diameterX, double diameterY) {
 		
 	}
 	
