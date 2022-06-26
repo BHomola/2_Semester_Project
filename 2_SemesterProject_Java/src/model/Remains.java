@@ -6,8 +6,8 @@ public class Remains extends StoneUnit {
 	private int pieces;
 
 	public Remains(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
-			String description,Date createdDate, Location location, Employee employee, StoneUnitStatuses status, int pieces) {
-		super(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status);
+			String description,Date createdDate, Location location, Employee employee, StoneUnitStatuses status, int pieces, String updates) {
+		super(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, updates);
 		this.pieces = pieces;
 	}
 

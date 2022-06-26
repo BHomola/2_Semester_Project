@@ -309,15 +309,14 @@ public class StoneDAO implements IStoneDAO {
 		if (stoneKind.equals("Remains")) {
 			int pieces = resultSet.getInt("Pieces");
 			return new Remains(id, stoneType, origin, supplier, width, weight, description, createdDate, location,
-					employee, status, pieces);
+					employee, status, pieces, updates);
 		}
 
 		if (stoneKind.equals("StoneCuttable")) {
 			Shape shape = new ShapeDAO().getById(id);
 			double totalSize = resultSet.getInt("TotalSize");
 			StoneCuttable cuttableStone = new StoneCuttable(id, stoneType, origin, supplier, width, weight, description,
-					createdDate, location, employee, status, shape, totalSize);
-			cuttableStone.setUpdates(updates);
+					createdDate, location, employee, status, shape, totalSize,updates);
 			return cuttableStone;
 		}
 
@@ -327,8 +326,7 @@ public class StoneDAO implements IStoneDAO {
 			float price = resultSet.getInt("price");
 			int orderID = resultSet.getInt("OrderID");
 			StoneProduct stoneProduct = new StoneProduct(id, stoneType, origin, supplier, width, weight, description,
-					createdDate, location, employee, status, shape, totalSize, price, orderID);
-			stoneProduct.setUpdates(updates);
+					createdDate, location, employee, status, shape, totalSize, price, orderID, updates);
 			return stoneProduct;
 		}
 		return null;
@@ -353,14 +351,14 @@ public class StoneDAO implements IStoneDAO {
 		if (stoneKind.equals("Remains")) {
 			int pieces = resultSet.getInt("Pieces");
 			return new Remains(id, stoneType, origin, supplier, width, weight, description, createdDate, location,
-					employee, status, pieces);
+					employee, status, pieces,updates);
 		}
 
 		if (stoneKind.equals("StoneCuttable")) {
 			Shape shape = new ShapeDAO().getById(id);
 			double totalSize = resultSet.getInt("TotalSize");
 			StoneCuttable cuttableStone = new StoneCuttable(id, stoneType, origin, supplier, width, weight, description,
-					createdDate, location, employee, status, shape, totalSize);
+					createdDate, location, employee, status, shape, totalSize,updates);
 			cuttableStone.setUpdates(updates);
 			return cuttableStone;
 		}
@@ -371,7 +369,7 @@ public class StoneDAO implements IStoneDAO {
 			float price = resultSet.getInt("price");
 			int orderID = resultSet.getInt("OrderID");
 			StoneProduct stoneProduct = new StoneProduct(id, stoneType, origin, supplier, width, weight, description,
-					createdDate, location, employee, status, shape, totalSize, price, orderID);
+					createdDate, location, employee, status, shape, totalSize, price, orderID,updates);
 			stoneProduct.setUpdates(updates);
 			return stoneProduct;
 		}

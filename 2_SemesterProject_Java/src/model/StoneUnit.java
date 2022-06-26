@@ -18,7 +18,7 @@ public abstract class StoneUnit implements IStoneUnit {
 	private String updates;
 
 	public StoneUnit(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
-			String description,Date createdDate, Location location, Employee employee, StoneUnitStatuses status) {
+			String description,Date createdDate, Location location, Employee employee, StoneUnitStatuses status, String updates) {
 		super();
 		this.id = id;
 		this.stoneType = stoneType;
@@ -31,10 +31,11 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.location = location;
 		this.employee = employee;
 		this.status = status;
+		this.updates = updates;
 	}
 
 	public StoneUnit(StoneType stoneType, String origin, Supplier supplier, double width, double weight,
-			String description, Date createdDate, Location location, Employee employee, StoneUnitStatuses status) {
+			String description, Date createdDate, Location location, Employee employee, StoneUnitStatuses status, String updates) {
 		this.stoneType = stoneType;
 		this.origin = origin;
 		this.supplier = supplier;
@@ -45,6 +46,7 @@ public abstract class StoneUnit implements IStoneUnit {
 		this.location = location;
 		this.employee = employee;
 		this.status = status;
+		this.updates = updates;
 	}
 
 	public int getId() {

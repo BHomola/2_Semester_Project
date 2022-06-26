@@ -8,8 +8,8 @@ public class StoneCuttable extends Stone {
 	
 	public StoneCuttable(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
 			String description, Date createdDate, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
-			double totalSize) {
-		super(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, shape, totalSize);
+			double totalSize, String updates) {
+		super(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, shape, totalSize, updates);
 	}
 
 	// setters - make another object and put it into list

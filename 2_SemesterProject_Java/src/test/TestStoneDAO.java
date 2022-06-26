@@ -43,7 +43,7 @@ public class TestStoneDAO {
 		status = StoneUnitStatuses.AVAILABLE;
 		stoneP = new StoneProduct(tmDAO.getStoneTypeByID(6), "Spain", (Supplier) pDAO.getByID(23), 40.00, 90.00,
 				"Product", date, clDAO.getLocationByID(3), (Employee) pDAO.getByID(19), status, shDAO.getById(1),
-				150.00, 340, 1);
+				150.00, 340, 1, "");
 	}
 
 	@Test

@@ -143,7 +143,7 @@ CREATE TABLE StoneUnit
   StoneType VARCHAR(50) NOT NULL,
   CreatedDate DATE NOT NULL,
   Origin VARCHAR(50) NOT NULL,
-  Updates VARCHAR(200),
+  Updates VARCHAR(2000),
   StoneTypeID INT NOT NULL,
   LocationID INT NOT NULL,
   SupplierID INT NOT NULL,

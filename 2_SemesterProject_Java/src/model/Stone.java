@@ -9,16 +9,16 @@ public abstract class Stone extends StoneUnit {
 
 	public Stone(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
 			String description, Date createdDate, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
-			double totalSize) {
-		super(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status);
+			double totalSize,String updates) {
+		super(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, updates);
 		this.shape = shape;
 		this.totalSize = totalSize;
 	}
 	
 	public Stone(StoneType stoneType, String origin, Supplier supplier, double width, double weight, String description,
 			Date createdDate, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
-			double totalSize) {
-		super( stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status);
+			double totalSize, String updates) {
+		super( stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, updates);
 		this.shape = shape;
 		this.totalSize = totalSize;
 	}

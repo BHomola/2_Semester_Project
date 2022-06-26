@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,6 +52,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import javax.swing.JButton;
+import javax.swing.JScrollBar;
 
 public class StoneUnitRemainsWindow extends JFrame {
 
@@ -63,7 +65,6 @@ public class StoneUnitRemainsWindow extends JFrame {
 	private JLabel lblDeleteStorno;
 	private JLabel lblEditCheck;
 	private JLabel lblMaximizeRestore;
-	private JLabel lblStornoSmall;
 	private JTextArea textAreaUpdates;
 	private boolean isEditNotesPressed;
 	private boolean isEditPressed;
@@ -101,30 +102,14 @@ public class StoneUnitRemainsWindow extends JFrame {
 	JLabel lblMoveToEmployee;
 	JLabel lblOriginError;
 	JLabel lblDateError;
+	JLabel lblUpdateConfirmIcon;
 
 	private Remains cachedRemains;
+	private Main main;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StoneUnitRemainsWindow frame = new StoneUnitRemainsWindow(-1);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public StoneUnitRemainsWindow(int id) {
+	public StoneUnitRemainsWindow(int id, Main main) {
+		this.main = main;
 		cardLayout = new CardLayout();
 
 //FRAME		
@@ -263,9 +248,9 @@ public class StoneUnitRemainsWindow extends JFrame {
 						// SAVE CHANGES
 						try {
 							saveStoneUnit();
+							main.updateInventory();
+
 							
-							setVisible(false);
-							dispose();
 							
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -302,6 +287,9 @@ public class StoneUnitRemainsWindow extends JFrame {
 					contentPane.grabFocus();
 					isEditPressed = false;
 					switchEditable();
+					UI_Blocker.setVisible(true);
+					stoneUnitPane.setVisible(false);
+					loadStoneUnit(id);
 				} else {
 					int answer = JOptionPane.showConfirmDialog(null, "Do you really want to delete stone with ID "+ cachedRemains.getId(),
 							"Are you sure?", JOptionPane.YES_NO_OPTION);
@@ -310,6 +298,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 						StoneController sctrl = new StoneController();
 						try {
 							sctrl.deleteStone(cachedRemains.getId());
+							main.updateInventory();
+							JOptionPane.showMessageDialog(null, "Stone has been successfully deleted.");
 							setVisible(false);
 							dispose();
 						} catch (Exception ex) {
@@ -715,88 +705,47 @@ public class StoneUnitRemainsWindow extends JFrame {
 		stoneUnitPane.add(lblMoveToEmployee);
 		lblMoveToEmployee.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/moveto2.png")));
 
-		JTextField lblUpdates = new JTextField();
-		lblUpdates.setBounds(761, 363, 180, 34);
-		stoneUnitPane.add(lblUpdates);
-		lblUpdates.setText("UPDATES");
-		lblUpdates.setBorder(null);
-		lblUpdates.setDisabledTextColor(new Color(192, 192, 192));
-		lblUpdates.setBackground(new Color(255, 250, 250));
-		lblUpdates.setForeground(new Color(47, 79, 79));
-		lblUpdates.setFont(new Font("Segoe UI", Font.BOLD, 25));
-		lblUpdates.setEditable(false);
-
-		JLabel lblUpdateConfirmIcon = new JLabel("");
-		lblUpdateConfirmIcon.setBounds(948, 372, 25, 25);
+		lblUpdateConfirmIcon = new JLabel("");
+		lblUpdateConfirmIcon.setVisible(false);
+		lblUpdateConfirmIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUpdateConfirmIcon.setBounds(1018, 362, 35, 35);
 		stoneUnitPane.add(lblUpdateConfirmIcon);
 		lblUpdateConfirmIcon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (!isEditNotesPressed) {
-					lblUpdateConfirmIcon
-							.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/confirmSmall.png")));
-					lblStornoSmall.setVisible(true);
-					textAreaUpdates.setEditable(true);
-					textAreaUpdates.grabFocus();
-					isEditNotesPressed = true;
-				} else {
-					int answer = JOptionPane.showConfirmDialog(null, "Do you really want to apply changes?",
-							"Are you sure?", JOptionPane.YES_NO_CANCEL_OPTION);
-					switch (answer) {
-					case 0:
-						System.out.println("yes");
-						// SAVE CHANGES
-						break;
-					case 1:
-						System.out.println("no");
-						// ABORT CHANGES
-						break;
-					case 2:
-						return;
-					}
-					lblUpdateConfirmIcon.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/notes2.png")));
-					lblStornoSmall.setVisible(false);
-					textAreaUpdates.setEditable(false);
-					contentPane.grabFocus();
-					isEditNotesPressed = false;
+				String input = JOptionPane.showInputDialog("Enter update");
+				if(input.length() > 0) {
+					   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy HH:mm:ss");  
+					   LocalDateTime now = LocalDateTime.now(); 
+					   String date = dtf.format(now);
+					   String updateText = "("+date+") " + input + "\n";
+
+					textAreaUpdates.setText(textAreaUpdates.getText() + updateText);
+					cachedRemains.setUpdates(textAreaUpdates.getText());
+						
 				}
 			}
 		});
-		lblUpdateConfirmIcon.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/notes2.png")));
-
-		lblStornoSmall = new JLabel("");
-		lblStornoSmall.setBounds(983, 372, 27, 25);
-		lblStornoSmall.setVisible(false);
-		stoneUnitPane.add(lblStornoSmall);
-		lblStornoSmall.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				lblUpdateConfirmIcon.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/notes2.png")));
-				lblStornoSmall.setVisible(false);
-				textAreaUpdates.setEditable(false);
-				contentPane.grabFocus();
-				isEditNotesPressed = false;
-			}
-		});
-		lblStornoSmall.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/stornoSmall.png")));
+		lblUpdateConfirmIcon.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/addButton_small.png")));
 
 		JScrollPane updatesScrollPane = new JScrollPane();
+		updatesScrollPane.setBackground(Color.WHITE);
 		updatesScrollPane.setBounds(760, 408, 505, 212);
 		stoneUnitPane.add(updatesScrollPane);
 		updatesScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		updatesScrollPane.setBorder(null);
+		
+				textAreaUpdates = new JTextArea();
+				updatesScrollPane.setViewportView(textAreaUpdates);
+				textAreaUpdates.setLineWrap(true);
+				textAreaUpdates.setWrapStyleWord(true);
+				//textAreaUpdates.setText(
+				//		"12.06.2022(17:30) - Status changed to \"unavailable\"\r\n12.06.2022(17:00) - Employee (name) assigned to unit\r\n12.06.2022(15:35) - Status changed to \"WIP\"\r\n12.06.2022(15:30) - Employee (name) assigned to unit\r\n12.06.2022(15:00) - Profile created\r\n\r\n12.06.2022(17:30) - Status changed to \"unavailable\"\r\n12.06.2022(17:00) - Employee (name) assigned to unit\r\n12.06.2022(15:35) - Status changed to \"WIP\"\r\n12.06.2022(15:30) - Employee (name) assigned to unit\r\n12.06.2022(15:00) - Profile created\r\n\r\n12.06.2022(17:30) - Status changed to \"unavailable\"\r\n12.06.2022(17:00) - Employee (name) assigned to unit\r\n12.06.2022(15:35) - Status changed to \"WIP\"\r\n12.06.2022(15:30) - Employee (name) assigned to unit\r\n12.06.2022(15:00) - Profile created");
+				textAreaUpdates.setForeground(new Color(192, 176, 131));
+				textAreaUpdates.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+				textAreaUpdates.setEditable(false);
+				textAreaUpdates.setCaretPosition(0);
 		updatesScrollPane.getVerticalScrollBar().setUnitIncrement(4);
-
-		textAreaUpdates = new JTextArea();
-		textAreaUpdates.setLineWrap(true);
-		textAreaUpdates.setWrapStyleWord(true);
-		textAreaUpdates.setText(
-				"12.06.2022(17:30) - Status changed to \"unavailable\"\r\n12.06.2022(17:00) - Employee (name) assigned to unit\r\n12.06.2022(15:35) - Status changed to \"WIP\"\r\n12.06.2022(15:30) - Employee (name) assigned to unit\r\n12.06.2022(15:00) - Profile created\r\n\r\n12.06.2022(17:30) - Status changed to \"unavailable\"\r\n12.06.2022(17:00) - Employee (name) assigned to unit\r\n12.06.2022(15:35) - Status changed to \"WIP\"\r\n12.06.2022(15:30) - Employee (name) assigned to unit\r\n12.06.2022(15:00) - Profile created\r\n\r\n12.06.2022(17:30) - Status changed to \"unavailable\"\r\n12.06.2022(17:00) - Employee (name) assigned to unit\r\n12.06.2022(15:35) - Status changed to \"WIP\"\r\n12.06.2022(15:30) - Employee (name) assigned to unit\r\n12.06.2022(15:00) - Profile created");
-		textAreaUpdates.setForeground(new Color(192, 176, 131));
-		textAreaUpdates.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		textAreaUpdates.setEditable(false);
-		updatesScrollPane.setColumnHeaderView(textAreaUpdates);
-		textAreaUpdates.setCaretPosition(0);
 
 		comboMaterials = new JComboBox();
 		comboMaterials.setEnabled(false);
@@ -948,6 +897,12 @@ public class StoneUnitRemainsWindow extends JFrame {
 		});
 		btnToday.setBounds(455, 454, 89, 23);
 		stoneUnitPane.add(btnToday);
+		
+		JLabel lblUpdates = new JLabel("Updates");
+		lblUpdates.setForeground(new Color(47, 79, 79));
+		lblUpdates.setFont(new Font("Segoe UI", Font.BOLD, 25));
+		lblUpdates.setBounds(898, 363, 130, 34);
+		stoneUnitPane.add(lblUpdates);
 
 //TREE PANE		
 		JPanel treePane = new JPanel();
@@ -1026,8 +981,11 @@ public class StoneUnitRemainsWindow extends JFrame {
 			btnChangeSupplier.setVisible(true);
 			btnToday.setVisible(true);
 			btnChangeEmployee.setVisible(true);
+			lblUpdateConfirmIcon.setVisible(true);
+			
 			lblMoveToSupplier.setVisible(false);
 			lblMoveToEmployee.setVisible(false);
+
 
 		} else {
 			textFieldOrigin.setEditable(false);
@@ -1052,6 +1010,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 			btnChangeSupplier.setVisible(false);
 			btnToday.setVisible(false);
 			btnChangeEmployee.setVisible(false);
+			lblUpdateConfirmIcon.setVisible(false);
+			
 			lblMoveToSupplier.setVisible(true);
 			lblMoveToEmployee.setVisible(true);
 
@@ -1069,7 +1029,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 		lblDeleteStorno.setVisible(false);
 
 		cachedRemains = new Remains(-1, Main.cachedStoneTypes.get(0), "", null, 0, 0, "", null,
-				Main.cachedLocations.get(0), null, StoneUnitStatuses.WIP, 0);
+				Main.cachedLocations.get(0), null, StoneUnitStatuses.WIP, 0,"");
 		loadStoneTypes(1);
 		loadLocation(1);
 		lblSupplierError.setVisible(true);
@@ -1104,7 +1064,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 						lblEmployee.setText(cachedRemains.getEmployee().getName());
 						lblEmployeeError.setVisible(false);
 						textFieldPieces.setText(cachedRemains.getPieces() + "");
-
+						textAreaUpdates.setText(cachedRemains.getUpdates());
+						
 						for (StoneMaterial mat : Main.cachedMaterials) {
 							if (mat.getId() == cachedRemains.getStoneType().getMaterial().getId()) {
 								comboMaterials.setSelectedItem(mat);
@@ -1176,14 +1137,17 @@ public class StoneUnitRemainsWindow extends JFrame {
 			if (cachedRemains != null) {
 				if (cachedRemains.getId() > 0) {
 					sctrl.updateStone(cachedRemains);
+					JOptionPane.showMessageDialog(null, "Stone has been successfully updated.");
 				} else {
 					// create a new stone
 					sctrl.createStone(cachedRemains, null);
+					JOptionPane.showMessageDialog(null, "Stone has been successfully created.");
+					setVisible(false);
+					dispose();
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
 }

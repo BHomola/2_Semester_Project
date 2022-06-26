@@ -64,6 +64,8 @@ public class Main extends JFrame {
 	public static ArrayList<Location> cachedLocations;
 	public static ArrayList<City> cachedCities;
 
+	ArrayList<IStoneUnit> stoneUnits;
+	
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
 	private int x, y;
@@ -86,7 +88,10 @@ public class Main extends JFrame {
 	private JLabel lblReloadButtonSuppliers;
 	private JLabel lblReloadButtonEmployees;
 	private TableRowSorter<DefaultTableModel> tableRowSorterOrders;
-
+	
+	
+	
+	DefaultTableModel defaultTableModelInventory;
 	/**
 	 * Launch the application.
 	 */
@@ -106,21 +111,11 @@ public class Main extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	private Main main;
 	public Main() {
-
+		main = this;
 		// Local JComponents
-		DefaultTableModel defaultTableModelInventory = new DefaultTableModel(new Object[][] { null, null, null },
-				new String[] { "ID", "Stone Type", "Origin", "Width", "Weight", "Description", "Created Date",
-						"Location", "Status", "Material", "Type", "No Of Products" }) {
-			private static final long serialVersionUID = 1L;
-			@SuppressWarnings("rawtypes")
-			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Double.class,
-					String.class, String.class, String.class, String.class, String.class, String.class, Integer.class};
 
-			public Class<?> getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		};
 
 		CardLayout cardLayout = new CardLayout();
 
@@ -460,7 +455,7 @@ public class Main extends JFrame {
 				cardLayoutMainPane.show(mainPane, "name_27605005897300");
 				contentPane.updateUI();
 
-				fillStonesToInventory(defaultTableModelInventory);
+				
 			}
 		});
 
@@ -771,7 +766,7 @@ public class Main extends JFrame {
 			        	 case 1: // product
 			        		 break;
 			        	 case 2://remains
-			        		 new StoneUnitRemainsWindow(-1).setVisible(true);
+			        		 new StoneUnitRemainsWindow(-1, main).setVisible(true);
 			        		 break;
 			        	 }
 			         }
@@ -785,7 +780,8 @@ public class Main extends JFrame {
 		lblReloadButtonInventory.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				fillStonesToInventory(defaultTableModelInventory);
+				updateInventory();
+				
 				
 			}
 		});
@@ -813,6 +809,25 @@ public class Main extends JFrame {
 		tableInventory.setDefaultEditor(Object.class, null); // non-editable
 		tableInventory.setGridColor(new Color(172, 172, 172));
 		tableInventory.setBackground(Color.WHITE);
+
+		defaultTableModelInventory = new DefaultTableModel(new Object[][] { null, null, null },
+				new String[] { "ID", "Stone Type", "Origin", "Width", "Weight", "Description", "Created Date",
+						"Location", "Status", "Material", "Type", "No Of Products" }) {
+			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
+			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Double.class,
+					String.class, String.class, String.class, String.class, String.class, String.class, Integer.class};
+
+			public Class<?> getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
+		
 		tableInventory.setModel(defaultTableModelInventory);
 		tableInventory.getColumnModel().getColumn(0).setMaxWidth(40);
 		tableInventory.getColumnModel().getColumn(3).setMaxWidth(50);
@@ -838,9 +853,8 @@ public class Main extends JFrame {
 						new StoneUnitWindow(id).setVisible(true);
 					}
 					if (stoneType.equals("Remains")) {
-						new StoneUnitRemainsWindow(id).setVisible(true);
+						new StoneUnitRemainsWindow(id, main).setVisible(true);
 					}
-					System.out.println("Selected ID: " + id);
 				}
 			}
 		});
@@ -1237,7 +1251,10 @@ public class Main extends JFrame {
 				defaultTableModelEmployees);
 		tableEmployees.setRowSorter(tableRowSorterEmployees);
 		scrollPaneEmployees.setViewportView(tableEmployees);
-
+		
+		
+		
+		updateInventory();
 		clock();
 		databaseCheck();
 		cacheData();
@@ -1288,14 +1305,15 @@ public class Main extends JFrame {
 		};
 		thread.start();
 	}
-
-	private void fillStonesToInventory(DefaultTableModel defaultTableModelInventory) {
+	
+	
+	public void updateInventory() {
 		defaultTableModelInventory.setRowCount(0); // clear the table
 		Thread thread = new Thread() {
 			public void run() {
 				try {
 					StoneController sctrl = new StoneController();
-					ArrayList<IStoneUnit> stoneUnits = new ArrayList<IStoneUnit>();
+					stoneUnits = new ArrayList<IStoneUnit>();
 
 					startLoading();
 					try {

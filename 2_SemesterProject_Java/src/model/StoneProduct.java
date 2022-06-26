@@ -8,16 +8,16 @@ public class StoneProduct extends Stone {
 
 	public StoneProduct(int id, StoneType stoneType, String origin, Supplier supplier, double width, double weight,
 			String description, Date createdDate, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
-			double totalSize, float price, int orderID) {
-		super(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, shape, totalSize);
+			double totalSize, float price, int orderID, String updates) {
+		super(id, stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, shape, totalSize, updates);
 		this.price = price;
 		this.orderID = orderID;
 	}
 	
 	public StoneProduct( StoneType stoneType, String origin, Supplier supplier, double width, double weight,
 			String description, Date createdDate, Location location, Employee employee, StoneUnitStatuses status, Shape shape,
-			double totalSize, float price, int orderID) {
-		super( stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, shape, totalSize);
+			double totalSize, float price, int orderID, String updates) {
+		super( stoneType, origin, supplier, width, weight, description, createdDate, location, employee, status, shape, totalSize, updates);
 		this.price = price;
 		this.orderID = orderID;
 	}
