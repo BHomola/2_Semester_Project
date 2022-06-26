@@ -223,7 +223,7 @@ public class ShapeDAO implements IShapeDAO{
 			if (shape instanceof OtherShape) {
 				for(int i = 0; i < ((OtherShape) shape).getPoints().size(); i++) {
 					coordinateX = (int)((OtherShape) shape).getPoints().get(i).getData().getX();
-					coordinateX = (int)((OtherShape) shape).getPoints().get(i).getData().getY();	
+					coordinateY = (int)((OtherShape) shape).getPoints().get(i).getData().getY();	
 					query = "UPDATE [dbo].[ShapePoint]"
 							+ "SET [OrderIndex] = ?"
 							+ "   ,[x] = ?"
