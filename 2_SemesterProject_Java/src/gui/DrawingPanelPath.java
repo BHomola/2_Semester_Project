@@ -39,7 +39,7 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 		g = getGraphics();
 		cursorLocation = null;
 		//border = new Border();
-		setBackground(Color.YELLOW);
+		setBackground(Color.WHITE);
 		setBounds(320, 180, 1024, 600);
 		setVisible(true);
 		setEnabled(true);
@@ -57,21 +57,6 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
     @Override
     public void paintComponent(Graphics g){
             super.paintComponent(g);
-			Path2D shapePathFirst = new Path2D.Double();
-            
-            if(outline.getPoints().size() >= 1) {
-            	ShapePoint pLast = outline.getPoints().get(outline.getPoints().size()-1);
-    			Point lastPoint = pLast.getData();
-    			
-    			String distance = new String();
-    			distance = String.valueOf(lastPoint.distance(cursorLocation.getX(), cursorLocation.getY()));
-            	
-		        shapePathFirst.moveTo(lastPoint.getX(), lastPoint.getY());
-				shapePathFirst.lineTo(cursorLocation.getX(), cursorLocation.getY());
-				((Graphics2D) g).draw(shapePathFirst);
-				drawShape(outline.getPoints());
-            	g.drawString(distance, (((int)cursorLocation.getX())+(int)lastPoint.getX())/2, (((int)cursorLocation.getY())+(int)lastPoint.getY())/2);
-            }
     }
 
 	@Override
@@ -89,19 +74,10 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 				if(draw) {
 					if(outline.getPoints().size() >= 1) {
 						cursorLocation = e.getPoint();
-						/*String distance = new String();
-						distance = String.valueOf(lastPoint.distance(e.getX(), e.getY()));
-						
-						if(outline.getPoints().size() >= 1) {
-							paintImmediately((int)lastPoint.getX(), (int)lastPoint.getY(), (int)cursorLocation.getX(), (int)cursorLocation.getY());
-							System.out.println("My current x coordiante is: " + e.getX() + "; and my current y coordinate is: " + e.getY());
-						}*/
+						drawShape(outline.getPoints());
+						drawLastSegment();
 					}
-					
-					//paintImmediately();
-					repaint();
-					
-					System.out.println("I am moving!");
+
 				}
 				//revalidate();
 	}
@@ -230,6 +206,21 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 		this.closingParameter = closingParameter;
 	}
 	
-	//public void drawLastSegment() {}
+	public void drawLastSegment() {
+		Graphics g = getGraphics();
+		Path2D shapePathFirst = new Path2D.Double();
+		
+		ShapePoint pLast = outline.getPoints().get(outline.getPoints().size()-1);
+		Point lastPoint = pLast.getData();
+		
+		String distance = new String();
+		distance = String.valueOf(lastPoint.distance(cursorLocation.getX(), cursorLocation.getY()));
+    	
+        shapePathFirst.moveTo(lastPoint.getX(), lastPoint.getY());
+		shapePathFirst.lineTo(cursorLocation.getX(), cursorLocation.getY());
+    	g.drawString(distance, (((int)cursorLocation.getX())+(int)lastPoint.getX())/2, (((int)cursorLocation.getY())+(int)lastPoint.getY())/2);
+    	((Graphics2D)g).draw(shapePathFirst);
+
+	}
 
 }
