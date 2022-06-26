@@ -152,8 +152,41 @@ public class OrderDAO implements IOrderDAO {
 
 	@Override
 	public boolean updateOrder(OrderInfo order) throws SQLException {
-		deleteOrder(order);
-		createOrder(order);
+//		deleteOrder(order);
+//		createOrder(order);
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = "UPDATE OrderInfo"
+				+ " SET DeliveryStatus = ?,"
+				+ " DeliveryDate = ?,"
+				+ " Address = ?,"
+				+ " CityID = ?,"
+				+ " Deposit = ?,"
+				+ " IsPaid = ?,"
+				+ " CustomerNote = ?,"
+				+ " LocationID = ?,"
+				+ " CustomerID = ?,"
+				+ " OrderPrice = ?,"
+				+ " EmployeeID = ?,"
+				+ " Updates = ?"
+				+ " WHERE OrderID = ?";
+		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setInt(1, order.getDeliveryStatus().getID());
+		pStatement.setDate(2, order.getDeliveryDate() == null ? 
+				null : new java.sql.Date(order.getDeliveryDate().getTime()));
+		pStatement.setString(3, order.getAddress());
+		pStatement.setInt(4, order.getCity().getId());
+		pStatement.setDouble(5, order.getDeposit());
+		pStatement.setBoolean(6, order.isPaid());
+		pStatement.setString(7, order.getCustomerNote());
+		pStatement.setInt(8, order.getOffice().getId());
+		pStatement.setInt(9, order.getCustomer().getId());
+		pStatement.setDouble(10, order.getOrderPrice());
+		pStatement.setInt(11, order.getEmployee().getId());
+		pStatement.setString(12, order.getUpdates());
+		pStatement.setInt(13, order.getId());
+		int rowsAffected = pStatement.executeUpdate();
+		if(rowsAffected == 1)
+			return true;
 		return false;
 	}
 

@@ -74,19 +74,19 @@ public class Main extends JFrame {
 	private JPanel mainPane;
 	private JLabel lblDatabaseStatus;
 	private JLabel lblCheckOff;
-	private JLabel lblLoading;
+	private static JLabel lblLoading;
 	private JLabel lblMaximizeRestore;
 	private boolean isMaximizePressed;
-	private JLabel lblLoadingIcon;
-	JLabel lblCacheInfo;
-	private DefaultTableModel defaultTableModelOrders;
-	private JLabel lblReloadButtonOrders;
+	private static JLabel lblLoadingIcon;
+	private JLabel lblCacheInfo;
+	private static DefaultTableModel defaultTableModelOrders;
+	private static JLabel lblReloadButtonOrders;
 	private TableRowSorter<DefaultTableModel> tableRowSorterInventory;
-	private JLabel lblReloadButtonInventory;
-	private JLabel lblReloadButtonMaterial;
-	private JLabel lblReloadButtonCustomers;
-	private JLabel lblReloadButtonSuppliers;
-	private JLabel lblReloadButtonEmployees;
+	private static JLabel lblReloadButtonInventory;
+	private static JLabel lblReloadButtonMaterial;
+	private static JLabel lblReloadButtonCustomers;
+	private static JLabel lblReloadButtonSuppliers;
+	private static JLabel lblReloadButtonEmployees;
 	private TableRowSorter<DefaultTableModel> tableRowSorterOrders;
 	
 	
@@ -344,19 +344,24 @@ public class Main extends JFrame {
 				LoginController loginC = new LoginController(); 
 				String inputedUsername = textFieldUsername.getText();
 				String inputedPassword = passwordField.getText();
-				try {
-					if(inputedPassword.equalsIgnoreCase(loginC.authentication(inputedUsername))) {
-				contentPane.updateUI();
+				
 				cardLayout.show(cardPane, "name_66960487401900");
-				updateOrdersTable();}
-					else {
-						lblLoginError.setVisible(true);
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				contentPane.updateUI();
+				updateOrdersTable();
+				
+//				try {
+//					if(inputedPassword.equalsIgnoreCase(loginC.authentication(inputedUsername))) {
+//				contentPane.updateUI();
+//				cardLayout.show(cardPane, "name_66960487401900");
+//				updateOrdersTable();
+//				} else {
+//						lblLoginError.setVisible(true);
+//					}
+//				} catch (SQLException e1) {
+//					e1.printStackTrace();
+//				}
 			}
-		});
+	});
 		btnSignIn.setBorder(null);
 		btnSignIn.setFocusable(false);
 		btnSignIn.setBackground(new Color(199, 176, 131));
@@ -1353,7 +1358,7 @@ public class Main extends JFrame {
 
 	}
 
-	private void updateOrdersTable() {
+	protected static void updateOrdersTable() {
 		OrderController orderController = new OrderController();
 
 		startLoading();
@@ -1381,20 +1386,20 @@ public class Main extends JFrame {
 		thread.start();
 	}
 
-	private synchronized void startLoading() {
+	protected synchronized static void startLoading() {
 		lblLoading.setVisible(true);
 		lblLoadingIcon.setVisible(true);
 		reloadButtonsSetEnabled(false);
 		
 	}
-
-	private synchronized void stopLoading() {
+	
+	protected synchronized static void stopLoading() {
 		lblLoading.setVisible(false);
 		lblLoadingIcon.setVisible(false);
 		reloadButtonsSetEnabled(true);
 	}
 
-	private void reloadButtonsSetEnabled(boolean visible) {
+	private static void reloadButtonsSetEnabled(boolean visible) {
 		lblReloadButtonOrders.setEnabled(visible);
 		lblReloadButtonInventory.setEnabled(visible);
 		lblReloadButtonMaterial.setEnabled(visible);
