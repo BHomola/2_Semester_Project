@@ -49,7 +49,7 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 		addMouseMotionListener(this);
 		setLocation(120, 70);
 		draw = true;
-		closingParameter = 17;
+		closingParameter = 100;
 		//shapePathFirst = new Path2D.Double();
 		//shapePathSecond = new Path2D.Double();
 	}
@@ -74,6 +74,7 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 				if(draw) {
 					if(outline.getPoints().size() >= 1) {
 						cursorLocation = e.getPoint();
+						paintComponent(getGraphics());
 						drawShape(outline.getPoints());
 						drawLastSegment();
 					}
@@ -103,8 +104,7 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 							outline.addPoint(p);
 						}
 						else {
-							p.setLocation(pFirstActual.getData().getX(), pFirstActual.getData().getY());
-							outline.addPoint(p);
+							outline.addLastPoint(p);
 						}
 					}
 					drawShape(outline.getPoints());
@@ -165,13 +165,15 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 		
 		ShapePoint pLast = points.get(points.size()-1);
 		ShapePoint pFirstActual = points.get(0);
-		if(pLast.getData().distance(pFirstActual.getData()) < closingParameter) {
+		if(pLast.getData().distance(pFirstActual.getData()) < closingParameter && draw) {
 			pLast.setData(pFirstActual.getData());
 			shapePathFirst.moveTo(pLast.getData().getX(), pLast.getData().getY());
 			shapePathFirst.closePath();
 			outline.calculateArea();
 			System.out.println(outline.calculateArea());
 			setDraw(false);
+			paintComponent(getGraphics());
+			drawShape(outline.getPoints());
 			g.draw(shapePathFirst);
 		}
 	}
@@ -186,7 +188,7 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 	
 	public void removeLastPointAndRedraw() {
 		outline.getPoints().remove(outline.getPoints().size()-1);
-		repaint();
+		paintComponent(getGraphics());
 		drawShape(outline.getPoints());
 	}
 	
