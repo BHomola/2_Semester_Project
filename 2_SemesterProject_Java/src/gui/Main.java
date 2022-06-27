@@ -441,6 +441,7 @@ public class Main extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
+				updateOrdersTable();
 				cardLayoutMainPane.show(mainPane, "name_27604993424200");
 				contentPane.updateUI();
 			}
@@ -461,7 +462,7 @@ public class Main extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-
+				updateInventory();
 				cardLayoutMainPane.show(mainPane, "name_27605005897300");
 				contentPane.updateUI();
 
@@ -524,6 +525,7 @@ public class Main extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
+				updateSupplierList();
 				cardLayoutMainPane.show(mainPane, "name_28693995155900");
 				contentPane.updateUI();
 			}
@@ -1148,7 +1150,7 @@ public class Main extends JFrame {
 		tableSuppliers.setDefaultEditor(Object.class, null); // non-editable
 		tableSuppliers.setGridColor(new Color(172, 172, 172));
 		tableSuppliers.setBackground(Color.WHITE);
-		DefaultTableModel defaultTableModelSuppliers = new DefaultTableModel(new Object[][] { null, null, null },
+		defaultTableModelSuppliers = new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "Name", "Address", "City", "PhoneNo", "Email", "Date of birth", "Age",
 						"Description", "Note"}) {
 			/**
@@ -1269,7 +1271,6 @@ public class Main extends JFrame {
 		
 		
 		
-		updateInventory();
 		clock();
 		databaseCheck();
 		cacheData();
