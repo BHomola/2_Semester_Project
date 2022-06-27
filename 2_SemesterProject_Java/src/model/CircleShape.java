@@ -10,7 +10,7 @@ public class CircleShape extends Shape{
 	}
 	
 	public CircleShape(double diameter) {
-		
+		this.diameter = diameter;
 	}
 	
 	public CircleShape() {
@@ -29,6 +29,11 @@ public class CircleShape extends Shape{
 	public double calculateArea() {
 		double area = Math.PI * Math.pow(diameter/2, 2);
 		return area;
+	}
+	
+	@Override
+	public String toString() {
+		return super.getName();
 	}
 	
 }

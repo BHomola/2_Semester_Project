@@ -142,7 +142,7 @@ public class JSONShapeDAO implements IShapeDAO {
 					((OtherShape) shape).addStartingPoint(jsonShape.points[i]);
 					continue;
 				}
-				if (i == jsonShape.points.length - 1) { // add last point
+				if (i == jsonShape.points.length) { // add last point
 					((OtherShape) shape).addLastPoint(jsonShape.points[i]);
 					continue;
 				}

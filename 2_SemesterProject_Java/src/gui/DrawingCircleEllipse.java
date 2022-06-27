@@ -20,6 +20,7 @@ import javax.swing.border.Border;
 import model.CircleShape;
 import model.ElipseShape;
 import model.OtherShape;
+import model.Shape;
 import model.ShapePoint;
 
 public class DrawingCircleEllipse extends JPanel{
@@ -36,20 +37,20 @@ public class DrawingCircleEllipse extends JPanel{
 	private int x;
 	private int y;
 
-	
+	Shape finalShape;
 	public DrawingCircleEllipse() {
 		g = getGraphics();
 		//border = new Border();
 		setBackground(Color.WHITE);
-		setBounds(320, 180, 1024, 600);
+		setBounds(0, 52, 1280, 668);
 		setVisible(true);
 		setEnabled(true);
 		setBorder(border);
 		paintBorder(g);
-		setLocation(120, 70);
+		//setLocation(120, 70);
 
-		x = 512;
-		y = 300;
+		x = 1280/2;
+		y = 668/2;
 	}
 
     @Override
@@ -58,21 +59,21 @@ public class DrawingCircleEllipse extends JPanel{
     }
 
 
-	public CircleShape drawCircle(int diameter) {
+	public void drawCircle(int diameter) {
 		paintComponent(getGraphics());
-		CircleShape circleShape = new CircleShape(diameter);
-
+		finalShape = new CircleShape(diameter);
 		((Graphics2D) getGraphics()).draw(new Ellipse2D.Double(x - diameter/4, y - diameter/4, diameter/2, diameter/2));
-		return circleShape;
+
 	}
 	
-	public ElipseShape drawEllipse(int height, int width) {
-		System.out.println("drawing");
+	public void drawEllipse(int height, int width) {
 		paintComponent(getGraphics());
-		ElipseShape ellipseShape = new ElipseShape(height, width);
+		finalShape = new ElipseShape(height, width);
 		((Graphics2D) getGraphics()).draw(new Ellipse2D.Double(x - width/2, y - height/2, width, height));
-		return ellipseShape;
 	}
-
-
+	
+	
+	public Shape getShape() {
+		return finalShape;
+	}
 }

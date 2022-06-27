@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import controller.JSONShapeController;
 import controller.OrderController;
 import controller.PersonController;
 import controller.StoneController;
@@ -40,6 +41,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+import model.CircleShape;
 import model.Employee;
 import model.IStoneUnit;
 import model.Location;
@@ -65,7 +67,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollBar;
 import javax.swing.JTree;
 
-public class StoneUnitCuttableWindow extends JFrame {
+public class StoneUnitCuttableWindow extends JFrame implements IShapeSave {
 
 	/**
 	 * 
@@ -120,10 +122,13 @@ public class StoneUnitCuttableWindow extends JFrame {
 	JPanel treePane;
 
 	private StoneCuttable cachedStoneCuttable;
+	private JLabel lblMoveToShape;
+
+	private IShapeSave stoneSave;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public StoneUnitCuttableWindow(int id) {
-
+		stoneSave = this;
 		cardLayout = new CardLayout();
 
 //FRAME		
@@ -244,8 +249,10 @@ public class StoneUnitCuttableWindow extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (!isEditPressed) {
-					lblEditCheck.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/confirm1.png")));
-					lblDeleteStorno.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/storno.png")));
+					lblEditCheck
+							.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/confirm1.png")));
+					lblDeleteStorno
+							.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/storno.png")));
 					isEditPressed = true;
 					switchEditable();
 					textFieldOrigin.grabFocus();
@@ -277,8 +284,10 @@ public class StoneUnitCuttableWindow extends JFrame {
 					case 2:
 						return;
 					}
-					lblEditCheck.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/editButton2.png")));
-					lblDeleteStorno.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/deleteButton.png")));
+					lblEditCheck
+							.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/editButton2.png")));
+					lblDeleteStorno.setIcon(
+							new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/deleteButton.png")));
 					contentPane.grabFocus();
 					isEditPressed = false;
 					switchEditable();
@@ -295,8 +304,10 @@ public class StoneUnitCuttableWindow extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (isEditPressed) {
-					lblEditCheck.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/editButton2.png")));
-					lblDeleteStorno.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/deleteButton.png")));
+					lblEditCheck
+							.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/editButton2.png")));
+					lblDeleteStorno.setIcon(
+							new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/deleteButton.png")));
 					contentPane.grabFocus();
 					isEditPressed = false;
 					switchEditable();
@@ -894,8 +905,8 @@ public class StoneUnitCuttableWindow extends JFrame {
 
 		lblShape = new JLabel("NONE");
 		lblShape.setForeground(new Color(47, 79, 79));
-		lblShape.setFont(new Font("Segoe UI", Font.BOLD, 25));
-		lblShape.setBounds(758, 719, 200, 34);
+		lblShape.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblShape.setBounds(758, 719, 292, 34);
 		stoneUnitPane.add(lblShape);
 
 		lblShapeError = new JLabel("Shape is not set.");
@@ -904,15 +915,41 @@ public class StoneUnitCuttableWindow extends JFrame {
 		lblShapeError.setBounds(758, 749, 111, 14);
 		stoneUnitPane.add(lblShapeError);
 
-		btnChangeShape = new JButton("Change");
-		btnChangeShape.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String option = JOptionPane.showInputDialog("Enter employee's ID.");
-				// open shape window
+		lblMoveToShape = new JLabel("");
+		lblMoveToShape.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				JFrame frame = new JFrame();
+				frame.setBounds(320, 180, 1280, 668);
+				frame.getContentPane().setLayout(null);
+				frame.setTitle("Drawing Panel");
+				frame.setVisible(true);
+
+				DrawShapeAutomatic drawer = new DrawShapeAutomatic();
+				frame.getContentPane().add(drawer);
+				drawer.drawShape(cachedStoneCuttable.getShape());
+
 			}
 		});
+		lblMoveToShape.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/moveto2.png")));
+		lblMoveToShape.setBounds(1111, 729, 25, 25);
+
+		stoneUnitPane.add(lblMoveToShape);
+
+		btnChangeShape = new JButton("Change");
 		btnChangeShape.setVisible(false);
-		btnChangeShape.setBounds(1047, 314, 89, 23);
+		btnChangeShape.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					new StoneUnitDrawShapeWindow(stoneSave);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnChangeShape.setBounds(1060, 731, 89, 23);
 		stoneUnitPane.add(btnChangeShape);
 
 //TREE PANE		
@@ -1025,9 +1062,11 @@ public class StoneUnitCuttableWindow extends JFrame {
 			btnToday.setVisible(true);
 			btnChangeEmployee.setVisible(true);
 			lblUpdateConfirmIcon.setVisible(true);
+			btnChangeShape.setVisible(true);
 
 			lblMoveToSupplier.setVisible(false);
 			lblMoveToEmployee.setVisible(false);
+			lblMoveToShape.setVisible(false);
 
 		} else {
 			textFieldOrigin.setEditable(false);
@@ -1051,10 +1090,11 @@ public class StoneUnitCuttableWindow extends JFrame {
 			btnToday.setVisible(false);
 			btnChangeEmployee.setVisible(false);
 			lblUpdateConfirmIcon.setVisible(false);
+			btnChangeShape.setVisible(false);
 
 			lblMoveToSupplier.setVisible(true);
 			lblMoveToEmployee.setVisible(true);
-
+			lblMoveToShape.setVisible(true);
 		}
 	}
 
@@ -1090,57 +1130,52 @@ public class StoneUnitCuttableWindow extends JFrame {
 				try {
 					StoneController sctrl = new StoneController();
 
-					try {
-						cachedStoneCuttable = (StoneCuttable) sctrl.getStoneUnitByID(id);
-						textFieldId.setText(cachedStoneCuttable.getId() + "");
-						textFieldOrigin.setText(cachedStoneCuttable.getOrigin());
-						lblOriginError.setVisible(false);
-						comboBoxStatus.setSelectedIndex(cachedStoneCuttable.getStatus().getID());
-						textFieldCreatedDate.setText(cachedStoneCuttable.getCreatedDate().toString());
-						textFieldWidth.setText(cachedStoneCuttable.getWidth() + "");
-						textFieldWeight.setText(cachedStoneCuttable.getWeight() + "");
-						textFieldDescription.setText(cachedStoneCuttable.getDescription());
-						lblSupplier.setText(cachedStoneCuttable.getSupplier().getName());
-						lblSupplierError.setVisible(false);
-						lblEmployee.setText(cachedStoneCuttable.getEmployee().getName());
-						lblEmployeeError.setVisible(false);
+					cachedStoneCuttable = (StoneCuttable) sctrl.getStoneUnitByID(id);
+					textFieldId.setText(cachedStoneCuttable.getId() + "");
+					textFieldOrigin.setText(cachedStoneCuttable.getOrigin());
+					lblOriginError.setVisible(false);
+					comboBoxStatus.setSelectedIndex(cachedStoneCuttable.getStatus().getID());
+					textFieldCreatedDate.setText(cachedStoneCuttable.getCreatedDate().toString());
+					textFieldWidth.setText(cachedStoneCuttable.getWidth() + "");
+					textFieldWeight.setText(cachedStoneCuttable.getWeight() + "");
+					textFieldDescription.setText(cachedStoneCuttable.getDescription());
+					lblSupplier.setText(cachedStoneCuttable.getSupplier().getName());
+					lblSupplierError.setVisible(false);
+					lblEmployee.setText(cachedStoneCuttable.getEmployee().getName());
+					lblEmployeeError.setVisible(false);
 
-						textAreaUpdates.setText(cachedStoneCuttable.getUpdates());
+					textAreaUpdates.setText(cachedStoneCuttable.getUpdates());
 
-						for (StoneMaterial mat : Main.getInstance().cachedMaterials) {
-							if (mat.getId() == cachedStoneCuttable.getStoneType().getMaterial().getId()) {
-								comboMaterials.setSelectedItem(mat);
-							}
+					for (StoneMaterial mat : Main.getInstance().cachedMaterials) {
+						if (mat.getId() == cachedStoneCuttable.getStoneType().getMaterial().getId()) {
+							comboMaterials.setSelectedItem(mat);
 						}
+					}
 
-						for (StoneType type : ((StoneMaterial) comboMaterials.getSelectedItem()).getAllTypes()) {
-							if (type.getId() == cachedStoneCuttable.getStoneType().getId()) {
-								comboTypes.setSelectedItem(type);
-							}
+					for (StoneType type : ((StoneMaterial) comboMaterials.getSelectedItem()).getAllTypes()) {
+						if (type.getId() == cachedStoneCuttable.getStoneType().getId()) {
+							comboTypes.setSelectedItem(type);
 						}
-						for (Location loc : Main.getInstance().cachedLocations) {
-							if (loc.getId() == cachedStoneCuttable.getLocation().getId())
-								comboLocations.setSelectedItem(loc);
-						}
+					}
+					for (Location loc : Main.getInstance().cachedLocations) {
+						if (loc.getId() == cachedStoneCuttable.getLocation().getId())
+							comboLocations.setSelectedItem(loc);
+					}
 
-						Shape shape = cachedStoneCuttable.getShape();
+					Shape shape = cachedStoneCuttable.getShape();
+					if (shape != null) {
 						lblShape.setText(shape.getName());
 						lblShapeError.setVisible(false);
 						txtTotalSize.setText(shape.calculateArea() + "");
-
-						loadLocation(cachedStoneCuttable.getLocation().getId());
-
-						DefaultMutableTreeNode root = getStoneNode(cachedStoneCuttable);
-						createTree(root);
-
-
-						UI_Blocker.setVisible(false);
-						stoneUnitPane.setVisible(true);
-
-					} catch (Exception e1) {
-						e1.printStackTrace();
-						System.out.println(e1.getMessage());
 					}
+					UI_Blocker.setVisible(false);
+					loadLocation(cachedStoneCuttable.getLocation().getId());
+
+					DefaultMutableTreeNode root = getStoneNode(cachedStoneCuttable);
+					createTree(root);
+
+					UI_Blocker.setVisible(false);
+					stoneUnitPane.setVisible(true);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1190,6 +1225,7 @@ public class StoneUnitCuttableWindow extends JFrame {
 			if (cachedStoneCuttable != null) {
 				if (cachedStoneCuttable.getId() > 0) {
 					sctrl.updateStone(cachedStoneCuttable);
+
 					JOptionPane.showMessageDialog(null, "Stone has been successfully updated.");
 				} else {
 					// create a new stone
@@ -1231,5 +1267,14 @@ public class StoneUnitCuttableWindow extends JFrame {
 
 		return node;
 
+	}
+
+	@Override
+	public void saveShape(Shape shape) {
+		shape.setId(cachedStoneCuttable.getId());
+		cachedStoneCuttable.setShape(shape);
+		txtTotalSize.setText(shape.calculateArea() + "");
+		lblShape.setText(shape.getName());
+		lblShapeError.setVisible(false);
 	}
 }

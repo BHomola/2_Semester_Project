@@ -14,6 +14,15 @@ public class OtherShape extends Shape{
 		points = new ArrayList<ShapePoint>();
 	}
 	
+	public OtherShape(String name, ArrayList<ShapePoint> points){
+		super(name);
+		this.points = points;
+	}
+	public OtherShape(String name){
+		super(name);
+		points = new ArrayList<ShapePoint>();
+	}
+	
 	public OtherShape() {
 		points = new ArrayList<ShapePoint>();
 	}
@@ -69,6 +78,11 @@ public class OtherShape extends Shape{
 		}
 		area += (Math.abs(area + (coordinateX[0] * coordinateY[arraySize-2]) - (coordinateX[arraySize-2] * coordinateY[0]))) /2;
 		return area;
+	}
+	
+	@Override
+	public String toString() {
+		return super.getName();
 	}
 }
 

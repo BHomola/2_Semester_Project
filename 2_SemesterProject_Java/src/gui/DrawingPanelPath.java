@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import model.OtherShape;
+import model.Shape;
 import model.ShapePoint;
 
 public class DrawingPanelPath extends JPanel implements MouseListener, MouseMotionListener{
@@ -33,21 +34,22 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 	private int closingParameter;
 	//private Path2D shapePathFirst;
 	//private Path2D shapePathSecond;
+	private Shape finalShape;
 	
 	public DrawingPanelPath() {
-		outline = new OtherShape("", 1);
+		outline = new OtherShape("Custom shape");
 		g = getGraphics();
 		cursorLocation = null;
 		//border = new Border();
 		setBackground(Color.WHITE);
-		setBounds(320, 180, 1024, 600);
+		setBounds(0, 52, 1280, 668);
 		setVisible(true);
 		setEnabled(true);
 		setBorder(border);
 		paintBorder(g);
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		setLocation(120, 70);
+		//setLocation(0);
 		draw = true;
 		closingParameter = 15;
 		//shapePathFirst = new Path2D.Double();
@@ -170,11 +172,12 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 			shapePathFirst.moveTo(pLast.getData().getX(), pLast.getData().getY());
 			shapePathFirst.closePath();
 			outline.calculateArea();
-			System.out.println(outline.calculateArea());
 			setDraw(false);
 			paintComponent(getGraphics());
 			drawShape(outline.getPoints());
 			g.draw(shapePathFirst);
+			
+			
 		}
 	}
 
@@ -225,5 +228,14 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
     	((Graphics2D)g).draw(shapePathFirst);
 
 	}
-
+	
+	
+	
+	
+	
+	public Shape getShape() {
+		if(!draw)
+			return outline;
+		return null;
+	}
 }

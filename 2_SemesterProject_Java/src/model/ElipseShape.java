@@ -12,7 +12,8 @@ public class ElipseShape extends Shape{
 	}
 	
 	public ElipseShape(double diameterX, double diameterY) {
-		
+		this.diameterX = diameterX;
+		this.diameterY = diameterY;
 	}
 	
 	public double getDiameterX() {
@@ -35,6 +36,11 @@ public class ElipseShape extends Shape{
 	public double calculateArea() {
 		double area = (2*3.14*Math.sqrt((Math.pow(diameterX,2)+Math.pow(diameterY,2))/2));
 		return area;
+	}
+	
+	@Override
+	public String toString() {
+		return super.getName();
 	}
 	
 }

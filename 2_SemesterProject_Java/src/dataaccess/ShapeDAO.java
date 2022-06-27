@@ -114,7 +114,7 @@ public class ShapeDAO implements IShapeDAO{
 			
 
 			if (shape instanceof CircleShape) {
-				query = "INSERT INTO CircleShape (ShapeID, Diameter) VALUES (?, ?);";
+				query = "INSERT INTO CircleShape (ShapeID, Diamater) VALUES (?, ?);";
 				statement = connection.prepareStatement(query);
 				statement.setInt(1, id);
 				statement.setInt(2, (int) ((CircleShape) shape).getDiameter());
@@ -122,7 +122,7 @@ public class ShapeDAO implements IShapeDAO{
 			}
 			
 			if (shape instanceof ElipseShape) {
-				query = "INSERT INTO ElipseShape (ShapeID, DiameterX, DiameterY) VALUES (?, ?, ?);";
+				query = "INSERT INTO ElipseShape (ShapeID, DiamaterX, DiamaterY) VALUES (?, ?, ?);";
 				statement = connection.prepareStatement(query);
 				statement.setInt(1, id);
 				statement.setInt(2, (int) ((ElipseShape) shape).getDiameterX());
@@ -175,67 +175,80 @@ public class ShapeDAO implements IShapeDAO{
 	public boolean updateShape(Shape shape) throws SQLException{
 		
 		boolean success = false;
-		Connection connection = DBConnection.getConnection();
+		
 		try {
-			String query = "UPDATE [dbo].[Shape]"
-					+ "SET [name] = ?"
-					+ "   ,[shapeType] = ?"
-					+ "WHERE ShapeID = ?;";
-			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setString(1, shape.getName());
-			if (shape instanceof CircleShape) statement.setString(3, "Circle");
-			if (shape instanceof ElipseShape) statement.setString(3, "Elipse");
-			if (shape instanceof OtherShape) statement.setString(3, "Other");
-			
-			statement.executeUpdate();
-			
-			if (shape instanceof CircleShape) {
-				query = "UPDATE [dbo].[CircleShape]"
-						+ "SET [diameter] = ?"
-						+ "WHERE shapeID = ?;";
-				statement = connection.prepareStatement(query);
-				statement.setInt(1, (int) ((CircleShape) shape).getDiameter());
-				statement.setInt(2, shape.getId());
-			}
-			if (shape instanceof ElipseShape) {
-				query = "UPDATE [dbo].[ElipseShape]"
-						+ "SET [diameterX] = ?"
-						+ "	  ,[diameterY] = ?"
-						+ "WHERE shapeID = ?;";
-				statement = connection.prepareStatement(query);
-				statement.setInt(1, (int) ((ElipseShape) shape).getDiameterX());
-				statement.setInt(2, (int) ((ElipseShape) shape).getDiameterX());
-				statement.setInt(3, shape.getId());
-			}
-			
-			int coordinateX = 0;
-			int coordinateY = 0;
-			if (shape instanceof OtherShape) {
-				for(int i = 0; i < ((OtherShape) shape).getPoints().size(); i++) {
-					coordinateX = (int)((OtherShape) shape).getPoints().get(i).getData().getX();
-					coordinateY = (int)((OtherShape) shape).getPoints().get(i).getData().getY();	
-					query = "UPDATE [dbo].[ShapePoint]"
-							+ "SET [OrderIndex] = ?"
-							+ "   ,[x] = ?"
-							+ "   ,[Y] = ?"
-							+ "WHERE shapeID = ?;";
-					statement = connection.prepareStatement(query);
-					statement.setInt(1, i);
-					statement.setInt(2, coordinateX);
-					statement.setInt(3, coordinateY);
-					statement.setInt(4, shape.getId());
-				}
-			}
-			
-			statement.executeUpdate();
-			
-			success = true;
-			
-			connection.commit();
-			} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			
+			deleteShape(shape);
+			createShape(shape, shape.getId());
 		}
+		catch(SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
+		
+		
+//		Connection connection = DBConnection.getConnection();
+//		try {
+//			//removing old shape and will be replacing with the new one (since custom shape has more rows than 1)  
+//			deleteShape(shape);
+//			
+//			String query = "UPDATE [dbo].[Shape]"
+//					+ "SET [name] = ?"
+//					+ "   ,[shapeType] = ?"
+//					+ "WHERE ShapeID = ?;";
+//			PreparedStatement statement = connection.prepareStatement(query);
+//			statement.setString(1, shape.getName());
+//			if (shape instanceof CircleShape) statement.setString(2, "Circle");
+//			if (shape instanceof ElipseShape) statement.setString(2, "Elipse");
+//			if (shape instanceof OtherShape) statement.setString(2, "Other");
+//			
+//			statement.executeUpdate();
+//			
+//			if (shape instanceof CircleShape) {
+//				query = "UPDATE [dbo].[CircleShape]"
+//						+ "SET [diameter] = ?"
+//						+ "WHERE shapeID = ?;";
+//				statement = connection.prepareStatement(query);
+//				statement.setInt(1, (int) ((CircleShape) shape).getDiameter());
+//				statement.setInt(2, shape.getId());
+//			}
+//			if (shape instanceof ElipseShape) {
+//				query = "UPDATE [dbo].[ElipseShape]"
+//						+ "SET [diameterX] = ?"
+//						+ "	  ,[diameterY] = ?"
+//						+ "WHERE shapeID = ?;";
+//				statement = connection.prepareStatement(query);
+//				statement.setInt(1, (int) ((ElipseShape) shape).getDiameterX());
+//				statement.setInt(2, (int) ((ElipseShape) shape).getDiameterX());
+//				statement.setInt(3, shape.getId());
+//			}
+//			
+//			int coordinateX = 0;
+//			int coordinateY = 0;
+//			if (shape instanceof OtherShape) {
+//				for(int i = 0; i < ((OtherShape) shape).getPoints().size(); i++) {
+//					coordinateX = (int)((OtherShape) shape).getPoints().get(i).getData().getX();
+//					coordinateY = (int)((OtherShape) shape).getPoints().get(i).getData().getY();	
+//					query = "UPDATE [dbo].[ShapePoint]"
+//							+ "SET [OrderIndex] = ?"
+//							+ "   ,[x] = ?"
+//							+ "   ,[Y] = ?"
+//							+ "WHERE shapeID = ?;";
+//					statement = connection.prepareStatement(query);
+//					statement.setInt(1, i);
+//					statement.setInt(2, coordinateX);
+//					statement.setInt(3, coordinateY);
+//					statement.setInt(4, shape.getId());
+//				}
+//			}
+//			
+//			statement.executeUpdate();
+//			
+//			success = true;
+//			
+//			connection.commit();
+//			} catch (SQLException e) {
+//			System.out.println(e.getMessage());
+//			
+//		}
 		return success;
 	}
 

@@ -11,6 +11,11 @@ public abstract class Shape {
 		this.name = name;
 		this.id = id;
 	}
+	public Shape(String name) {
+		super();
+		this.name = name;
+		this.id = 0;
+	}
 	
 	public Shape() {
 		

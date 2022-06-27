@@ -177,6 +177,7 @@ public class StoneDAO implements IStoneDAO {
 				statement.setInt(1, generatedID);
 				statement.setInt(2, (int) ((Stone) stone).getTotalSize());
 
+
 			}
 			if (stone instanceof Remains) {
 				query = "INSERT INTO Remains (RemainsID, Pieces) VALUES (?, ?); ";
@@ -240,13 +241,14 @@ public class StoneDAO implements IStoneDAO {
 				statement.setInt(3, (int) ((StoneProduct) stone).getPrice());
 				statement.setInt(4, ((StoneProduct) stone).getOrderID());
 				statement.setInt(5, (int) ((StoneProduct) stone).getId());
-
+				new ShapeDAO().updateShape(((StoneProduct) stone).getShape());
 			}
 			if (stone instanceof StoneCuttable) {
 				query = "UPDATE Stone SET TotalSize=? WHERE StoneID=?";
 				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, (int) ((Stone) stone).getTotalSize());
 				statement.setInt(2, (int) ((Stone) stone).getId());
+				new ShapeDAO().updateShape(((StoneCuttable) stone).getShape());
 
 			}
 			if (stone instanceof Remains) {

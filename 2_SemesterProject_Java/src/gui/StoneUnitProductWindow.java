@@ -41,6 +41,7 @@ import model.Employee;
 import model.IStoneUnit;
 import model.Location;
 import model.OrderInfo;
+import model.Shape;
 import model.StoneMaterial;
 import model.StoneProduct;
 import model.StoneType;
@@ -58,7 +59,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JTree;
 import java.awt.Dimension;
 
-public class StoneUnitProductWindow extends JFrame {
+public class StoneUnitProductWindow extends JFrame implements IShapeSave{
 
 	/**
 	 * 
@@ -113,13 +114,16 @@ public class StoneUnitProductWindow extends JFrame {
 	private JLabel lblOrderIDDescription;
 	JLabel lblOrderID;
 	JButton btnChangeShape;
+	JLabel lblMoveToShape;
 
 	private StoneProduct cachedStoneProduct;
 	private JLabel lblShape;
 	private JLabel lblShapeError;
-
+	
+	private IShapeSave stoneSave;
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public StoneUnitProductWindow(int id) {
+		stoneSave = this;
 		cardLayout = new CardLayout();
 
 //FRAME		
@@ -967,8 +971,8 @@ public class StoneUnitProductWindow extends JFrame {
 		
 		lblShape = new JLabel("NONE");
 		lblShape.setForeground(new Color(47, 79, 79));
-		lblShape.setFont(new Font("Segoe UI", Font.BOLD, 25));
-		lblShape.setBounds(758, 719, 200, 34);
+		lblShape.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblShape.setBounds(758, 719, 292, 34);
 		stoneUnitPane.add(lblShape);
 		
 		lblShapeError = new JLabel("Shape is not set.");
@@ -977,15 +981,42 @@ public class StoneUnitProductWindow extends JFrame {
 		lblShapeError.setBounds(758, 749, 111, 14);
 		stoneUnitPane.add(lblShapeError);
 		
-		btnChangeShape = new JButton("Change");
-		btnChangeShape.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String option = JOptionPane.showInputDialog("Enter employee's ID.");
-				// open shape window
+		
+		
+		lblMoveToShape = new JLabel("");
+		lblMoveToShape.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				JFrame frame = new JFrame();
+				frame.setBounds(320, 180, 1280, 668);
+				frame.getContentPane().setLayout(null);
+				frame.setTitle("Drawing Panel");
+				frame.setVisible(true);
+
+				DrawShapeAutomatic drawer = new DrawShapeAutomatic();
+				frame.getContentPane().add(drawer);
+				drawer.drawShape(cachedStoneProduct.getShape());
+
 			}
 		});
+		lblMoveToShape.setIcon(new ImageIcon(StoneUnitProductWindow.class.getResource("/imgs/moveto2.png")));
+		lblMoveToShape.setBounds(1111, 729, 25, 25);
+		stoneUnitPane.add(lblMoveToShape);
+		
+		btnChangeShape = new JButton("Change");
 		btnChangeShape.setVisible(false);
-		btnChangeShape.setBounds(1047, 314, 89, 23);
+		btnChangeShape.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					new StoneUnitDrawShapeWindow(stoneSave);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnChangeShape.setBounds(1060, 731, 89, 23);
 		stoneUnitPane.add(btnChangeShape);
 
 		if (id > 0) {
@@ -1039,9 +1070,11 @@ public class StoneUnitProductWindow extends JFrame {
 			btnChangeEmployee.setVisible(true);
 			lblUpdateConfirmIcon.setVisible(true);
 			btnChangeOrderID.setVisible(true);
+			btnChangeShape.setVisible(true);
 
 			lblMoveToSupplier.setVisible(false);
 			lblMoveToEmployee.setVisible(false);
+			lblMoveToShape.setVisible(false);
 
 		} else {
 			textFieldOrigin.setEditable(false);
@@ -1068,9 +1101,11 @@ public class StoneUnitProductWindow extends JFrame {
 			btnChangeEmployee.setVisible(false);
 			lblUpdateConfirmIcon.setVisible(false);
 			btnChangeOrderID.setVisible(false);
+			btnChangeShape.setVisible(false);
 
 			lblMoveToSupplier.setVisible(true);
 			lblMoveToEmployee.setVisible(true);
+			lblMoveToShape.setVisible(true);
 
 		}
 	}
@@ -1147,10 +1182,13 @@ public class StoneUnitProductWindow extends JFrame {
 						}
 						
 						
-						lblShape.setText(cachedStoneProduct.getShape().getName());
-						lblShapeError.setVisible(false);
-						txtTotalSize.setText(cachedStoneProduct.getShape().calculateArea()+"");
+						Shape shape = cachedStoneProduct.getShape();
 						
+						if (shape != null) {
+							lblShape.setText(shape.getName());
+							lblShapeError.setVisible(false);
+							txtTotalSize.setText(shape.calculateArea() + "");
+						}
 						
 						loadLocation(cachedStoneProduct.getLocation().getId());
 
@@ -1220,5 +1258,14 @@ public class StoneUnitProductWindow extends JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void saveShape(Shape shape) {
+		shape.setId(cachedStoneProduct.getId());
+		cachedStoneProduct.setShape(shape);
+		txtTotalSize.setText(shape.calculateArea() + "");
+		lblShape.setText(shape.getName());
+		lblShapeError.setVisible(false);
 	}
 }
