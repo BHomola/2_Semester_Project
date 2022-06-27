@@ -4,6 +4,7 @@ import model.OtherShape;
 import model.ShapePoint;
 import javax.swing.JFrame;
 
+import controller.ShapeController;
 import dataaccess.ShapeDAO;
 
 import java.awt.Graphics;
@@ -22,10 +23,13 @@ public class StoneUnitDrawShapeWindow extends JFrame implements MouseListener, M
 	private ShapeDAO shapeDAO;
 	private DrawingPanelPath drawShapePanel;
 	private DrawingCircleEllipse circleAndEllipsePanel;
+	private DrawShapeAutomatic defaultShapesPanel;
 	private int stoneUnitID;
 	private static JToolBar toolBar = new JToolBar();
 	private JComboBox comboBoxShapeType;
-	private String shapes[] = { "Choose a Shape", "Custom", "Circle", "Ellipse" };
+	private JComboBox comboBoxDefaultShape;
+	private String shapes[] = { "Choose a Shape","Pre-made", "Custom", "Circle", "Ellipse" };
+	private String defaultShapes [] = {"Choose a Pre-made shape", "Default Elipse Shape 1", "Default Elipse Shape 2", "Rectangle 1", "Rectangle 2", "Circle"};
 	private JTextField diameterX;
 	private JTextField diameterY;
 	private JLabel diameterXParameterLabel;
@@ -34,6 +38,8 @@ public class StoneUnitDrawShapeWindow extends JFrame implements MouseListener, M
 	private JButton cancelButton;
 	private JButton pathToLineButton;
 	private JButton pathUndoButton;
+	private JButton drawCircleEllipseButton;
+	private ShapeController shapeController;
 
 	public StoneUnitDrawShapeWindow(int stoneUnitID) {
 		setBounds(320, 180, 1280, 720);
@@ -54,6 +60,7 @@ public class StoneUnitDrawShapeWindow extends JFrame implements MouseListener, M
 		toolBar.add(comboBoxShapeType);
 		toolBar.add(saveButton);
 		toolBar.add(cancelButton);
+		shapeController = new ShapeController();
 
 	}
 
@@ -69,10 +76,12 @@ public class StoneUnitDrawShapeWindow extends JFrame implements MouseListener, M
 		shapeDAO = new ShapeDAO();
 		circleAndEllipsePanel = new DrawingCircleEllipse();
 		drawShapePanel = new DrawingPanelPath();
+		defaultShapesPanel = new DrawShapeAutomatic();
+		shapeController = new ShapeController();
 
 		toolBar = new JToolBar();
 		toolBar.setBounds(10, 11, 1256, 40);
-
+		comboBoxDefaultShape = new JComboBox(defaultShapes);
 		comboBoxShapeType = new JComboBox(shapes);
 		toolBar.add(comboBoxShapeType);
 
@@ -81,6 +90,7 @@ public class StoneUnitDrawShapeWindow extends JFrame implements MouseListener, M
 		pathToLineButton = new JButton("Line");
 		saveButton = new JButton("Save");
 		cancelButton = new JButton("Cancel");
+		drawCircleEllipseButton = new JButton("Draw");
 
 		// Textfields
 		diameterX = new JTextField();
@@ -111,12 +121,103 @@ public class StoneUnitDrawShapeWindow extends JFrame implements MouseListener, M
 						toolBar.remove(diameterYParameterLabel);
 						toolBar.remove(pathToLineButton);
 						toolBar.remove(pathUndoButton);
+						toolBar.remove(drawCircleEllipseButton);
+						toolBar.remove(comboBoxDefaultShape);
 						getContentPane().remove(drawShapePanel);
 						getContentPane().remove(circleAndEllipsePanel);
+						getContentPane().remove(defaultShapesPanel);
 						getContentPane().revalidate();
 						getContentPane().repaint();
 					}
+					
 					if (comboBoxShapeType.getSelectedIndex() == 1) {
+						getContentPane().add(defaultShapesPanel);
+						//defaultShapesPanel.repaint(getBounds());
+						toolBar.remove(pathUndoButton);
+						toolBar.remove(pathToLineButton);
+						toolBar.add(comboBoxDefaultShape);
+						comboBoxDefaultShape.setSelectedIndex(0);
+						toolBar.add(saveButton);
+						toolBar.add(cancelButton);
+						saveButton.enable();
+						saveButton.setVisible(true);
+						toolBar.remove(diameterX);
+						toolBar.remove(diameterY);
+						toolBar.remove(diameterXParameterLabel);
+						toolBar.remove(diameterYParameterLabel);
+						toolBar.remove(drawCircleEllipseButton);
+						getContentPane().remove(circleAndEllipsePanel);
+						getContentPane().remove(drawShapePanel);
+						toolBar.revalidate();
+						toolBar.repaint();
+						getContentPane().revalidate();
+						getContentPane().repaint();
+						comboBoxDefaultShape.addItemListener(new ItemListener() {
+
+							@Override
+							public void itemStateChanged(ItemEvent e) {
+								// TODO Auto-generated method stub
+								if (e.getStateChange() == ItemEvent.SELECTED) {
+									if (comboBoxDefaultShape.getSelectedIndex() == 0) {
+										defaultShapesPanel.revalidate();
+										defaultShapesPanel.paintComponent(defaultShapesPanel.getGraphics());
+									}
+									if (comboBoxDefaultShape.getSelectedIndex() == 1) {
+										try {
+											defaultShapesPanel.revalidate();
+											defaultShapesPanel.paintComponent(defaultShapesPanel.getGraphics());
+											defaultShapesPanel.drawDefaultShape(0);
+										} catch (SQLException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+									}
+									if (comboBoxDefaultShape.getSelectedIndex() == 2) {
+										try {
+											defaultShapesPanel.revalidate();
+											defaultShapesPanel.paintComponent(defaultShapesPanel.getGraphics());
+											defaultShapesPanel.drawDefaultShape(1);
+										} catch (SQLException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+									}
+									if (comboBoxDefaultShape.getSelectedIndex() == 3) {
+										try {
+											defaultShapesPanel.revalidate();
+											defaultShapesPanel.paintComponent(defaultShapesPanel.getGraphics());
+											defaultShapesPanel.drawDefaultShape(2);
+										} catch (SQLException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+									}
+									if (comboBoxDefaultShape.getSelectedIndex() == 4) {
+										try {
+											defaultShapesPanel.revalidate();
+											defaultShapesPanel.paintComponent(defaultShapesPanel.getGraphics());
+											defaultShapesPanel.drawDefaultShape(3);
+										} catch (SQLException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}									
+																		}
+									if (comboBoxDefaultShape.getSelectedIndex() == 5) {
+										try {
+											defaultShapesPanel.revalidate();
+											defaultShapesPanel.paintComponent(defaultShapesPanel.getGraphics());
+											defaultShapesPanel.drawDefaultShape(4);
+										} catch (SQLException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+									}
+								}
+							}
+							});
+						}
+					
+					if (comboBoxShapeType.getSelectedIndex() == 2) {
 						getContentPane().add(drawShapePanel);
 						drawShapePanel.repaint(getBounds());
 						toolBar.add(pathUndoButton);
@@ -130,6 +231,7 @@ public class StoneUnitDrawShapeWindow extends JFrame implements MouseListener, M
 						toolBar.remove(diameterY);
 						toolBar.remove(diameterXParameterLabel);
 						toolBar.remove(diameterYParameterLabel);
+						toolBar.remove(drawCircleEllipseButton);
 						getContentPane().remove(circleAndEllipsePanel);
 						toolBar.revalidate();
 						toolBar.repaint();
@@ -143,13 +245,16 @@ public class StoneUnitDrawShapeWindow extends JFrame implements MouseListener, M
 						});
 					}
 
-					if (comboBoxShapeType.getSelectedIndex() == 2) {
+					if (comboBoxShapeType.getSelectedIndex() == 3) {
+						getContentPane().remove(circleAndEllipsePanel);
 						getContentPane().add(circleAndEllipsePanel);
 						circleAndEllipsePanel.repaint(getBounds());
 						toolBar.add(diameterX);
 						toolBar.add(diameterXParameterLabel);
+						toolBar.add(drawCircleEllipseButton);
 						toolBar.add(saveButton);
 						toolBar.add(cancelButton);
+						diameterX.setText("");
 						diameterXParameterLabel.setText("Diameter [mm]");
 						saveButton.enable();
 						saveButton.setVisible(true);
@@ -163,56 +268,49 @@ public class StoneUnitDrawShapeWindow extends JFrame implements MouseListener, M
 						getContentPane().revalidate();
 						getContentPane().repaint();
 
-						diameterX.addActionListener(new ActionListener() {
-
-							public void actionPerformed(ActionEvent e) {
-								try {
-									if (Integer.parseInt(diameterX.getText()) > 0) {
-										circleAndEllipsePanel.drawCircle(Integer.parseInt(diameterX.getText()));
-									}
-								} catch (Exception ex) {
+						drawCircleEllipseButton.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								if(Integer.parseInt(diameterX.getText()) > 0) {
+									int diameter = Integer.parseInt(diameterX.getText());
+									circleAndEllipsePanel.drawCircle(diameter);
 								}
 							}
 						});
 					}
 
-					if (comboBoxShapeType.getSelectedIndex() == 3) {
+					if (comboBoxShapeType.getSelectedIndex() == 4) {
+						getContentPane().remove(circleAndEllipsePanel);
+						toolBar.remove(pathToLineButton);
+						toolBar.remove(pathUndoButton);
 						getContentPane().add(circleAndEllipsePanel);
 						circleAndEllipsePanel.repaint(getBounds());
+						toolBar.remove(drawCircleEllipseButton);
 						toolBar.add(diameterX);
 						toolBar.add(diameterXParameterLabel);
 						toolBar.add(diameterY);
 						toolBar.add(diameterYParameterLabel);
+						diameterX.setText("");
+						diameterY.setText("");
 						diameterXParameterLabel.setText("Height [mm]");
 						diameterYParameterLabel.setText("Width [mm]");
+						toolBar.add(drawCircleEllipseButton);
 						toolBar.add(saveButton);
 						toolBar.add(cancelButton);
 						saveButton.enable();
 						saveButton.setVisible(true);
-						toolBar.remove(pathToLineButton);
-						toolBar.remove(pathUndoButton);
 						getContentPane().remove(drawShapePanel);
 						getContentPane().revalidate();
 						getContentPane().repaint();
 						toolBar.revalidate();
 						toolBar.repaint();
-						diameterX.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								try {
-									if (Integer.parseInt(diameterX.getText()) > 0 && Integer.parseInt(diameterY.getText()) > 0 && diameterY.isVisible()) {
-										circleAndEllipsePanel.drawEllipse(Integer.parseInt(diameterX.getText()) , Integer.parseInt(diameterY.getText()));
-									}
-								} catch (Exception ex) {
-								}
-							}
-						});
-						diameterY.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								try {
-									if (Integer.parseInt(diameterX.getText()) > 0 && Integer.parseInt(diameterY.getText()) > 0 && diameterY.isVisible()) {
-										circleAndEllipsePanel.drawEllipse(Integer.parseInt(diameterX.getText()) , Integer.parseInt(diameterY.getText()));
-									}
-								} catch (Exception ex) {
+						drawCircleEllipseButton.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								if(Integer.parseInt(diameterX.getText()) > 0 && Integer.parseInt(diameterY.getText()) > 0 && diameterY.isVisible()) {
+									int height = Integer.parseInt(diameterX.getText());
+									int width = Integer.parseInt(diameterY.getText());
+									circleAndEllipsePanel.drawEllipse(height, width);
 								}
 							}
 						});
@@ -221,7 +319,24 @@ public class StoneUnitDrawShapeWindow extends JFrame implements MouseListener, M
 			}
 		});
 
+		
+		saveButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (comboBoxShapeType.getSelectedIndex() == 1) {
+					//shapeController.createShape(null, WIDTH);
+				}
+				if (comboBoxShapeType.getSelectedIndex() == 2) {
+					
+				}
+				if (comboBoxShapeType.getSelectedIndex() == 3) {
+					
+				}
+			}
+		});
 	}
+	
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

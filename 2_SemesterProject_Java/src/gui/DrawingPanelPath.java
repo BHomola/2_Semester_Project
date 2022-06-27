@@ -49,7 +49,7 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 		addMouseMotionListener(this);
 		setLocation(120, 70);
 		draw = true;
-		closingParameter = 100;
+		closingParameter = 15;
 		//shapePathFirst = new Path2D.Double();
 		//shapePathSecond = new Path2D.Double();
 	}
@@ -186,8 +186,9 @@ public class DrawingPanelPath extends JPanel implements MouseListener, MouseMoti
 		return distance;
 	}
 	
-	public void removeLastPointAndRedraw() {
+	public void removeLastPointAndRedraw() { //Used for Undo button in StoneUnitDrawShapeWindow's toolBar
 		outline.getPoints().remove(outline.getPoints().size()-1);
+		setDraw(true);
 		paintComponent(getGraphics());
 		drawShape(outline.getPoints());
 	}
