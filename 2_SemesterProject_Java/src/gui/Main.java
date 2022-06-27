@@ -356,21 +356,21 @@ public class Main extends JFrame {
 				String inputedUsername = textFieldUsername.getText();
 				String inputedPassword = passwordField.getText();
 				
-				cardLayout.show(cardPane, "name_66960487401900");
+/*				cardLayout.show(cardPane, "name_66960487401900");
 				contentPane.updateUI();
 				updateOrdersTable();
-				
-//				try {
-//					if(inputedPassword.equalsIgnoreCase(loginC.authentication(inputedUsername))) {
-//				contentPane.updateUI();
-//				cardLayout.show(cardPane, "name_66960487401900");
-//				updateOrdersTable();
-//				} else {
-//						lblLoginError.setVisible(true);
-//					}
-//				} catch (SQLException e1) {
-//					e1.printStackTrace();
-//				}
+	*/			
+				try {
+					if(inputedPassword.equalsIgnoreCase(loginC.authentication(inputedUsername))) {
+				contentPane.updateUI();
+				cardLayout.show(cardPane, "name_66960487401900");
+				updateOrdersTable();
+				} else {
+						lblLoginError.setVisible(true);
+				}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			}
 	});
 		btnSignIn.setBorder(null);

@@ -95,7 +95,7 @@ CREATE TABLE Employee
 CREATE TABLE Login
 (
   Username VARCHAR(50) NOT NULL,
-  Password VARCHAR(200) NOT NULL,
+  Password VARBINARY(256) NOT NULL,
   EmployeeID INT NOT NULL,
   PRIMARY KEY (EmployeeID),
   FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
