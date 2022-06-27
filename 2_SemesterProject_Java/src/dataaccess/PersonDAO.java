@@ -40,7 +40,7 @@ public class PersonDAO implements IPersonDao {
 			String position = resultSet.getString("Position");
 			double salary = resultSet.getDouble("Salary");
 			Date startDate = resultSet.getDate("StartDate");
-			Location location = null;
+			Location location = clDAO.getLocationByID(resultSet.getInt("LocationID"));
 			Login login = null; // might not need it here
 			return new Employee(id, name, address, city, phoneNumber, email, dateOfBirth, age, description, note,
 					position, salary, startDate, location, login);
@@ -85,8 +85,6 @@ public class PersonDAO implements IPersonDao {
 
 		PreparedStatement statement = connection.prepareStatement(query);
 		ResultSet resultSet = statement.executeQuery();
-		if (resultSet.next() == false)
-			return null;
 		return buildMultiplePeople(resultSet);
 	}
 	
@@ -101,10 +99,36 @@ public class PersonDAO implements IPersonDao {
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setString(1, "Supplier");
 		ResultSet resultSet = statement.executeQuery();
-		if (resultSet.next() == false)
-			return null;
 		return buildMultiplePeople(resultSet);
 	}
+	
+	public ArrayList<Person> getAllEmployee() throws SQLException {
+		
+		Connection connection = DBConnection.getConnection();
+
+		String query = 
+				  "SELECT * FROM VIEW_Persons "
+				+ "WHERE VIEW_Persons.PersonType = ?";
+		
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setString(1, "Employee");
+		ResultSet resultSet = statement.executeQuery();
+		return buildMultiplePeople(resultSet);
+	}
+
+	public ArrayList<Person> getAllCustomer() throws SQLException {
+	
+	Connection connection = DBConnection.getConnection();
+
+	String query = 
+			  "SELECT * FROM VIEW_Persons "
+			+ "WHERE VIEW_Persons.PersonType = ?";
+	
+	PreparedStatement statement = connection.prepareStatement(query);
+	statement.setString(1, "Customer");
+	ResultSet resultSet = statement.executeQuery();
+	return buildMultiplePeople(resultSet);
+}
 
 	@Override
 	public Person getByID(int id) throws SQLException {

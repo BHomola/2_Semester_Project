@@ -14,6 +14,8 @@ import controller.StoneController;
 import controller.StoneTypeMaterialController;
 import dataaccess.DBConnection;
 import model.City;
+import model.Customer;
+import model.Employee;
 import model.IStoneUnit;
 import model.Location;
 import model.StoneMaterial;
@@ -69,6 +71,8 @@ public class Main extends JFrame {
 
 	public static ArrayList<IStoneUnit> stoneUnits;
 	private ArrayList<Person> suppliers;
+	private ArrayList<Person> employees;
+	private ArrayList<Person> customers;
 	
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
@@ -85,6 +89,8 @@ public class Main extends JFrame {
 	private JLabel lblCacheInfo;
 	private static DefaultTableModel defaultTableModelOrders;
 	private static DefaultTableModel defaultTableModelSuppliers;
+	private static DefaultTableModel defaultTableModelEmployees;
+	private static DefaultTableModel defaultTableModelCustomers;
 	private static JLabel lblReloadButtonOrders;
 	private TableRowSorter<DefaultTableModel> tableRowSorterInventory;
 	private static JLabel lblReloadButtonInventory;
@@ -350,21 +356,21 @@ public class Main extends JFrame {
 				String inputedUsername = textFieldUsername.getText();
 				String inputedPassword = passwordField.getText();
 				
-				cardLayout.show(cardPane, "name_66960487401900");
+/*				cardLayout.show(cardPane, "name_66960487401900");
 				contentPane.updateUI();
 				updateOrdersTable();
-				
-//				try {
-//					if(inputedPassword.equalsIgnoreCase(loginC.authentication(inputedUsername))) {
-//				contentPane.updateUI();
-//				cardLayout.show(cardPane, "name_66960487401900");
-//				updateOrdersTable();
-//				} else {
-//						lblLoginError.setVisible(true);
-//					}
-//				} catch (SQLException e1) {
-//					e1.printStackTrace();
-//				}
+	*/			
+				try {
+					if(inputedPassword.equalsIgnoreCase(loginC.authentication(inputedUsername))) {
+				contentPane.updateUI();
+				cardLayout.show(cardPane, "name_66960487401900");
+				updateOrdersTable();
+				} else {
+						lblLoginError.setVisible(true);
+				}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			}
 	});
 		btnSignIn.setBorder(null);
@@ -441,6 +447,7 @@ public class Main extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
+				updateOrdersTable();
 				cardLayoutMainPane.show(mainPane, "name_27604993424200");
 				contentPane.updateUI();
 			}
@@ -461,7 +468,7 @@ public class Main extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-
+				updateInventory();
 				cardLayoutMainPane.show(mainPane, "name_27605005897300");
 				contentPane.updateUI();
 
@@ -504,6 +511,7 @@ public class Main extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
+				updateCustomerList();
 				cardLayoutMainPane.show(mainPane, "name_28663621444400");
 				contentPane.updateUI();
 			}
@@ -524,6 +532,7 @@ public class Main extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
+				updateSupplierList();
 				cardLayoutMainPane.show(mainPane, "name_28693995155900");
 				contentPane.updateUI();
 			}
@@ -546,6 +555,7 @@ public class Main extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
+				updateEmployeeList();
 				cardLayoutMainPane.show(mainPane, "name_28705081431500");
 				contentPane.updateUI();
 			}
@@ -1045,17 +1055,16 @@ public class Main extends JFrame {
 		tableCustomers.setDefaultEditor(Object.class, null); // non-editable
 		tableCustomers.setGridColor(new Color(172, 172, 172));
 		tableCustomers.setBackground(Color.WHITE);
-		DefaultTableModel defaultTableModelCustomers = new DefaultTableModel(new Object[][] { null, null, null },
-				new String[] { "ID", "Name", "Category", "Price", "Sold", "Discount", "Contractor", "Cost Price",
-						"Stock", "Location", "Condition", "UnavailableTil", "Type", "Available" }) {
+		defaultTableModelCustomers = new DefaultTableModel(new Object[][] { null, null, null },
+				new String[] { "ID", "Name", "Address", "City", "PhoneNo", "Email", "Date of birth", "Age",
+						"Description", "Note", "Discount", "Premium", "Company", "Last Order Id", "Total Spends"}) {
 			/**
 			* 
 			*/
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
-			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Boolean.class,
-					Double.class, Object.class, Double.class, Integer.class, Object.class, String.class, Object.class,
-					Object.class, Boolean.class };
+			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Object.class, String.class,
+					String.class, Date.class, Integer.class, String.class, String.class, Double.class, Boolean.class, Boolean.class, Integer.class, Double.class};
 
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -1149,7 +1158,7 @@ public class Main extends JFrame {
 		tableSuppliers.setDefaultEditor(Object.class, null); // non-editable
 		tableSuppliers.setGridColor(new Color(172, 172, 172));
 		tableSuppliers.setBackground(Color.WHITE);
-		DefaultTableModel defaultTableModelSuppliers = new DefaultTableModel(new Object[][] { null, null, null },
+		defaultTableModelSuppliers = new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "Name", "Address", "City", "PhoneNo", "Email", "Date of birth", "Age",
 						"Description", "Note"}) {
 			/**
@@ -1246,17 +1255,16 @@ public class Main extends JFrame {
 		tableEmployees.setDefaultEditor(Object.class, null); // non-editable
 		tableEmployees.setGridColor(new Color(172, 172, 172));
 		tableEmployees.setBackground(Color.WHITE);
-		DefaultTableModel defaultTableModelEmployees = new DefaultTableModel(new Object[][] { null, null, null },
-				new String[] { "ID", "Name", "Category", "Price", "Sold", "Discount", "Contractor", "Cost Price",
-						"Stock", "Location", "Condition", "UnavailableTil", "Type", "Available" }) {
+		defaultTableModelEmployees = new DefaultTableModel(new Object[][] { null, null, null },
+				new String[] {"ID", "Name", "Address", "City", "PhoneNo", "Email", "Date of birth", "Age",
+						"Description", "Note", "Position", "Salary", "Start date", "Location"}) {
 			/**
 			* 
 			*/
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
-			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Boolean.class,
-					Double.class, Object.class, Double.class, Integer.class, Object.class, String.class, Object.class,
-					Object.class, Boolean.class };
+			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Object.class, String.class,
+					String.class, Date.class, Integer.class, String.class, String.class, String.class, Double.class, Date.class, String.class};
 
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -1270,7 +1278,6 @@ public class Main extends JFrame {
 		
 		
 		
-		updateInventory();
 		clock();
 		databaseCheck();
 		cacheData();
@@ -1413,7 +1420,7 @@ public class Main extends JFrame {
 					}
 
 					for (Person supplier : suppliers) {
-						Supplier s = (Supplier )supplier;
+						Supplier s = (Supplier) supplier;
 						defaultTableModelSuppliers.addRow(
 								new Object[] {
 										s.getId(),
@@ -1438,6 +1445,99 @@ public class Main extends JFrame {
 			}
 		};
 		thread.start();
+	}
+	public void updateEmployeeList() {
+			defaultTableModelEmployees.setRowCount(0);
+			Thread thread = new Thread() {
+				public void run() {
+					try {
+						PersonController personController = new PersonController();
+						employees = new ArrayList<Person>();
+
+						startLoading();
+						try {
+							employees = personController.getAllEmployee();
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+
+						for (Person employee : employees) {
+							Employee e = (Employee) employee;
+							defaultTableModelEmployees.addRow(
+									new Object[] {
+											e.getId(),
+											e.getName(),
+											e.getAddress(),
+											e.getCity(),
+											e.getPhoneNumber(),
+											e.getEmail(),
+											e.getDateOfBirth(),
+											e.getAge(),
+											e.getDescription(),
+											e.getNote(),
+											e.getPosition(),
+											e.getSalary(),
+											e.getStartDate(),
+											e.getLocation().getLocationName(),
+											});
+
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						stopLoading();
+					}
+				}
+			};
+			thread.start();
+	}
+	public void updateCustomerList() {
+				defaultTableModelCustomers.setRowCount(0);
+				Thread thread = new Thread() {
+					public void run() {
+						try {
+							PersonController personController = new PersonController();
+							customers = new ArrayList<Person>();
+
+							startLoading();
+							try {
+								customers = personController.getAllCustomer();
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+
+							for (Person customer : customers) {
+								Customer c = (Customer) customer;
+								defaultTableModelCustomers.addRow(
+										new Object[] {
+												c.getId(),
+												c.getName(),
+												c.getAddress(),
+												c.getCity(),
+												c.getPhoneNumber(),
+												c.getEmail(),
+												c.getDateOfBirth(),
+												c.getAge(),
+												c.getDescription(),
+												c.getNote(),
+												c.getDiscount(),
+												c.isPremium(),
+												c.isCompany(),
+												c.getLastOrderID(),
+												c.getTotalsSpends(),
+												});
+
+							}
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						} finally {
+							stopLoading();
+						}
+					}
+				};
+				thread.start();
 
 	}
 
