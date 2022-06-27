@@ -19,13 +19,14 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import dataaccess.JSONShapeDAO;
+import dataaccess.ShapeDAO;
 import model.CircleShape;
 import model.ElipseShape;
 import model.OtherShape;
 import model.Shape;
 import model.ShapePoint;
 
-public class DrawJSONShape extends JPanel{
+public class DrawShapeAutomatic extends JPanel{
 
 	/**
 	 * 
@@ -34,13 +35,11 @@ public class DrawJSONShape extends JPanel{
 	private Border border;
 	private Graphics g;
 	private JSONShapeDAO jsonDAO;
+	private ShapeDAO shapeDAO;
 	private int x;
 	private int y;
-	//private Path2D shapePathFirst;
-	//private Path2D shapePathSecond;
 	
-	public DrawJSONShape() {
-		jsonDAO = new JSONShapeDAO();
+	public DrawShapeAutomatic() {
 		g = getGraphics();
 		//border = new Border();
 		setBackground(Color.WHITE);
@@ -60,9 +59,47 @@ public class DrawJSONShape extends JPanel{
             super.paintComponent(g);
     }
     
-    public void drawDefaultShape(int id) throws SQLException {
+    public Shape drawDefaultShape(int id) throws SQLException {
     	Graphics2D g = (Graphics2D)getGraphics();
+    	jsonDAO = new JSONShapeDAO();
     	Shape shape = jsonDAO.getById(id);
+    	if(shape instanceof OtherShape) {
+    		Path2D shapePathFirst = new Path2D.Double();
+    		ArrayList<ShapePoint> points = ((OtherShape) shape).getPoints();
+    		Point firstPoint = ((OtherShape) shape).getPoints().get(0).getData();
+    		int lastIndex = ((OtherShape) shape).getPoints().size()-1;
+    		Point lastPoint = ((OtherShape) shape).getPoints().get(lastIndex).getData();
+    		for(int i = 0; i < points.size()-1; i++) {
+    				ShapePoint shapePointFrom = points.get(i);
+    				ShapePoint shapePointTo = points.get(i+1);
+    				Point pFrom = shapePointFrom.getData();
+    				Point pTo = shapePointTo.getData();
+    				shapePathFirst.moveTo(pFrom.getX(), pFrom.getY());
+    				shapePathFirst.lineTo(pTo.getX(), pTo.getY());
+    				writeDistance(pFrom, pTo);
+    		}
+    		shapePathFirst.moveTo(firstPoint.getX(), firstPoint.getY());
+			shapePathFirst.lineTo(lastPoint.getX(), lastPoint.getY());
+    		writeDistance(firstPoint, lastPoint);
+    		g.draw(shapePathFirst);
+    	}
+    	
+    	if(shape instanceof ElipseShape) {
+    		double width = ((ElipseShape) shape).getDiameterX();
+    		double height = ((ElipseShape) shape).getDiameterY();
+    		((Graphics2D) getGraphics()).draw(new Ellipse2D.Double(x - width/2, y - height/2, width, height));
+    	}
+
+    	if(shape instanceof CircleShape) {
+    		double diameter = ((CircleShape) shape).getDiameter();
+    	    ((Graphics2D) getGraphics()).draw(new Ellipse2D.Double(x - diameter/4, y - diameter/4, diameter/2, diameter/2));
+    	}
+    	return shape;
+    }
+    
+    public void drawShapeFromDb(int id) throws SQLException {
+    	Graphics2D g = (Graphics2D)getGraphics();
+    	Shape shape = shapeDAO.getById(id);
     	if(shape instanceof OtherShape) {
     		Path2D shapePathFirst = new Path2D.Double();
     		ArrayList<ShapePoint> points = ((OtherShape) shape).getPoints();
@@ -105,7 +142,7 @@ public class DrawJSONShape extends JPanel{
 	}
 	
 	public static void main(String[] args) throws SQLException {
-		DrawJSONShape drawJSON = new DrawJSONShape();
+		DrawShapeAutomatic drawJSON = new DrawShapeAutomatic();
 		JFrame frame = new JFrame();
 		frame.setBounds(320, 180, 1280, 720);
 		frame.getContentPane().setLayout(null);
@@ -113,7 +150,7 @@ public class DrawJSONShape extends JPanel{
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(drawJSON);
-		drawJSON.drawDefaultShape(3);
+		drawJSON.drawDefaultShape(2);
 	}
 
 }
