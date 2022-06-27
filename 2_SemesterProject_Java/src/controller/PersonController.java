@@ -17,6 +17,14 @@ public class PersonController {
 	public ArrayList<Person> getAllSupplier() throws SQLException {
 		return pDAO.getAllSupplier();
 	}
+	
+	public ArrayList<Person> getAllEmployee() throws SQLException {
+		return pDAO.getAllEmployee();
+	}
+	
+	public ArrayList<Person> getAllCustomer() throws SQLException {
+		return pDAO.getAllCustomer();
+	}
 
 	public Person getByID(int id) throws SQLException {
 		return pDAO.getByID(id); 
