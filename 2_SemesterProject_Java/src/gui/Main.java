@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import controller.LocationCityController;
 import controller.LoginController;
 import controller.OrderController;
+import controller.PersonController;
 import controller.StoneController;
 import controller.StoneTypeMaterialController;
 import dataaccess.DBConnection;
@@ -18,7 +19,9 @@ import model.Location;
 import model.StoneMaterial;
 import model.StoneType;
 import model.OrderInfo;
+import model.Person;
 import model.StoneUnit;
+import model.Supplier;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -65,6 +68,7 @@ public class Main extends JFrame {
 	public static ArrayList<City> cachedCities;
 
 	ArrayList<IStoneUnit> stoneUnits;
+	private ArrayList<Person> suppliers;
 	
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
@@ -80,6 +84,7 @@ public class Main extends JFrame {
 	private static JLabel lblLoadingIcon;
 	private JLabel lblCacheInfo;
 	private static DefaultTableModel defaultTableModelOrders;
+	private static DefaultTableModel defaultTableModelSuppliers;
 	private static JLabel lblReloadButtonOrders;
 	private TableRowSorter<DefaultTableModel> tableRowSorterInventory;
 	private static JLabel lblReloadButtonInventory;
@@ -1113,6 +1118,12 @@ public class Main extends JFrame {
 		suppliers.add(lblAddButtonSuppliers);
 
 		lblReloadButtonSuppliers = new JLabel("");
+		lblReloadButtonSuppliers.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				updateSupplierList();
+			}
+		});
 		lblReloadButtonSuppliers.setIcon(new ImageIcon(Main.class.getResource("/imgs/reload.png")));
 		lblReloadButtonSuppliers.setBounds(1115, 130, 50, 50);
 		suppliers.add(lblReloadButtonSuppliers);
@@ -1138,16 +1149,15 @@ public class Main extends JFrame {
 		tableSuppliers.setGridColor(new Color(172, 172, 172));
 		tableSuppliers.setBackground(Color.WHITE);
 		DefaultTableModel defaultTableModelSuppliers = new DefaultTableModel(new Object[][] { null, null, null },
-				new String[] { "ID", "Name", "Category", "Price", "Sold", "Discount", "Contractor", "Cost Price",
-						"Stock", "Location", "Condition", "UnavailableTil", "Type", "Available" }) {
+				new String[] { "ID", "Name", "Address", "City", "PhoneNo", "Email", "Date of birth", "Age",
+						"Description", "Note"}) {
 			/**
 			* 
 			*/
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
-			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Boolean.class,
-					Double.class, Object.class, Double.class, Integer.class, Object.class, String.class, Object.class,
-					Object.class, Boolean.class };
+			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Object.class, String.class,
+					String.class, Date.class, Integer.class, String.class, String.class};
 
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -1384,6 +1394,50 @@ public class Main extends JFrame {
 			}
 		};
 		thread.start();
+	}
+	
+	public void updateSupplierList() {
+		defaultTableModelSuppliers.setRowCount(0);
+		Thread thread = new Thread() {
+			public void run() {
+				try {
+					PersonController personController = new PersonController();
+					suppliers = new ArrayList<Person>();
+
+					startLoading();
+					try {
+						suppliers = personController.getAllSupplier();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+
+					for (Person supplier : suppliers) {
+						Supplier s = (Supplier )supplier;
+						defaultTableModelSuppliers.addRow(
+								new Object[] {
+										s.getId(),
+										s.getName(),
+										s.getAddress(),
+										s.getCity(),
+										s.getPhoneNumber(),
+										s.getEmail(),
+										s.getDateOfBirth(),
+										s.getAge(),
+										s.getDescription(),
+										s.getNote(),
+										});
+
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					stopLoading();
+				}
+			}
+		};
+		thread.start();
+
 	}
 
 	protected synchronized static void startLoading() {
