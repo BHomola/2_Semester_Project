@@ -85,8 +85,6 @@ public class PersonDAO implements IPersonDao {
 
 		PreparedStatement statement = connection.prepareStatement(query);
 		ResultSet resultSet = statement.executeQuery();
-		if (resultSet.next() == false)
-			return null;
 		return buildMultiplePeople(resultSet);
 	}
 	
@@ -101,8 +99,6 @@ public class PersonDAO implements IPersonDao {
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setString(1, "Supplier");
 		ResultSet resultSet = statement.executeQuery();
-		if (resultSet.next() == false)
-			return null;
 		return buildMultiplePeople(resultSet);
 	}
 
