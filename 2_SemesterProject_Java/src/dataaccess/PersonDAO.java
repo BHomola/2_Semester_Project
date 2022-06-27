@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import model.City;
 import model.Customer;
 import model.Employee;
@@ -82,6 +84,22 @@ public class PersonDAO implements IPersonDao {
 		String query = "SELECT * FROM VIEW_Persons";
 
 		PreparedStatement statement = connection.prepareStatement(query);
+		ResultSet resultSet = statement.executeQuery();
+		if (resultSet.next() == false)
+			return null;
+		return buildMultiplePeople(resultSet);
+	}
+	
+	public ArrayList<Person> getAllSupplier() throws SQLException {
+		
+		Connection connection = DBConnection.getConnection();
+
+		String query = 
+				  "SELECT * FROM VIEW_Persons "
+				+ "WHERE VIEW_Persons.PersonType = ?";
+		
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setString(1, "Supplier");
 		ResultSet resultSet = statement.executeQuery();
 		if (resultSet.next() == false)
 			return null;

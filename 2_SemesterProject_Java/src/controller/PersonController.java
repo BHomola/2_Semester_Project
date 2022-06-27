@@ -13,6 +13,10 @@ public class PersonController {
 	public ArrayList<Person> getAll() throws SQLException {
 		return pDAO.getAll();
 	}
+	
+	public ArrayList<Person> getAllSupplier() throws SQLException {
+		return pDAO.getAllSupplier();
+	}
 
 	public Person getByID(int id) throws SQLException {
 		return pDAO.getByID(id); 
