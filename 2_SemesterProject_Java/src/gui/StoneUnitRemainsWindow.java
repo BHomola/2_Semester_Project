@@ -229,8 +229,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (!isEditPressed) {
-					lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/confirm1.png")));
-					lblDeleteStorno.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/storno.png")));
+					lblEditCheck.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/confirm1.png")));
+					lblDeleteStorno.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/storno.png")));
 					isEditPressed = true;
 					switchEditable();
 					textFieldOrigin.grabFocus();
@@ -262,8 +262,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 					case 2:
 						return;
 					}
-					lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/editButton2.png")));
-					lblDeleteStorno.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/deleteButton.png")));
+					lblEditCheck.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/editButton2.png")));
+					lblDeleteStorno.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/deleteButton.png")));
 					contentPane.grabFocus();
 					isEditPressed = false;
 					switchEditable();
@@ -271,7 +271,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 				}
 			}
 		});
-		lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/editButton2.png")));
+		lblEditCheck.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/editButton2.png")));
 
 		lblDeleteStorno = new JLabel("");
 		lblDeleteStorno.setBounds(1060, 25, 50, 50);
@@ -280,8 +280,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (isEditPressed) {
-					lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/editButton2.png")));
-					lblDeleteStorno.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/deleteButton.png")));
+					lblEditCheck.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/editButton2.png")));
+					lblDeleteStorno.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/deleteButton.png")));
 					contentPane.grabFocus();
 					isEditPressed = false;
 					switchEditable();
@@ -312,17 +312,17 @@ public class StoneUnitRemainsWindow extends JFrame {
 				}
 			}
 		});
-		lblDeleteStorno.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/deleteButton.png")));
+		lblDeleteStorno.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/deleteButton.png")));
 
 		JLabel lblWindowOrderBar = new JLabel("");
 		lblWindowOrderBar.setBounds(0, 0, 1280, 100);
 		stoneUnitPane.add(lblWindowOrderBar);
-		lblWindowOrderBar.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/windowTitleBar.png")));
+		lblWindowOrderBar.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/windowTitleBar.png")));
 
 		JLabel lblSplitLine = new JLabel("");
 		lblSplitLine.setBounds(747, 140, 1, 500);
 		stoneUnitPane.add(lblSplitLine);
-		lblSplitLine.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/splitLine.png")));
+		lblSplitLine.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/splitLine.png")));
 
 //CONTENT	
 		textFieldId = new JTextField("ID");
@@ -663,7 +663,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 		lblMoveToSupplier = new JLabel("");
 		lblMoveToSupplier.setBounds(1111, 257, 25, 25);
 		stoneUnitPane.add(lblMoveToSupplier);
-		lblMoveToSupplier.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/moveto2.png")));
+		lblMoveToSupplier.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/moveto2.png")));
 
 		lblEmployee = new JLabel("NONE");
 		lblEmployee.setBounds(758, 302, 200, 34);
@@ -674,7 +674,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 		lblMoveToEmployee = new JLabel("");
 		lblMoveToEmployee.setBounds(1111, 302, 25, 25);
 		stoneUnitPane.add(lblMoveToEmployee);
-		lblMoveToEmployee.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/moveto2.png")));
+		lblMoveToEmployee.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/moveto2.png")));
 
 		lblUpdateConfirmIcon = new JLabel("");
 		lblUpdateConfirmIcon.setVisible(false);
@@ -909,12 +909,12 @@ public class StoneUnitRemainsWindow extends JFrame {
 				cardLayout.show(cardPane, "name_105638542096500");
 			}
 		});
-		lblBack.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/backButton2.png")));
+		lblBack.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/backButton2.png")));
 		lblBack.setBounds(30, 27, 50, 50);
 		treePane.add(lblBack);
 
 		JLabel lblTreeTitle = new JLabel("");
-		lblTreeTitle.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/windowTitleBar.png")));
+		lblTreeTitle.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/windowTitleBar.png")));
 		lblTreeTitle.setBounds(0, 0, 1280, 100);
 		treePane.add(lblTreeTitle);
 
@@ -1010,7 +1010,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 		isEditPressed = true;
 		switchEditable();
 
-		lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/confirm1.png")));
+		lblEditCheck.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/confirm1.png")));
 		lblDeleteStorno.setVisible(false);
 
 		cachedRemains = new Remains(-1, Main.getInstance().cachedStoneTypes.get(0), "", null, 0, 0, "", null,

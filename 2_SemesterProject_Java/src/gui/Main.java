@@ -468,7 +468,6 @@ public class Main extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				updateInventory();
 				cardLayoutMainPane.show(mainPane, "name_27605005897300");
 				contentPane.updateUI();
 
@@ -781,10 +780,10 @@ public class Main extends JFrame {
 			        if (selection == 0) {
 			        	 switch(combo.getSelectedIndex()) {
 			        	 case 0: // cuttable
-			        		 new StoneUnitCuttableWindowRecreate(-1).setVisible(true);
+			        		 new StoneUnitCuttableWindow(-1).setVisible(true);
 			        		 break;
 			        	 case 1: // product
-			        		 new StoneUnitProductWindowRecreate(-1).setVisible(true);
+			        		 new StoneUnitProductWindow(-1).setVisible(true);
 			        		 break;
 			        	 case 2://remains
 			        		 new StoneUnitRemainsWindow(-1).setVisible(true);
@@ -868,10 +867,10 @@ public class Main extends JFrame {
 					String stoneType = (String) defaultTableModelInventory.getValueAt(rowIndex, 1);
 
 					if (stoneType.equals("StoneCuttable")) {
-						new StoneUnitCuttableWindowRecreate(id).setVisible(true);
+						new StoneUnitCuttableWindow(id).setVisible(true);
 					}
 					if (stoneType.equals("StoneProduct")) {
-						new StoneUnitProductWindowRecreate(id).setVisible(true);
+						new StoneUnitProductWindow(id).setVisible(true);
 					}
 					if (stoneType.equals("Remains")) {
 						new StoneUnitRemainsWindow(id).setVisible(true);
@@ -1281,6 +1280,7 @@ public class Main extends JFrame {
 		clock();
 		databaseCheck();
 		cacheData();
+		updateInventory(); // cache stone inventory -> doesn't have to be reloaded everytime it's clicked on Inventory button.
 	}
 
 	private void clock() {
