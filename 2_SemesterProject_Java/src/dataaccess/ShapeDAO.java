@@ -18,7 +18,7 @@ import model.ShapePoint;
 public class ShapeDAO implements IShapeDAO{
 
 	public static Shape buildShape(ResultSet resultSet) throws SQLException {
-		String name = resultSet.getString("Name");
+		String name = resultSet.getString("ShapeName");
 		int id = resultSet.getInt("ShapeID");
 		String shapeType = resultSet.getString("ShapeType");
 		
@@ -35,13 +35,15 @@ public class ShapeDAO implements IShapeDAO{
 			
 			Point startingPoint = shapePoints.get(0).getData();
 			otherShape.addStartingPoint(startingPoint);
+
 			
-			for(int i = 1; i < (otherShape.getPoints().size())-1; i++) {
-				otherShape.addPoint(otherShape.getPoints().get(i).getData());
+			for(int i = 1; i < (shapePoints.size())-1; i++) {
+				otherShape.addPoint(shapePoints.get(i).getData());
 			}
 			
-			Point lastPoint = otherShape.getPoints().get(otherShape.getPoints().size()-1).getData();
+			Point lastPoint = shapePoints.get(shapePoints.size()-1).getData();
 			otherShape.addLastPoint(lastPoint);
+
 			
 			return otherShape;
 		}
@@ -70,12 +72,7 @@ public class ShapeDAO implements IShapeDAO{
 		
 		Connection connection = DBConnection.getConnection();
 		
-		String query = "SELECT *\r\n"
-				+ "FROM ((((Shape \r\n"
-				+ "FULL OUTER JOIN CircleShape ON Shape.ShapeID = CircleShape.ShapeID)\r\n"
-				+ "FULL OUTER JOIN ElipseShape ON Shape.ShapeID = ElipseShape.ShapeID)\r\n"
-				+ "FULL OUTER JOIN OtherShape ON Shape.ShapeID = OtherShape.ShapeID)\r\n"
-				+ "FULL OUTER JOIN ShapePoint ON OtherShape.ShapeID = ShapePoint.ShapeID)\r\n";
+		String query = "SELECT * FROM [VIEW_Shapes]";
 		
 		PreparedStatement statement = connection.prepareStatement(query);
 		ResultSet resultSet = statement.executeQuery();
@@ -85,21 +82,14 @@ public class ShapeDAO implements IShapeDAO{
 
 	@Override
 	public Shape getById(int id) throws SQLException{
-		
 		Connection connection = DBConnection.getConnection();
 		
-		String query = "SELECT *\r\n"
-				+ "FROM ((((Shape \r\n"
-				+ "FULL OUTER JOIN CircleShape ON Shape.ShapeID = CircleShape.ShapeID)\r\n"
-				+ "FULL OUTER JOIN ElipseShape ON Shape.ShapeID = ElipseShape.ShapeID)\r\n"
-				+ "FULL OUTER JOIN OtherShape ON Shape.ShapeID = OtherShape.ShapeID)\r\n"
-				+ "FULL OUTER JOIN ShapePoint ON OtherShape.ShapeID = ShapePoint.ShapeID)\r\n"
-				+ "WHERE Shape.ShapeID = ?;";
+		String query = "SELECT * FROM [VIEW_Shapes] WHERE ShapeID = ?;";
 		
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setInt(1, id);
 		ResultSet resultSet = statement.executeQuery();
-		if(resultSet.next() == false) return null;		
+		if(resultSet.next() == false) return null;
 		return buildShape(resultSet);
 	}
 

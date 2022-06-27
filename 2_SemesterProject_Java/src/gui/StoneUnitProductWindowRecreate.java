@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controller.OrderController;
 import controller.PersonController;
 import controller.StoneController;
 
@@ -39,8 +40,9 @@ import javax.swing.DefaultComboBoxModel;
 import model.Employee;
 import model.IStoneUnit;
 import model.Location;
-import model.Remains;
+import model.OrderInfo;
 import model.StoneMaterial;
+import model.StoneProduct;
 import model.StoneType;
 import model.StoneUnit;
 import model.StoneUnitStatuses;
@@ -53,8 +55,10 @@ import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import javax.swing.JButton;
 import javax.swing.JScrollBar;
+import javax.swing.JTree;
+import java.awt.Dimension;
 
-public class StoneUnitRemainsWindow extends JFrame {
+public class StoneUnitProductWindowRecreate extends JFrame {
 
 	/**
 	 * 
@@ -84,8 +88,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 	private JLabel lblWeightError;
 	private CardLayout cardLayout;
 	private JPanel cardPane;
-	JTextField textFieldPieces;
-	JLabel lblPiecesError;
+	JTextField textFieldPrice;
+	JLabel lblPriceError;
 	JPanel UI_Blocker;
 	JPanel stoneUnitPane;
 	JComboBox<StoneType> comboTypes;
@@ -103,19 +107,26 @@ public class StoneUnitRemainsWindow extends JFrame {
 	JLabel lblOriginError;
 	JLabel lblDateError;
 	JLabel lblUpdateConfirmIcon;
+	JButton btnChangeOrderID;
+	JLabel lblOrderError;
+	private JTextField txtTotalSize;
+	private JLabel lblOrderIDDescription;
+	JLabel lblOrderID;
+	JButton btnChangeShape;
 
-	private Remains cachedRemains;
-
+	private StoneProduct cachedStoneProduct;
+	private JLabel lblShape;
+	private JLabel lblShapeError;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public StoneUnitRemainsWindow(int id) {
+	public StoneUnitProductWindowRecreate(int id) {
 		cardLayout = new CardLayout();
 
 //FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
 		setTitle("Santorina");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(320, 180, 1280, 720);
+		setBounds(320, 130, 1280, 900);
 
 //CONTENT PANE
 		contentPane = new JPanel();
@@ -193,7 +204,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 //CARD PANE		
 		cardPane = new JPanel();
 		cardPane.setBackground(Color.WHITE);
-		cardPane.setBounds(0, 60, 1280, 720);
+		cardPane.setBounds(0, 60, 1280, 900);
 		contentPane.add(cardPane);
 		cardPane.setLayout(cardLayout);
 
@@ -203,12 +214,12 @@ public class StoneUnitRemainsWindow extends JFrame {
 		UI_Blocker.setBackground(Color.WHITE);
 		cardPane.add(UI_Blocker, "name_498834100950500");
 
-		JLabel lblLoadingRemains = new JLabel("Loading Remains...");
-		lblLoadingRemains.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLoadingRemains.setForeground(new Color(144, 124, 81));
-		lblLoadingRemains.setFont(new Font("Segoe UI", Font.BOLD, 70));
-		lblLoadingRemains.setBounds(0, 0, 1280, 720);
-		UI_Blocker.add(lblLoadingRemains);
+		JLabel lblLoadingProduct = new JLabel("Loading Stone Product...");
+		lblLoadingProduct.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLoadingProduct.setForeground(new Color(144, 124, 81));
+		lblLoadingProduct.setFont(new Font("Segoe UI", Font.BOLD, 70));
+		lblLoadingProduct.setBounds(0, 0, 1280, 720);
+		UI_Blocker.add(lblLoadingProduct);
 //STONE UNIT PANE		
 		stoneUnitPane = new JPanel();
 		stoneUnitPane.setBackground(Color.WHITE);
@@ -216,8 +227,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 		stoneUnitPane.setLayout(null);
 
 //TITLE		
-		JLabel lblTitle = new JLabel("Remains");
-		lblTitle.setBounds(105, 0, 420, 94);
+		JLabel lblTitle = new JLabel("Stone Product");
+		lblTitle.setBounds(105, 0, 580, 94);
 		stoneUnitPane.add(lblTitle);
 		lblTitle.setForeground(new Color(144, 124, 81));
 		lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
@@ -290,13 +301,13 @@ public class StoneUnitRemainsWindow extends JFrame {
 					loadStoneUnit(id);
 				} else {
 					int answer = JOptionPane.showConfirmDialog(null,
-							"Do you really want to delete stone with ID " + cachedRemains.getId(), "Are you sure?",
+							"Do you really want to delete stone with ID " + cachedStoneProduct.getId(), "Are you sure?",
 							JOptionPane.YES_NO_OPTION);
 					if (answer == 0) {
 						// delete
 						StoneController sctrl = new StoneController();
 						try {
-							sctrl.deleteStone(cachedRemains.getId());
+							sctrl.deleteStone(cachedStoneProduct.getId());
 							Main.getInstance().updateInventory();
 							JOptionPane.showMessageDialog(null, "Stone has been successfully deleted.");
 							setVisible(false);
@@ -355,7 +366,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (textFieldOrigin.getText().length() > 0) {
-					cachedRemains.setOrigin(textFieldOrigin.getText());
+					cachedStoneProduct.setOrigin(textFieldOrigin.getText());
 					lblOriginError.setVisible(false);
 				} else {
 					lblOriginError.setVisible(true);
@@ -438,7 +449,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 					if (number < 0)
 						lblWeightError.setVisible(true);
 					else {
-						cachedRemains.setWeight(number);
+						cachedStoneProduct.setWeight(number);
 					}
 				} catch (NumberFormatException ex) {
 					lblWeightError.setVisible(true);
@@ -455,7 +466,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 					if (number < 0)
 						lblWidthError.setVisible(true);
 					else
-						cachedRemains.setWidth(number);
+						cachedStoneProduct.setWidth(number);
 				} catch (NumberFormatException ex) {
 					lblWidthError.setVisible(true);
 				}
@@ -477,7 +488,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 				try {
 					String sDate1 = textFieldCreatedDate.getText();
 					java.sql.Date date1 = java.sql.Date.valueOf(sDate1);
-					cachedRemains.setCreatedDate(date1);
+					cachedStoneProduct.setCreatedDate(date1);
 					lblDateError.setVisible(false);
 				} catch (Exception ex) {
 					// lblWidthError.setVisible(true);
@@ -514,8 +525,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 		comboBoxStatus = new JComboBox();
 		comboBoxStatus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (cachedRemains != null) {
-					cachedRemains.setStatus((StoneUnitStatuses) comboBoxStatus.getSelectedItem());
+				if (cachedStoneProduct != null) {
+					cachedStoneProduct.setStatus((StoneUnitStatuses) comboBoxStatus.getSelectedItem());
 				}
 			}
 		});
@@ -541,7 +552,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 		textFieldDescription.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				cachedRemains.setDescription(textFieldDescription.getText());
+				cachedStoneProduct.setDescription(textFieldDescription.getText());
 			}
 		});
 		textFieldDescription.setEnabled(false);
@@ -607,45 +618,45 @@ public class StoneUnitRemainsWindow extends JFrame {
 		lblLocationCityDescription.setForeground(new Color(128, 128, 128));
 		lblLocationCityDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
 
-		textFieldPieces = new JTextField();
-		textFieldPieces.setEnabled(false);
-		textFieldPieces.setText("PIECES");
-		textFieldPieces.setBorder(null);
-		textFieldPieces.setDisabledTextColor(Color.DARK_GRAY);
-		textFieldPieces.setBackground(new Color(255, 250, 250));
-		textFieldPieces.setForeground(new Color(47, 79, 79));
-		textFieldPieces.setFont(new Font("Segoe UI", Font.BOLD, 25));
-		textFieldPieces.setBounds(105, 586, 340, 34);
-		textFieldPieces.setEditable(false);
-		stoneUnitPane.add(textFieldPieces);
+		textFieldPrice = new JTextField();
+		textFieldPrice.setEnabled(false);
+		textFieldPrice.setText("PRICE");
+		textFieldPrice.setBorder(null);
+		textFieldPrice.setDisabledTextColor(Color.DARK_GRAY);
+		textFieldPrice.setBackground(new Color(255, 250, 250));
+		textFieldPrice.setForeground(new Color(47, 79, 79));
+		textFieldPrice.setFont(new Font("Segoe UI", Font.BOLD, 25));
+		textFieldPrice.setBounds(111, 655, 340, 34);
+		textFieldPrice.setEditable(false);
+		stoneUnitPane.add(textFieldPrice);
 
-		lblPiecesError = new JLabel("Must be a positive number!");
-		lblPiecesError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		lblPiecesError.setForeground(Color.RED);
-		lblPiecesError.setBounds(105, 619, 140, 14);
-		lblPiecesError.setVisible(false);
-		stoneUnitPane.add(lblPiecesError);
+		lblPriceError = new JLabel("Must be a positive number! (devided by dot)");
+		lblPriceError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblPriceError.setForeground(Color.RED);
+		lblPriceError.setBounds(111, 688, 234, 14);
+		lblPriceError.setVisible(false);
+		stoneUnitPane.add(lblPriceError);
 
-		textFieldPieces.addKeyListener(new KeyAdapter() {
+		textFieldPrice.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
-					int number = Integer.parseInt(textFieldPieces.getText());
-					lblPiecesError.setVisible(false);
-					cachedRemains.setPieces(number);
+					float number = Float.parseFloat(textFieldPrice.getText());
+					lblPriceError.setVisible(false);
+					cachedStoneProduct.setPrice(number);
 					if (number < 0)
-						lblPiecesError.setVisible(true);
+						lblPriceError.setVisible(true);
 				} catch (NumberFormatException ex) {
-					lblPiecesError.setVisible(true);
+					lblPriceError.setVisible(true);
 				}
 			}
 		});
 
-		JLabel lblPiecesDescription = new JLabel("PIECES");
-		lblPiecesDescription.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel lblPiecesDescription = new JLabel("PRICE");
+		lblPiecesDescription.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPiecesDescription.setForeground(new Color(128, 128, 128));
 		lblPiecesDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		lblPiecesDescription.setBounds(574, 591, 64, 27);
+		lblPiecesDescription.setBounds(580, 655, 64, 27);
 		stoneUnitPane.add(lblPiecesDescription);
 
 		lblSupplier = new JLabel("NONE");
@@ -692,13 +703,13 @@ public class StoneUnitRemainsWindow extends JFrame {
 					String updateText = "(" + date + ") " + input + "\n";
 
 					textAreaUpdates.setText(textAreaUpdates.getText() + updateText);
-					cachedRemains.setUpdates(textAreaUpdates.getText());
+					cachedStoneProduct.setUpdates(textAreaUpdates.getText());
 
 				}
 			}
 		});
 		lblUpdateConfirmIcon
-				.setIcon(new ImageIcon(StoneUnitRemainsWindow.class.getResource("/imgs/addButton_small.png")));
+				.setIcon(new ImageIcon(StoneUnitProductWindowRecreate.class.getResource("/imgs/addButton_small.png")));
 
 		JScrollPane updatesScrollPane = new JScrollPane();
 		updatesScrollPane.setBackground(Color.WHITE);
@@ -753,8 +764,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 		comboTypes = new JComboBox();
 		comboTypes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (cachedRemains != null)
-					cachedRemains.setStoneType((StoneType) comboTypes.getSelectedItem());
+				if (cachedStoneProduct != null)
+					cachedStoneProduct.setStoneType((StoneType) comboTypes.getSelectedItem());
 			}
 		});
 		comboTypes.setEnabled(false);
@@ -778,7 +789,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 		comboLocations.setEnabled(false);
 		comboLocations.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (cachedRemains != null)
+				if (cachedStoneProduct != null)
 					loadLocation(((Location) comboLocations.getSelectedItem()).getId());
 			}
 		});
@@ -817,20 +828,19 @@ public class StoneUnitRemainsWindow extends JFrame {
 		btnChangeSupplier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String option = JOptionPane.showInputDialog("Enter supplier's ID.");
-				try {
-					int id = Integer.parseInt(option);
-					PersonController pctrl = new PersonController();
-					Supplier s = (Supplier) pctrl.getByID(id);
-					if (s != null) {
-						cachedRemains.setSupplier(s);
+				if (option != null) {
+					try {
+						int id = Integer.parseInt(option);
+						PersonController pctrl = new PersonController();
+						Supplier s = (Supplier) pctrl.getByID(id);
+						cachedStoneProduct.setSupplier(s);
 						lblSupplier.setText(s.getName());
 						lblSupplierError.setVisible(false);
+					} catch (Exception ne) {
+						JOptionPane.showMessageDialog(null, "Could not find a supplier with ID {" + option + "}",
+								"Error", JOptionPane.ERROR_MESSAGE);
 					}
-				} catch (Exception ne) {
-					JOptionPane.showMessageDialog(null, "Could not find a supplier with ID {" + option + "}", "Error",
-							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 		btnChangeSupplier.setVisible(false);
@@ -841,18 +851,18 @@ public class StoneUnitRemainsWindow extends JFrame {
 		btnChangeEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String option = JOptionPane.showInputDialog("Enter employee's ID.");
-				try {
-					int id = Integer.parseInt(option);
-					PersonController pctrl = new PersonController();
-					Employee s = (Employee) pctrl.getByID(id);
-					if (s != null) {
-						cachedRemains.setEmployee(s);
+				if (option != null) {
+					try {
+						int id = Integer.parseInt(option);
+						PersonController pctrl = new PersonController();
+						Employee s = (Employee) pctrl.getByID(id);
+						cachedStoneProduct.setEmployee(s);
 						lblEmployee.setText(s.getName());
 						lblEmployeeError.setVisible(false);
+					} catch (Exception ne) {
+						JOptionPane.showMessageDialog(null, "Could not find a employee with ID {" + option + "}",
+								"Error", JOptionPane.ERROR_MESSAGE);
 					}
-				} catch (Exception ne) {
-					JOptionPane.showMessageDialog(null, "Could not find a employee with ID {" + option + "}", "Error",
-							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -872,7 +882,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 				try {
 					String sDate1 = textFieldCreatedDate.getText();
 					java.sql.Date date1 = java.sql.Date.valueOf(sDate1);
-					cachedRemains.setCreatedDate(date1);
+					cachedStoneProduct.setCreatedDate(date1);
 					lblDateError.setVisible(false);
 				} catch (Exception ex) {
 					// System.out.println("invalid Date format. use yyyy-mm-dd");
@@ -889,34 +899,94 @@ public class StoneUnitRemainsWindow extends JFrame {
 		lblUpdates.setBounds(898, 363, 130, 34);
 		stoneUnitPane.add(lblUpdates);
 
-//TREE PANE		
-		JPanel treePane = new JPanel();
-		treePane.setBackground(Color.WHITE);
-		cardPane.add(treePane, "name_105672345315800");
-		treePane.setLayout(null);
+		txtTotalSize = new JTextField();
+		txtTotalSize.setText("TOTAL SIZE");
+		txtTotalSize.setForeground(new Color(47, 79, 79));
+		txtTotalSize.setFont(new Font("Segoe UI", Font.BOLD, 25));
+		txtTotalSize.setEnabled(false);
+		txtTotalSize.setEditable(false);
+		txtTotalSize.setDisabledTextColor(Color.DARK_GRAY);
+		txtTotalSize.setBorder(null);
+		txtTotalSize.setBackground(new Color(255, 250, 250));
+		txtTotalSize.setBounds(758, 650, 366, 34);
+		stoneUnitPane.add(txtTotalSize);
 
-//TREE CONTENT		
-		JLabel lblUnitTreeTitle = new JLabel("UNIT TREE");
-		lblUnitTreeTitle.setForeground(new Color(144, 124, 81));
-		lblUnitTreeTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
-		lblUnitTreeTitle.setBounds(105, 0, 350, 100);
-		treePane.add(lblUnitTreeTitle);
+		JLabel lblTotalSize = new JLabel("TOTAL SIZE");
+		lblTotalSize.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTotalSize.setForeground(Color.GRAY);
+		lblTotalSize.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblTotalSize.setBounds(1150, 655, 130, 27);
+		stoneUnitPane.add(lblTotalSize);
 
-		JLabel lblBack = new JLabel("");
-		lblBack.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				cardLayout.show(cardPane, "name_105638542096500");
+		lblOrderID = new JLabel("NONE");
+		lblOrderID.setForeground(new Color(47, 79, 79));
+		lblOrderID.setFont(new Font("Segoe UI", Font.BOLD, 25));
+		lblOrderID.setBounds(111, 729, 234, 34);
+		stoneUnitPane.add(lblOrderID);
+
+		btnChangeOrderID = new JButton("Change");
+		btnChangeOrderID.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String option = JOptionPane.showInputDialog("Enter Order ID.");
+				if (option != null) {
+					try {
+						int id = Integer.parseInt(option);
+						OrderController octrl = new OrderController();
+						OrderInfo o = octrl.getByID(id);
+						if (o != null) {
+							cachedStoneProduct.setOrderID(id);
+							lblOrderID.setText(id + "");
+							lblOrderError.setVisible(false);
+						}
+						else throw new Exception("No Order");
+					} catch (Exception ne) {
+						// JOptionPane.showMessageDialog(null, "Could not find an order with ID {" +
+						// option + "}", "Error",
+						// JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, ne.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
 			}
 		});
-		lblBack.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/backButton2.png")));
-		lblBack.setBounds(30, 27, 50, 50);
-		treePane.add(lblBack);
+		btnChangeOrderID.setVisible(false);
+		btnChangeOrderID.setBounds(362, 729, 89, 23);
+		stoneUnitPane.add(btnChangeOrderID);
 
-		JLabel lblTreeTitle = new JLabel("");
-		lblTreeTitle.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/windowTitleBar.png")));
-		lblTreeTitle.setBounds(0, 0, 1280, 100);
-		treePane.add(lblTreeTitle);
+		lblOrderIDDescription = new JLabel("ORDER ID");
+		lblOrderIDDescription.setHorizontalAlignment(SwingConstants.LEFT);
+		lblOrderIDDescription.setForeground(Color.GRAY);
+		lblOrderIDDescription.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblOrderIDDescription.setBounds(574, 734, 130, 27);
+		stoneUnitPane.add(lblOrderIDDescription);
+
+		lblOrderError = new JLabel("Order ID is empty.");
+		lblOrderError.setForeground(Color.RED);
+		lblOrderError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblOrderError.setBounds(111, 761, 111, 14);
+		stoneUnitPane.add(lblOrderError);
+		
+		lblShape = new JLabel("NONE");
+		lblShape.setForeground(new Color(47, 79, 79));
+		lblShape.setFont(new Font("Segoe UI", Font.BOLD, 25));
+		lblShape.setBounds(758, 719, 200, 34);
+		stoneUnitPane.add(lblShape);
+		
+		lblShapeError = new JLabel("Shape is not set.");
+		lblShapeError.setForeground(Color.RED);
+		lblShapeError.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblShapeError.setBounds(758, 749, 111, 14);
+		stoneUnitPane.add(lblShapeError);
+		
+		btnChangeShape = new JButton("Change");
+		btnChangeShape.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String option = JOptionPane.showInputDialog("Enter employee's ID.");
+				// open shape window
+			}
+		});
+		btnChangeShape.setVisible(false);
+		btnChangeShape.setBounds(1047, 314, 89, 23);
+		stoneUnitPane.add(btnChangeShape);
 
 		if (id > 0) {
 			loadStoneUnit(id);
@@ -927,8 +997,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 
 	private boolean haveErrors() {
 		return lblSupplierError.isVisible() || lblWidthError.isVisible() || lblWeightError.isVisible()
-				|| lblEmployeeError.isVisible() || lblPiecesError.isVisible() || lblOriginError.isVisible()
-				|| lblDateError.isVisible();
+				|| lblEmployeeError.isVisible() || lblPriceError.isVisible() || lblOriginError.isVisible()
+				|| lblDateError.isVisible() || lblOrderError.isVisible() || lblShapeError.isVisible() ;
 	}
 
 	private void checkMaximizeRestore() {
@@ -950,7 +1020,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 			textFieldWidth.setEditable(true);
 			textFieldWeight.setEditable(true);
 			textFieldDescription.setEditable(true);
-			textFieldPieces.setEditable(true);
+			textFieldPrice.setEditable(true);
 
 			comboTypes.setEnabled(true);
 			comboBoxStatus.setEnabled(true);
@@ -962,12 +1032,13 @@ public class StoneUnitRemainsWindow extends JFrame {
 			textFieldWeight.setEnabled(true);
 			textFieldWidth.setEnabled(true);
 			textFieldDescription.setEnabled(true);
-			textFieldPieces.setEnabled(true);
+			textFieldPrice.setEnabled(true);
 
 			btnChangeSupplier.setVisible(true);
 			btnToday.setVisible(true);
 			btnChangeEmployee.setVisible(true);
 			lblUpdateConfirmIcon.setVisible(true);
+			btnChangeOrderID.setVisible(true);
 
 			lblMoveToSupplier.setVisible(false);
 			lblMoveToEmployee.setVisible(false);
@@ -978,7 +1049,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 			textFieldWidth.setEditable(false);
 			textFieldWeight.setEditable(false);
 			textFieldDescription.setEditable(false);
-			textFieldPieces.setEditable(false);
+			textFieldPrice.setEditable(false);
 
 			comboMaterials.setEnabled(false);
 			comboTypes.setEnabled(false);
@@ -990,12 +1061,13 @@ public class StoneUnitRemainsWindow extends JFrame {
 			textFieldWidth.setEnabled(false);
 			textFieldWeight.setEnabled(false);
 			textFieldDescription.setEnabled(false);
-			textFieldPieces.setEnabled(false);
+			textFieldPrice.setEnabled(false);
 
 			btnChangeSupplier.setVisible(false);
 			btnToday.setVisible(false);
 			btnChangeEmployee.setVisible(false);
 			lblUpdateConfirmIcon.setVisible(false);
+			btnChangeOrderID.setVisible(false);
 
 			lblMoveToSupplier.setVisible(true);
 			lblMoveToEmployee.setVisible(true);
@@ -1013,17 +1085,21 @@ public class StoneUnitRemainsWindow extends JFrame {
 		lblEditCheck.setIcon(new ImageIcon(StoneUnitWindow.class.getResource("/imgs/confirm1.png")));
 		lblDeleteStorno.setVisible(false);
 
-		cachedRemains = new Remains(-1, Main.getInstance().cachedStoneTypes.get(0), "", null, 0, 0, "", null,
-				Main.getInstance().cachedLocations.get(0), null, StoneUnitStatuses.WIP, 0, "");
+		cachedStoneProduct = new StoneProduct(-1, Main.getInstance().cachedStoneTypes.get(0), "", null, 0, 0, "", null,
+				Main.getInstance().cachedLocations.get(0), null, StoneUnitStatuses.WIP, null, 0, 0, 0, "");
 		loadStoneTypes(1);
 		loadLocation(1);
 		lblSupplierError.setVisible(true);
 		lblWidthError.setVisible(true);
 		lblWeightError.setVisible(true);
 		lblEmployeeError.setVisible(true);
-		lblPiecesError.setVisible(true);
+		lblPriceError.setVisible(true);
 		lblOriginError.setVisible(true);
 		lblDateError.setVisible(true);
+		lblPriceError.setVisible(true);
+		lblOrderError.setVisible(true);
+		lblShapeError.setVisible(true);
+
 		textFieldId.setText("Automatically generated.");
 	}
 
@@ -1035,39 +1111,48 @@ public class StoneUnitRemainsWindow extends JFrame {
 					StoneController sctrl = new StoneController();
 
 					try {
-						cachedRemains = (Remains) sctrl.getStoneUnitByID(id);
-						textFieldId.setText(cachedRemains.getId() + "");
-						textFieldOrigin.setText(cachedRemains.getOrigin());
+						cachedStoneProduct = (StoneProduct) sctrl.getStoneUnitByID(id);
+						textFieldId.setText(cachedStoneProduct.getId() + "");
+						textFieldOrigin.setText(cachedStoneProduct.getOrigin());
 						lblOriginError.setVisible(false);
-						comboBoxStatus.setSelectedIndex(cachedRemains.getStatus().getID());
-						textFieldCreatedDate.setText(cachedRemains.getCreatedDate().toString());
-						textFieldWidth.setText(cachedRemains.getWidth() + "");
-						textFieldWeight.setText(cachedRemains.getWeight() + "");
-						textFieldDescription.setText(cachedRemains.getDescription());
-						lblSupplier.setText(cachedRemains.getSupplier().getName());
+						comboBoxStatus.setSelectedIndex(cachedStoneProduct.getStatus().getID());
+						textFieldCreatedDate.setText(cachedStoneProduct.getCreatedDate().toString());
+						textFieldWidth.setText(cachedStoneProduct.getWidth() + "");
+						textFieldWeight.setText(cachedStoneProduct.getWeight() + "");
+						textFieldDescription.setText(cachedStoneProduct.getDescription());
+						lblSupplier.setText(cachedStoneProduct.getSupplier().getName());
 						lblSupplierError.setVisible(false);
-						lblEmployee.setText(cachedRemains.getEmployee().getName());
+						lblEmployee.setText(cachedStoneProduct.getEmployee().getName());
 						lblEmployeeError.setVisible(false);
-						textFieldPieces.setText(cachedRemains.getPiecesCount() + "");
-						lblPiecesError.setVisible(false);
-						textAreaUpdates.setText(cachedRemains.getUpdates());
+						textFieldPrice.setText(cachedStoneProduct.getPrice() + "");
+						lblPriceError.setVisible(false);
+						textAreaUpdates.setText(cachedStoneProduct.getUpdates());
+						lblOrderID.setText(cachedStoneProduct.getOrderID() + "");
+						lblOrderError.setVisible(false);
 
 						for (StoneMaterial mat : Main.getInstance().cachedMaterials) {
-							if (mat.getId() == cachedRemains.getStoneType().getMaterial().getId()) {
+							if (mat.getId() == cachedStoneProduct.getStoneType().getMaterial().getId()) {
 								comboMaterials.setSelectedItem(mat);
 							}
 						}
 
 						for (StoneType type : ((StoneMaterial) comboMaterials.getSelectedItem()).getAllTypes()) {
-							if (type.getId() == cachedRemains.getStoneType().getId()) {
+							if (type.getId() == cachedStoneProduct.getStoneType().getId()) {
 								comboTypes.setSelectedItem(type);
 							}
 						}
 						for (Location loc : Main.getInstance().cachedLocations) {
-							if (loc.getId() == cachedRemains.getLocation().getId())
+							if (loc.getId() == cachedStoneProduct.getLocation().getId())
 								comboLocations.setSelectedItem(loc);
 						}
-						loadLocation(cachedRemains.getLocation().getId());
+						
+						
+						lblShape.setText(cachedStoneProduct.getShape().getName());
+						lblShapeError.setVisible(false);
+						txtTotalSize.setText(cachedStoneProduct.getShape().calculateArea()+"");
+						
+						
+						loadLocation(cachedStoneProduct.getLocation().getId());
 
 						UI_Blocker.setVisible(false);
 						stoneUnitPane.setVisible(true);
@@ -1098,8 +1183,8 @@ public class StoneUnitRemainsWindow extends JFrame {
 			comboTypes.addItem(type);
 		}
 		comboTypes.setSelectedIndex(0);
-		if (cachedRemains != null)
-			cachedRemains.setStoneType((StoneType) comboTypes.getSelectedItem());
+		if (cachedStoneProduct != null)
+			cachedStoneProduct.setStoneType((StoneType) comboTypes.getSelectedItem());
 	}
 
 	private void loadLocation(int locID) {
@@ -1112,21 +1197,21 @@ public class StoneUnitRemainsWindow extends JFrame {
 		textFieldLocationAddress.setText(location.getAddress());
 		textFieldLocationCity.setText(location.getCity().getCityName());
 
-		if (cachedRemains != null)
-			cachedRemains.setLocation(location);
+		if (cachedStoneProduct != null)
+			cachedStoneProduct.setLocation(location);
 	}
 
 	private void saveStoneUnit() throws SQLException {
 
 		StoneController sctrl = new StoneController();
 		try {
-			if (cachedRemains != null) {
-				if (cachedRemains.getId() > 0) {
-					sctrl.updateStone(cachedRemains);
+			if (cachedStoneProduct != null) {
+				if (cachedStoneProduct.getId() > 0) {
+					sctrl.updateStone(cachedStoneProduct);
 					JOptionPane.showMessageDialog(null, "Stone has been successfully updated.");
 				} else {
 					// create a new stone
-					sctrl.createStone(cachedRemains, null);
+					sctrl.createStone(cachedStoneProduct, null);
 					JOptionPane.showMessageDialog(null, "Stone has been successfully created.");
 					setVisible(false);
 					dispose();

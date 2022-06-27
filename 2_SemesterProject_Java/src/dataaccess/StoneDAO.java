@@ -15,6 +15,7 @@ import model.City;
 import model.Employee;
 import model.IStoneUnit;
 import model.Location;
+import model.OtherShape;
 import model.StoneMaterial;
 import model.Remains;
 import model.Shape;
@@ -251,7 +252,7 @@ public class StoneDAO implements IStoneDAO {
 			if (stone instanceof Remains) {
 				query = "UPDATE Remains SET Pieces=? WHERE RemainsID=?; ";
 				statement = dbConnection.prepareStatement(query);
-				statement.setInt(1, ((Remains) stone).getPieces());
+				statement.setInt(1, ((Remains) stone).getPiecesCount());
 				statement.setInt(2, ((Remains) stone).getId());
 			}
 			statement.executeUpdate();

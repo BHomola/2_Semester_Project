@@ -62,12 +62,12 @@ import javax.swing.SwingConstants;
 
 public class Main extends JFrame {
 
-	public static ArrayList<StoneMaterial> cachedMaterials;
-	public static ArrayList<StoneType> cachedStoneTypes;
-	public static ArrayList<Location> cachedLocations;
-	public static ArrayList<City> cachedCities;
+	public ArrayList<StoneMaterial> cachedMaterials;
+	public ArrayList<StoneType> cachedStoneTypes;
+	public ArrayList<Location> cachedLocations;
+	public ArrayList<City> cachedCities;
 
-	ArrayList<IStoneUnit> stoneUnits;
+	public static ArrayList<IStoneUnit> stoneUnits;
 	private ArrayList<Person> suppliers;
 	
 	private static final long serialVersionUID = 1L;
@@ -94,31 +94,31 @@ public class Main extends JFrame {
 	private static JLabel lblReloadButtonEmployees;
 	private TableRowSorter<DefaultTableModel> tableRowSorterOrders;
 	
-	
+	private static Main instance;
 	
 	DefaultTableModel defaultTableModelInventory;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Main frame = new Main();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+
+		
+		Main frame = new Main();
+		frame.setVisible(true);
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	private Main main;
+	//Singleton
+	public static Main getInstance() {
+		 if (instance != null)
+	        return instance;
+		 return null;
+	}
 	public Main() {
-		main = this;
+		instance = this;
+		System.out.println("instance assignedd");
 		// Local JComponents
 
 
@@ -771,12 +771,13 @@ public class Main extends JFrame {
 			        if (selection == 0) {
 			        	 switch(combo.getSelectedIndex()) {
 			        	 case 0: // cuttable
-			        		 
+			        		 new StoneUnitCuttableWindowRecreate(-1).setVisible(true);
 			        		 break;
 			        	 case 1: // product
+			        		 new StoneUnitProductWindowRecreate(-1).setVisible(true);
 			        		 break;
 			        	 case 2://remains
-			        		 new StoneUnitRemainsWindow(-1, main).setVisible(true);
+			        		 new StoneUnitRemainsWindow(-1).setVisible(true);
 			        		 break;
 			        	 }
 			         }
@@ -857,13 +858,13 @@ public class Main extends JFrame {
 					String stoneType = (String) defaultTableModelInventory.getValueAt(rowIndex, 1);
 
 					if (stoneType.equals("StoneCuttable")) {
-						new StoneUnitWindow(id).setVisible(true);
+						new StoneUnitCuttableWindowRecreate(id).setVisible(true);
 					}
 					if (stoneType.equals("StoneProduct")) {
-						new StoneUnitWindow(id).setVisible(true);
+						new StoneUnitProductWindowRecreate(id).setVisible(true);
 					}
 					if (stoneType.equals("Remains")) {
-						new StoneUnitRemainsWindow(id, main).setVisible(true);
+						new StoneUnitRemainsWindow(id).setVisible(true);
 					}
 				}
 			}
@@ -1368,7 +1369,7 @@ public class Main extends JFrame {
 
 	}
 
-	protected static void updateOrdersTable() {
+	public void updateOrdersTable() {
 		OrderController orderController = new OrderController();
 
 		startLoading();
@@ -1440,20 +1441,20 @@ public class Main extends JFrame {
 
 	}
 
-	protected synchronized static void startLoading() {
+	public void startLoading() {
 		lblLoading.setVisible(true);
 		lblLoadingIcon.setVisible(true);
 		reloadButtonsSetEnabled(false);
 		
 	}
 	
-	protected synchronized static void stopLoading() {
+	public void stopLoading() {
 		lblLoading.setVisible(false);
 		lblLoadingIcon.setVisible(false);
 		reloadButtonsSetEnabled(true);
 	}
 
-	private static void reloadButtonsSetEnabled(boolean visible) {
+	private void reloadButtonsSetEnabled(boolean visible) {
 		lblReloadButtonOrders.setEnabled(visible);
 		lblReloadButtonInventory.setEnabled(visible);
 		lblReloadButtonMaterial.setEnabled(visible);

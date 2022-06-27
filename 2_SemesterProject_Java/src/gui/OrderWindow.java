@@ -260,7 +260,7 @@ public class OrderWindow extends JFrame {
 							if(isNew) {
 								try {
 									int id = orderController.createOrder(order);
-									Main.updateOrdersTable();
+									Main.getInstance().updateOrdersTable();
 									JOptionPane.showInternalMessageDialog(null, "The order created, ID: " + id,
 											"Order created", JOptionPane.INFORMATION_MESSAGE);
 									dispose();
@@ -270,7 +270,7 @@ public class OrderWindow extends JFrame {
 							} else {
 								try {
 									orderController.updateOrder(order);
-									Main.updateOrdersTable();
+									Main.getInstance().updateOrdersTable();
 									JOptionPane.showInternalMessageDialog(null, "The order edited",
 											"Order edited", JOptionPane.INFORMATION_MESSAGE);
 									dispose();
@@ -317,7 +317,7 @@ public class OrderWindow extends JFrame {
 					if(answer == 0)
 						try {
 							orderController.deleteOrder(order);
-							Main.updateOrdersTable();
+							Main.getInstance().updateOrdersTable();
 							JOptionPane.showInternalMessageDialog(null, "Order No. #" + id + " deleted",
 									"Order deleted", JOptionPane.INFORMATION_MESSAGE);
 							dispose();
@@ -488,7 +488,7 @@ public class OrderWindow extends JFrame {
 		contentPane.add(lblAddressDescription);
 		
 //		comboBoxCity = new JComboBox();
-		comboBoxCity = new JComboBox<City>(new Vector<City>(Main.cachedCities));
+		comboBoxCity = new JComboBox<City>(new Vector<City>(Main.getInstance().cachedCities));
 		comboBoxCity.setFocusable(false);
 		comboBoxCity.setSelectedIndex(-1);
 		comboBoxCity.addActionListener(new ActionListener() {
@@ -831,7 +831,7 @@ public class OrderWindow extends JFrame {
 		txtFieldEmployeeID.setColumns(10);
 	
 //		comboBoxOffice = new JComboBox();
-		comboBoxOffice = new JComboBox<Location>(new Vector<Location>(Main.cachedLocations));
+		comboBoxOffice = new JComboBox<Location>(new Vector<Location>(Main.getInstance().cachedLocations));
 		comboBoxOffice.addPopupMenuListener(new PopupMenuListener() {
 			public void popupMenuCanceled(PopupMenuEvent e) {
 			}
@@ -1004,7 +1004,7 @@ public class OrderWindow extends JFrame {
 	private void getOrderInfo() {
 		Thread thread = new Thread() {
 			public void run() {
-				Main.startLoading();
+				Main.getInstance().startLoading();
 				if(id != -1)
 					try {		
 						order = orderController.getByID(id);
@@ -1012,7 +1012,7 @@ public class OrderWindow extends JFrame {
 					} catch (SQLException e1) {
 					e1.printStackTrace();
 					}	
-				Main.stopLoading();
+				Main.getInstance().stopLoading();
 				if(!isNew)
 					setAllInfo();
 				contentPane.setVisible(true);
@@ -1037,8 +1037,8 @@ public class OrderWindow extends JFrame {
 				lblEmployee.setText(order.getEmployee().getName());
 				txtFieldEmployeeID.setText(String.valueOf(order.getEmployee().getId()));
 //				comboBoxOffice.setSelectedItem(orderInfo.getOffice());
-				for(int i=0; i < Main.cachedCities.size(); i++)
-					if(Main.cachedCities.get(i).getId() == order.getOffice().getId()) {
+				for(int i=0; i < Main.getInstance().cachedCities.size(); i++)
+					if(Main.getInstance().cachedCities.get(i).getId() == order.getOffice().getId()) {
 						comboBoxOffice.setSelectedIndex(i+1);
 						break;
 					}

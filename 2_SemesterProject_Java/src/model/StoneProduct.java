@@ -48,7 +48,7 @@ public class StoneProduct extends Stone {
 
 	@Override
 	public String toString() {
-		return "StoneProduct [price=" + price + "] " + super.toString();
+		return "Product Stone ID:" + super.getId();
 	}
 
 	@Override

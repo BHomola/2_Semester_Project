@@ -16,7 +16,7 @@ public class Remains extends StoneUnit {
 		return 1;
 	}
 	
-	public int getPiecesCoint() {
+	public int getPiecesCount() {
 		return pieces;
 	}
 
@@ -26,7 +26,7 @@ public class Remains extends StoneUnit {
 
 	@Override
 	public String toString() {
-		return "Remains [pieces=" + pieces + "] " + super.toString();
+		return "Remains ID:" + super.getId();
 	}
 
 	@Override

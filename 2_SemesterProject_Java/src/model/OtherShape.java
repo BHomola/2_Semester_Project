@@ -54,11 +54,13 @@ public class OtherShape extends Shape{
 	public double calculateArea() {
 		double area = 0;
 		int arraySize = getPoints().size();
+		
 		double[] coordinateX = new double[arraySize];
 		double[] coordinateY = new double[arraySize];
-		for(int i =0; i < getPoints().size()-1; i++) {
+		for(int i =0; i < getPoints().size(); i++) {
 			coordinateX[i] = getPoints().get(i).getData().getX();
 			coordinateY[i] = getPoints().get(i).getData().getY();
+			
 		}
 		
 		for(int i = 0; i < arraySize-1; i++) {

@@ -64,7 +64,7 @@ public class StoneCuttable extends Stone {
 
 	@Override
 	public String toString() {
-		return "StoneCuttable [subUnits=" + subUnits + "] " + super.toString();
+		return "Cuttable Stone ID:" + super.getId();
 	}
 
 	@Override
