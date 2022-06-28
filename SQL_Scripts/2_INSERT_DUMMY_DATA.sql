@@ -166,6 +166,10 @@ VALUES
   ('Worker',13442,'2014-05-21',16,3),
   ('Worker',11798,'2014-09-04',17,4),
   ('Manager',14558,'2017-11-08',18,4);
+/*  INSERT INTO [Login](Username,Password,EmployeeID)
+VALUES
+	('test','test',11),
+	('admin','admin',12); */
   INSERT INTO [Supplier] (SupplierID)
 VALUES
   (21),
@@ -361,4 +365,6 @@ INSERT INTO ElipseShape (ShapeID, DiamaterX, DiamaterY) VALUES(3, 10, 20);
 
 INSERT INTO CircleShape (ShapeID, Diamater) VALUES(4, 5);
 
+EXEC CreateUser @UserName= 'test', @Pass = 'test', @EmplID = 11;
+EXEC CreateUser @UserName= 'admin', @Pass = 'admin', @EmplID = 12;
 GO
