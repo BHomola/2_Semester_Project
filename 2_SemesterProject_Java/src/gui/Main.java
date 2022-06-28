@@ -99,7 +99,7 @@ public class Main extends JFrame {
 	private static JLabel lblReloadButtonSuppliers;
 	private static JLabel lblReloadButtonEmployees;
 	private TableRowSorter<DefaultTableModel> tableRowSorterOrders;
-	
+	private JLabel lblHello;
 	private static Main instance;
 	
 	DefaultTableModel defaultTableModelInventory;
@@ -129,6 +129,7 @@ public class Main extends JFrame {
 		// Local JComponents
 		PersonController pController = new PersonController();
 		CardLayout cardLayout = new CardLayout();
+		
 
 //FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
@@ -364,6 +365,7 @@ public class Main extends JFrame {
 				try {
 					EmployeeID = loginC.authentication(inputedUsername, inputedPassword);
 					if(EmployeeID>1) {
+				lblHello.setText(pController.getByID(EmployeeID).getName());
 				contentPane.updateUI();
 				cardLayout.show(cardPane, "name_66960487401900");
 				updateOrdersTable();
@@ -399,10 +401,10 @@ public class Main extends JFrame {
 		slideSplitPane.setLeftComponent(sidePane);
 		sidePane.setLayout(null);
 
-		JLabel lblHello;
+	//	JLabel lblHello;
 			lblHello = new JLabel("Hello ");
 			lblHello.setForeground(Color.WHITE);
-			lblHello.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+			lblHello.setFont(new Font("Segoe UI", Font.PLAIN, 25));
 			lblHello.setBounds(55, 14, 216, 47);
 			sidePane.add(lblHello);
 		
