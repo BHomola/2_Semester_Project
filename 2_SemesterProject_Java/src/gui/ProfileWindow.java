@@ -269,7 +269,7 @@ public class ProfileWindow extends JFrame {
 				ProfileEmployeeWindow profileEmployeeWindow = new ProfileEmployeeWindow(isNew, id);
 				profileEmployeeWindow.getEmployee().setName(textFieldName.getText());
 				profileEmployeeWindow.getEmployee().setName(textFieldName.getText());
-				profileEmployeeWindow.getEmployee().setDateOfBirth(Date.valueOf(textFieldDateOfBirth.getText()));
+//				profileEmployeeWindow.getEmployee().setDateOfBirth(Date.valueOf(textFieldDateOfBirth.getText()));
 				//profileEmployeeWindow.getEmployee().setLocation();
 				profileEmployeeWindow.getEmployee().setAddress(textFieldAddress.getText().toLowerCase().substring(0, 1).toUpperCase() + textFieldAddress.getText().toLowerCase().substring(1));
 				//profileEmployeeWindow.getEmployee().setCity();
