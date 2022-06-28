@@ -8,13 +8,27 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.OrderController;
+import controller.PersonController;
+import controller.StoneController;
+import model.DeliveryStatuses;
+import model.Employee;
+import model.IStoneUnit;
+import model.OrderInfo;
+import model.StoneProduct;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -33,14 +47,20 @@ public class ProfileEmployeeWindow extends JFrame {
 	private JLabel lblSalaryError;
 	private boolean isEditPressed;
 	private boolean isMaximizePressed;
+	private boolean isNew;
 	private int x;
 	private int y;
+	private int id;
 	private JTextField textFieldStartDayDate;
 	private JTextField textFieldLocation;
 	private JTextField textFieldAddress;
 	private JTextField textFieldSalary;
 	private JTextField textFieldPosition;
 	private JTextField textFieldCity;
+	private Employee employee;
+	private PersonController personController;
+	private OrderController orderController;
+	private StoneController stoneController;
 	/**
 	 * Launch the application.
 	 */
@@ -48,7 +68,7 @@ public class ProfileEmployeeWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ProfileEmployeeWindow frame = new ProfileEmployeeWindow();
+					ProfileEmployeeWindow frame = new ProfileEmployeeWindow(true, -1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,8 +80,15 @@ public class ProfileEmployeeWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ProfileEmployeeWindow() {
+	public ProfileEmployeeWindow(Boolean isNew, int id) {
+		getEmployeeInfo();
+		this.id = id;
+		this.isNew = isNew;
+		personController = new PersonController();
+		orderController = new OrderController();
+		stoneController = new StoneController();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		employee = new Employee(id);
 //FRAME		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/imgs/logo4.png")));
 		setTitle("Santorina");
@@ -141,6 +168,11 @@ public class ProfileEmployeeWindow extends JFrame {
 		
 //TITLE		
 		JLabel lblTitle = new JLabel("EMPLOYEE, NAME");
+		if(isNew) {
+			lblTitle.setText("NEW EMPLOYEE");
+		} else {
+			lblTitle.setText(employee.getName());
+		}
 		lblTitle.setForeground(new Color(144, 124, 81));
 		lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
 		lblTitle.setBounds(105, 60, 600, 94);
@@ -166,10 +198,34 @@ public class ProfileEmployeeWindow extends JFrame {
 						case 0: 
 							System.out.println("yes");
 							//SAVE CHANGES
+							buildEmployee();
+							if(isNew) {
+								try {
+									int id = personController.createPerson(employee);
+									Main.getInstance().updateEmployeeList();
+									JOptionPane.showInternalMessageDialog(null, "Employee created, ID: " + id,
+											"Employee created", JOptionPane.INFORMATION_MESSAGE);
+									dispose();
+								} catch (SQLException e1) {
+									e1.printStackTrace();
+								}
+							} else {
+								try {
+									personController.updatePerson(employee);
+									Main.getInstance().updateOrdersTable();
+									JOptionPane.showInternalMessageDialog(null, "Employee edited",
+											"Employee edited", JOptionPane.INFORMATION_MESSAGE);
+									dispose();
+								} catch (SQLException e2) {
+									e2.printStackTrace();
+								}
+							}
 							break;
 						case 1: 
 							System.out.println("no");
 							//ABORT CHANGES
+							if(isNew)
+								dispose();
 							break;
 						case 2:
 							return;	
@@ -342,13 +398,39 @@ public class ProfileEmployeeWindow extends JFrame {
 		lblCityDescription.setBounds(551, 532, 186, 27);
 		contentPane.add(lblCityDescription);
 		
-		JLabel lblOrder = new JLabel("ORDER(S)");
-		lblOrder.setForeground(new Color(192, 176, 131));
-		lblOrder.setFont(new Font("Segoe UI", Font.BOLD, 40));
-		lblOrder.setBounds(108, 579, 235, 53);
-		contentPane.add(lblOrder);
-		
 		JLabel lblMoveToOrder = new JLabel("");
+		lblMoveToOrder.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String orders = "";
+				
+				ArrayList<OrderInfo> allOrders;
+				try {
+					allOrders = (ArrayList<OrderInfo>) orderController.getAll();
+					ArrayList<OrderInfo> employeeOrders = new ArrayList<OrderInfo>();
+					for(int i = 0; i < allOrders.size()-1; i++) {
+						if(allOrders.get(i).getEmployee().getId() == id) {
+							employeeOrders.add(allOrders.get(i));
+						}
+					}
+					if(employeeOrders.size() <= 0) {
+						orders = "The employee has not registered any orders yet.";
+						JOptionPane.showInternalMessageDialog(null, orders,
+								"Orders", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						if(employeeOrders.size() > 0) 
+							for(OrderInfo order:employeeOrders)
+								orders += "#" + String.valueOf(order.getId()) + ", " + order.getInvoice().toString();
+						JOptionPane.showInternalMessageDialog(null, orders,
+								"Orders", JOptionPane.INFORMATION_MESSAGE);
+					}	
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		lblMoveToOrder.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
 		lblMoveToOrder.setBounds(305, 596, 25, 25);
 		contentPane.add(lblMoveToOrder);
@@ -360,6 +442,36 @@ public class ProfileEmployeeWindow extends JFrame {
 		contentPane.add(lblStoneUnit);
 		
 		JLabel lblMoveToStoneUnit = new JLabel("");
+		/*lblMoveToOrder.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String orders = "";
+				
+				ArrayList<IStoneUnit> allStones;
+				try {
+					allStones =  (ArrayList<IStoneUnit>) stoneController.getAllStoneUnits();
+					ArrayList<IStoneUnit> employeeStones = new ArrayList<IStoneUnit>();
+					for(int i = 0; i < allStones.size()-1; i++) {
+						if(allStones.get(i)) {
+							employeeOrders.add(allOrders.get(i));
+						}
+					}
+					if(employeeOrders.size() <= 0) {
+						orders = "The employee has not registered any orders yet.";
+					} else {
+						if(employeeOrders.size() > 0) 
+							for(OrderInfo order:employeeOrders)
+								orders += "#" + String.valueOf(order.getId()) + ", " + order.getInvoice().toString();
+						JOptionPane.showInternalMessageDialog(null, orders,
+								"Orders", JOptionPane.INFORMATION_MESSAGE);
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});*/
 		lblMoveToStoneUnit.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
 		lblMoveToStoneUnit.setBounds(407, 663, 25, 25);
 		contentPane.add(lblMoveToStoneUnit);
@@ -368,6 +480,51 @@ public class ProfileEmployeeWindow extends JFrame {
 		lblPicture.setIcon(new ImageIcon(ProfileEmployeeWindow.class.getResource("/imgs/addPhoto.png")));
 		lblPicture.setBounds(763, 192, 500, 500);
 		contentPane.add(lblPicture);
+		
+		JLabel lblOrder = new JLabel("ORDER(S)");
+		lblOrder.setForeground(new Color(192, 176, 131));
+		lblOrder.setFont(new Font("Segoe UI", Font.BOLD, 40));
+		lblOrder.setBounds(108, 579, 235, 53);
+		contentPane.add(lblOrder);
+	}
+	
+	private void getEmployeeInfo() {
+		Thread thread = new Thread() {
+			public void run() {
+				Main.getInstance().startLoading();
+				if(id != -1)
+					try {		
+						employee = (Employee) personController.getByID(id);
+					
+					} catch (SQLException e1) {
+					e1.printStackTrace();
+					}	
+				Main.getInstance().stopLoading();
+				if(!isNew)
+					setAllInfo();
+				contentPane.setVisible(true);
+			}
+		};
+		thread.start();
+	}
+	
+	private void setAllInfo() {
+		textFieldPosition.setText(employee.getPosition());
+		textFieldSalary.setText(String.valueOf(employee.getSalary()));
+		textFieldStartDayDate.setText(String.valueOf(employee.getStartDate()));
+		textFieldLocation.setText(employee.getLocation().toString());
+		textFieldAddress.setText(employee.getAddress());
+		textFieldCity.setText(employee.getCity().getZipCode());
+}
+	
+	private void buildEmployee() {
+		employee.setPosition(textFieldPosition.getText().toLowerCase().substring(0, 1).toUpperCase() + textFieldPosition.getText().toLowerCase().substring(1));
+		employee.setSalary(Double.parseDouble(textFieldSalary.getText()));
+		employee.setStartDate(Date.valueOf(textFieldStartDayDate.getText()));
+		//employee.setLocation();
+		employee.setAddress(textFieldAddress.getText().toLowerCase().substring(0, 1).toUpperCase() + textFieldAddress.getText().toLowerCase().substring(1));
+		//employee.setCity();
+		
 	}
 	
 	private boolean haveErrors() {

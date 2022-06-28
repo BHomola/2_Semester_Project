@@ -356,10 +356,10 @@ public class Main extends JFrame {
 				String inputedUsername = textFieldUsername.getText();
 				String inputedPassword = passwordField.getText();
 				
-/*				cardLayout.show(cardPane, "name_66960487401900");
+				cardLayout.show(cardPane, "name_66960487401900");
 				contentPane.updateUI();
 				updateOrdersTable();
-	*/			
+				
 				try {
 					if(inputedPassword.equalsIgnoreCase(loginC.authentication(inputedUsername))) {
 				contentPane.updateUI();
@@ -1176,6 +1176,15 @@ public class Main extends JFrame {
 		TableRowSorter<DefaultTableModel> tableRowSorterSuppliers = new TableRowSorter<DefaultTableModel>(
 				defaultTableModelSuppliers);
 		tableSuppliers.setRowSorter(tableRowSorterSuppliers);
+		tableSuppliers.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = tableRowSorterSuppliers.convertRowIndexToModel(tableSuppliers.getSelectedRow());
+				int id = (int) defaultTableModelSuppliers.getValueAt(index, 0);
+				ProfileSupplierWindow profileSupplierWindow = new ProfileSupplierWindow();
+				profileSupplierWindow.setVisible(true);
+			}
+		});
 		scrollPaneSuppliers.setViewportView(tableSuppliers);
 
 //EMPLOYEES
@@ -1225,6 +1234,13 @@ public class Main extends JFrame {
 		employees.add(lblEmployeesTitle);
 
 		JLabel lblAddButtonEmployees = new JLabel("");
+		lblAddButtonEmployees.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ProfileEmployeeWindow profileEmployeeWindow = new ProfileEmployeeWindow(true, -1);
+				profileEmployeeWindow.setVisible(true);
+			}
+		});
 		lblAddButtonEmployees.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
 		lblAddButtonEmployees.setBounds(1035, 130, 50, 50);
 		employees.add(lblAddButtonEmployees);
@@ -1273,6 +1289,15 @@ public class Main extends JFrame {
 		TableRowSorter<DefaultTableModel> tableRowSorterEmployees = new TableRowSorter<DefaultTableModel>(
 				defaultTableModelEmployees);
 		tableEmployees.setRowSorter(tableRowSorterEmployees);
+		tableEmployees.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = tableRowSorterEmployees.convertRowIndexToModel(tableEmployees.getSelectedRow());
+				int id = (int) defaultTableModelEmployees.getValueAt(index, 0);
+				ProfileEmployeeWindow profileEmployeeWindow = new ProfileEmployeeWindow(false, id);
+				profileEmployeeWindow.setVisible(true);
+			}
+		});
 		scrollPaneEmployees.setViewportView(tableEmployees);
 		
 		
