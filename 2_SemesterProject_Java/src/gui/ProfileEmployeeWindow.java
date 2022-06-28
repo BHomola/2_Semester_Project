@@ -212,7 +212,7 @@ public class ProfileEmployeeWindow extends JFrame {
 							} else {
 								try {
 									personController.updatePerson(employee);
-									Main.getInstance().updateOrdersTable();
+									Main.getInstance().updateEmployeeList();
 									JOptionPane.showInternalMessageDialog(null, "Employee edited",
 											"Employee edited", JOptionPane.INFORMATION_MESSAGE);
 									dispose();
