@@ -125,8 +125,17 @@ public class StoneUnitCuttableWindow extends JFrame implements IShapeSave {
 	private JLabel lblMoveToShape;
 
 	private IShapeSave stoneSave;
+	private StoneCuttable parentStone;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+
+	public StoneUnitCuttableWindow(StoneCuttable parentStone) {
+		this(-1);
+		this.parentStone = parentStone;
+	}
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public StoneUnitCuttableWindow(int id) {
 		stoneSave = this;
 		cardLayout = new CardLayout();
@@ -234,6 +243,41 @@ public class StoneUnitCuttableWindow extends JFrame implements IShapeSave {
 		stoneUnitPane.setBackground(Color.WHITE);
 		cardPane.add(stoneUnitPane, "name_105638542096500");
 		stoneUnitPane.setLayout(null);
+		
+		JLabel lblAddStoneChild = new JLabel("");
+		lblAddStoneChild.setIcon(new ImageIcon(StoneUnitCuttableWindow.class.getResource("/imgs/addButton.png")));
+		lblAddStoneChild.setBounds(916, 25, 50, 50);
+		lblAddStoneChild.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			       String[] types= {"Cuttable Stone","Stone Product","Remains"};
+
+			        JComboBox<String> combo = new JComboBox<String>(types);
+
+
+
+			        String[] options = { "Create", "Cancel"};
+
+			        int selection = JOptionPane.showOptionDialog(null, combo, "Please Select",
+			                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+			                options[0]);
+			        
+			        if (selection == 0) {
+			        	 switch(combo.getSelectedIndex()) {
+			        	 case 0: // cuttable
+			        		 new StoneUnitCuttableWindow(cachedStoneCuttable).setVisible(true);
+			        		 break;
+			        	 case 1: // product
+			        		 new StoneUnitProductWindow(cachedStoneCuttable).setVisible(true);
+			        		 break;
+			        	 case 2://remains
+			        		 new StoneUnitRemainsWindow(cachedStoneCuttable).setVisible(true);
+			        		 break;
+			        	 }
+			         }
+			}
+		});
+		stoneUnitPane.add(lblAddStoneChild);
 
 //TITLE		
 		JLabel lblTitle = new JLabel("Cuttable Stone");
@@ -1229,7 +1273,7 @@ public class StoneUnitCuttableWindow extends JFrame implements IShapeSave {
 					JOptionPane.showMessageDialog(null, "Stone has been successfully updated.");
 				} else {
 					// create a new stone
-					sctrl.createStone(cachedStoneCuttable, null);
+					sctrl.createStone(cachedStoneCuttable, parentStone);
 					JOptionPane.showMessageDialog(null, "Stone has been successfully created.");
 					setVisible(false);
 					dispose();

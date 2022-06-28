@@ -42,6 +42,7 @@ import model.IStoneUnit;
 import model.Location;
 import model.OrderInfo;
 import model.Shape;
+import model.StoneCuttable;
 import model.StoneMaterial;
 import model.StoneProduct;
 import model.StoneType;
@@ -121,7 +122,16 @@ public class StoneUnitProductWindow extends JFrame implements IShapeSave{
 	private JLabel lblShapeError;
 	
 	private IShapeSave stoneSave;
+	private StoneCuttable parentStone;
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+	
+	public StoneUnitProductWindow(StoneCuttable parentStone) {
+		this(-1);
+		this.parentStone = parentStone;
+	}
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public StoneUnitProductWindow(int id) {
 		stoneSave = this;
 		cardLayout = new CardLayout();
@@ -1249,7 +1259,7 @@ public class StoneUnitProductWindow extends JFrame implements IShapeSave{
 					JOptionPane.showMessageDialog(null, "Stone has been successfully updated.");
 				} else {
 					// create a new stone
-					sctrl.createStone(cachedStoneProduct, null);
+					sctrl.createStone(cachedStoneProduct, parentStone);
 					JOptionPane.showMessageDialog(null, "Stone has been successfully created.");
 					setVisible(false);
 					dispose();

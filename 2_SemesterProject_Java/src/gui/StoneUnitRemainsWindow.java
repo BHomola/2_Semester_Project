@@ -40,6 +40,7 @@ import model.Employee;
 import model.IStoneUnit;
 import model.Location;
 import model.Remains;
+import model.StoneCuttable;
 import model.StoneMaterial;
 import model.StoneType;
 import model.StoneUnit;
@@ -105,8 +106,17 @@ public class StoneUnitRemainsWindow extends JFrame {
 	JLabel lblUpdateConfirmIcon;
 
 	private Remains cachedRemains;
+	
+	private StoneCuttable parentStone;
 
-
+	public StoneUnitRemainsWindow(StoneCuttable parentStone) {
+		this(-1);
+		this.parentStone = parentStone;
+	}
+	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public StoneUnitRemainsWindow(int id) {
 		cardLayout = new CardLayout();
@@ -1126,7 +1136,7 @@ public class StoneUnitRemainsWindow extends JFrame {
 					JOptionPane.showMessageDialog(null, "Stone has been successfully updated.");
 				} else {
 					// create a new stone
-					sctrl.createStone(cachedRemains, null);
+					sctrl.createStone(cachedRemains, parentStone);
 					JOptionPane.showMessageDialog(null, "Stone has been successfully created.");
 					setVisible(false);
 					dispose();

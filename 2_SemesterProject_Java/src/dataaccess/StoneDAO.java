@@ -169,6 +169,7 @@ public class StoneDAO implements IStoneDAO {
 				statement.setInt(3, generatedID);
 				statement.setInt(4, (int) ((StoneProduct) stone).getPrice());
 				statement.setInt(5, ((StoneProduct) stone).getOrderID());
+				new ShapeDAO().createShape(((StoneProduct) stone).getShape(), generatedID);
 
 			}
 			if (stone instanceof StoneCuttable) {
@@ -176,6 +177,7 @@ public class StoneDAO implements IStoneDAO {
 				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, generatedID);
 				statement.setInt(2, (int) ((Stone) stone).getTotalSize());
+				new ShapeDAO().createShape(((StoneCuttable) stone).getShape(), generatedID);
 
 
 			}
@@ -188,7 +190,7 @@ public class StoneDAO implements IStoneDAO {
 			statement.executeUpdate();
 
 			if (parentStone != null) {
-				query = "INSERT INTO CuttableStone (StoneID, StoneUnitID) VALUES (?, ?); ";
+				query = "INSERT INTO StoneCuttable (StoneID, StoneUnitID) VALUES (?, ?); ";
 				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, ((StoneUnit) parentStone).getId());
 				statement.setInt(2, generatedID);
