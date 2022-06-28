@@ -27,16 +27,17 @@ public class LoginDAO implements ILoginDAO {
 		return loginList;
 	}
 	
-	public String authentication(String username) throws SQLException {
+	public int authentication(String username, String password) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = " EXEC Authentication @UserN = ?";
+		String sqlStatement = " EXEC Authentication @UserN = ?, @Pass = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setString(1, username);
+		pStatement.setString(2, password);
 		ResultSet rs = pStatement.executeQuery();
 		if (rs.next() == false) {
-			return null;
+			return 0;
 		}
-		return rs.getString("Decrypted_Password");
+		return rs.getInt("Number");
 	}
 	
 	public Collection<Login> getAllLogins() throws SQLException {

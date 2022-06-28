@@ -105,8 +105,9 @@ public class Main extends JFrame {
 	DefaultTableModel defaultTableModelInventory;
 	/**
 	 * Launch the application.
+	 * @throws SQLException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 
 		
 		Main frame = new Main();
@@ -122,12 +123,11 @@ public class Main extends JFrame {
 	        return instance;
 		 return null;
 	}
-	public Main() {
+	public Main()  {
 		instance = this;
 		System.out.println("instance assignedd");
 		// Local JComponents
-
-
+		PersonController pController = new PersonController();
 		CardLayout cardLayout = new CardLayout();
 
 //FRAME		
@@ -355,13 +355,15 @@ public class Main extends JFrame {
 				LoginController loginC = new LoginController(); 
 				String inputedUsername = textFieldUsername.getText();
 				String inputedPassword = passwordField.getText();
+				int EmployeeID;
 				
-				cardLayout.show(cardPane, "name_66960487401900");
+		/*		cardLayout.show(cardPane, "name_66960487401900");
 				contentPane.updateUI();
 				updateOrdersTable();
-				
+			*/	
 				try {
-					if(inputedPassword.equalsIgnoreCase(loginC.authentication(inputedUsername))) {
+					EmployeeID = loginC.authentication(inputedUsername, inputedPassword);
+					if(EmployeeID>1) {
 				contentPane.updateUI();
 				cardLayout.show(cardPane, "name_66960487401900");
 				updateOrdersTable();
@@ -397,12 +399,18 @@ public class Main extends JFrame {
 		slideSplitPane.setLeftComponent(sidePane);
 		sidePane.setLayout(null);
 
-		JLabel lblHello = new JLabel("Hello, <User>");
-		lblHello.setForeground(Color.WHITE);
+		JLabel lblHello;
+			lblHello = new JLabel("Hello ");
+			lblHello.setForeground(Color.WHITE);
+			lblHello.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+			lblHello.setBounds(55, 14, 216, 47);
+			sidePane.add(lblHello);
+		
+/*		lblHello.setForeground(Color.WHITE);
 		lblHello.setFont(new Font("Segoe UI", Font.PLAIN, 35));
 		lblHello.setBounds(55, 14, 216, 47);
 		sidePane.add(lblHello);
-
+*/
 		JLabel lblLogout = new JLabel("");
 		lblLogout.addMouseListener(new MouseAdapter() {
 			@Override

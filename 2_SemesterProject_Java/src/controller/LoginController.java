@@ -12,8 +12,8 @@ import model.Login;
 public class LoginController {
 	ILoginDAO dao = new LoginDAO();
 	
-	public String authentication(String username) throws SQLException {
-		return dao.authentication(username);
+	public int authentication(String username, String password) throws SQLException {
+		return dao.authentication(username, password);
 	}
 	
 	public Collection<Login> getAllLogins() throws SQLException {
