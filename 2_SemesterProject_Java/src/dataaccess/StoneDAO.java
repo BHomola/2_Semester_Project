@@ -44,6 +44,9 @@ public class StoneDAO implements IStoneDAO {
 		query = "SELECT * FROM StoneCuttable";
 		statement = DBConnection.getConnection().prepareStatement(query);
 		rs = statement.executeQuery();
+		
+		
+		
 		while (rs.next()) {
 			int parentStoneID = rs.getInt("StoneID");
 			int childStoneID = rs.getInt("StoneUnitID");
