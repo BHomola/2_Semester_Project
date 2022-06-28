@@ -1595,7 +1595,7 @@ public class Main extends JFrame {
 
 					for (StoneType stoneType : materials) {
 						StoneType s = stoneType;
-						defaultTableModelCustomers.addRow(
+						defaultTableModelMaterials.addRow(
 								new Object[] {
 										s.getId(),
 										s.getName(),
