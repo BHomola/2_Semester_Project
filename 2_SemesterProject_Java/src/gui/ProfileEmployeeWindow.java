@@ -28,6 +28,7 @@ import model.Employee;
 import model.IStoneUnit;
 import model.OrderInfo;
 import model.StoneProduct;
+import model.StoneUnit;
 
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -175,7 +176,7 @@ public class ProfileEmployeeWindow extends JFrame {
 		}
 		lblTitle.setForeground(new Color(144, 124, 81));
 		lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 70));
-		lblTitle.setBounds(105, 60, 600, 94);
+		lblTitle.setBounds(105, 60, 905, 94);
 		contentPane.add(lblTitle);
 		
 		lblEditCheck = new JLabel("");
@@ -406,20 +407,14 @@ public class ProfileEmployeeWindow extends JFrame {
 				
 				ArrayList<OrderInfo> allOrders;
 				try {
-					allOrders = (ArrayList<OrderInfo>) orderController.getAll();
-					ArrayList<OrderInfo> employeeOrders = new ArrayList<OrderInfo>();
-					for(int i = 0; i < allOrders.size()-1; i++) {
-						if(allOrders.get(i).getEmployee().getId() == id) {
-							employeeOrders.add(allOrders.get(i));
-						}
-					}
-					if(employeeOrders.size() <= 0) {
+					allOrders = (ArrayList<OrderInfo>) orderController.getOrdersByEmployeeID(id);
+					if(allOrders.size() <= 0) {
 						orders = "The employee has not registered any orders yet.";
 						JOptionPane.showInternalMessageDialog(null, orders,
 								"Orders", JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						if(employeeOrders.size() > 0) 
-							for(OrderInfo order:employeeOrders)
+						if(allOrders.size() > 0) 
+							for(OrderInfo order:allOrders)
 								orders += "#" + String.valueOf(order.getId()) + ", " + order.getInvoice().toString();
 						JOptionPane.showInternalMessageDialog(null, orders,
 								"Orders", JOptionPane.INFORMATION_MESSAGE);
@@ -442,27 +437,27 @@ public class ProfileEmployeeWindow extends JFrame {
 		contentPane.add(lblStoneUnit);
 		
 		JLabel lblMoveToStoneUnit = new JLabel("");
-		/*lblMoveToOrder.addMouseListener(new MouseAdapter() {
+		lblMoveToOrder.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String orders = "";
+				String stones = "";
 				
 				ArrayList<IStoneUnit> allStones;
 				try {
 					allStones =  (ArrayList<IStoneUnit>) stoneController.getAllStoneUnits();
 					ArrayList<IStoneUnit> employeeStones = new ArrayList<IStoneUnit>();
-					for(int i = 0; i < allStones.size()-1; i++) {
-						if(allStones.get(i)) {
-							employeeOrders.add(allOrders.get(i));
+					for(int i = 0; i < allStones.size(); i++) {
+						if(((StoneUnit)allStones.get(i)).getEmployee().getId() == id) {
+							employeeStones.add(allStones.get(i));
 						}
 					}
-					if(employeeOrders.size() <= 0) {
-						orders = "The employee has not registered any orders yet.";
+					if(employeeStones.size() <= 0) {
+						stones = "The employee is not assigned to any of the stones.";
 					} else {
-						if(employeeOrders.size() > 0) 
-							for(OrderInfo order:employeeOrders)
-								orders += "#" + String.valueOf(order.getId()) + ", " + order.getInvoice().toString();
-						JOptionPane.showInternalMessageDialog(null, orders,
+						if(employeeStones.size() > 0) 
+							for(IStoneUnit stone:employeeStones)
+								stones += "#" + String.valueOf(stone.toString());
+						JOptionPane.showInternalMessageDialog(null, stones,
 								"Orders", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} catch (SQLException e1) {
@@ -471,7 +466,7 @@ public class ProfileEmployeeWindow extends JFrame {
 				}
 				
 			}
-		});*/
+		});
 		lblMoveToStoneUnit.setIcon(new ImageIcon(OrderWindow.class.getResource("/imgs/moveto2.png")));
 		lblMoveToStoneUnit.setBounds(407, 663, 25, 25);
 		contentPane.add(lblMoveToStoneUnit);
@@ -561,4 +556,14 @@ public class ProfileEmployeeWindow extends JFrame {
 		}
 		
 	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+	
+	
 }

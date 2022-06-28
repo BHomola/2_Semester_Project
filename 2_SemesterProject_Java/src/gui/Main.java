@@ -1249,8 +1249,8 @@ public class Main extends JFrame {
 		lblAddButtonEmployees.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ProfileEmployeeWindow profileEmployeeWindow = new ProfileEmployeeWindow(true, -1);
-				profileEmployeeWindow.setVisible(true);
+				ProfileWindow profileWindow = new ProfileWindow(true, -1);
+				profileWindow.setVisible(true);
 			}
 		});
 		lblAddButtonEmployees.setIcon(new ImageIcon(Main.class.getResource("/imgs/addButton.png")));
@@ -1306,8 +1306,8 @@ public class Main extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int index = tableRowSorterEmployees.convertRowIndexToModel(tableEmployees.getSelectedRow());
 				int id = (int) defaultTableModelEmployees.getValueAt(index, 0);
-				ProfileEmployeeWindow profileEmployeeWindow = new ProfileEmployeeWindow(false, id);
-				profileEmployeeWindow.setVisible(true);
+				ProfileWindow profileWindow = new ProfileWindow(false, id);
+				profileWindow.setVisible(true);
 			}
 		});
 		scrollPaneEmployees.setViewportView(tableEmployees);
