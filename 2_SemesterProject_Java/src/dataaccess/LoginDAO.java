@@ -29,15 +29,14 @@ public class LoginDAO implements ILoginDAO {
 	
 	public String authentication(String username) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = " SELECT Password FROM Login"
-				+ " WHERE Username = ?";
+		String sqlStatement = " EXEC Authentication @UserN = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setString(1, username);
 		ResultSet rs = pStatement.executeQuery();
 		if (rs.next() == false) {
 			return null;
 		}
-		return rs.getString("Password");
+		return rs.getString("Decrypted_Password");
 	}
 	
 	public Collection<Login> getAllLogins() throws SQLException {
@@ -66,8 +65,7 @@ public class LoginDAO implements ILoginDAO {
 	
 	public boolean createLogin(Login login) throws SQLException {
 		Connection con = DBConnection.getConnection();
-		String sqlStatement = " INSERT INTO Login(Username, Password, EmployeeID) "
-				+ " VALUES(?,?,?) ";
+		String sqlStatement = " EXEC CreateUser @UserName = ?, @Pass = ?, @EmplID = ?";
 		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
 		pStatement.setString(1, login.getUsername());
 		pStatement.setString(2, login.getPassword());

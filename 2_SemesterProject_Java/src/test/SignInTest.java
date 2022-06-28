@@ -22,23 +22,14 @@ class SignInTest {
 	}
 
 	@Test
-	void test() {
+	void test() throws SQLException {
 		LoginController loginC = new LoginController();
-		int employeeID=11;
+		int employeeID=12;
 		String inputedUsername = "admin";
 		String inputedPassword = "admin";
-		try {
-			for(Login l : loginC.getAllLogins()) {
-				if(inputedUsername.equals(l.getUsername()))
-					employeeID = l.getEmployeeID();
-			}
-			 if(inputedPassword.equals((String)loginC.getLoginByID(employeeID).getPassword())) {
-				 System.out.println("Success");
-			 }
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Login login = new Login(inputedUsername,inputedPassword,employeeID);
+		
+			loginC.createLogin(login);
+			
 	}
-
 }
