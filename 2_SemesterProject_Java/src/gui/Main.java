@@ -87,19 +87,21 @@ public class Main extends JFrame {
 	private boolean isMaximizePressed;
 	private static JLabel lblLoadingIcon;
 	private JLabel lblCacheInfo;
-	private static DefaultTableModel defaultTableModelOrders;
-	private static DefaultTableModel defaultTableModelSuppliers;
-	private static DefaultTableModel defaultTableModelEmployees;
-	private static DefaultTableModel defaultTableModelCustomers;
-	private static JLabel lblReloadButtonOrders;
+	private DefaultTableModel defaultTableModelOrders;
+	private DefaultTableModel defaultTableModelSuppliers;
+	private DefaultTableModel defaultTableModelEmployees;
+	private DefaultTableModel defaultTableModelCustomers;
+	private JLabel lblReloadButtonOrders;
 	private TableRowSorter<DefaultTableModel> tableRowSorterInventory;
-	private static JLabel lblReloadButtonInventory;
-	private static JLabel lblReloadButtonMaterial;
-	private static JLabel lblReloadButtonCustomers;
-	private static JLabel lblReloadButtonSuppliers;
-	private static JLabel lblReloadButtonEmployees;
+	private JLabel lblReloadButtonInventory;
+	private JLabel lblReloadButtonMaterial;
+	private JLabel lblReloadButtonCustomers;
+	private JLabel lblReloadButtonSuppliers;
+	private JLabel lblReloadButtonEmployees;
 	private TableRowSorter<DefaultTableModel> tableRowSorterOrders;
 	private JLabel lblHello;
+	
+	
 	private static Main instance;
 	
 	DefaultTableModel defaultTableModelInventory;

@@ -104,7 +104,7 @@ public class ShapeDAO implements IShapeDAO{
 					
 			PreparedStatement statement = connection.prepareStatement(query);
 			
-			statement.setInt(1, shape.getId());
+			statement.setInt(1, id);
 			statement.setString(2, shape.getName());
 			if (shape instanceof CircleShape) statement.setString(3, "CircleShape");
 			if (shape instanceof ElipseShape) statement.setString(3, "ElipseShape");

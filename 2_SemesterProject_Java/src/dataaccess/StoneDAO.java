@@ -133,6 +133,7 @@ public class StoneDAO implements IStoneDAO {
 	@Override
 	public boolean createStone(IStoneUnit stone, IStoneUnit parentStone) throws SQLException {
 		boolean success = false;
+		
 		Connection dbConnection = DBConnection.getConnection();
 		try {
 			dbConnection.setAutoCommit(false);
@@ -156,9 +157,7 @@ public class StoneDAO implements IStoneDAO {
 			statement.setInt(12, stoneUnit.getEmployee().getId());
 
 			ResultSet rs = statement.executeQuery();
-
 			int generatedID = 0;
-
 			if (rs.next())
 				generatedID = rs.getInt("generatedID");
 
@@ -172,17 +171,12 @@ public class StoneDAO implements IStoneDAO {
 				statement.setInt(3, generatedID);
 				statement.setInt(4, (int) ((StoneProduct) stone).getPrice());
 				statement.setInt(5, ((StoneProduct) stone).getOrderID());
-				new ShapeDAO().createShape(((StoneProduct) stone).getShape(), generatedID);
-
 			}
 			if (stone instanceof StoneCuttable) {
 				query = "INSERT INTO Stone (StoneID, TotalSize) VALUES (?,?);\r\n";
 				statement = dbConnection.prepareStatement(query);
 				statement.setInt(1, generatedID);
 				statement.setInt(2, (int) ((Stone) stone).getTotalSize());
-				new ShapeDAO().createShape(((StoneCuttable) stone).getShape(), generatedID);
-
-
 			}
 			if (stone instanceof Remains) {
 				query = "INSERT INTO Remains (RemainsID, Pieces) VALUES (?, ?); ";
@@ -202,12 +196,19 @@ public class StoneDAO implements IStoneDAO {
 
 			dbConnection.commit();
 			success = true;
+			
+			//save shapes
+			
+			if (stone instanceof StoneCuttable) new ShapeDAO().createShape(((StoneCuttable) stone).getShape(), generatedID);
+			if (stone instanceof StoneProduct)new ShapeDAO().createShape(((StoneProduct) stone).getShape(), generatedID);
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			dbConnection.rollback();
 		} finally {
 			dbConnection.setAutoCommit(true);
 		}
+
 
 		return success;
 	}
@@ -264,6 +265,10 @@ public class StoneDAO implements IStoneDAO {
 			}
 			statement.executeUpdate();
 			dbConnection.commit();
+			
+			
+			
+			
 			success = true;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
