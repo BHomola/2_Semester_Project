@@ -84,6 +84,19 @@ public class OrderDAO implements IOrderDAO {
 		return buildOrders(resultSet);
 	}
 	
+	public Collection<OrderInfo> getOrdersByEmployeeID(int id) throws SQLException {
+		Connection con = DBConnection.getConnection();
+		String sqlStatement = 
+				  "SELECT * FROM StoneProduct "
+				+ "JOIN VIEW_OrderInfo "
+				+ "ON StoneProduct.OrderID = VIEW_OrderInfo.OrderID "
+				+ "WHERE VIEW_OrderInfo.EmployeeID = ?";
+		PreparedStatement pStatement = con.prepareStatement(sqlStatement);
+		pStatement.setInt(1, id);
+		ResultSet resultSet = pStatement.executeQuery();
+		return buildOrders(resultSet);
+	}
+	
 	public Collection<OrderInfo> getOrdersInfoByCustomerID(int id) throws SQLException {
 		Connection con = DBConnection.getConnection();
 		String sqlStatement = 

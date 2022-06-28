@@ -25,6 +25,10 @@ public class OrderController {
 	public Collection<OrderInfo> getOrdersByCustomerID(int id) throws SQLException {
 		return oDAO.getOrdersByCustomerID(id);
 	}
+	
+	public Collection<OrderInfo> getOrdersByEmployeeID(int id) throws SQLException {
+		return oDAO.getOrdersByEmployeeID(id);
+	}
 
 	public Collection<OrderInfo> getOrdersInfoByCustomerID(int id) throws SQLException {
 		return oDAO.getOrdersInfoByCustomerID(id);

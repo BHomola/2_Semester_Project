@@ -11,6 +11,7 @@ public interface IOrderDAO {
 	public abstract Collection<OrderInfo> getOrdersByCustomerID(int id) throws SQLException;
 	public abstract Collection<OrderInfo> getAllInfo() throws SQLException;
 	public abstract Collection<OrderInfo> getOrdersInfoByCustomerID(int id) throws SQLException;
+	public abstract Collection<OrderInfo> getOrdersByEmployeeID(int id) throws SQLException;
 	public abstract int createOrder(OrderInfo order) throws SQLException;
 	public abstract boolean updateOrder(OrderInfo order) throws SQLException;
 	public abstract boolean deleteOrder(OrderInfo order) throws SQLException;
