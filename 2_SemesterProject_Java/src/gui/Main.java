@@ -73,6 +73,7 @@ public class Main extends JFrame {
 	private ArrayList<Person> suppliers;
 	private ArrayList<Person> employees;
 	private ArrayList<Person> customers;
+	private ArrayList<StoneType> materials;
 	
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
@@ -91,6 +92,7 @@ public class Main extends JFrame {
 	private DefaultTableModel defaultTableModelSuppliers;
 	private DefaultTableModel defaultTableModelEmployees;
 	private DefaultTableModel defaultTableModelCustomers;
+	private DefaultTableModel defaultTableModelMaterials;
 	private JLabel lblReloadButtonOrders;
 	private TableRowSorter<DefaultTableModel> tableRowSorterInventory;
 	private JLabel lblReloadButtonInventory;
@@ -502,6 +504,7 @@ public class Main extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
+				updateMaterialList();
 				cardLayoutMainPane.show(mainPane, "name_28649739236300");
 				contentPane.updateUI();
 			}
@@ -968,25 +971,22 @@ public class Main extends JFrame {
 		tableMaterial.setDefaultEditor(Object.class, null); // non-editable
 		tableMaterial.setGridColor(new Color(172, 172, 172));
 		tableMaterial.setBackground(Color.WHITE);
-		DefaultTableModel defaultTableModelMaterial = new DefaultTableModel(new Object[][] { null, null, null },
-				new String[] { "ID", "Name", "Category", "Price", "Sold", "Discount", "Contractor", "Cost Price",
-						"Stock", "Location", "Condition", "UnavailableTil", "Type", "Available" }) {
+		defaultTableModelMaterials = new DefaultTableModel(new Object[][] { null, null, null },
+				new String[] { "ID", "Name", "Description", "Picture", "Material", "Supplier ID"}) {
 			/**
 			* 
 			*/
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
-			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Boolean.class,
-					Double.class, Object.class, Double.class, Integer.class, Object.class, String.class, Object.class,
-					Object.class, Boolean.class };
+			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, String.class, Object.class, Integer.class};
 
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		};
-		tableMaterial.setModel(defaultTableModelMaterial);
+		tableMaterial.setModel(defaultTableModelMaterials);
 		TableRowSorter<DefaultTableModel> tableRowSorterMaterial = new TableRowSorter<DefaultTableModel>(
-				defaultTableModelMaterial);
+				defaultTableModelMaterials);
 		tableMaterial.setRowSorter(tableRowSorterMaterial);
 		scrollPaneMaterial.setViewportView(tableMaterial);
 
@@ -1577,6 +1577,46 @@ public class Main extends JFrame {
 				thread.start();
 
 	}
+	
+	public void updateMaterialList() {
+		defaultTableModelMaterials.setRowCount(0);
+		Thread thread = new Thread() {
+			public void run() {
+				try {
+					StoneTypeMaterialController materialController = new StoneTypeMaterialController();
+					materials = new ArrayList<StoneType>();
+
+					startLoading();
+					try {
+						materials = (ArrayList<StoneType>) materialController.getAllStoneTypes();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+
+					for (StoneType stoneType : materials) {
+						StoneType s = stoneType;
+						defaultTableModelCustomers.addRow(
+								new Object[] {
+										s.getId(),
+										s.getName(),
+										s.getDescription(),
+										s.getpicturePath(),
+										s.getMaterial(),
+										s.getSupplierID(),
+										});
+
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					stopLoading();
+				}
+			}
+		};
+		thread.start();
+
+}
 
 	public void startLoading() {
 		lblLoading.setVisible(true);
